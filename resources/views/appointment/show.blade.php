@@ -9,7 +9,7 @@
         <x-link-button :link="route('appointments.create')" role="createMain">Add New</x-link-button>
     </div>
 
-    <x-appointment-card :appointment="$appointment" class="mb-8">
+    <x-appointment-card :appointment="$appointment" :editable="true" class="mb-8">
         <div class="text-base text-slate-500">
             Comment: {{$appointment->comment}}
         </div>

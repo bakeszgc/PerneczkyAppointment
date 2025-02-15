@@ -30,9 +30,12 @@
         </x-link-button>
         
         @if ($appointment->app_start_time >= now())
+            @if ($editable)
             <x-link-button :link="route('appointments.edit',['appointment' => $appointment])" role="edit">
                 Edit
             </x-link-button>
+            @endif
+            
 
             <form action="{{route('appointments.destroy',$appointment)}}" method="POST">
                 @csrf

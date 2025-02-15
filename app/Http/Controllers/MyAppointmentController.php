@@ -138,13 +138,15 @@ class MyAppointmentController extends Controller
             'app_end_time' => $app_start_time->addMinutes($duration),
             'price' => Service::findOrFail($request->service)->price,
             'comment' => $request->comment,
-
         ]);
+
+        //redirect show
     }
 
-    public function show(string $id)
+    public function show(Appointment $appointment)
     {
         // csak a sajátot tudja megnézni
+        return view('my-appointment.show',['appointment' => $appointment]);
     }
 
     public function edit(string $id)

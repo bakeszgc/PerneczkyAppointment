@@ -16,7 +16,7 @@
     </div>
     
     @foreach ($appointments as $appointment)
-        <x-appointment-card :appointment="$appointment" class="mb-4"/>
+        <x-appointment-card :appointment="$appointment" :editable="true" class="mb-4"/>
     @endforeach
     <div class="mb-4">
         {{$appointments->links()}}

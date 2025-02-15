@@ -13,7 +13,8 @@ class AppointmentCard extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public Appointment $appointment
+        public Appointment $appointment,
+        public bool $editable = false
     )
     {}
 

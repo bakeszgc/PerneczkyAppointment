@@ -129,13 +129,14 @@ class MyAppointmentController extends Controller
 
         $app_start_time = Carbon::parse($request->date);
         $duration = Service::findOrFail($request->service)->duration;
+        $app_end_time = $app_start_time->clone()->addMinutes($duration);
 
         Appointment::create([
             'user_id' => auth()->user()->id,
             'barber_id' => $request->barber,
             'service_id' => $request->service,
             'app_start_time' => $app_start_time,
-            'app_end_time' => $app_start_time->addMinutes($duration),
+            'app_end_time' => $app_end_time,
             'price' => Service::findOrFail($request->service)->price,
             'comment' => $request->comment,
         ]);

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->dateTime('app_start_time');
             $table->dateTime('app_end_time');
             $table->float('price',2);
-            $table->text('comment');
+            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }

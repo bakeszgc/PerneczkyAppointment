@@ -1,0 +1,64 @@
+<?php
+
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\MyAppointmentController;
+use App\Http\Controllers\AuthController;
+use App\Models\Appointment;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Route;
+
+// AUTH
+Route::get('login', [AuthController::class, 'create'])->name('login');
+Route::delete('logout',[AuthController::class, 'destroy'])->name('logout');
+Route::resource('auth', AuthController::class)->only(['store']);
+
+// AUTH REQUIRED ROUTES
+Route::middleware('auth')->group(function(){
+
+    // USER APPOINTMENTS
+    Route::get('my-appointments/create/selectBarber',[MyAppointmentController::class,'createBarber'])->name('my-appointments.create.barber');
+
+    Route::get('my-appointments/create/selectService',[MyAppointmentController::class,'createService'])->name('my-appointments.create.service');
+
+    Route::get('my-appointments/create/selectDate',[MyAppointmentController::class,'createDate'])->name('my-appointments.create.date');
+
+    Route::get('my-appointments/create/check',[MyAppointmentController::class,'createCheck'])->name('my-appointments.create.check');
+
+    Route::resource('my-appointments',MyAppointmentController::class);
+});
+
+// BARBER APPOINTMENTS
+Route::get('appointments/upcoming',[AppointmentController::class,'indexUpcoming'])->name('appointments.upcoming');
+Route::get('appointments/previous',[AppointmentController::class,'indexPrevious'])->name('appointments.previous');
+Route::resource('appointments',AppointmentController::class);
+
+// DASHBOARD
+Route::get('dashboard',function () {
+
+    $upcomingAppointments = Appointment::where('app_start_time','>=',now())->orderBy('app_start_time')->limit(5)->get();
+
+    $todayIncome = Appointment::whereDate('app_start_time',Carbon::today())->sum('price');
+
+    $past7DaysIncome = Appointment::whereBetween('app_start_time',[
+        Carbon::now()->subDays(7),
+        Carbon::now()
+    ])->sum('price');
+
+    $past30DaysIncome = Appointment::whereBetween('app_start_time',[
+        Carbon::now()->subDays(30),
+        Carbon::now()
+    ])->sum('price');
+
+    return view('dashboard',[
+        'upcomingAppointments' => $upcomingAppointments,
+        'todayIncome' => $todayIncome,
+        'past7DaysIncome' => $past7DaysIncome,
+        'past30DaysIncome' => $past30DaysIncome
+    ]);
+
+})->name('dashboard');
+
+// DEV HOME
+Route::get('/',fn() => view('home'));
+
+// UTILITY & REDIRECT

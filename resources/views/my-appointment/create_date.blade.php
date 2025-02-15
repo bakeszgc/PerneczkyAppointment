@@ -28,8 +28,8 @@
                 </div>
                 <div>
                     <form action="{{route('my-appointments.store',[
-                        'barber' => $barber,
-                        'service' => $service
+                        'barber_id' => $barber,
+                        'service_id' => $service
                     ])}}" method="POST">
                     @csrf
                     <label for="comment">Wanna leave some comments for this appointment? Share with us below!</label>

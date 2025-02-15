@@ -8,7 +8,7 @@
     <x-card>
         <div class="text-center mb-4">
             <h2 class="font-bold text-2xl mb-8">Select Your Service</h2>
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-2 max-lg:grid-cols-1 gap-4">
                 @foreach ($services as $service)
                     <x-link-button :full="true" :link="route('my-appointments.create.date',['barber_id' => $barber->id, 'service_id' => $service->id])">
                         <div>

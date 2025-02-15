@@ -48,6 +48,10 @@ class MyAppointmentController extends Controller
             return redirect()->route('my-appointments.create');
         }
 
+        if (!Barber::find($request->barber_id)) {
+            return redirect()->route('my-appointments.create.barber');
+        }
+
         return view('my-appointment.create_service',[
             'barber' => Barber::where('id','=',$request->barber_id)->with('user')->firstOrFail(),
             'services' => Service::all()
@@ -58,6 +62,14 @@ class MyAppointmentController extends Controller
     {
         if (!auth()->user()) {
             return redirect()->route('login');
+        }
+
+        if (!Barber::find($request->barber_id)) {
+            return redirect()->route('my-appointments.create.barber');
+        }
+
+        if (!Service::find($request->service_id)) {
+            return redirect()->route('my-appointments.create.service',['barber_id' => $request->barber_id]);
         }
 
         $allDates = [];
@@ -122,23 +134,23 @@ class MyAppointmentController extends Controller
     {
         $request->validate([
             'date' => 'required|date|after_or_equal:now|date_format:Y-m-d G:i',
-            'barber' =>'required',
-            'service' => 'required'
+            'barber_id' =>'required',
+            'service_id' => 'required'
         ]);
 
         //double check az appointmentre
 
         $app_start_time = Carbon::parse($request->date);
-        $duration = Service::findOrFail($request->service)->duration;
+        $duration = Service::findOrFail($request->service_id)->duration;
         $app_end_time = $app_start_time->clone()->addMinutes($duration);
 
         Appointment::create([
             'user_id' => auth()->user()->id,
-            'barber_id' => $request->barber,
-            'service_id' => $request->service,
+            'barber_id' => $request->barber_id,
+            'service_id' => $request->service_id,
             'app_start_time' => $app_start_time,
             'app_end_time' => $app_end_time,
-            'price' => Service::findOrFail($request->service)->price,
+            'price' => Service::findOrFail($request->service_id)->price,
             'comment' => $request->comment,
         ]);
 

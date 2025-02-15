@@ -120,12 +120,13 @@ class MyAppointmentController extends Controller
 
     public function store(Request $request)
     {
-        //double check az appointmentre
         $request->validate([
             'date' => 'required|date|after_or_equal:now|date_format:Y-m-d G:i',
             'barber' =>'required',
             'service' => 'required'
         ]);
+
+        //double check az appointmentre
 
         $app_start_time = Carbon::parse($request->date);
         $duration = Service::findOrFail($request->service)->duration;

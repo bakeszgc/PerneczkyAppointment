@@ -94,7 +94,7 @@
                                 </h3>
                                 <div class="flex flex-wrap gap-2 justify-center">
                                     @forelse ($times as $time)
-                                            <x-button :value="$date->format('Y-m-d G:i')" name="date">
+                                            <x-button :value="$time->format('Y-m-d G:i')" name="date">
                                                 {{$time->format('G:i')}}
                                             </x-button>
                                     @empty

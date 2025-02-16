@@ -5,7 +5,8 @@
         'Select a Service' => route('my-appointments.create.service',['barber_id' => $barber->id]),
         'Select a Date' => ''
     ]"/>
-    <h1 class="font-bold text-4xl mb-2">Book an Appointment</h1>
+
+    <h1 class="font-extrabold text-4xl mb-2">Book an Appointment</h1>
     <x-card class="mb-4">
         <div class="flex justify-between gap-4">
             <div class="flex flex-col justify-between">

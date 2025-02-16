@@ -11,7 +11,7 @@
             'Select a Service' => ''
         ]"/>
     @endif
-    <h1 class="font-bold text-4xl mb-4">Book an Appointment</h1>
+    <h1 class="font-extrabold text-4xl mb-4">Book an Appointment</h1>
     <x-card>
         <div class="text-center mb-4">
             <h2 class="font-bold text-2xl mb-8">Select Your Service</h2>

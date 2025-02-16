@@ -1,6 +1,6 @@
 <x-user-layout title="Sign In - ">
     <x-card class="p-8 mb-8">
-        <h1 class=" font-bold text-2xl text-center mb-6">Sign in to your account</h1>
+        <h1 class=" font-bold text-2xl text-center mb-4">Sign in to Your Account</h1>
         <div class="m-4">
             <form action="{{route('auth.store')}}" method="POST">
                 @csrf
@@ -33,7 +33,7 @@
                 <x-button role="loginMain" :full="true">Sign in</x-button>
             </form>
 
-            <p class="text-center font-medium mt-2">
+            <p class="text-center font-semibold mt-2">
                 Don't have an account yet?
                 <a href="{{ route('register') }}" class=" text-blue-700 hover:underline">
                     Create one here!

@@ -4,8 +4,8 @@
         'Appointment #' . $appointment->id  => ''
     ]"/>
 
-    <h1 class="font-bold text-4xl mb-4">
-        My {{ $appointment->app_start_time <= now() ? 'previous' : 'upcoming'}} appointment
+    <h1 class="font-extrabold text-4xl mb-4">
+        Your {{ $appointment->app_start_time <= now() ? 'previous' : 'upcoming'}} appointment
     </h1>
 
     <x-appointment-card :appointment="$appointment" access="user" class="mb-4">

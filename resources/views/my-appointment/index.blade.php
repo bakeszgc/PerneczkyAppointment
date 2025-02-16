@@ -4,7 +4,7 @@
     ]"/>
 
     <div class="flex justify-between items-bottom mb-4">
-        <h1 class="font-bold text-4xl">
+        <h1 class="font-extrabold text-4xl">
             My {{ $type }} Appointments
         </h1>
         <x-link-button :link="route('my-appointments.create')" role="createMain">Book now</x-link-button>

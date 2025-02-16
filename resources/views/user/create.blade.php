@@ -1,6 +1,6 @@
 <x-user-layout title="Create an Account - ">
     <x-card class="p-8 mb-8">
-        <h1 class=" font-bold text-2xl text-center mb-8">Create a New Account</h1>
+        <h1 class=" font-bold text-2xl text-center mb-6">Create a New Account</h1>
         <div class="m-4">
             <form action="{{route('user.store')}}" method="POST">
                 @csrf
@@ -67,29 +67,29 @@
                         </div>
                     </div>
                     <div class="flex-grow-0">
-                        <span class="font-medium text-base">Your password must contain</span>
+                        <span class="font-semibold text-base">Your password must contain</span>
                         <ul class="list-disc *:ml-6 mb-4">
                             <li>
-                                at least one <span class="font-medium">undercase letter</span>
+                                at least one <span class="font-semibold">undercase letter</span>
                             </li>
                             <li>
-                                at least one <span class="font-medium">uppercase letter</span>
+                                at least one <span class="font-semibold">uppercase letter</span>
                             </li>
                             <li>
-                                at least one <span class="font-medium">number</span>
+                                at least one <span class="font-semibold">number</span>
                             </li>
                             <li>
-                                and be at least <span class="font-medium">8 characters long</span>
+                                and be at least <span class="font-semibold">8 characters long</span>
                             </li>
                         </ul>
-                        Fields marked with * are <span class="font-medium">required</span>
+                        Fields marked with * are <span class="font-semibold">required</span>
                     </div>
                 </div>
 
                 <x-button role="loginMain" :full="true">Register</x-button>
             </form>
 
-            <p class="text-center font-medium mt-2">
+            <p class="text-center font-semibold mt-2">
                 Already have an account?
                 <a href="{{ route('login') }}" class=" text-blue-700 hover:underline">
                     Sign in here!

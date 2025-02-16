@@ -7,13 +7,17 @@
         <title>{{$title ?? ""}}Perneczky BarberShop</title>
         @vite('resources/css/app.css')
         <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            *{
+                font-family: 'Poppins', sans-serif;
+            }
         </style>
     </head>
-    <body class="bg-gradient-to-r from-indigo-100 from-10% via-sky-100 via-30% to-emerald-200 to-90% text-slate-700">
-        <nav class="h-12 bg-black flex justify-between items-center p-4 text-white mb-14">
+    <body class="bg-slate-100 text-slate-800">
+        <nav class="h-12 bg-black flex justify-between items-center p-4 text-white mb-14 font-extrabold">
             <img src="https://perneczkybarbershop.hu/pictures/logos/perneczky_circle.png" alt="Perneczky BarberShop" class="absolute left-1/2 h-20 -translate-x-10 top-2">
 
-            <div class="flex items-center gap-4 font-medium">
+            <div class="flex items-center gap-4">
                 Welcome, {{auth()->user()->barber->display_name ?? auth()->user()->first_name ?? 'Guest'}}!
                 @if (auth()->user()->barber ?? false)
                     <a href="{{ route('appointments.index') }}" class=" bg-slate-100 text-slate-700 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
@@ -25,12 +29,12 @@
             <div class="flex items-center gap-4">
                 @auth
                     <div>
-                        <a href="{{ route('my-appointments.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all font-medium">
+                        <a href="{{ route('my-appointments.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
                             Profile Settings
                         </a>
                     </div>
                     <div>
-                        <a href="{{ route('my-appointments.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all font-medium">
+                        <a href="{{ route('my-appointments.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
                             My Appointments
                         </a>
                     </div>
@@ -38,11 +42,11 @@
                         <form action="{{route('logout')}}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button class="bg-slate-100 text-slate-700 py-1 px-2 rounded-md hover:bg-slate-300 transition-all font-medium">Sign Out</button>
+                            <button class="bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">Sign Out</button>
                         </form>
                     </div>
                 @else
-                    <a href="{{route('login')}}" class="bg-slate-100 text-slate-700 py-1 px-2 rounded-md hover:bg-slate-300 transition-all font-medium">Sign In</a>
+                    <a href="{{route('login')}}" class="bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">Sign In</a>
                 @endauth
             </div>
         </nav>

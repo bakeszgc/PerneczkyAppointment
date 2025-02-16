@@ -1,6 +1,6 @@
-<x-user-layout title="Create a new account - ">
+<x-user-layout title="Create an Account - ">
     <x-card class="p-8 mb-8">
-        <h1 class=" font-bold text-2xl text-center mb-8">Create a new account</h1>
+        <h1 class=" font-bold text-2xl text-center mb-8">Create a New Account</h1>
         <div class="m-4">
             <form action="{{route('user.store')}}" method="POST">
                 @csrf

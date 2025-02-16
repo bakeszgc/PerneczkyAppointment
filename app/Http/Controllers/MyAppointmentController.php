@@ -167,8 +167,10 @@ class MyAppointmentController extends Controller
         ]);
     }
 
-    public function destroy(string $id)
+    public function destroy(Appointment $my_appointment)
     {
-        // ez még kéne
+        $my_appointment->delete();
+        return redirect()->route('my-appointments.index')
+            ->with('success','Appointment deleted successfully! Don\'t forget to book another one instead!');
     }
 }

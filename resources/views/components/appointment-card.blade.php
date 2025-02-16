@@ -47,10 +47,10 @@
                 </x-link-button>
             @endif
 
-            <form action="{{route('appointments.destroy',$appointment)}}" method="POST">
+            <form action="{{$access === 'barber' ? route('appointments.destroy',['appointment' => $appointment]) : route('my-appointments.destroy',['my_appointment' => $appointment])}}" method="POST">
                 @csrf
                 @method('DELETE')
-                <x-button :link="route('appointments.destroy',['appointment' => $appointment])" role="destroy">
+                <x-button role="destroy">
                     Cancel
                 </x-button>
             </form>

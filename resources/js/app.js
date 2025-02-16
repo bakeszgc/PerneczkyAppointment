@@ -8,3 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
         round: true,  // Better performance with rounded values
     });
 });
+
+const rellax = new Rellax('.rellax-bg', {
+    breakpoints: {
+        576: true, // Disable Rellax below 576px
+    },
+});

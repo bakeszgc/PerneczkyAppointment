@@ -17,8 +17,7 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-                z-index: -1; /* Behind everything */
-                background-repeat: repeat-y;
+                z-index: -1;
                 background-position: center center;
             }
         </style>
@@ -60,8 +59,10 @@
                 @endauth
             </div>
         </nav>
-        <div class="rellax-bg" style="background-image: url('https://i.imgur.com/oZEEDVZ.png');" data-rellax-speed="4"></div>
-        <div class="rellax-bg" style="background-image: url('https://i.imgur.com/bDTCbFc.png');" data-rellax-speed="2"></div>
+        
+        <div class="rellax-bg" style="background-image: url('https://i.imgur.com/UfxoHYW.png'); opacity: 0.5;" data-rellax-speed="4"></div>
+        <div class="rellax-bg" style="background-image: url('https://i.imgur.com/kB5ohdU.png'); opacity: 0.3;" data-rellax-speed="2"></div>
+        <div class="rellax-bg" style="background-image: url('https://i.imgur.com/bHSHXBl.png'); opacity: 0.2;" data-rellax-speed="1"></div>
         
         <div class="max-w-4xl mx-auto px-4 relative z-10">
             @if (session('success'))

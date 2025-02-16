@@ -12,8 +12,14 @@
     <body class="bg-gradient-to-r from-indigo-100 from-10% via-sky-100 via-30% to-emerald-200 to-90% text-slate-700">
         <nav class="h-12 bg-black flex justify-between items-center p-4 text-white mb-14">
             <img src="https://perneczkybarbershop.hu/pictures/logos/perneczky_circle.png" alt="Perneczky BarberShop" class="absolute left-1/2 h-20 -translate-x-10 top-2">
-            <div>
+            <div class="flex items-center gap-2">
                 Welcome, {{auth()->user()->first_name ?? 'Guest'}}!
+                @if (auth()->user()->barber ?? false)
+                    <a href="{{ route('appointments.index') }}" class=" bg-slate-100 text-slate-700 py-1 px-2 rounded-md hover:bg-slate-300 transition-all font-medium">
+                        Switch to Barber View
+                    </a>
+                @endif
+                
             </div>
             <div>
                 @auth

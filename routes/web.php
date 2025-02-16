@@ -19,20 +19,27 @@ Route::resource('user',UserController::class)->only('store');
 // AUTH REQUIRED ROUTES
 Route::middleware('auth')->group(function(){
 
-    // USER APPOINTMENTS
+    // CUSTOMER CREATE APPOINTMENTS
     Route::get('my-appointments/create/selectBarber',[MyAppointmentController::class,'createBarber'])->name('my-appointments.create.barber');
-
     Route::get('my-appointments/create/selectService',[MyAppointmentController::class,'createService'])->name('my-appointments.create.service');
-
     Route::get('my-appointments/create/selectDate',[MyAppointmentController::class,'createDate'])->name('my-appointments.create.date');
+
+    // CUSTOMER INDEX APPOINTMENTS
+    Route::get('my-appointments/previous',[MyAppointmentController::class,'indexPrevious'])->name('my-appointments.index.previous');
 
     Route::resource('my-appointments',MyAppointmentController::class)->except('edit','update');
 });
 
-// BARBER APPOINTMENTS
-Route::get('appointments/upcoming',[AppointmentController::class,'indexUpcoming'])->name('appointments.upcoming');
-Route::get('appointments/previous',[AppointmentController::class,'indexPrevious'])->name('appointments.previous');
-Route::resource('appointments',AppointmentController::class);
+// BARBER ROUTES
+Route::middleware('barber')->group(function() {
+
+    // BARBER APPOINTMENTS
+    Route::get('appointments/upcoming',[AppointmentController::class,'indexUpcoming'])->name('appointments.upcoming');
+    Route::get('appointments/previous',[AppointmentController::class,'indexPrevious'])->name('appointments.previous');
+    Route::resource('appointments',AppointmentController::class);
+
+});
+
 
 // DASHBOARD
 Route::get('dashboard',function () {
@@ -61,6 +68,6 @@ Route::get('dashboard',function () {
 })->name('dashboard');
 
 // DEV HOME
-Route::get('/',fn() => view('home'));
+Route::get('/',fn() => view('home'))->name('home');
 
 // UTILITY & REDIRECT

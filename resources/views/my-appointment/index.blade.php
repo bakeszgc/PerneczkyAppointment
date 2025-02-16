@@ -5,20 +5,17 @@
 
     <div class="flex justify-between items-bottom mb-4">
         <h1 class="font-bold text-4xl">
-            My Appointments
+            My {{ $type }} Appointments
         </h1>
-        <x-link-button :link="route('my-appointments.create')" role="createMain">Add New</x-link-button>
+        <x-link-button :link="route('my-appointments.create')" role="createMain">Book now</x-link-button>
     </div>
 
     <div class="flex gap-4 mb-4">
-        <x-link-button :link="route('my-appointments.create')" :full="true">
+        <x-link-button :link="route('my-appointments.index')" :full="true">
             Upcoming
         </x-link-button>
-        <x-link-button :link="route('my-appointments.create')" :full="true">
+        <x-link-button :link="route('my-appointments.index.previous')" :full="true">
             Previous
-        </x-link-button>
-        <x-link-button :link="route('my-appointments.create')" :full="true">
-            Cancelled
         </x-link-button>
     </div>
 

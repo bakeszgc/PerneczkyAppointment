@@ -13,22 +13,26 @@
         <nav class="h-12 bg-black flex justify-between items-center p-4 text-white mb-14">
             <img src="https://perneczkybarbershop.hu/pictures/logos/perneczky_circle.png" alt="Perneczky BarberShop" class="absolute left-1/2 h-20 -translate-x-10 top-2">
 
-            <div class="flex items-center gap-2">
-                Welcome, {{auth()->user()->first_name ?? 'Guest'}}!
+            <div class="flex items-center gap-4 font-medium">
+                Welcome, {{auth()->user()->barber->display_name ?? auth()->user()->first_name ?? 'Guest'}}!
                 @if (auth()->user()->barber ?? false)
-                    <a href="{{ route('appointments.index') }}" class=" bg-slate-100 text-slate-700 py-1 px-2 rounded-md hover:bg-slate-300 transition-all font-medium">
+                    <a href="{{ route('appointments.index') }}" class=" bg-slate-100 text-slate-700 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
                         Switch to Barber View
                     </a>
                 @endif
             </div>
 
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-4">
                 @auth
                     <div>
-                        Profile Settings
+                        <a href="{{ route('my-appointments.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all font-medium">
+                            Profile Settings
+                        </a>
                     </div>
                     <div>
-                        My Appointments
+                        <a href="{{ route('my-appointments.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all font-medium">
+                            My Appointments
+                        </a>
                     </div>
                     <div>
                         <form action="{{route('logout')}}" method="POST">

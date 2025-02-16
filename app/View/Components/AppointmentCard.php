@@ -14,7 +14,7 @@ class AppointmentCard extends Component
      */
     public function __construct(
         public Appointment $appointment,
-        public bool $editable = false
+        public string $access = 'user'
     )
     {}
 

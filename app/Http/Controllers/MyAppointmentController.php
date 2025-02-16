@@ -16,7 +16,7 @@ class MyAppointmentController extends Controller
     {
         $upcomingAppointments = Appointment::where([
             ['user_id','=',auth()->user()->id],
-            ['app_start_time','>=',now()]
+            ['app_start_time','>=',now('Europe/Budapest')]
         ])->orderBy('app_start_time')->paginate(10);
         
         return view('my-appointment.index',[
@@ -78,7 +78,7 @@ class MyAppointmentController extends Controller
                 for ($m=0; $m < 60; $m+=15) {
 
                     $time = today()->addDays($d)->addHours($h)->addMinutes($m);
-                    if ($time >= now()->addHour()) {
+                    if ($time >= now('Europe/Budapest')) {
                         $allDates[] = $time;
                     }
                 }
@@ -157,28 +157,16 @@ class MyAppointmentController extends Controller
         //redirect show
     }
 
-    public function show(Appointment $appointment)
+    public function show(Appointment $my_appointment)
     {
-        // csak a sajátot tudja megnézni
-        return view('my-appointment.show',['appointment' => $appointment]);
+        if ($my_appointment->user->id != auth()->user()->id) {
+            abort(403);
+        }
+        return view('my-appointment.show',[
+            'appointment' => $my_appointment
+        ]);
     }
 
-    public function edit(string $id)
-    {
-        // szerintem ez nem kell
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        // ez se
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         // ez még kéne

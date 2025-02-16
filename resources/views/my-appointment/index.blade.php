@@ -10,6 +10,18 @@
         <x-link-button :link="route('my-appointments.create')" role="createMain">Add New</x-link-button>
     </div>
 
+    <div class="flex gap-4 mb-4">
+        <x-link-button :link="route('my-appointments.create')" :full="true">
+            Upcoming
+        </x-link-button>
+        <x-link-button :link="route('my-appointments.create')" :full="true">
+            Previous
+        </x-link-button>
+        <x-link-button :link="route('my-appointments.create')" :full="true">
+            Cancelled
+        </x-link-button>
+    </div>
+
     @forelse ($appointments as $appointment)
         <x-appointment-card :appointment="$appointment" class="mb-4"/>
     @empty

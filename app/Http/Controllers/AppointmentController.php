@@ -23,7 +23,7 @@ class AppointmentController extends Controller
     public function indexUpcoming() {
         $upcomingAppointments = Appointment::with([
             'user','service','barber'
-        ])->where('app_start_time','>=',now())->orderBy('app_start_time')->paginate(10);
+        ])->where('app_start_time','>=',now('Europe/Budapest'))->orderBy('app_start_time')->paginate(10);
         
         return view('appointment.index',[
             'appointments' => $upcomingAppointments,
@@ -34,7 +34,7 @@ class AppointmentController extends Controller
     public function indexPrevious() {
         $previousAppointments = Appointment::with([
             'user','service','barber'
-        ])->where('app_start_time','<=',now())->orderBy('app_start_time','desc')->paginate(10);
+        ])->where('app_start_time','<=',now('Europe/Budapest'))->orderBy('app_start_time','desc')->paginate(10);
         
         return view('appointment.index',[
             'appointments' => $previousAppointments,

@@ -9,7 +9,7 @@
         <x-link-button :link="route('appointments.create')" role="createMain">Add New</x-link-button>
     </div>
 
-    <x-appointment-card :appointment="$appointment" :editable="true" class="mb-8">
+    <x-appointment-card :appointment="$appointment" access="barber" class="mb-8">
         <div class="text-base text-slate-500">
             Comment: {{$appointment->comment}}
         </div>
@@ -17,6 +17,6 @@
 
     <h2 class="font-bold text-2xl mb-4">{{$appointment->user->first_name}}'s Other Appointments</h2>
     @foreach ($appointment->user->appointments as $otherAppointment)
-        <x-appointment-card :appointment="$otherAppointment" class="mb-4"/>
+        <x-appointment-card :appointment="$otherAppointment" access="barber" class="mb-4"/>
     @endforeach
 </x-layout>

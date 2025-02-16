@@ -5,11 +5,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>{{$title ?? ""}}Perneczky BarberShop</title>
-        @vite('resources/css/app.css')
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script src="https://cdn.tailwindcss.com"></script>
         <style>
             *{
                 font-family: 'Poppins', sans-serif;
+            }
+            .rellax-bg {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -1; /* Behind everything */
+                background-repeat: repeat-y;
+                background-position: center center;
             }
         </style>
     </head>
@@ -50,8 +60,10 @@
                 @endauth
             </div>
         </nav>
-
-        <div class="max-w-4xl mx-auto px-4">
+        <div class="rellax-bg" style="background-image: url('https://i.imgur.com/oZEEDVZ.png');" data-rellax-speed="4"></div>
+        <div class="rellax-bg" style="background-image: url('https://i.imgur.com/bDTCbFc.png');" data-rellax-speed="2"></div>
+        
+        <div class="max-w-4xl mx-auto px-4 relative z-10">
             @if (session('success'))
                 <div role="alert" class="my-8 rounded-md border-l-4 border-green-300 bg-green-100 p-4 text-green-700 oppacity-75">
                     <p class="font-bold">Success!</p>
@@ -67,7 +79,5 @@
 
             {{$slot}}
         </div>
-        
-        
     </body>
 </html>

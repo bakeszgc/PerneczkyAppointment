@@ -1,5 +1,5 @@
 <x-user-layout title="Sign In - ">
-    <x-card class="p-8">
+    <x-card class="p-8 mb-8">
         <h1 class=" font-bold text-2xl text-center mb-6">Sign in to your account</h1>
         <div class="m-4">
             <form action="{{route('auth.store')}}" method="POST">
@@ -23,7 +23,7 @@
                 <div class="mb-4 flex justify-between items-center">
                     <div class="flex items-center gap-2">
                         <input type="checkbox" name="remember" id="remember">
-                        <x-label for="remember">Remember Me</x-label>
+                        <x-label for="remember">Remember me</x-label>
                     </div>
                     <div>
                         Forgot your password?
@@ -35,7 +35,7 @@
 
             <p class="text-center font-medium mt-2">
                 Don't have an account yet?
-                <a href="" class=" text-blue-700 hover:underline">
+                <a href="{{ route('register') }}" class=" text-blue-700 hover:underline">
                     Create one here!
                 </a>
             </p>

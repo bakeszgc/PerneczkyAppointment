@@ -10,9 +10,10 @@
         </style>
     </head>
     <body class="bg-gradient-to-r from-indigo-100 from-10% via-sky-100 via-30% to-emerald-200 to-90% text-slate-700">
-        <nav class="h-12 bg-black flex justify-between items-center p-4 text-white mb-8">
+        <nav class="h-12 bg-black flex justify-between items-center p-4 text-white mb-14">
+            <img src="https://perneczkybarbershop.hu/pictures/logos/perneczky_circle.png" alt="Perneczky BarberShop" class="absolute left-1/2 h-20 -translate-x-10 top-2">
             <div>
-                Signed in as {{auth()->user()->first_name ?? 'Guest'}}
+                Welcome, {{auth()->user()->first_name ?? 'Guest'}}!
             </div>
             <div>
                 @auth

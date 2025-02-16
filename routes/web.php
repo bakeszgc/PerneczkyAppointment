@@ -3,6 +3,7 @@
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\MyAppointmentController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Models\Appointment;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +12,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('login', [AuthController::class, 'create'])->name('login');
 Route::delete('logout',[AuthController::class, 'destroy'])->name('logout');
 Route::resource('auth', AuthController::class)->only(['store']);
+
+Route::get('register',[UserController::class,'create'])->name('register');
+Route::resource('user',UserController::class)->only('store');
 
 // AUTH REQUIRED ROUTES
 Route::middleware('auth')->group(function(){
@@ -21,8 +25,6 @@ Route::middleware('auth')->group(function(){
     Route::get('my-appointments/create/selectService',[MyAppointmentController::class,'createService'])->name('my-appointments.create.service');
 
     Route::get('my-appointments/create/selectDate',[MyAppointmentController::class,'createDate'])->name('my-appointments.create.date');
-
-    Route::get('my-appointments/create/check',[MyAppointmentController::class,'createCheck'])->name('my-appointments.create.check');
 
     Route::resource('my-appointments',MyAppointmentController::class)->except('edit','update');
 });

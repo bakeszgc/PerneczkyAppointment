@@ -161,7 +161,7 @@ class MyAppointmentController extends Controller
     public function show(Appointment $my_appointment)
     {
         if ($my_appointment->user->id != auth()->user()->id) {
-            abort(403);
+            return redirect()->route('my-appointments.index');
         }
         return view('my-appointment.show',[
             'appointment' => $my_appointment

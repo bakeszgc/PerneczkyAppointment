@@ -134,8 +134,8 @@ class MyAppointmentController extends Controller
     {
         $request->validate([
             'date' => 'required|date|after_or_equal:now|date_format:Y-m-d G:i',
-            'barber_id' =>'required',
-            'service_id' => 'required'
+            'barber_id' =>'required|exists:barbers,id',
+            'service_id' => 'required|exists:services,id'
         ]);
 
         //double check az appointmentre
@@ -144,7 +144,7 @@ class MyAppointmentController extends Controller
         $duration = Service::findOrFail($request->service_id)->duration;
         $app_end_time = $app_start_time->clone()->addMinutes($duration);
 
-        Appointment::create([
+        $appointment = Appointment::create([
             'user_id' => auth()->user()->id,
             'barber_id' => $request->barber_id,
             'service_id' => $request->service_id,
@@ -154,7 +154,8 @@ class MyAppointmentController extends Controller
             'comment' => $request->comment,
         ]);
 
-        //redirect show
+        //redirect to the show action with success message
+        return redirect()->route('my-appointments.show',['my_appointment' =>  $appointment])->with('success','Appointment booked successfully! See you soon!');
     }
 
     public function show(Appointment $my_appointment)
@@ -171,6 +172,6 @@ class MyAppointmentController extends Controller
     {
         $my_appointment->delete();
         return redirect()->route('my-appointments.index')
-            ->with('success','Appointment deleted successfully! Don\'t forget to book another one instead!');
+            ->with('success','Appointment cancelled successfully! Don\'t forget to book another one instead!');
     }
 }

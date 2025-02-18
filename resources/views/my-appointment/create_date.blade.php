@@ -6,7 +6,7 @@
         'Select a Date' => ''
     ]"/>
 
-    <h1 class="font-extrabold text-4xl mb-2">Book an Appointment</h1>
+    <h1 class="font-extrabold text-4xl mb-4">Select your Date</h1>
     <x-card class="mb-4">
         <div class="flex justify-between gap-4">
             <div class="flex flex-col justify-between">
@@ -34,7 +34,7 @@
                     ])}}" method="POST">
                     @csrf
                     <label for="comment">Wanna leave some comments for this appointment? Share with us below!</label>
-                    <textarea name="comment" id="comment" class="h-20 w-full border rounded-md border-slate-300 resize-none p-4"></textarea>
+                    <textarea name="comment" id="comment" class="h-20 w-full border rounded-md border-slate-300 resize-none p-4"">{{ old('comment') }}</textarea>
                 </div>
             </div>
             <div class="flex-shrink-0">
@@ -43,49 +43,60 @@
         </div>
         
     </x-card>
-    <x-card>
-        <div class="text-center mb-4">
+    <x-card class="text-center mb-8">
 
-            <h2 class="font-bold text-2xl mb-8">Earliest available dates</h2>
-            <div class="grid grid-cols-2 max-lg:grid-cols-1 mb-8 gap-4">
-                <div>
-                    <h3 class="font-medium text-lg mb-2">Today ({{today()->format('l')}})</h3>
-                    <div class="flex flex-wrap gap-2 justify-center">
-                        @if ($dates[0] ?? false)
-                            @forelse ($dates[0] as $date)
-                                    <x-button :value="$date->format('Y-m-d G:i')" name="date">
-                                        {{$date->format('G:i')}}
-                                    </x-button>
-                            @empty
-                                <p>There are no available dates for this day</p>
-                            @endforelse
-                        @else
-                            <p>There are no available dates for this day</p>
-                        @endif
-                    </div>
+        <div id="earliestDates" class=" -translate-y-10"></div>
+        <h2 class="font-bold text-2xl mb-8">Earliest available dates</h2>
 
-                </div>
-                <div>
-                    <h3 class="font-medium text-lg mb-2">Tomorrow ({{today()->addDay()->format('l')}})</h3>
-                    <div class="flex flex-wrap gap-2 justify-center">
-                        @if ($dates[1] ?? false)
-                            @forelse ($dates[1] as $date)
-                                    <x-button :value="$date->format('Y-m-d G:i')" name="date">
-                                        {{$date->format('G:i')}}
-                                    </x-button>
-                            @empty
-                                <p>There are no available dates for this day</p>
-                            @endforelse
-                        @else
+        <div class="grid grid-cols-2 max-lg:grid-cols-1 mb-8 gap-4">
+            <div>
+                <h3 class="font-medium text-lg mb-2">Today ({{today()->format('l')}})</h3>
+                <div class="flex flex-wrap gap-2 justify-center">
+                    @if ($dates[0] ?? false)
+                        @forelse ($dates[0] as $date)
+                                <x-button :value="$date->format('Y-m-d G:i')" name="date">
+                                    {{$date->format('G:i')}}
+                                </x-button>
+                        @empty
                             <p>There are no available dates for this day</p>
-                        @endif
-                    </div>
+                        @endforelse
+                    @else
+                        <p>There are no available dates for this day</p>
+                    @endif
                 </div>
             </div>
 
-            <div class="mb-8">
-                <h2 class="font-bold text-2xl mb-8">Dates for other days</h2>
-                <div class="grid grid-cols-4 max-lg:grid-cols-1 gap-4 gap-y-8">
+            <div>
+                <h3 class="font-medium text-lg mb-2">Tomorrow ({{today()->addDay()->format('l')}})</h3>
+                <div class="flex flex-wrap gap-2 justify-center">
+                    @if ($dates[1] ?? false)
+                        @forelse ($dates[1] as $date)
+                                <x-button :value="$date->format('Y-m-d G:i')" name="date">
+                                    {{$date->format('G:i')}}
+                                </x-button>
+                        @empty
+                            <p>There are no available dates for this day</p>
+                        @endforelse
+                    @else
+                        <p>There are no available dates for this day</p>
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        <div x-data="{ showDates:false }">
+            <div id="otherDates" class=" -translate-y-10"></div>
+            <h2 class="font-bold text-lg mt-16 mb-8">
+                <span class="transition-all border border-blue-700 bg-blue-100 hover:bg-blue-300 rounded-md text-blue-800 p-4 cursor-pointer hover:drop-shadow-lg" @click="
+                    showDates = !showDates;
+                    $nextTick(() => document.getElementById(showDates === true ? 'otherDates' : 'earliestDates').scrollIntoView({ behavior: 'smooth' }))
+                ">
+                    ⬇️ Dates for other days ⬇️
+                </span>
+            </h2>
+
+            <div x-show="showDates" x-transition>
+                <div class="grid grid-cols-4 max-lg:grid-cols-1 gap-4 gap-y-8 mt-12 mb-8">
                     @foreach ($dates as $day => $times)
                         @if ($day >= 2)
                             <div>
@@ -107,13 +118,13 @@
                     @endforeach
                     </form>
                 </div>
-            </div>
-            
 
-            <div>
-                <h3 class="font-medium text-lg">None of these dates work for you?</h3>
-                <p>Check out <a href="{{route('my-appointments.create.barber')}}" class=" text-blue-700 hover:underline">our other barbers</a> or feel free to <a href="https://perneczkybarbershop.hu/en.html#contact" class=" text-blue-700 hover:underline">contact us!</a></p>
+                <div class="mb-4">
+                    <h3 class="font-medium text-lg">None of these dates work for you?</h3>
+                    <p>Check out <a href="{{route('my-appointments.create.barber',['service_id' => $service->id])}}" class=" text-blue-700 hover:underline">our other barbers</a> or feel free to <a href="https://perneczkybarbershop.hu/en.html#contact" class=" text-blue-700 hover:underline">contact us!</a></p>
+                </div>
             </div>
         </div>
+
     </x-card>
 </x-user-layout>

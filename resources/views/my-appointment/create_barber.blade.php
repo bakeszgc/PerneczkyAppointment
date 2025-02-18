@@ -13,10 +13,10 @@
         ]"/>
     @endif
     
-    <h1 class="font-extrabold text-4xl mb-2">Book an Appointment</h1>
+    <h1 class="font-extrabold text-4xl mb-4">Select your Barber</h1>
     <x-card>
-        <div class="text-center mb-4">
-            <h2 class="font-bold text-2xl mb-4">Select Your Barber</h2>
+        <div class="text-center">
+            <!-- <h2 class="font-bold text-2xl mb-4">Select Your Barber</h2> -->
             <div class="flex items-center gap-4 justify-center">
                 @foreach ($barbers as $barber)
                     @if ((auth()->user()->barber->id ?? null) !== $barber->id)

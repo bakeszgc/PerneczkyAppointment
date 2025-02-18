@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use App\Models\Barber;
 use App\Models\Service;
+use App\Notifications\BookingConfirmationNotification;
 use App\Rules\ValidAppointmentTime;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -203,6 +204,10 @@ class MyAppointmentController extends Controller
             'price' => Service::findOrFail($request->service_id)->price,
             'comment' => $request->comment,
         ]);
+
+        $appointment->user->notify(
+            new BookingConfirmationNotification($appointment)
+        );
 
         return redirect()->route('my-appointments.show',['my_appointment' =>  $appointment])->with('success','Appointment booked successfully! See you soon!');
     }

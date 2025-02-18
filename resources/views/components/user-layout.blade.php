@@ -3,8 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <title>{{$title ?? ""}}Perneczky BarberShop</title>
+        
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js" defer></script>
         <script src="https://cdn.tailwindcss.com"></script>
@@ -29,6 +29,7 @@
             }
         </style>
     </head>
+
     <body class="bg-slate-100 text-slate-800">
         <nav class="h-12 bg-black flex justify-between items-center p-4 text-white mb-14 font-extrabold" id="navbar">
             <img src="https://perneczkybarbershop.hu/pictures/logos/perneczky_circle.png" alt="Perneczky BarberShop" id="logo" class="absolute left-1/2 h-20 -translate-x-10 top-2">

@@ -22,6 +22,11 @@
                 z-index: -1;
                 background-position: center center;
             }
+            @media not all and (min-width: 1024px) {
+                .rellax-bg {
+                    display: none;
+                }
+            }
         </style>
     </head>
     <body class="bg-slate-100 text-slate-800">

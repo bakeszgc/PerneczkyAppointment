@@ -23,14 +23,14 @@
                         @if ($service)
                             <x-link-button :link="route('my-appointments.create.date',['barber_id' => $barber->id,'service_id' => $service->id])">
                             <div>
-                                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="BarberPic" class="mb-2 rounded-md h-30">
+                                    <img src="{{ asset('pfp/blank.png') }}" alt="BarberPic" class="mb-2 rounded-md h-30">
                                     <p>{{$barber->display_name ?? $barber->user->first_name}}</p>
                                 </div>
                             </x-link-button>
                         @else
                             <x-link-button :link="route('my-appointments.create.service',['barber_id' => $barber->id])">
                             <div>
-                                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="BarberPic" class="mb-2 rounded-md h-30">
+                                    <img src="{{ asset('pfp/blank.png') }}" alt="BarberPic" class="mb-2 rounded-md h-30">
                                     <p>{{$barber->display_name ?? $barber->user->first_name}}</p>
                                 </div>
                             </x-link-button>

@@ -68,9 +68,9 @@
             </div>
         </nav>
         
-        <div class="rellax-bg" style="background-image: url('https://i.imgur.com/UfxoHYW.png'); opacity: 0.5;" data-rellax-speed="4"></div>
-        <div class="rellax-bg" style="background-image: url('https://i.imgur.com/kB5ohdU.png'); opacity: 0.3;" data-rellax-speed="2"></div>
-        <div class="rellax-bg" style="background-image: url('https://i.imgur.com/bHSHXBl.png'); opacity: 0.2;" data-rellax-speed="1"></div>
+        <div class="rellax-bg" style="background-image: url('{{ asset('design/blades.png') }}'); opacity: 0.5;" data-rellax-speed="4"></div>
+        <div class="rellax-bg" style="background-image: url('{{ asset('design/combs.png') }}'); opacity: 0.3;" data-rellax-speed="2"></div>
+        <div class="rellax-bg" style="background-image: url('{{ asset('design/scissors.png') }}'); opacity: 0.2;" data-rellax-speed="1"></div>
         
         <div class="max-w-4xl mx-auto px-4 relative z-10">
             @if (session('success'))

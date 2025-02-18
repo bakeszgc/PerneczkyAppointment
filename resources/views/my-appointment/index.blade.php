@@ -28,7 +28,7 @@
         </div>
     @endforelse
 
-    <div class="mb-4">
+    <div class="mb-8">
         {{$appointments->links()}}
     </div>
 </x-user-layout>

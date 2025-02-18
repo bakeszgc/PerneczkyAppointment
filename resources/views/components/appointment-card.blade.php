@@ -1,4 +1,4 @@
-<x-card {{$attributes->merge(['class' => 'hover:drop-shadow-lg transition-all'])}}>
+<x-card {{$attributes->merge(['class' => ' hover:scale-105 hover:drop-shadow-lg transition-all'])}}>
     <div class="flex justify-between">
         <div>
             <h2 class="font-bold text-2xl mb-1">

@@ -11,10 +11,10 @@
     </div>
 
     <div class="flex gap-4 mb-4">
-        <x-link-button :link="route('my-appointments.index')" :full="true">
+        <x-link-button :link="route('my-appointments.index')" :full="true" :role="$type === 'Upcoming' ? 'active' : ''">
             Upcoming
         </x-link-button>
-        <x-link-button :link="route('my-appointments.index.previous')" :full="true">
+        <x-link-button :link="route('my-appointments.index.previous')" :full="true" :role="$type === 'Previous' ? 'active' : ''">
             Previous
         </x-link-button>
     </div>

@@ -31,7 +31,7 @@ class MyAppointmentController extends Controller
         $previousAppointments = Appointment::where([
             ['user_id','=',auth()->user()->id],
             ['app_start_time','<=',now('Europe/Budapest')]
-        ])->orderBy('app_start_time')->paginate(10);
+        ])->orderBy('app_start_time','desc')->paginate(10);
         
         return view('my-appointment.index',[
             'appointments' => $previousAppointments,

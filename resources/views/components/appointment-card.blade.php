@@ -20,9 +20,9 @@
         </div>
         <div class=" text-right">
             <h2 class="font-bold text-2xl mb-1">
-                @if ($appointment->app_start_time <= today()->addDay())
+                @if (Carbon\Carbon::parse($appointment->app_start_time)->isToday())
                     Today {{Carbon\Carbon::parse($appointment->app_start_time)->format('G:i')}}
-                @elseif ($appointment->app_start_time <= today()->addDays(2))
+                @elseif (Carbon\Carbon::parse($appointment->app_start_time)->isTomorrow())
                     Tomorrow {{Carbon\Carbon::parse($appointment->app_start_time)->format('G:i')}}
                 @else
                     {{Carbon\Carbon::parse($appointment->app_start_time)->format('Y.m.d. G:i')}}

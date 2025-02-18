@@ -5,7 +5,7 @@
     py-2 pl-2 pr-3 max-h-full
     flex gap-1 items-center justify-center',
 
-    'bg-blue-50 hover:bg-blue-200 border-blue-300 text-blue-700' => $role === 'create',
+    'bg-blue-50 hover:bg-blue-200 border-blue-300 text-blue-700' => $role === 'create' || $role === 'active',
 
     'bg-blue-600 hover:bg-blue-800 text-white' => $role == 'createMain' || $role === 'loginMain',
 

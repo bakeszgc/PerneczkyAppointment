@@ -13,8 +13,10 @@ class InputField extends Component
      */
     public function __construct(
         public string $name,
+        public string $id,
         public ?string $placeholder,
-        public string $type = 'text'
+        public string $type = 'text',
+        public string $value = '',
     )
     {
         //

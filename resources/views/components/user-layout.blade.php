@@ -46,8 +46,8 @@
             <div class="flex items-center gap-4">
                 @auth
                     <div>
-                        <a href="{{ route('my-appointments.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
-                            Profile Settings
+                        <a href="{{ route('users.show',auth()->user()) }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
+                            Account Settings
                         </a>
                     </div>
                     <div>

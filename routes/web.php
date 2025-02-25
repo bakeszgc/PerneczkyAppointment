@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Route;
 
 // AUTH
 Route::get('login', [AuthController::class, 'create'])->name('login');
-Route::delete('logout',[AuthController::class, 'destroy'])->name('logout');
 Route::resource('auth', AuthController::class)->only(['store']);
 
 Route::get('register',[UserController::class,'create'])->name('register');
@@ -18,6 +17,12 @@ Route::resource('user',UserController::class)->only('store');
 
 // AUTH REQUIRED ROUTES
 Route::middleware('auth')->group(function(){
+
+    // LOGOUT
+    Route::delete('logout',[AuthController::class, 'destroy'])->name('logout');
+
+    // USER
+    Route::resource('users',UserController::class)->only('show','edit','update');
 
     // CUSTOMER CREATE APPOINTMENTS
     Route::get('my-appointments/create/selectBarber',[MyAppointmentController::class,'createBarber'])->name('my-appointments.create.barber');

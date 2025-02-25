@@ -59,7 +59,7 @@
                         </div>
 
                         <div>
-                            <x-label for="password_confirmation">Confirm your password *</x-label>
+                            <x-label for="password_confirmation">Confirm password *</x-label>
                             <x-input-field type="password" name="password_confirmation" id="password_confirmation" class="w-full"/>
                             @error('password_confirmation')
                                 <p class=" text-red-500">{{$message}}</p>

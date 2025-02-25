@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use Illuminate\Auth\Events\Verified;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -41,5 +43,23 @@ class AuthController extends Controller
         request()->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    // EMAIL VERIFICATION
+
+    public function notice() {
+        return view('auth.verify-email');
+        // return back()->with('error','Please check your inbox to verify your email address! Click here to resend link');
+    }
+
+    public function verify(EmailVerificationRequest $request) {
+        $request->fulfill();
+        event(new Verified($request->user()));
+        return redirect()->route('my-appointments.index')->with('success','Your email address has been verified successfully!');
+    }
+
+    public function send(Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return back()->with('success','Verification link sent!');
     }
 }

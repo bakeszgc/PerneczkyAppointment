@@ -31,7 +31,16 @@
                             @enderror
                         </div>
                         <div class="flex flex-col col-span-2">
-                            <x-label for="email">Email</x-label>
+                            <div class="flex justify-between items-end">
+                                <x-label for="email">Email address</x-label>
+                                @if ($user->email_verified_at === null)
+                                    <a href="" class=" font-bold text-base text-blue-500 hover:underline">Resend verification email</a>
+                                @else
+                                    <p class="text-slate-500 text-sm">Verified on {{ date_format($user->email_verified_at,'d M Y')  }}</p>
+                                @endif
+                                
+                            </div>
+                            
                             <x-input-field type="email" name="email" id="email" value="{{ old('email') ?? $user->email }}" />
                             @error('email')
                                 <p class=" text-red-500">{{$message}}</p>

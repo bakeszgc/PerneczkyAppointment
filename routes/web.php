@@ -24,15 +24,24 @@ Route::middleware('auth')->group(function(){
     // USER
     Route::resource('users',UserController::class)->only('show','edit','update');
 
+    // EMAIL VERIFICATION
+    Route::get('/email/verify', [AuthController::class,'notice'])->name('verification.notice');
+    Route::get('/email/verify/{id}/{hash}',[AuthController::class,'verify'])->middleware('signed')->name('verification.verify');
+    Route::post('/email/verification-notification',[AuthController::class,'send'])->name('verification.send');
+
+    // CUSTOMER INDEX APPOINTMENTS
+    Route::get('my-appointments/previous',[MyAppointmentController::class,'indexPrevious'])->name('my-appointments.index.previous');
+    Route::resource('my-appointments',MyAppointmentController::class)->except('edit','update');
+});
+
+// AUTH + VERIFIED ROUTES
+Route::middleware(['auth','verified'])->group(function() {
+
     // CUSTOMER CREATE APPOINTMENTS
     Route::get('my-appointments/create/selectBarber',[MyAppointmentController::class,'createBarber'])->name('my-appointments.create.barber');
     Route::get('my-appointments/create/selectService',[MyAppointmentController::class,'createService'])->name('my-appointments.create.service');
     Route::get('my-appointments/create/selectDate',[MyAppointmentController::class,'createDate'])->name('my-appointments.create.date');
 
-    // CUSTOMER INDEX APPOINTMENTS
-    Route::get('my-appointments/previous',[MyAppointmentController::class,'indexPrevious'])->name('my-appointments.index.previous');
-
-    Route::resource('my-appointments',MyAppointmentController::class)->except('edit','update');
 });
 
 // BARBER ROUTES
@@ -75,4 +84,3 @@ Route::get('dashboard',function () {
 // DEV HOME
 Route::get('/',fn() => view('home'))->name('home');
 
-// UTILITY & REDIRECT

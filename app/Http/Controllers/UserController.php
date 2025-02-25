@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Hash;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -37,8 +38,10 @@ class UserController extends Controller
             'password' => bcrypt($request->password)
         ]);
 
+        event(new Registered($user));
+
         Auth::login($user);
-        return redirect()->route('my-appointments.index')->with('success','Your account has been created successfully!');
+        return redirect()->route('my-appointments.index')->with('success','Your account has been created successfully! Please verify your email address before booking an appointment!');
     }
 
     /**

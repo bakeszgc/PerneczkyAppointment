@@ -37,9 +37,15 @@
             <div class="flex items-center gap-4">
                 Welcome, {{auth()->user()->barber->display_name ?? auth()->user()->first_name ?? 'Guest'}}!
                 @if (auth()->user()->barber ?? false)
-                    <a href="{{ route('appointments.index') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
+                    @if ($currentView !== 'barber')
+                        <a href="{{ route('appointments.index') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
                         Switch to Barber View
-                    </a>
+                        </a>
+                    @else
+                        <a href="{{ route('my-appointments.index') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
+                        Switch to Customer View
+                        </a>
+                    @endif
                 @endif
             </div>
 

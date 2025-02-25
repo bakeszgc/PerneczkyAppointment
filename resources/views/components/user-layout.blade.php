@@ -69,6 +69,9 @@
                         </form>
                     </div>
                 @else
+                    <a href="{{ route('register') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
+                        Sign Up
+                    </a>
                     <a href="{{route('login')}}" class="bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">Sign In</a>
                 @endauth
             </div>

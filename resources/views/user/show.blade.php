@@ -4,6 +4,7 @@
     ]" />
     <h1 class="font-extrabold text-4xl mb-4">Account Settings</h1>
     <x-card class="mb-4">
+        <form id="verification" action="{{ route('verification.send') }}" method="POST"></form>
         <form action="{{ route('users.update',$user) }}" method="POST">
             @csrf
             @method('PUT')
@@ -34,7 +35,8 @@
                             <div class="flex justify-between items-end">
                                 <x-label for="email">Email address</x-label>
                                 @if ($user->email_verified_at === null)
-                                    <a href="" class=" font-bold text-base text-blue-500 hover:underline">Resend verification email</a>
+                                    <!-- <a href="{{ route('verification.notice') }}"class="font-bold text-base text-blue-500 hover:underline">Verify your email here</a> -->
+                                    <button form="verification" class="font-bold text-base text-blue-500 hover:underline">Verify your email here</button>
                                 @else
                                     <p class="text-slate-500 text-sm">Verified on {{ date_format($user->email_verified_at,'d M Y')  }}</p>
                                 @endif

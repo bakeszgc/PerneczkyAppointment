@@ -48,6 +48,9 @@ class AuthController extends Controller
     // EMAIL VERIFICATION
 
     public function notice() {
+        if (auth()->user()->email_verified_at !== null) {
+            return redirect()->route('my-appointments.index');
+        }
         return view('auth.verify-email');
         // return back()->with('error','Please check your inbox to verify your email address! Click here to resend link');
     }
@@ -60,6 +63,6 @@ class AuthController extends Controller
 
     public function send(Request $request) {
         $request->user()->sendEmailVerificationNotification();
-        return back()->with('success','Verification link sent!');
+        return back()->with('success','Verification link sent to ' . auth()->user()->email);
     }
 }

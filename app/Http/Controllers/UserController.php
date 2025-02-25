@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Hash;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
 
@@ -45,7 +46,9 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        // user can only see his
+        if (auth()->user()->id != $user->id) {
+            return redirect()->route('users.show',auth()->user());
+        }
         return view('user.show',['user' => $user]);
     }
 
@@ -54,15 +57,32 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        if (auth()->user()->id != $user->id) {
+            return redirect()->route('users.edit',auth()->user());
+        }
         return view('user.edit',['user' => $user]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $request->validate([
+            'first_name' => 'required|string|min:2|max:255',
+            'last_name' => 'required|string|min:2|max:255',
+            'date_of_birth' => 'required|date|before_or_equal:today',
+            'telephone_number' => ['required','starts_with:+,0','numeric',Rule::unique('users','tel_number')->ignore($user->id)],
+            'email' => ['required','email',Rule::unique('users','email')->ignore($user->id)]
+        ]);
+
+        $user->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'date_of_birth' => $request->date_of_birth,
+            'tel_number' => $request->telephone_number,
+            'email' => $request->email
+        ]);
+
+        return redirect()->route('users.show',$user)->with('success','Account updated successfully!');
+
     }
 
     public function destroy(string $id)

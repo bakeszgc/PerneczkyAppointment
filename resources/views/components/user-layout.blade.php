@@ -87,6 +87,7 @@
             @endif
 
             {{$slot}}
+            
         </div>
     </body>
 </html>

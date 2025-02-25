@@ -18,35 +18,38 @@
                     <div class=" grid grid-cols-2 gap-2">
                         <div class="flex flex-col">
                             <x-label for="first_name">First name</x-label>
-                            <x-input-field name="first_name" id="first_name" value="{{ $user->first_name }}" />
+                            <x-input-field name="first_name" id="first_name" value="{{ old('first_name') ??$user->first_name }}" />
                             @error('first_name')
                                 <p class=" text-red-500">{{$message}}</p>
                             @enderror
                         </div>
                         <div class="flex flex-col">
                             <x-label for="last_name">Last name</x-label>
-                            <x-input-field name="last_name" id="last_name" value="{{ $user->last_name }}" />
+                            <x-input-field name="last_name" id="last_name" value="{{ old('last_name') ??$user->last_name }}" />
                             @error('last_name')
                                 <p class=" text-red-500">{{$message}}</p>
                             @enderror
                         </div>
                         <div class="flex flex-col col-span-2">
                             <x-label for="email">Email</x-label>
-                            <x-input-field type="email" name="email" id="email" value="{{ $user->email }}" />
+                            <x-input-field type="email" name="email" id="email" value="{{ old('email') ?? $user->email }}" />
                             @error('email')
                                 <p class=" text-red-500">{{$message}}</p>
                             @enderror
                         </div>
                         <div class="flex flex-col">
                             <x-label for="date_of_birth">Date of birth</x-label>
-                            <x-input-field type="date" name="date_of_birth" id="date_of_birth" value="{{ $user->date_of_birth }}" />
+                            <x-input-field type="date" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth') ?? $user->date_of_birth }}" />
                             @error('date_of_birth')
                                 <p class=" text-red-500">{{$message}}</p>
                             @enderror
                         </div>
                         <div class="flex flex-col">
                             <x-label for="telephone_number">Telephone number</x-label>
-                            <x-input-field type="tel" name="telephone_number" id="telephone_number" value="{{ $user->tel_number }}" />
+                            <x-input-field type="tel" name="telephone_number" id="telephone_number" value="{{ old('telephone_number') ?? $user->tel_number }}" />
+                            @error('telephone_number')
+                                <p class=" text-red-500">{{$message}}</p>
+                            @enderror
                         </div>
                         <div class="flex flex-col col-span-2">
                             <x-label for="password">Password</x-label>

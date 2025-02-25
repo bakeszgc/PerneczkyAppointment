@@ -31,7 +31,7 @@
     </head>
 
     <body class="bg-slate-100 text-slate-800">
-        <nav class="h-12 bg-black flex justify-between items-center p-4 text-white mb-14 font-extrabold" id="navbar">
+        <nav class="h-12 bg-black flex justify-between items-center p-4 text-white font-extrabold w-full fixed z-50" id="navbar">
             <img src="https://perneczkybarbershop.hu/pictures/logos/perneczky_circle.png" alt="Perneczky BarberShop" id="logo" class="absolute left-1/2 h-20 -translate-x-10 top-2">
 
             <div class="flex items-center gap-4">
@@ -72,15 +72,16 @@
         <div class="rellax-bg" style="background-image: url('{{ asset('design/combs.png') }}'); opacity: 0.3;" data-rellax-speed="2"></div>
         <div class="rellax-bg" style="background-image: url('{{ asset('design/scissors.png') }}'); opacity: 0.2;" data-rellax-speed="1"></div>
         
-        <div class="max-w-4xl mx-auto px-4 relative z-10">
+        <div class="max-w-4xl mx-auto px-4 relative z-10 pt-24">
+
             @if (session('success'))
-                <div role="alert" class="my-8 rounded-md border-l-4 border-green-300 bg-green-100 p-4 text-green-700 oppacity-75">
+                <div role="alert" class="mb-8 rounded-md border-l-4 border-green-300 bg-green-100 p-4 text-green-700 oppacity-75">
                     <p class="font-bold">Success!</p>
                     <p>{{session('success')}}</p>
                 </div>
             @endif
             @if (session('error'))
-                <div role="alert" class="my-8 rounded-md border-l-4 border-red-300 bg-red-100 p-4 text-red-700 oppacity-75">
+                <div role="alert" class="mb-8 rounded-md border-l-4 border-red-300 bg-red-100 p-4 text-red-700 oppacity-75">
                     <p class="font-bold">Error!</p>
                     <p>{{session('error')}}</p>
                 </div>

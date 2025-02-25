@@ -31,7 +31,7 @@
     </head>
 
     <body class="bg-slate-100 text-slate-800">
-        <nav class="h-12 bg-black flex justify-between items-center p-4 text-white font-extrabold w-full fixed z-50" id="navbar">
+        <nav class="h-12 bg-black flex justify-between items-center p-4 text-white font-extrabold w-full fixed z-50 drop-shadow-lg" id="navbar">
             <img src="https://perneczkybarbershop.hu/pictures/logos/perneczky_circle.png" alt="Perneczky BarberShop" id="logo" class="absolute left-1/2 h-20 -translate-x-10 top-2">
 
             <div class="flex items-center gap-4">

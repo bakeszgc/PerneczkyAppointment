@@ -47,7 +47,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         if (auth()->user()->id != $user->id) {
-            return redirect()->route('users.show',auth()->user());
+            return redirect()->route('users.show',auth()->user())->with('error','Sorry! You are not authorized to access that page.');
         }
         return view('user.show',['user' => $user]);
     }

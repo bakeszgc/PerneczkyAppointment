@@ -22,7 +22,7 @@ Route::middleware('auth')->group(function(){
     Route::delete('logout',[AuthController::class, 'destroy'])->name('logout');
 
     // USER
-    Route::resource('users',UserController::class)->only('show','edit','update');
+    Route::resource('users',UserController::class)->only('show','update');
 
     // EMAIL VERIFICATION
     Route::get('/email/verify', [AuthController::class,'notice'])->name('verification.notice');

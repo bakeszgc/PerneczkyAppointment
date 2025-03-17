@@ -81,17 +81,32 @@
         <div class="rellax-bg" style="background-image: url('{{ asset('design/combs.png') }}'); opacity: 0.3;" data-rellax-speed="2"></div>
         <div class="rellax-bg" style="background-image: url('{{ asset('design/scissors.png') }}'); opacity: 0.2;" data-rellax-speed="1"></div>
         
-        <div class="max-w-4xl mx-auto px-4 relative z-10 pt-24">
+        <div class="max-w-4xl mx-auto px-4 relative z-10 pt-24" x-data="{ showAlert: true }">
 
             @if (session('success'))
-                <div role="alert" class="mb-8 rounded-md border-l-4 border-green-300 bg-green-100 p-4 text-green-700 oppacity-75">
-                    <p class="font-bold">Success!</p>
+                <div role="alert" class="mb-8 rounded-md border-l-4 border-green-300 bg-green-100 p-4 text-green-700 oppacity-75" x-show="showAlert">
+                    <div class="flex justify-between">
+                        <p class="font-bold">Success!</p>
+                        <p @click="showAlert = false" class="cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6" >
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                            </svg>
+                        </p>
+                    </div>
+                    
                     <p>{{session('success')}}</p>
                 </div>
             @endif
             @if (session('error'))
-                <div role="alert" class="mb-8 rounded-md border-l-4 border-red-300 bg-red-100 p-4 text-red-700 oppacity-75">
-                    <p class="font-bold">Error!</p>
+                <div role="alert" class="mb-8 rounded-md border-l-4 border-red-300 bg-red-100 p-4 text-red-700 oppacity-75"  x-show="showAlert">
+                    <div class="flex justify-between">
+                        <p class="font-bold">Error!</p>
+                        <p @click="showAlert = false" class="cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6" >
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                            </svg>
+                        </p>
+                    </div>
                     <p>{{session('error')}}</p>
                 </div>
             @endif

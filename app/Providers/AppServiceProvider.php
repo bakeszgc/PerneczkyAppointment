@@ -23,10 +23,12 @@ class AppServiceProvider extends ServiceProvider
     {
         VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
             return (new MailMessage)
-                ->subject('Please Verify Your Email Address')
-                ->line('Click the button below to verify your email address.')
-                ->action('Verify Email Address', $url)
-                ->line('If you did not create an account, no further action is required.');
+                ->subject('Verify Your Email Address')
+                ->greeting('Hi there,')
+                ->line("Thank you for signing up. We are excited to help you look your best!")
+                ->line('Please confirm your email address by clicking the button below:')
+                ->action('Verify My Email', $url)
+                ->line('If you didn’t create an account with us, no further action is required. Feel free to message us to email@address.com if you need assistance.');
         });
     }
 }

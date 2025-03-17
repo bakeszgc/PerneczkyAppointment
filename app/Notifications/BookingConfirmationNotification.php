@@ -36,8 +36,8 @@ class BookingConfirmationNotification extends Notification implements ShouldQueu
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->subject('Appointment booked succesfully')
-                    ->greeting('Hey '. $this->appointment->user->first_name . '!')
+                    ->subject('Appointment Booked Succesfully')
+                    ->greeting('Hi '. $this->appointment->user->first_name . ',')
                     ->line('Thanks for choosing us!')
                     ->action('View Appointment', route('my-appointments.show',$this->appointment->id))
                     ->line("See you at " . Carbon::parse($this->appointment->app_start_time)->format('G:i') . " on " . Carbon::parse($this->appointment->app_start_time)->format('l') . "!");

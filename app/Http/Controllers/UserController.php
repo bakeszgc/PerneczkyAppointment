@@ -44,9 +44,6 @@ class UserController extends Controller
         return redirect()->route('my-appointments.index')->with('success','Your account has been created successfully! Please verify your email address before booking an appointment!');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(User $user)
     {
         if (auth()->user()->id != $user->id) {
@@ -55,9 +52,6 @@ class UserController extends Controller
         return view('user.show',['user' => $user]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(User $user)
     {
         if (auth()->user()->id != $user->id) {

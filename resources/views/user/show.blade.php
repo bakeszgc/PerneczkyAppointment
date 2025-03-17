@@ -9,11 +9,13 @@
             @csrf
             @method('PUT')
             <div class="flex gap-4 mb-4 max-md:flex-col">
-                <div>
-                    <h2 class="text-xl font-bold mb-2">Profile picture</h2>
-                    <img src="{{ asset('pfp/blank.png') }}" alt="profile picture" class=" h-64 max-md:w-full max-md:h-auto border-2 border-blue-500 rounded-md mb-2">
-                    <input type="file">
-                </div>
+                @if ($user->barber)
+                    <div>
+                        <h2 class="text-xl font-bold mb-2">Profile picture</h2>
+                        <img src="{{ asset('pfp/blank.png') }}" alt="profile picture" class=" h-64 max-md:w-full max-md:h-auto border-2 border-blue-500 rounded-md mb-2">
+                        <input type="file">
+                    </div>
+                @endif
                 <div class="flex-1">
                     <h2 class="text-xl font-bold mb-2">Personal data</h2>
                     <div class=" grid grid-cols-2 gap-2">
@@ -31,6 +33,17 @@
                                 <p class=" text-red-500">{{$message}}</p>
                             @enderror
                         </div>
+
+                        @if ($user->barber)
+                            <div class="flex flex-col col-span-2">
+                                <x-label for="display_name">Display name</x-label>
+                                <x-input-field name="display_name" id="display_name" value="{{ old('display_name') ??$user->barber->display_name }}" />
+                                @error('display_name')
+                                    <p class=" text-red-500">{{$message}}</p>
+                                @enderror
+                            </div>
+                        @endif
+
                         <div class="flex flex-col col-span-2">
                             <div class="flex justify-between items-end">
                                 <x-label for="email">Email address</x-label>
@@ -62,7 +75,10 @@
                                 <p class=" text-red-500">{{$message}}</p>
                             @enderror
                         </div>
-                        <div class="flex flex-col col-span-2">
+
+                        
+                        
+                        <div class="flex flex-col col-span-1">
                             <x-label for="password">Password</x-label>
                             <p>Want to change your password? <a href="">Click here!</a></p>
                         </div>

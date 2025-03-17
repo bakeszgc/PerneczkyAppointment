@@ -57,6 +57,7 @@ class UserController extends Controller
         $request->validate([
             'first_name' => 'required|string|min:2|max:255',
             'last_name' => 'required|string|min:2|max:255',
+            'display_name' => 'string|nullable',
             'date_of_birth' => 'required|date|before_or_equal:today',
             'telephone_number' => ['required','starts_with:+,0','numeric',Rule::unique('users','tel_number')->ignore($user->id)],
             'email' => ['required','email',Rule::unique('users','email')->ignore($user->id)]
@@ -69,6 +70,12 @@ class UserController extends Controller
             'tel_number' => $request->telephone_number,
             'email' => $request->email
         ]);
+
+        if ($user->barber()) {
+            $user->barber()->update([
+                'display_name' => $request->display_name
+            ]);
+        }
 
         return redirect()->route('users.show',$user)->with('success','Account updated successfully!');
 

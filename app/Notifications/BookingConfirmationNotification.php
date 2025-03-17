@@ -35,12 +35,20 @@ class BookingConfirmationNotification extends Notification implements ShouldQueu
      */
     public function toMail(object $notifiable): MailMessage
     {
+        $barbername = $this->appointment->barber->display_name ?? $this->appointment->barber->user->first_name;
         return (new MailMessage)
                     ->subject('Appointment Booked Succesfully')
                     ->greeting('Hi '. $this->appointment->user->first_name . ',')
-                    ->line('Thanks for choosing us!')
-                    ->action('View Appointment', route('my-appointments.show',$this->appointment->id))
-                    ->line("See you at " . Carbon::parse($this->appointment->app_start_time)->format('G:i') . " on " . Carbon::parse($this->appointment->app_start_time)->format('l') . "!");
+                    ->line("Thank you for booking an appointment with Perneczky BarberShop. We are excited to help you look and feel your best! Here are the details of your appointment:")
+
+                    ->line('Date & time: ' . Carbon::parse($this->appointment->app_start_time)->format('Y.m.d. G:i'))
+                    ->line('Service: ' . $this->appointment->service->name . ' (' . $this->appointment->service->duration . ' minutes)')
+                    ->line('Barber: ' . $barbername)
+
+                    ->action('View My Appointment', route('my-appointments.show',$this->appointment->id))
+
+                    ->line('Please make sure to arrive at least 5 minutes before your scheduled time to ensure a smooth experience.')
+                    ->line('If you have any questions, need to reschedule, or require assistance, feel free to contact us at email or call us at phonenum.');
     }
 
     /**
@@ -53,7 +61,9 @@ class BookingConfirmationNotification extends Notification implements ShouldQueu
         return [
             'appointment_id' => $this->appointment->id,
             'appointment_user_first_name' => $this->appointment->user->first_name,
-            'appointment_time' => $this->appointment->app_start_time
+            'appointment_time' => $this->appointment->app_start_time,
+            'appointment_barber' => $this->appointment->barber,
+            'appointment_duration' => $this->appointment->service->duration
         ];
     }
 }

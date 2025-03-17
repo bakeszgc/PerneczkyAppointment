@@ -63,6 +63,8 @@ class UserController extends Controller
             'email' => ['required','email',Rule::unique('users','email')->ignore($user->id)]
         ]);
 
+        $isEmailDifferent = $user->email !== $request->email;
+
         $user->update([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -75,6 +77,14 @@ class UserController extends Controller
             $user->barber()->update([
                 'display_name' => $request->display_name
             ]);
+        }
+
+        if ($isEmailDifferent) {
+            $user->update([
+                'email_verified_at' => null
+            ]);
+            return redirect()->route('users.show',$user)->with('success','Account updated successfully! Please verify your new email address!');
+
         }
 
         return redirect()->route('users.show',$user)->with('success','Account updated successfully!');

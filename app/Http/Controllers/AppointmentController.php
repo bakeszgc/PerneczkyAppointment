@@ -11,7 +11,7 @@ class AppointmentController extends Controller
 {
     public function index()
     {
-        $appointments = Appointment::with([
+        $appointments = Appointment::withTrashed()->with([
             'user','service','barber'
         ])->latest()->paginate(10);
         return view('appointment.index',[
@@ -39,6 +39,16 @@ class AppointmentController extends Controller
         return view('appointment.index',[
             'appointments' => $previousAppointments,
             'type' => 'Previous'
+        ]);
+    }
+
+    public function indexCancelled() {
+        $cancelledAppointments = Appointment::onlyTrashed()->with(['user','service','barber'])
+        ->orderBy('app_start_time','desc')->paginate(10);
+
+        return view('appointment.index',[
+            'appointments' => $cancelledAppointments,
+            'type' => 'Cancelled'
         ]);
     }
 

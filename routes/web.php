@@ -51,6 +51,7 @@ Route::middleware('barber')->group(function() {
     // BARBER APPOINTMENTS
     Route::get('appointments/upcoming',[AppointmentController::class,'indexUpcoming'])->name('appointments.upcoming');
     Route::get('appointments/previous',[AppointmentController::class,'indexPrevious'])->name('appointments.previous');
+    Route::get('appointments/cancelled',[AppointmentController::class,'indexCancelled'])->name('appointments.cancelled');
     Route::resource('appointments',AppointmentController::class);
 
 });

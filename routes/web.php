@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/email/verify', [AuthController::class,'notice'])->name('verification.notice');
     Route::get('/email/verify/{id}/{hash}',[AuthController::class,'verify'])->middleware('signed')->name('verification.verify');
     Route::post('/email/verification-notification',[AuthController::class,'send'])->name('verification.send');
+    Route::get('/email/resend',[AuthController::class,'resend'])->name('verification.resend');
 
     // CUSTOMER INDEX APPOINTMENTS
     Route::get('my-appointments/previous',[MyAppointmentController::class,'indexPrevious'])->name('my-appointments.index.previous');

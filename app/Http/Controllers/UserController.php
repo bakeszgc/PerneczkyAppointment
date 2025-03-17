@@ -52,14 +52,6 @@ class UserController extends Controller
         return view('user.show',['user' => $user]);
     }
 
-    public function edit(User $user)
-    {
-        if (auth()->user()->id != $user->id) {
-            return redirect()->route('users.edit',auth()->user());
-        }
-        return view('user.edit',['user' => $user]);
-    }
-
     public function update(Request $request, User $user)
     {
         $request->validate([

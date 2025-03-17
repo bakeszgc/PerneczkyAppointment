@@ -35,8 +35,8 @@
                             <div class="flex justify-between items-end">
                                 <x-label for="email">Email address</x-label>
                                 @if ($user->email_verified_at === null)
-                                    <!-- <a href="{{ route('verification.notice') }}"class="font-bold text-base text-blue-500 hover:underline">Verify your email here</a> -->
-                                    <button form="verification" class="font-bold text-base text-blue-500 hover:underline">Verify your email here</button>
+                                    <a href="{{ route('verification.notice') }}"class="font-bold text-base text-blue-500 hover:underline">Verify your email here</a>
+                                    <!-- <button form="verification" class="font-bold text-base text-blue-500 hover:underline">Verify your email here</button> -->
                                 @else
                                     <p class="text-slate-500 text-sm">Verified on {{ date_format($user->email_verified_at,'d M Y')  }}</p>
                                 @endif

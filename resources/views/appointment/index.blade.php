@@ -22,52 +22,43 @@
         <a href="{{ route('appointments.cancelled') }}" @class(['p-2 rounded-md hover:bg-white transition-all', 'bg-white' => $type == 'Cancelled'])>Cancelled</a>
     </div>
 
-    <x-card class="mb-4">
-        <div class=" relative">
-            
-            <div class="grid grid-cols-7 text-center mb-4 ml-16">
+    @if ($type === 'All')
+        <x-card class="mb-4">
+            <div class="relative">
+                
+                <div class="grid grid-cols-7 text-center mb-4 ml-16">
+                    @for ($i = 1; $i<=7; $i++)
+                        <div class="flex items-center justify-center gap-1 max-lg:flex-col">
+                            <span class="text-slate-500">
+                                {{ date('D', strtotime("Sunday + {$i} days")) }}
+                            </span>
+                            <span @class([
+                                    'font-bold rounded-full p-1 transition-all' => true,
+                                    'bg-blue-600 text-white hover:bg-blue-800' => today()->format('D') == date('D', strtotime("Sunday + {$i} days")),
+                                    'hover:bg-slate-300' => today()->format('D') != date('D', strtotime("Sunday + {$i} days"))
+                                ])>
+                                {{ today()->format('D') == date('D', strtotime("Sunday + {$i} days")) ? today()->format('d') : today()->addDays($i - today()->format('N'))->format('d') }}
+                            </span>
 
-                @for ($i = 1; $i<=7; $i++)
-                    <div class="flex items-center justify-center gap-1 max-lg:flex-col">
-                        <span class="text-slate-500">
-                            {{ date('D', strtotime("Sunday + {$i} days")) }}
-                        </span>
-                        <span @class([
-                                'font-bold rounded-full p-1 transition-all' => true,
-                                'bg-blue-600 text-white hover:bg-blue-800' => today()->format('D') == date('D', strtotime("Sunday + {$i} days")),
-                                'hover:bg-slate-300' => today()->format('D') != date('D', strtotime("Sunday + {$i} days"))
-                            ])>
-                            {{ today()->format('D') == date('D', strtotime("Sunday + {$i} days")) ? today()->format('d') : today()->addDays($i - today()->format('N'))->format('d') }}
-                        </span>
-
-                    </div>
-                @endfor
-            </div>
-
-            <div>
-                @for ($i = 10; $i<=20; $i++)
-                    <div class="text-slate-500 border-slate-300 border-t mb-8">
-                        {{ $i }}:00
-                    </div>
-                @endfor
-            </div>
-
-            <div style="{{ "position: absolute; width: 109.42px;
-            top: " . 53/60 * \Carbon\Carbon::parse($test->app_start_time)->format('G')*60 + \Carbon\Carbon::parse($test->app_start_time)->format('i') -486 .
-            "px; left: " . \Carbon\Carbon::parse($test->app_start_time)->format('N') * 109.42-45.42 . "px;
-            height: " . \Carbon\Carbon::parse($test->app_start_time)->diffInMinutes(\Carbon\Carbon::parse($test->app_end_time)) / 60 * 53 .
-            "px;" }}">
-                <div class="bg-blue-200 hover:bg-blue-300 transition-all border text-blue-600 font-bold h-full m-0.5 px-1 rounded-md">
-                    {{ \Carbon\Carbon::parse($test->app_start_time)->format('G:i') }}
-                    <span class="font-normal">
-                        {{ $test->user->first_name }}
-                    </span>
-                    
+                        </div>
+                    @endfor
                 </div>
+
+                <div>
+                    @for ($i = 10; $i<=21; $i++)
+                        <div class="text-slate-500 border-slate-300 border-t mb-8">
+                            {{ $i }}:00
+                        </div>
+                    @endfor
+                </div>
+
+                @foreach ($calAppointments as $appointment)
+                    <x-calendar-event :appointment="$appointment"/>
+                @endforeach
+                
             </div>
-            
-        </div>
-    </x-card>
+        </x-card>
+    @endif
     
     @forelse ($appointments as $appointment)
         <x-appointment-card :appointment="$appointment" access="barber" class="mb-4"/>

@@ -11,15 +11,18 @@ class AppointmentController extends Controller
 {
     public function index()
     {
-        $appointments = Appointment::withTrashed()->where('barber_id','=',auth()->user()->barber->id)->with([
+        $appointments = Appointment::where('barber_id','=',auth()->user()->barber->id)->with([
             'user','service','barber'
-        ])->latest()->paginate(10);
+        ])->withTrashed()->latest()->paginate(10);
 
-        $test = Appointment::find(262);
+        $calAppointments = Appointment::where('barber_id','=',auth()->user()->barber->id)->with([
+            'user','service','barber'
+        ])->whereBetween('app_start_time',[date("Y-m-d", strtotime('monday this week')),date("Y-m-d", strtotime('monday next week'))])->get();
+     
         return view('appointment.index',[
             'appointments' => $appointments,
-            'type' => 'All',
-            'test' => $test
+            'calAppointments' => $calAppointments,
+            'type' => 'All'
         ]);
     }
 

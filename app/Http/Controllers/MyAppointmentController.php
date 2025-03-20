@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use App\Models\Barber;
 use App\Models\Service;
+use App\Notifications\BookingCancellationNotification;
 use App\Notifications\BookingConfirmationNotification;
 use App\Rules\ValidAppointmentTime;
 use Carbon\Carbon;
@@ -224,6 +225,9 @@ class MyAppointmentController extends Controller
 
     public function destroy(Appointment $my_appointment)
     {
+        $my_appointment->barber->user->notify(
+            new BookingCancellationNotification($my_appointment,'user')
+        );
         $my_appointment->delete();
         return redirect()->route('my-appointments.index')
             ->with('success','Appointment cancelled successfully! Don\'t forget to book another one instead!');

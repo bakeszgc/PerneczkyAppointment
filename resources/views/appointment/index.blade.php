@@ -22,9 +22,15 @@
         <a href="{{ route('appointments.cancelled') }}" @class(['p-2 rounded-md hover:bg-white transition-all', 'bg-white' => $type == 'Cancelled'])>Cancelled</a>
     </div>
     
-    @foreach ($appointments as $appointment)
+    @forelse ($appointments as $appointment)
         <x-appointment-card :appointment="$appointment" access="barber" class="mb-4"/>
-    @endforeach
+    @empty
+        <div class="text-center w-full rounded-md p-8 border border-dashed border-slate-500">
+            <p class="text-lg font-medium">You don't have any {{ lcfirst($type) }} appointments!</p>
+            <a href="{{ route('appointments.create') }}" class=" text-blue-700 hover:underline">Add a new booking here for one of your clients!</a>
+        </div>
+    @endforelse
+
     <div class="mb-4">
         {{$appointments->links()}}
     </div>

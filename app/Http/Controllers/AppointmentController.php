@@ -11,7 +11,7 @@ class AppointmentController extends Controller
 {
     public function index()
     {
-        $appointments = Appointment::withTrashed()->with([
+        $appointments = Appointment::withTrashed()->where('barber_id','=',auth()->user()->barber->id)->with([
             'user','service','barber'
         ])->latest()->paginate(10);
         return view('appointment.index',[
@@ -23,7 +23,9 @@ class AppointmentController extends Controller
     public function indexUpcoming() {
         $upcomingAppointments = Appointment::with([
             'user','service','barber'
-        ])->where('app_start_time','>=',now('Europe/Budapest'))->orderBy('app_start_time')->paginate(10);
+        ])->where('app_start_time','>=',now('Europe/Budapest'))
+        ->where('barber_id','=',auth()->user()->barber->id)
+        ->orderBy('app_start_time')->paginate(10);
         
         return view('appointment.index',[
             'appointments' => $upcomingAppointments,
@@ -34,7 +36,9 @@ class AppointmentController extends Controller
     public function indexPrevious() {
         $previousAppointments = Appointment::with([
             'user','service','barber'
-        ])->where('app_start_time','<=',now('Europe/Budapest'))->orderBy('app_start_time','desc')->paginate(10);
+        ])->where('app_start_time','<=',now('Europe/Budapest'))
+        ->where('barber_id','=',auth()->user()->barber->id)
+        ->orderBy('app_start_time','desc')->paginate(10);
         
         return view('appointment.index',[
             'appointments' => $previousAppointments,
@@ -44,6 +48,7 @@ class AppointmentController extends Controller
 
     public function indexCancelled() {
         $cancelledAppointments = Appointment::onlyTrashed()->with(['user','service','barber'])
+        ->where('barber_id','=',auth()->user()->barber->id)
         ->orderBy('app_start_time','desc')->paginate(10);
 
         return view('appointment.index',[

@@ -14,9 +14,12 @@ class AppointmentController extends Controller
         $appointments = Appointment::withTrashed()->where('barber_id','=',auth()->user()->barber->id)->with([
             'user','service','barber'
         ])->latest()->paginate(10);
+
+        $test = Appointment::find(262);
         return view('appointment.index',[
             'appointments' => $appointments,
-            'type' => 'All'
+            'type' => 'All',
+            'test' => $test
         ]);
     }
 

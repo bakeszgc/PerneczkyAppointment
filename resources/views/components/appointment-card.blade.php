@@ -1,4 +1,4 @@
-<x-card {{$attributes->merge(['class' => ' hover:scale-105 hover:drop-shadow-lg transition-all'])}}>
+<x-card {{$attributes->merge(['class' => ' transition-all'])}}>
     <div @class(['flex justify-between' => true, 'text-slate-500' => $appointment->deleted_at])>
         <div>
             <h2 class="font-bold text-2xl mb-1 flex items-center gap-2">

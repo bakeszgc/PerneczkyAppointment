@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barber;
 use App\Models\User;
 use App\Models\Service;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Notifications\BookingCancellationNotification;
 
 class AppointmentController extends Controller
@@ -76,8 +78,29 @@ class AppointmentController extends Controller
     
     public function show(Appointment $appointment)
     {
+        $upcoming = Appointment::where('user_id','=',$appointment->user_id)->where('app_start_time','>=',now())->count();
+        $previous = Appointment::where('user_id','=',$appointment->user_id)->where('app_start_time','<=',now())->count();
+        $cancelled = Appointment::onlyTrashed()->where('user_id','=',$appointment->user_id)->count();
+
+        $barber = Appointment::select('barber_id',DB::raw('COUNT(barber_id) as selection_count'))->where('user_id','=',$appointment->user_id)->groupBy('barber_id')->orderByDesc('selection_count')->first();
+
+        $favBarber = Barber::find($barber->barber_id);
+        $numBarber = $barber->selection_count;
+
+        $service = Appointment::select('service_id',DB::raw('COUNT(service_id) as selection_count'))->where('user_id','=',$appointment->user_id)->groupBy('service_id')->orderByDesc('selection_count')->first();
+
+        $favService = Service::find($service->service_id);
+        $numService = $service->selection_count;
+
         return view('appointment.show',[
-            'appointment' => $appointment
+            'appointment' => $appointment,
+            'upcoming' => $upcoming,
+            'previous' => $previous,
+            'cancelled' => $cancelled,
+            'favBarber' => $favBarber,
+            'numBarber' => $numBarber,
+            'favService' => $favService,
+            'numService' => $numService
         ]);
     }
     

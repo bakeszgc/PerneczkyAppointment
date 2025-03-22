@@ -31,49 +31,71 @@
     </head>
 
     <body class="bg-slate-100 text-slate-800">
-        <nav class="h-12 bg-black flex justify-between items-center p-4 text-white font-extrabold w-full fixed z-50 drop-shadow-lg" id="navbar">
-            <img src="https://perneczkybarbershop.hu/pictures/logos/perneczky_circle.png" alt="Perneczky BarberShop" id="logo" class="absolute left-1/2 h-20 -translate-x-10 top-2">
+        <nav class="h-12 bg-black py-2 px-4 max-lg:px-0 text-white font-extrabold w-full fixed z-40 drop-shadow-lg  id="navbar">
 
-            <div class="flex items-center gap-4">
-                Welcome, {{auth()->user()->barber->display_name ?? auth()->user()->first_name ?? 'Guest'}}!
-                @if (auth()->user()->barber ?? false)
-                    @if ($currentView !== 'barber')
-                        <a href="{{ route('appointments.index') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
-                        Switch to Barber View
-                        </a>
-                    @else
-                        <a href="{{ route('my-appointments.index') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
-                        Switch to Customer View
-                        </a>
-                    @endif
-                @endif
+            <img src="https://perneczkybarbershop.hu/pictures/logos/perneczky_circle.png" alt="Perneczky BarberShop" id="logo" class="absolute left-1/2 h-20 -translate-x-10 top-2 z-50">
+
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
             </div>
 
-            <div class="flex items-center gap-4">
-                @auth
-                    <div>
-                        <a href="{{ route('users.show',auth()->user()) }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
-                            Account Settings
+            <div class="flex justify-between items-center gap-4 max-lg:flex-col max-lg:translate-y-10 max-lg:bg-slate-900 max-lg:pt-12 max-lg:pb-8">
+                <ul class="flex items-center gap-4 max-lg:flex-col">
+                    <li>
+                        Welcome, {{auth()->user()->barber->display_name ?? auth()->user()->first_name ?? 'Guest'}}!
+                    </li>
+
+                    <li>
+                        @if (auth()->user()->barber ?? false)
+                            @if ($currentView !== 'barber')
+                                <a href="{{ route('appointments.index') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
+                                Switch to Barber View
+                                </a>
+                            @else
+                                <a href="{{ route('my-appointments.index') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
+                                Switch to Customer View
+                                </a>
+                            @endif
+                        @endif
+                    </li>
+                </ul>
+
+                <ul class="flex items-center gap-4 max-lg:flex-col">
+                    @auth
+                        <li>
+                            <a href="{{ route('users.show',auth()->user()) }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
+                                Account Settings
+                            </a>
+                        </li>
+                        @if ($currentView === 'barber')
+                            <li>
+                                <a href="{{ route('appointments.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
+                                    Bookings
+                                </a>
+                            </li>
+                        @else
+                            <li>
+                                <a href="{{ route('my-appointments.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
+                                    My Appointments
+                                </a>
+                            </li>
+                        @endif
+                        <li>
+                            <form action="{{route('logout')}}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button class="bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">Sign Out</button>
+                            </form>
+                        </li>
+                    @else
+                        <a href="{{ route('register') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
+                            Sign Up
                         </a>
-                    </div>
-                    <div>
-                        <a href="{{ route('my-appointments.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
-                            My Appointments
-                        </a>
-                    </div>
-                    <div>
-                        <form action="{{route('logout')}}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button class="bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">Sign Out</button>
-                        </form>
-                    </div>
-                @else
-                    <a href="{{ route('register') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
-                        Sign Up
-                    </a>
-                    <a href="{{route('login')}}" class="bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">Sign In</a>
-                @endauth
+                        <a href="{{route('login')}}" class="bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">Sign In</a>
+                    @endauth
+                </ul>
             </div>
         </nav>
         

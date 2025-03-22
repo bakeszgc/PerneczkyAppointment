@@ -40,7 +40,7 @@ class BookingConfirmationNotification extends Notification implements ShouldQueu
         return (new MailMessage)
                     ->subject('Appointment Booked Succesfully')
                     ->greeting('Hi '. $this->appointment->user->first_name . ',')
-                    ->line("Thank you for booking an appointment with Perneczky BarberShop. We are excited to help you look and feel your best! Here are the details of your appointment:")
+                    ->line("Thank you for booking an appointment with us. We are excited to help you look and feel your best! Here are the details of your appointment:")
 
                     ->line('Date & time: ' . Carbon::parse($this->appointment->app_start_time)->format('Y.m.d. G:i'))
                     ->line('Service: ' . $this->appointment->service->name . ' (' . $this->appointment->service->duration . ' minutes)')

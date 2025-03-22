@@ -12,7 +12,7 @@
         ]"/>
     @endif
     <h1 class="font-extrabold text-4xl mb-4">Select your Service</h1>
-    <x-card>
+    <x-card class="mb-4">
         <div class="text-center">
             <!-- <h2 class="font-bold text-2xl mb-8">Select Your Service</h2> -->
             <div class="grid grid-cols-2 max-lg:grid-cols-1 gap-4">

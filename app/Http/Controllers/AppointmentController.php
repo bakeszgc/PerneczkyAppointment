@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Service;
 use App\Models\User;
+use App\Models\Service;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
+use App\Notifications\BookingCancellationNotification;
 
 class AppointmentController extends Controller
 {
@@ -108,11 +109,13 @@ class AppointmentController extends Controller
         return redirect()->route('appointments.show',['appointment' => $appointment]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Appointment $appointment)
     {
-        //
+        $appointment->user->notify(
+            new BookingCancellationNotification($appointment,'barber')
+        );
+        $appointment->delete();
+        return redirect()->route('appointments.index')
+            ->with('success','Appointment cancelled successfully! Be sure to set up a new booking with your client!');
     }
 }

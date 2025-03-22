@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class BookingCancellationNotification extends Notification
+class BookingCancellationNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -39,24 +39,26 @@ class BookingCancellationNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $date = Carbon::parse($this->appointment->app_start_time)->format('Y. m. d.') . ' at ' . Carbon::parse($this->appointment->app_start_time)->format('G:i');
+        $date = Carbon::parse($this->appointment->app_start_time)->format('G:i') . ' on ' . Carbon::parse($this->appointment->app_start_time)->format('Y. m. d.');
 
         $notName = $notifiable->barber->display_name ?? $notifiable->first_name;
 
         if ($this->cancelledBy === 'user') {
             $name = $this->appointment->user->first_name;
             $url = route('appointments.cancelled');
+            $text = 'You can see all of your cancelled bookings here:';
             $ctaText = 'Cancelled Bookings';
         } else {
             $name = $this->appointment->barber->display_name ?? $this->appointment->user->first_name;
             $url = route('my-appointments.create');
+            $text = "Don't forget to book another one here:";
             $ctaText = 'Book a New Appointment';
         }
 
         return (new MailMessage)
                     ->subject('Your Appointment Has Been Cancelled')
                     ->greeting('Hi '. $notName . ',')
-                    ->line("Unfortunately, {$name} has cancelled your appointment for {$date}.")
+                    ->line("Unfortunately, {$name} has cancelled your appointment for {$date}. {$text}")
                     ->action($ctaText, $url)
                     ->line('If you have any questions, need to reschedule, or require assistance, feel free to contact us at email or call us at phonenum.');
     }

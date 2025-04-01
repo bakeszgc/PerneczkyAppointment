@@ -33,6 +33,10 @@
                 background-color: white;
             }
 
+            .w-1\/8{
+                width: 12.5%;
+            }
+
             @media not all and (min-width: 1024px) {
                 .rellax-bg {
                     display: none;

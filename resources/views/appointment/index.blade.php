@@ -12,10 +12,10 @@
             @endif
             Appointments
         </h1>
-        <x-link-button :link="route('appointments.create')" role="createMain">Add New</x-link-button>
+        <x-link-button :link="route('appointments.create')" role="createMain">Add&nbsp;New</x-link-button>
     </div>
 
-    <div class="grid grid-cols-4 gap-2 mb-4 p-2 rounded-md bg-slate-300 text-center text-lg font-bold">
+    <div class="grid grid-cols-4 max-md:grid-cols-2 gap-2 mb-4 p-2 rounded-md bg-slate-300 text-center text-lg font-bold">
         <a href="{{ route('appointments.index') }}" @class(['p-2 rounded-md hover:bg-white transition-all', 'bg-white' => $type == 'All'])>All</a>
         <a href="{{ route('appointments.upcoming') }}" @class(['p-2 rounded-md hover:bg-white transition-all', 'bg-white' => $type == 'Upcoming'])>Upcoming</a>
         <a href="{{ route('appointments.previous') }}" @class(['p-2 rounded-md hover:bg-white transition-all', 'bg-white' => $type == 'Previous'])>Previous</a>
@@ -26,9 +26,10 @@
         <x-card class="mb-4">
             <div class="relative">
                 
-                <div class="grid grid-cols-7 text-center mb-4 ml-16">
+                <div class="flex text-center mb-4">
+                    <div class="w-1/8"></div>
                     @for ($i = 1; $i<=7; $i++)
-                        <div class="flex items-center justify-center gap-1 max-lg:flex-col">
+                        <div class="flex items-center justify-center gap-1 max-lg:flex-col w-1/8">
                             <span class="text-slate-500">
                                 {{ date('D', strtotime("Sunday + {$i} days")) }}
                             </span>

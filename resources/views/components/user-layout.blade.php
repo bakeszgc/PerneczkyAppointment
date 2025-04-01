@@ -22,11 +22,36 @@
                 z-index: -1;
                 background-position: center center;
             }
+
+            .bar{
+                display: block;
+                width: 25px;
+                height: 3px;
+                margin: 5px auto;
+                -webkit-transition: all 0.3s ease-in-out;
+                transition: all 0.3s ease-in-out;
+                background-color: white;
+            }
+
             @media not all and (min-width: 1024px) {
                 .rellax-bg {
                     display: none;
                 }
+                .hamburger{
+                    display: block;
+                }
+                .hamburger.active .bar:nth-child(2){
+                    opacity: 0;
+                }
+                .hamburger.active .bar:nth-child(1){
+                    transform: translateY(8px) rotate(45deg);
+                }
+                .hamburger.active .bar:nth-child(3){
+                    transform: translateY(-8px) rotate(-45deg);
+                }
             }
+            
+
         </style>
     </head>
 
@@ -35,13 +60,13 @@
 
             <img src="https://perneczkybarbershop.hu/pictures/logos/perneczky_circle.png" alt="Perneczky BarberShop" id="logo" class="absolute left-1/2 h-20 -translate-x-10 top-2 z-50">
 
-            <div class="hamburger">
+            <div class="hamburger hidden cursor-pointer max-lg:block w-fit ml-4 mt-1">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
             </div>
 
-            <div class="flex justify-between items-center gap-4 max-lg:flex-col max-lg:translate-y-10 max-lg:bg-slate-900 max-lg:pt-12 max-lg:pb-8">
+            <div class="flex justify-between items-center gap-4 max-lg:flex-col max-lg:translate-y-2 max-lg:bg-slate-950 max-lg:pt-12 max-lg:pb-6 max-lg:-translate-x-full nav-menu max-lg:transition-all">
                 <ul class="flex items-center gap-4 max-lg:flex-col">
                     <li>
                         Welcome, {{auth()->user()->barber->display_name ?? auth()->user()->first_name ?? 'Guest'}}!
@@ -121,6 +146,7 @@
                     
                 </div>
             @endif
+
             @if (session('error'))
                 <div role="alert" class="mb-8 rounded-md border-l-4 border-red-300 bg-red-100 p-4 text-red-700 oppacity-75 flex justify-between"  x-show="showAlert">
                     <div>
@@ -140,5 +166,15 @@
             {{$slot}}
             
         </div>
+
+        <script>
+            const hamburger = document.querySelector(".hamburger");
+            const navMenu = document.querySelector(".nav-menu")
+
+            hamburger.addEventListener("click", () =>{
+                hamburger.classList.toggle("active");
+                navMenu.classList.toggle("max-lg:-translate-x-full");
+            })
+        </script>
     </body>
 </html>

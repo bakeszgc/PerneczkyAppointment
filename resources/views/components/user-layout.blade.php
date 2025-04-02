@@ -132,7 +132,7 @@
         <div class="rellax-bg" style="background-image: url('{{ asset('design/combs.png') }}'); opacity: 0.3;" data-rellax-speed="2"></div>
         <div class="rellax-bg" style="background-image: url('{{ asset('design/scissors.png') }}'); opacity: 0.2;" data-rellax-speed="1"></div>
         
-        <div class="max-w-4xl mx-auto px-4 relative z-10 pt-24" x-data="{ showAlert: true }">
+        <div class=" max-w-4xl mx-auto px-4 relative z-10 pt-24" x-data="{ showAlert: true }">
 
             @if (session('success'))
                 <div role="alert" class="mb-8 rounded-md border-l-4 border-green-300 bg-green-100 p-4 text-green-700 oppacity-75 flex justify-between" x-show="showAlert">

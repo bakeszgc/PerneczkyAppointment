@@ -5,13 +5,13 @@
         $appointment->user->first_name . '\'s Appointment' => ''
     ]"/>
 
-    <div class="flex justify-between items-bottom mb-4">
-        <h1 class="font-extrabold text-4xl">{{$appointment->user->first_name}}'s Appointment</h1>
-        <x-link-button :link="route('appointments.create')" role="createMain">Add New</x-link-button>
+    <div class="flex justify-between items-end mb-4">
+        <x-headline>{{$appointment->user->first_name}}'s Appointment</x-headline>
+        <x-link-button :link="route('appointments.create')" role="createMain">Add&nbsp;New</x-link-button>
     </div>
 
     <x-appointment-card :appointment="$appointment" access="barber" class="mb-8">
-        <div class="text-base text-slate-500">
+        <div class="text-base max-sm:text-sm text-slate-500">
             Comment:
             @if (!$appointment->comment)
                 <span class="italic">No comments from {{ $appointment->user->first_name }}.</span>

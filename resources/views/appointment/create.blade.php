@@ -1,9 +1,11 @@
-<x-layout title="Create New Appointment - Perneczky BarberShop">
+<x-user-layout title="Create New Appointment - Perneczky BarberShop">
     <x-breadcrumbs :links="[
-        'Appointments' => route('appointments.index'),
-        'New Appointment' => ''
+        'Bookings' => route('appointments.index'),
+        'New Booking' => ''
     ]"/>
-    <h1 class="font-bold text-4xl mb-4">Create New Appointment - Find the user</h1>
+    <x-headline class="mb-4">
+        Create A New Booking
+    </x-headline>
     
     <x-card>
         <form action="" method="POST">
@@ -23,4 +25,4 @@
         </form>
         
     </x-card>
-</x-layout>
+</x-user-layout>

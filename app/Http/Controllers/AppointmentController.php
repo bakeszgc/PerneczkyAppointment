@@ -6,6 +6,7 @@ use App\Models\Barber;
 use App\Models\User;
 use App\Models\Service;
 use App\Models\Appointment;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Notifications\BookingCancellationNotification;
@@ -106,10 +107,24 @@ class AppointmentController extends Controller
     
     public function edit(Appointment $appointment)
     {
+        if ($appointment->barber->id != auth()->user()->barber->id) {
+            return redirect()->route('appointments.index')->with('error',"You can't edit other barbers' bookings.");
+        } elseif ($appointment->app_start_time <= now()) {
+            return redirect()->route('appointments.show',$appointment)->with('error',"You can't edit bookings from the past.");
+        } elseif ($appointment->deleted_at) {
+            return redirect()->route('appointments.show',$appointment)->with('error',"You can't edit cancelled bookings.");
+        }
+
+        $previousAppointment = Appointment::where('barber_id','=',auth()->user()->barber->id)->where('app_end_time','<=',$appointment->app_start_time)->orderByDesc('app_end_time')->first();
+
+        $nextAppointment = Appointment::where('barber_id','=',auth()->user()->barber->id)->where('app_start_time','>=',$appointment->app_end_time)->orderBy('app_start_time')->first();
+
         // can't edit deleted or previous records
         return view('appointment.edit', [
             'appointment' => $appointment,
-            'services' => Service::all()
+            'services' => Service::all(),
+            'previous' => $previousAppointment,
+            'next' => $nextAppointment
         ]);
     }
     
@@ -117,19 +132,31 @@ class AppointmentController extends Controller
     {
         $request->validate([
             'service' => 'required',
-            'comment' => 'max:255'
+            'price' => 'required|integer|min:0',
+            'app_start_date' => ['required','date','after_or_equal:today'],
+            'app_start_hour' => ['required','integer','between:10,19'],
+            'app_start_minute' => 'required|integer|multiple_of:15',
+            'app_end_date' => ['required','date','after_or_equal:app_start_date'],
+            'app_end_hour' => ['required','between:10,19','integer'],
+            'app_end_minute' => 'required|integer|multiple_of:15',
+            'comment' => 'nullable|max:255',
         ]);
 
-        //ez még nem működik
-        $newPrice = Service::where('id','=',$request->service)->firstOrFail()->price;
+        $app_start_time = Carbon::parse($request->app_start_date . " " . $request->app_start_hour . ":" . $request->app_start_minute);
+        $app_end_time = Carbon::parse($request->app_end_date . " " . $request->app_end_hour . ":" . $request->app_end_minute);
+
+        // időpont validation kell
+        
+        $newPrice = Service::find($request->service)->price;
 
         $appointment->update([
             'service_id' => $request->service,
             'comment' => $request->comment,
-            'price' => $newPrice
+            'price' => $newPrice,
+            'app_end_time' => $app_end_time
         ]);
 
-        return redirect()->route('appointments.show',['appointment' => $appointment]);
+        return redirect()->route('appointments.show',['appointment' => $appointment])->with('success','Booking has been updated successfully!');
     }
 
     public function destroy(Appointment $appointment)

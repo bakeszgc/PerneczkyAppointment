@@ -62,7 +62,7 @@
     <body class="bg-slate-100 text-slate-800">
         <nav class="h-12 bg-black py-2 px-4 max-lg:px-0 text-white font-extrabold w-full fixed z-40 drop-shadow-lg  id="navbar">
 
-            <img src="https://perneczkybarbershop.hu/pictures/logos/perneczky_circle.png" alt="Perneczky BarberShop" id="logo" class="absolute left-1/2 h-20 -translate-x-10 top-2 z-50">
+            <img src="{{ asset('logo/perneczky_circle.png') }}" alt="Perneczky BarberShop" id="logo" class="absolute left-1/2 h-20 -translate-x-10 top-2 z-50">
 
             <div class="hamburger hidden cursor-pointer max-lg:block w-fit ml-4 mt-1">
                 <span class="bar"></span>
@@ -70,7 +70,7 @@
                 <span class="bar"></span>
             </div>
 
-            <div class="flex justify-between items-center gap-4 max-lg:flex-col max-lg:translate-y-2 max-lg:bg-slate-950 max-lg:pt-12 max-lg:pb-6 max-lg:-translate-x-full nav-menu max-lg:transition-all">
+            <div class="flex justify-between items-center gap-4 max-lg:flex-col max-lg:translate-y-2 max-lg:bg-slate-950 max-lg:pt-12 max-lg:pb-6 max-lg:-translate-x-full nav-menu" id="nav-menu">
                 <ul class="flex items-center gap-4 max-lg:flex-col">
                     <li>
                         Welcome, {{auth()->user()->barber->display_name ?? auth()->user()->first_name ?? 'Guest'}}!
@@ -173,12 +173,23 @@
 
         <script>
             const hamburger = document.querySelector(".hamburger");
-            const navMenu = document.querySelector(".nav-menu")
+            const navMenu = document.querySelector("#nav-menu")
 
             hamburger.addEventListener("click", () =>{
-                hamburger.classList.toggle("active");
-                navMenu.classList.toggle("max-lg:-translate-x-full");
+                if (!navMenu.classList.contains("transition-all")) { 
+                    navMenu.classList.add("transition-all");
+                    hamburger.classList.toggle("active");
+                    navMenu.classList.toggle("max-lg:-translate-x-full");
+                } else { 
+                    hamburger.classList.toggle("active");
+                    navMenu.classList.toggle("max-lg:-translate-x-full");
+                    timeout = setTimeout(() => {
+                        navMenu.classList.remove("transition-all");
+                    }, 300);
+                }
             })
         </script>
     </body>
 </html>
+
+<!-- I'm working on a hamburger menu. If I shrink the page the header's titles disappear to the left with max-lg:-translate-x-full but when I click on the button I want them to slide in from the left with animation. If I add the transition-all class it's doing weird things when I resize the page near the breakpoint. I want to create a  -->

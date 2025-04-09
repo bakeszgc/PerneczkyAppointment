@@ -137,13 +137,17 @@ class AppointmentController extends Controller
             'app_start_hour' => ['required','integer','between:10,19'],
             'app_start_minute' => 'required|integer|multiple_of:15',
             'app_end_date' => ['required','date','after_or_equal:app_start_date'],
-            'app_end_hour' => ['required','between:10,19','integer'],
+            'app_end_hour' => ['required','between:10,19','integer','gte:app_start_hour'],
             'app_end_minute' => 'required|integer|multiple_of:15',
             'comment' => 'nullable|max:255',
         ]);
 
         $app_start_time = Carbon::parse($request->app_start_date . " " . $request->app_start_hour . ":" . $request->app_start_minute);
         $app_end_time = Carbon::parse($request->app_end_date . " " . $request->app_end_hour . ":" . $request->app_end_minute);
+
+        if ($app_start_time >= $app_end_time) {
+            return redirect()->route('appointments.edit',$appointment)->with('error',"The booking's ending time has to be later than its starting time");
+        }
 
         // időpont validation kell
         
@@ -153,6 +157,7 @@ class AppointmentController extends Controller
             'service_id' => $request->service,
             'comment' => $request->comment,
             'price' => $newPrice,
+            'app_start_time' => $app_start_time,
             'app_end_time' => $app_end_time
         ]);
 

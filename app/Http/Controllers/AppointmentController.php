@@ -86,8 +86,8 @@ class AppointmentController extends Controller
 
     public function createService(Request $request)
     {
-        if (!$request->user_id) {
-            return redirect()->route('appointments.create')->with('error','You need to select a customer first!');
+        if (!User::find($request->user_id) || $request->user_id === auth()->user()->id) {
+            return redirect()->route('appointments.create')->with('error','Please select a valid user from the list!');
         }
         $services = Service::all();
         return view('appointment.create_service',['services' => $services]);
@@ -95,6 +95,13 @@ class AppointmentController extends Controller
 
     public function createDate(Request $request)
     {
+        if (!User::find($request->user_id) || $request->user_id === auth()->user()->id) {
+            return redirect()->route('appointments.create')->with('error','Please select a valid user from the list!');
+        } 
+        if (!Service::find($request->service_id)) {
+            return redirect()->route('appointments.create.service',['user_id' => $request->user_id])->with('error','Please select a valid service from the list');
+        }
+
         // összes lehetséges időpont
         $allDates = [];
         for ($d=0; $d < 14; $d++) {

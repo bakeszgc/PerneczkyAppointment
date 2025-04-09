@@ -30,7 +30,7 @@
                 <li class="flex justify-between {{ !$loop->last ? 'border-b pb-2' : '' }}">
                     <div>
                         <h3 class="font-bold text-xl mb-1">
-                            {{ $user->first_name }} {{ $user->last_name }} #{{ $user->id }}
+                            {{ $user->first_name }} {{ $user->last_name }}
                         </h3>
                         <p class="text-slate-500">Email: {{ $user->email }}</p>
                         <p class="text-slate-500">Tel: {{ $user->tel_number }}</p>

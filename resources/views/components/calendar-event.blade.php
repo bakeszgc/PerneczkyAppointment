@@ -1,5 +1,5 @@
 <div style="{{ "position: absolute; width: 12.5%;
-top: " . 53/60 * \Carbon\Carbon::parse($appointment->app_start_time)->format('G')*60 +\Carbon\Carbon::parse($appointment->app_start_time)->format('i') -486 .
+top: " . 53/60 * (\Carbon\Carbon::parse($appointment->app_start_time)->format('G')*60 + \Carbon\Carbon::parse($appointment->app_start_time)->format('i')) -486 .
 "px; left: calc(" . (\Carbon\Carbon::parse($appointment->app_start_time)->format('N')) * 12.5 . "%);
 height: calc(" . \Carbon\Carbon::parse($appointment->app_start_time)->diffInMinutes(\Carbon\Carbon::parse($appointment->app_end_time)) / 60 * 53 .
 "px); padding: 0.125rem;" }}">

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->float('price',2);
             $table->text('comment')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

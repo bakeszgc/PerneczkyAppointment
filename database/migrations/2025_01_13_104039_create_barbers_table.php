@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('display_name')->nullable();
             $table->foreignIdFor(User::class);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

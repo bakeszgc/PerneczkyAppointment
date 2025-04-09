@@ -191,5 +191,3 @@
         </script>
     </body>
 </html>
-
-<!-- I'm working on a hamburger menu. If I shrink the page the header's titles disappear to the left with max-lg:-translate-x-full but when I click on the button I want them to slide in from the left with animation. If I add the transition-all class it's doing weird things when I resize the page near the breakpoint. I want to create a  -->

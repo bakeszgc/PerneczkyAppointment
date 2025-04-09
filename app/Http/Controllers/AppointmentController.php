@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Barber;
+use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Barber;
 use App\Models\Service;
 use App\Models\Appointment;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Rules\ValidAppointmentTime;
 use App\Notifications\BookingCancellationNotification;
+use App\Notifications\BookingConfirmationNotification;
 
 class AppointmentController extends Controller
 {
@@ -157,7 +159,58 @@ class AppointmentController extends Controller
 
     public function store(Request $request)
     {
-        
+        $request->validate([
+            'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
+            'user_id' => ['required','exists:barbers,id'],
+            'service_id' => ['required','exists:services,id'],
+            'comment' => ['nullable','string']
+        ]);
+
+        $app_start_time = Carbon::parse($request->date);
+        $duration = Service::findOrFail($request->service_id)->duration;
+        $app_end_time = $app_start_time->clone()->addMinutes($duration);
+        $barber = auth()->user()->barber;
+
+        // double check hogy a timeslot nem e lóg bele egy másik appointmentbe
+        for ($i=0; $i < $duration/15; $i++) { 
+            if (Appointment::where('app_start_time','=',$app_start_time->clone()->addMinutes($i*15))
+            ->where('barber_id','=',$barber->id)->get()->isNotEmpty())
+            {
+                return redirect()->route('appointments.create.date',['user_id' => $request->user_id, 'service_id' => $request->service_id])->with('error','The selected date is not available! Please choose another one!');
+            }
+        }
+
+        // double check hogy a timeslotba nem e lóg bele egy másik appointment
+        for ($i=-1; $i > -6; $i--) {
+            $appointments = Appointment::where('app_start_time','=',$app_start_time->clone()->addMinutes($i*15))
+            ->where('barber_id','=',$barber->id)->get();
+
+            if ($appointments->isNotEmpty())
+            {
+                foreach ($appointments as $appointment) {
+                    if ($appointment->app_end_time > $app_start_time) {
+                        return redirect()->route('appointments.create.date',['user_id' => $request->user_id, 'service_id' => $request->service_id])
+                        ->with('error','The selected date is not available! Please choose another one!');
+                    }
+                }
+            }
+        }
+
+        $appointment = Appointment::create([
+            'user_id' => $request->user_id,
+            'barber_id' => auth()->user()->barber->id,
+            'service_id' => $request->service_id,
+            'app_start_time' => $app_start_time,
+            'app_end_time' => $app_end_time,
+            'price' => Service::findOrFail($request->service_id)->price,
+            'comment' => $request->comment,
+        ]);
+
+        $appointment->user->notify(
+            new BookingConfirmationNotification($appointment)
+        );
+
+        return redirect()->route('appointments.show',['appointment' =>  $appointment])->with('success','Appointment booked successfully! See you soon!');
     }
     
     public function show(Appointment $appointment)

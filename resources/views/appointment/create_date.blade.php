@@ -25,8 +25,8 @@
                 </p>
             </div>
             <div>
-                <form action="{{route('my-appointments.store',[
-                    'barber_id' => $barber,
+                <form action="{{route('appointments.store',[
+                    'user_id' => $user,
                     'service_id' => $service
                 ])}}" method="POST">
                 @csrf

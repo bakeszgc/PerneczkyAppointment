@@ -84,7 +84,16 @@ class AppointmentController extends Controller
 
     public function createService(Request $request)
     {
-        
+        if (!$request->user_id) {
+            return redirect()->route('appointments.create')->with('error','You need to select a customer first!');
+        }
+        $services = Service::all();
+        return view('appointment.create_service',['services' => $services]);
+    }
+
+    public function createDate(Request $request)
+    {
+
     }
 
     public function store(Request $request)

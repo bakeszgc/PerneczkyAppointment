@@ -1,10 +1,10 @@
-<x-user-layout title="Create New Appointment - " currentView="barber">
+<x-user-layout title="Create New Booking - " currentView="barber">
     <x-breadcrumbs :links="[
         'Bookings' => route('appointments.index'),
         'New Booking' => ''
     ]"/>
     <x-headline class="mb-4">
-        Create A New Booking
+        Create New Booking
     </x-headline>
     
     <x-card class="mb-8">
@@ -35,7 +35,7 @@
                         <p class="text-slate-500">Email: {{ $user->email }}</p>
                         <p class="text-slate-500">Tel: {{ $user->tel_number }}</p>
                     </div>
-                    <x-link-button link="{{ route('appointments.createService',['user_id' => $user->id]) }}" role="loginMain">Select Customer</x-link-button>
+                    <x-link-button link="{{ route('appointments.create.service',['user_id' => $user->id]) }}" role="loginMain">Select Customer</x-link-button>
                 </li>
             @empty
                 <li>
@@ -43,10 +43,10 @@
                 </li>
             @endforelse
         </ul>
-
-        <div @class(['mt-4' => $users->count() == 10])>
-            {{ $users->links() }}
-        </div>
-        
     </x-card>
+
+    <div @class(['mb-4' => $users->count() == 10])>
+        {{ $users->links() }}
+    </div>
+
 </x-user-layout>

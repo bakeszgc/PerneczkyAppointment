@@ -67,9 +67,24 @@ class AppointmentController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return view('appointment.create',['users' => User::orderBy('first_name')->get()]);
+        $query = $request->input('query');
+
+        $users = User::query()
+        ->when($query, function ($q) use ($query) {
+            $q->where('first_name','like',"%$query%")
+            ->orWhere('last_name','like',"%$query%")
+            ->orWhere('email','like',"%$query%")
+            ->orWhere('tel_number','like',"%$query%");
+        })->paginate(10);
+
+        return view('appointment.create',['users' => $users]);
+    }
+
+    public function createService(Request $request)
+    {
+        
     }
 
     public function store(Request $request)

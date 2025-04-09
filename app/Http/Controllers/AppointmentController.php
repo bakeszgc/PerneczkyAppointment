@@ -93,12 +93,71 @@ class AppointmentController extends Controller
 
     public function createDate(Request $request)
     {
+        // összes lehetséges időpont
+        $allDates = [];
+        for ($d=0; $d < 14; $d++) {
+            for ($h=10; $h < Appointment::closingHour(today()->addDays($d)); $h++) { 
+                for ($m=0; $m < 60; $m+=15) {
 
+                    $time = today()->addDays($d)->addHours($h)->addMinutes($m);
+                    if ($time >= now('Europe/Budapest')) {
+                        $allDates[] = $time;
+                    }
+                }
+            }
+        }
+
+        $barber = auth()->user()->barber;
+
+        // foglalt app_start_timeok
+        $reservedDates = Appointment::where('barber_id','=',$barber->id)->pluck('app_start_time')
+        ->map(fn ($time) => Carbon::parse($time))->toArray();
+
+        // timeslotok amikbe belelóg egy másik foglalás
+        // timeslotok amik belelógnának egy következő foglalásba
+        $overlapDates = [];
+        foreach ($reservedDates as $date) {
+            $appointments = Appointment::where('barber_id','=',$barber->id)
+                ->where('app_start_time','=',$date)->get();
+            $service = Service::findOrFail($request->service_id);
+
+            foreach ($appointments as $appointment)
+            {
+                $appDuration = $appointment->service->duration;
+                $serviceDuration = $service->duration;
+                for ($i=0; $i < $appDuration/15; $i++) { 
+                    $overlapDates[] = Carbon::parse($date)->clone()->addMinutes($i*15);
+                }
+                for ($i=0; $i < $serviceDuration/15; $i++) { 
+                    $overlapDates[] = Carbon::parse($date)->clone()->addMinutes($i*-15);
+                }
+            }
+        }
+
+        $freeDates = array_diff($allDates,$reservedDates,$overlapDates);
+
+        $dates = [];
+        foreach ($freeDates as $date) {
+            $dayDiff = today()->diffInDays($date);
+
+            if (!isset($dates[$dayDiff])) {
+                $dates[$dayDiff] = [];
+            }
+
+            $dates[$dayDiff][] = $date;
+        }
+
+        return view('appointment.create_date',[
+            'dates' => $dates,
+            'user' => User::findOrFail($request->user_id),
+            'barber' => $barber,
+            'service' => Service::findOrFail($request->service_id)
+        ]);
     }
 
     public function store(Request $request)
     {
-        //
+        
     }
     
     public function show(Appointment $appointment)

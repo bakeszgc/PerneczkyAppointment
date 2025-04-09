@@ -85,7 +85,7 @@
         </div>
 
         <div x-data="{ showDates:false }">
-            <div id="otherDates" class=" -translate-y-10"></div>
+            <div id="otherDates" class=" -translate-y-28"></div>
             <h2 class="font-bold text-lg mt-16 mb-8">
                 <span class="transition-all border border-blue-700 bg-blue-100 hover:bg-blue-300 rounded-md text-blue-800 p-4 cursor-pointer hover:drop-shadow-lg" @click="
                     showDates = !showDates;

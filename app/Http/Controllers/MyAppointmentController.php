@@ -19,7 +19,8 @@ class MyAppointmentController extends Controller
     {
         $upcomingAppointments = Appointment::where([
             ['user_id','=',auth()->user()->id],
-            ['app_start_time','>=',now('Europe/Budapest')]
+            ['app_start_time','>=',now('Europe/Budapest')],
+            ['service_id','!=',1]
         ])->orderBy('app_start_time')->paginate(10);
         
         return view('my-appointment.index',[
@@ -32,7 +33,8 @@ class MyAppointmentController extends Controller
     {
         $previousAppointments = Appointment::where([
             ['user_id','=',auth()->user()->id],
-            ['app_start_time','<=',now('Europe/Budapest')]
+            ['app_start_time','<=',now('Europe/Budapest')],
+            ['service_id','!=',1]
         ])->orderBy('app_start_time','desc')->paginate(10);
         
         return view('my-appointment.index',[
@@ -56,8 +58,8 @@ class MyAppointmentController extends Controller
         }
 
         $selectedServiceId = $request->service_id;
-        if ($selectedServiceId && !Service::find($selectedServiceId)) {
-            return redirect()->route('my-appointments.create.service');
+        if ($selectedServiceId && (!Service::find($selectedServiceId)) || $selectedServiceId == 1) {
+            return redirect()->route('my-appointments.create.service')->with('error','Please select a service here!');
         }
 
         $barbers = Barber::all();
@@ -75,12 +77,14 @@ class MyAppointmentController extends Controller
 
         $selectedBarberId = $request->barber_id;
 
-        if ($selectedBarberId && !Barber::find($request->barber_id)) {
-            return redirect()->route('my-appointments.create.barber');
+        if ($selectedBarberId && (!Barber::find($selectedBarberId) || $selectedBarberId == auth()->user()->barber->id)) {
+            return redirect()->route('my-appointments.create.barber')->with('error','Please select a barber here!');
         }
 
+        $services = Service::where('id','!=',1)->get();
+
         return view('my-appointment.create_service',[
-            'services' => Service::all(),
+            'services' => $services,
             'barber' => $selectedBarberId ? Barber::find($selectedBarberId) : null
         ]);
     }
@@ -91,12 +95,12 @@ class MyAppointmentController extends Controller
             return redirect()->route('login');
         }
 
-        if (!Barber::find($request->barber_id)) {
-            return redirect()->route('my-appointments.create.barber');
+        if (!Barber::find($request->barber_id) || auth()->user()->barber->id == $request->barber_id) {
+            return redirect()->route('my-appointments.create.barber',['service_id' => $request->service_id])->with('error','Please select a barber here!');
         }
 
-        if (!Service::find($request->service_id)) {
-            return redirect()->route('my-appointments.create.service',['barber_id' => $request->barber_id]);
+        if (!Service::find($request->service_id) || $request->service_id == 1) {
+            return redirect()->route('my-appointments.create.service',['barber_id' => $request->barber_id])->with('error','Please select a service here!');
         }
 
         // összes lehetséges időpont

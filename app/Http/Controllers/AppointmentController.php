@@ -17,9 +17,8 @@ class AppointmentController extends Controller
 {
     public function index()
     {
-        $appointments = Appointment::where('barber_id','=',auth()->user()->barber->id)->with([
-            'user','service','barber'
-        ])->withTrashed()->latest()->paginate(10);
+        $appointments = Appointment::where('barber_id','=',auth()->user()->barber->id)
+        ->where('service_id','!=',1)->withTrashed()->latest()->paginate(10);
 
         $calAppointments = Appointment::where('barber_id','=',auth()->user()->barber->id)->with([
             'user','service','barber'
@@ -37,6 +36,7 @@ class AppointmentController extends Controller
             'user','service','barber'
         ])->where('app_start_time','>=',now('Europe/Budapest'))
         ->where('barber_id','=',auth()->user()->barber->id)
+        ->where('service_id','!=',1)
         ->orderBy('app_start_time')->paginate(10);
         
         return view('appointment.index',[
@@ -50,6 +50,7 @@ class AppointmentController extends Controller
             'user','service','barber'
         ])->where('app_start_time','<=',now('Europe/Budapest'))
         ->where('barber_id','=',auth()->user()->barber->id)
+        ->where('service_id','!=',1)
         ->orderBy('app_start_time','desc')->paginate(10);
         
         return view('appointment.index',[
@@ -61,6 +62,7 @@ class AppointmentController extends Controller
     public function indexCancelled() {
         $cancelledAppointments = Appointment::onlyTrashed()->with(['user','service','barber'])
         ->where('barber_id','=',auth()->user()->barber->id)
+        ->where('service_id','!=',1)
         ->orderBy('app_start_time','desc')->paginate(10);
 
         return view('appointment.index',[

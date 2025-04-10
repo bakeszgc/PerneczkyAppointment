@@ -45,6 +45,11 @@ class DatabaseSeeder extends Seeder
         // CREATING THE SERVICES
         $services = [
             [
+                'name' => 'TIMEOFF',
+                'price' => 0,
+                'duration' => 0
+            ],
+            [
                 'name' => 'Haircut',
                 'price' => 7000,
                 'duration' => 45
@@ -113,12 +118,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Kids haircut',
                 'price' => 6000,
                 'duration' => 30
-            ],
-            [
-                'name' => 'TIMEOFF',
-                'price' => 0,
-                'duration' => 0
-            ]
+            ]            
         ];
         foreach ($services as $service) {
             Service::create([

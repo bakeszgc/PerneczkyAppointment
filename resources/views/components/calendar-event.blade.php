@@ -4,10 +4,11 @@ top: " . 53/60 * (\Carbon\Carbon::parse($appointment->app_start_time)->format('G
 height: calc(" . \Carbon\Carbon::parse($appointment->app_start_time)->diffInMinutes(\Carbon\Carbon::parse($appointment->app_end_time)) / 60 * 53 .
 "px); padding: 0.125rem;" }}">
 
-    <a href="{{ route('appointments.show',$appointment) }}">
+    <a href="{{ $appointment->service_id !== 1 ? route('appointments.show',$appointment) : route('time-off.show',$appointment) }}">
         <div @class([
             'bg-blue-100 hover:bg-blue-200 border border-blue-300 transition-all text-blue-600 h-full px-1 max-sm:px-0.5 rounded-md max-lg:translate-y-6 overflow-hidden max-sm:text-xs' => true,
-            'bg-slate-100 hover:bg-slate-200 text-slate-600 border-slate-300' => $appointment->app_start_time < now()
+            'border-dashed bg-green-100 hover:bg-green-200 border-green-600 text-green-600' => $appointment->service_id === 1,
+            'bg-slate-100 hover:bg-slate-200 text-slate-600 border-slate-300' => $appointment->app_start_time < now(),
             ])>
 
             @if (\Carbon\Carbon::parse($appointment->app_start_time)->diffInMinutes(\Carbon\Carbon::parse($appointment->app_end_time)) >= 30)
@@ -15,7 +16,7 @@ height: calc(" . \Carbon\Carbon::parse($appointment->app_start_time)->diffInMinu
                     {{ \Carbon\Carbon::parse($appointment->app_start_time)->format('G:i') }}
                 </span>
                 <span class="font-normal">
-                    {{ $appointment->user->first_name }}
+                    {{ $appointment->service_id !== 1 ? $appointment->user->first_name : 'TIME OFF'}}
                 </span>
             @endif
 

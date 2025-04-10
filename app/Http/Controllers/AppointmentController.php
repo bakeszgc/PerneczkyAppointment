@@ -279,7 +279,7 @@ class AppointmentController extends Controller
             'app_start_hour' => ['required','integer','between:10,19'],
             'app_start_minute' => 'required|integer|multiple_of:15',
             'app_end_date' => ['required','date','after_or_equal:app_start_date'],
-            'app_end_hour' => ['required','between:10,19','integer','gte:app_start_hour'],
+            'app_end_hour' => ['required','between:10,21','integer','gte:app_start_hour'],
             'app_end_minute' => 'required|integer|multiple_of:15',
             'comment' => 'nullable|max:255',
         ]);

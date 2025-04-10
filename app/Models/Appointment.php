@@ -34,4 +34,11 @@ class Appointment extends Model
             return 20;
         }
     }
+
+    public function getDuration() {
+        $start = Carbon::parse($this->app_start_time);
+        $end = Carbon::parse($this->app_end_time);
+
+        return $start->diffInMinutes($end);
+    }
 }

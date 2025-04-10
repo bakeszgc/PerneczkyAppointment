@@ -92,7 +92,7 @@
                     <div class="flex items-center gap-1">
                         <input type="date" name="app_end_date" value="{{ \Carbon\Carbon::parse($appointment->app_end_time)->format('Y-m-d') }}" class="border border-slate-300 rounded-md p-2 max-h-10 w-max flex-1 mr-2">
                         <select name="app_end_hour" class="border border-slate-300 rounded-md p-2 h-full">
-                            @for ($i=10;$i<20;$i++)
+                            @for ($i=10;$i<22;$i++)
                                 <option value="{{ $i }}" {{ $i == \Carbon\Carbon::parse($appointment->app_end_time)->format('G') ? "selected=\"selected\"" : ''}}>{{ $i }}</option>
                             @endfor
                         </select>

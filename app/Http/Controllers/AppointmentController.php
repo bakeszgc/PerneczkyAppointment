@@ -168,7 +168,7 @@ class AppointmentController extends Controller
     {
         $request->validate([
             'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
-            'user_id' => ['required','exists:barbers,id'],
+            'user_id' => ['required','exists:users,id'],
             'service_id' => ['required','exists:services,id'],
             'comment' => ['nullable','string']
         ]);
@@ -262,7 +262,6 @@ class AppointmentController extends Controller
 
         $nextAppointment = Appointment::where('barber_id','=',auth()->user()->barber->id)->where('app_start_time','>=',$appointment->app_end_time)->orderBy('app_start_time')->first();
 
-        // can't edit deleted or previous records
         return view('appointment.edit', [
             'appointment' => $appointment,
             'services' => Service::all(),

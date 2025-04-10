@@ -33,7 +33,7 @@
                 @endif
             </h2>
             <h3 class="font-medium text-lg max-sm:text-sm">
-                Duration: {{-Carbon\Carbon::parse($appointment->app_end_time)->diffInUTCMinutes(Carbon\Carbon::parse($appointment->app_start_time))}} minutes
+                Duration: {{$appointment->getDuration()}} minutes
             </h3>
         </div>
     </div>

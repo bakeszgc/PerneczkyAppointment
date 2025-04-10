@@ -58,7 +58,7 @@
                     <x-calendar-event :appointment="$appointment"/>
                 @endforeach
                 
-                @if (now()->format('G') >= 10 && now()->format('G') <= 22)
+                @if (now()->format('G') >= 10 && now()->format('G') <= 21)
                     <div style="position: absolute; width: 100%; height: 1px; background-color: blue; top: {{ 53/60 * (now()->format('G') * 60 + now()->format('i')) - 486 }}px;">
                     </div>
                 @endif

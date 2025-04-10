@@ -51,16 +51,22 @@ class TimeOffController extends Controller
 
         $barber = auth()->user()->barber;
 
-        // check hogy ne ütközzön semmivel
+        // foglalások amik az új foglalás alatt kezdődnek
         $appointmentsStart = Appointment::where('barber_id','=',$barber->id)
         ->where('app_start_time','>=',$app_start_time)
         ->where('app_start_time','<',$app_end_time)->get();
 
+        // foglalások amik az új foglalás alatt végződnek
         $appointmentsEnd = Appointment::where('barber_id','=',$barber->id)
         ->where('app_end_time','>',$app_start_time)
         ->where('app_end_time','<=',$app_end_time)->get();
 
-        if ($appointmentsStart->count() + $appointmentsEnd->count() != 0) {
+        // foglalások amik az új foglalás előtt kezdődnek de utána végződnek
+        $appointmentsBetween = Appointment::where('barber_id','=',$barber->id)
+        ->where('app_start_time','<=',$app_start_time)
+        ->where('app_end_time','>=',$app_end_time)->get();
+
+        if ($appointmentsStart->count() + $appointmentsEnd->count() + $appointmentsBetween->count() != 0) {
             return redirect()->route('time-off.create')->with('error','You have bookings clashing with the selected timeframe.');
         }
 

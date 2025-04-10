@@ -90,15 +90,16 @@
 
             <div x-show="showDates" x-transition>
                 <div class="grid grid-cols-4 max-lg:grid-cols-1 gap-4 gap-y-8 mt-12 mb-8">
-                    @foreach ($dates as $day => $times)
-                        @if ($day >= 2)
-                            <div>
-                                <h3 class="font-medium text-lg mb-2">
-                                    {{today()->addDays($day)->format('m.d.')}}
-                                    ({{today()->addDays($day)->format('l')}})
-                                </h3>
+                    @for ($i = 2; $i<=13; $i++)
+                    
+                        <div>
+                            <h3 class="font-medium text-lg mb-2">
+                                {{today()->addDays($i)->format('m.d.')}}
+                                ({{today()->addDays($i)->format('l')}})
+                            </h3>
+                            @if (isset($dates[$i]))
                                 <div class="flex flex-wrap gap-2 justify-center">
-                                    @forelse ($times as $time)
+                                    @forelse ($dates[$i] as $time)
                                             <x-button :value="$time->format('Y-m-d G:i')" name="date">
                                                 {{$time->format('G:i')}}
                                             </x-button>
@@ -106,9 +107,13 @@
                                         <p>There are no available dates for this day</p>
                                     @endforelse
                                 </div>
-                            </div>
-                        @endif
-                    @endforeach
+                            @else
+                                <p>There are no available dates for this day</p>
+                            @endif
+                        </div>
+                    
+                    @endfor
+                
                     </form>
                 </div>
             </div>

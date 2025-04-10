@@ -60,33 +60,6 @@ Route::middleware('barber')->group(function() {
 
 });
 
-
-// DASHBOARD
-Route::get('dashboard',function () {
-
-    $upcomingAppointments = Appointment::where('app_start_time','>=',now('Europe/Budapest'))->orderBy('app_start_time')->limit(5)->get();
-
-    $todayIncome = Appointment::whereDate('app_start_time',Carbon::today())->sum('price');
-
-    $past7DaysIncome = Appointment::whereBetween('app_start_time',[
-        Carbon::now('Europe/Budapest')->subDays(7),
-        Carbon::now('Europe/Budapest')
-    ])->sum('price');
-
-    $past30DaysIncome = Appointment::whereBetween('app_start_time',[
-        Carbon::now('Europe/Budapest')->subDays(30),
-        Carbon::now('Europe/Budapest')
-    ])->sum('price');
-
-    return view('dashboard',[
-        'upcomingAppointments' => $upcomingAppointments,
-        'todayIncome' => $todayIncome,
-        'past7DaysIncome' => $past7DaysIncome,
-        'past30DaysIncome' => $past30DaysIncome
-    ]);
-
-})->name('dashboard');
-
 // DEV HOME
 Route::get('/',fn() => view('home'))->name('home');
 

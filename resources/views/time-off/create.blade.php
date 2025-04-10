@@ -74,8 +74,8 @@
             </div>
 
             <div class="flex gap-2 mb-4">
-                <input type="checkbox" x-model="isChecked" id="full-day" name="full-day">
-                <x-label for="full-day">Full day offs</x-label>
+                <input type="checkbox" x-model="isChecked" id="full_day" name="full_day">
+                <x-label for="full_day">Full day offs</x-label>
             </div>
 
             <x-button role="loginMain" :full="true">

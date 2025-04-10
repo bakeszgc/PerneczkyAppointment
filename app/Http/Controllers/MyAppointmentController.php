@@ -77,7 +77,7 @@ class MyAppointmentController extends Controller
 
         $selectedBarberId = $request->barber_id;
 
-        if ($selectedBarberId && (!Barber::find($selectedBarberId) || $selectedBarberId == auth()->user()->barber->id)) {
+        if ($selectedBarberId && !Barber::find($selectedBarberId) || auth()->user()->barber && $selectedBarberId == auth()->user()->barber->id) {
             return redirect()->route('my-appointments.create.barber')->with('error','Please select a barber here!');
         }
 
@@ -95,7 +95,7 @@ class MyAppointmentController extends Controller
             return redirect()->route('login');
         }
 
-        if (!Barber::find($request->barber_id) || auth()->user()->barber->id == $request->barber_id) {
+        if (!Barber::find($request->barber_id) || auth()->user()->barber && $request->barber_id == auth()->user()->barber->id) {
             return redirect()->route('my-appointments.create.barber',['service_id' => $request->service_id])->with('error','Please select a barber here!');
         }
 

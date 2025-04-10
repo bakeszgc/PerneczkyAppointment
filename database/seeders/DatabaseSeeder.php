@@ -113,6 +113,11 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Kids haircut',
                 'price' => 6000,
                 'duration' => 30
+            ],
+            [
+                'name' => 'TIMEOFF',
+                'price' => 0,
+                'duration' => 0
             ]
         ];
         foreach ($services as $service) {

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\MyAppointmentController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TimeOffController;
 use App\Http\Controllers\UserController;
 use App\Models\Appointment;
 use Illuminate\Support\Carbon;
@@ -57,6 +58,9 @@ Route::middleware('barber')->group(function() {
     Route::get('appointments/createDate',[AppointmentController::class,'createDate'])->name('appointments.create.date');
 
     Route::resource('appointments',AppointmentController::class);
+
+    // BARBER TIME OFF
+    Route::resource('time-off',TimeOffController::class);
 
 });
 

@@ -88,21 +88,27 @@ class AppointmentController extends Controller
 
     public function createService(Request $request)
     {
+        // redirect ha nincs a user_id az adatbázisban vagy pont a barber a user_id
         if (!User::find($request->user_id) || $request->user_id === auth()->user()->id) {
             return redirect()->route('appointments.create')->with('error','Please select a valid user from the list!');
         }
-        $services = Service::all();
+
+        $services = Service::where('id','!=',1)->get();
         return view('appointment.create_service',['services' => $services]);
     }
 
     public function createDate(Request $request)
     {
+        // redirect ha nincs a user_id az adatbázisban vagy pont a barber a user_id
         if (!User::find($request->user_id) || $request->user_id === auth()->user()->id) {
             return redirect()->route('appointments.create')->with('error','Please select a valid user from the list!');
         } 
-        if (!Service::find($request->service_id)) {
+        // redirect ha nincs a service_id az adatbázisban vagy a timeoffot választotta
+        if (!Service::find($request->service_id) || $request->service_id == 1) {
             return redirect()->route('appointments.create.service',['user_id' => $request->user_id])->with('error','Please select a valid service from the list');
         }
+
+        $barber = auth()->user()->barber;
 
         // összes lehetséges időpont
         $allDates = [];
@@ -117,9 +123,7 @@ class AppointmentController extends Controller
                 }
             }
         }
-
-        $barber = auth()->user()->barber;
-
+        
         // foglalt app_start_timeok
         $reservedDates = Appointment::where('barber_id','=',$barber->id)->pluck('app_start_time')
         ->map(fn ($time) => Carbon::parse($time))->toArray();

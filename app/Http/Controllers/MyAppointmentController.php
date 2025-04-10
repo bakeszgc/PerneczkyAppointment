@@ -127,7 +127,7 @@ class MyAppointmentController extends Controller
 
             foreach ($appointments as $appointment)
             {
-                $appDuration = $appointment->service->duration;
+                $appDuration = $appointment->getDuration();
                 $serviceDuration = $service->duration;
                 for ($i=0; $i < $appDuration/15; $i++) { 
                     $overlapDates[] = Carbon::parse($date)->clone()->addMinutes($i*15);
@@ -153,8 +153,8 @@ class MyAppointmentController extends Controller
 
         return view('my-appointment.create_date',[
             'dates' => $dates,
-            'barber' => Barber::where('id','=',$request->barber_id)->with('user')->firstOrFail(),
-            'service' => Service::where('id','=',$request->service_id)->firstOrFail()
+            'barber' => Barber::find($request->barber_id),
+            'service' => Service::find($request->service_id)
         ]);
     }
 
@@ -171,30 +171,50 @@ class MyAppointmentController extends Controller
         $duration = Service::findOrFail($request->service_id)->duration;
         $app_end_time = $app_start_time->clone()->addMinutes($duration);
 
-        // double check hogy a timeslot nem e lóg bele egy másik appointmentbe
-        for ($i=0; $i < $duration/15; $i++) { 
-            if (Appointment::where('app_start_time','=',$app_start_time->clone()->addMinutes($i*15))
-            ->where('barber_id','=',$request->barber_id)->get()->isNotEmpty())
-            {
-                return redirect()->route('my-appointments.create.date',['barber_id' => $request->barber_id, 'service_id' => $request->service_id])->with('error','The selected date is not available! Please choose another one!');
-            }
+        // foglalások amik az új foglalás alatt kezdődnek
+        $appointmentsStart = Appointment::where('barber_id','=',$request->barber_id)
+        ->where('app_start_time','>=',$app_start_time)
+        ->where('app_start_time','<',$app_end_time)->get();
+
+        // foglalások amik az új foglalás alatt végződnek
+        $appointmentsEnd = Appointment::where('barber_id','=',$request->barber_id)
+        ->where('app_end_time','>',$app_start_time)
+        ->where('app_end_time','<=',$app_end_time)->get();
+
+        // foglalások amik az új foglalás előtt kezdődnek de utána végződnek
+        $appointmentsBetween = Appointment::where('barber_id','=',$request->barber_id)
+        ->where('app_start_time','<=',$app_start_time)
+        ->where('app_end_time','>=',$app_end_time)->get();
+
+        if ($appointmentsStart->count() + $appointmentsEnd->count() + $appointmentsBetween->count() != 0) {
+            return redirect()->route('my-appointments.create.date',['barber_id' => $request->barber_id, 'service_id' => $request->service_id])->with('error','Your barber has another bookings clashing with the selected timeslot. Please choose another one!');
         }
 
-        // double check hogy a timeslotba nem e lóg bele egy másik appointment
-        for ($i=-1; $i > -6; $i--) {
-            $appointments = Appointment::where('app_start_time','=',$app_start_time->clone()->addMinutes($i*15))
-            ->where('barber_id','=',$request->barber_id)->get();
 
-            if ($appointments->isNotEmpty())
-            {
-                foreach ($appointments as $appointment) {
-                    if ($appointment->app_end_time > $app_start_time) {
-                        return redirect()->route('my-appointments.create.date',['barber_id' => $request->barber_id, 'service_id' => $request->service_id])
-                        ->with('error','The selected date is not available! Please choose another one!');
-                    }
-                }
-            }
-        }
+        // OLD double check hogy a timeslot nem e lóg bele egy másik appointmentbe
+        // for ($i=0; $i < $duration/15; $i++) { 
+        //     if (Appointment::where('app_start_time','=',$app_start_time->clone()->addMinutes($i*15))
+        //     ->where('barber_id','=',$request->barber_id)->get()->isNotEmpty())
+        //     {
+        //         return redirect()->route('my-appointments.create.date',['barber_id' => $request->barber_id, 'service_id' => $request->service_id])->with('error','The selected date is not available! Please choose another one!');
+        //     }
+        // }
+
+        // OLD double check hogy a timeslotba nem e lóg bele egy másik appointment
+        // for ($i=-1; $i > -6; $i--) {
+        //     $appointments = Appointment::where('app_start_time','=',$app_start_time->clone()->addMinutes($i*15))
+        //     ->where('barber_id','=',$request->barber_id)->get();
+
+        //     if ($appointments->isNotEmpty())
+        //     {
+        //         foreach ($appointments as $appointment) {
+        //             if ($appointment->app_end_time > $app_start_time) {
+        //                 return redirect()->route('my-appointments.create.date',['barber_id' => $request->barber_id, 'service_id' => $request->service_id])
+        //                 ->with('error','The selected date is not available! Please choose another one!');
+        //             }
+        //         }
+        //     }
+        // }
 
         $appointment = Appointment::create([
             'user_id' => auth()->user()->id,

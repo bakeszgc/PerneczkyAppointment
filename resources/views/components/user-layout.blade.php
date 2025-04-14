@@ -93,20 +93,15 @@
 
                 <ul class="flex items-center gap-4 max-lg:flex-col">
                     @auth
-                        <li>
-                            <a href="{{ route('users.show',auth()->user()) }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
-                                Account Settings
-                            </a>
-                        </li>
                         @if ($currentView === 'barber')
-                            <li>
-                                <a href="{{ route('time-off.create') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
-                                    Time Off
-                                </a>
-                            </li>
                             <li>
                                 <a href="{{ route('appointments.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
                                     Bookings
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('time-off.create') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
+                                    Time Off
                                 </a>
                             </li>
                         @else
@@ -116,6 +111,11 @@
                                 </a>
                             </li>
                         @endif
+                        <li>
+                            <a href="{{ route('users.show',auth()->user()) }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
+                                Account Settings
+                            </a>
+                        </li>
                         <li>
                             <form action="{{route('logout')}}" method="POST">
                                 @csrf

@@ -46,21 +46,23 @@ class BookingCancellationNotification extends Notification implements ShouldQueu
         if ($this->cancelledBy === 'user') {
             $name = $this->appointment->user->first_name;
             $url = route('appointments.cancelled');
-            $text = 'You can see all of your cancelled bookings here:';
+            $text1 = 'You can see all of your cancelled bookings here:';
             $ctaText = 'Cancelled Bookings';
+            $text2 = 'If you have any questions, need to reschedule, or require assistance, feel free to contact us at email or call us at phonenum.';
         } else {
-            $name = $this->appointment->barber->display_name ?? $this->appointment->user->first_name;
+            $name = $this->appointment->barber->display_name ?? $this->appointment->barber->user->first_name;
             $url = route('my-appointments.create');
-            $text = "Don't forget to book another one here:";
+            $text1 = "Don't forget to book another one here:";
             $ctaText = 'Book a New Appointment';
+            $text2 = 'Try contacting your client about rescheduling this booking.';
         }
 
         return (new MailMessage)
                     ->subject('Your Appointment Has Been Cancelled')
                     ->greeting('Hi '. $notName . ',')
-                    ->line("Unfortunately, {$name} has cancelled your appointment for {$date}. {$text}")
+                    ->line("Unfortunately, {$name} has cancelled your appointment for {$date} {$text1}")
                     ->action($ctaText, $url)
-                    ->line('If you have any questions, need to reschedule, or require assistance, feel free to contact us at email or call us at phonenum.');
+                    ->line($text2);
     }
 
     /**

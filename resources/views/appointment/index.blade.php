@@ -1,7 +1,7 @@
-<x-user-layout title="{{$type}} Appointments - " currentView="barber">
+<x-user-layout title="{{$type}} Bookings - " currentView="barber">
 
     <x-breadcrumbs :links="[
-        'Appointments' => route('appointments.index'),
+        'Bookings' => route('appointments.index'),
         $type => ''
     ]"/>
 
@@ -10,7 +10,7 @@
             @if ($type != null)
                 {{$type}}
             @endif
-            Appointments
+            Bookings
         </x-headline>
         
         <x-link-button :link="route('appointments.create')" role="createMain">Add&nbsp;New</x-link-button>

@@ -1,12 +1,12 @@
 
-<x-user-layout title="{{$appointment->user->first_name}}'s Appointment - " currentView="barber">
+<x-user-layout title="{{$appointment->user->first_name}}'s Booking - " currentView="barber">
     <x-breadcrumbs :links="[
-        'Appointments' => route('appointments.index'),
-        $appointment->user->first_name . '\'s Appointment' => ''
+        'Bookings' => route('appointments.index'),
+        $appointment->user->first_name . '\'s Booking' => ''
     ]"/>
 
     <div class="flex justify-between items-end mb-4">
-        <x-headline>{{$appointment->user->first_name}}'s Appointment</x-headline>
+        <x-headline>{{$appointment->user->first_name}}'s Booking</x-headline>
         <x-link-button :link="route('appointments.create')" role="createMain">Add&nbsp;New</x-link-button>
     </div>
 

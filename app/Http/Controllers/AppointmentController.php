@@ -287,9 +287,11 @@ class AppointmentController extends Controller
 
         $nextAppointment = Appointment::where('barber_id','=',auth()->user()->barber->id)->where('app_start_time','>=',$appointment->app_end_time)->orderBy('app_start_time')->first();
 
+        $services = Service::where('id','!=',1)->get();
+
         return view('appointment.edit', [
             'appointment' => $appointment,
-            'services' => Service::all(),
+            'services' => $services,
             'previous' => $previousAppointment,
             'next' => $nextAppointment
         ]);
@@ -317,13 +319,11 @@ class AppointmentController extends Controller
         }
 
         // időpont validation kell
-        
-        $newPrice = Service::find($request->service)->price;
 
         $appointment->update([
             'service_id' => $request->service,
             'comment' => $request->comment,
-            'price' => $newPrice,
+            'price' => $request->price,
             'app_start_time' => $app_start_time,
             'app_end_time' => $app_end_time
         ]);

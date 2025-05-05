@@ -15,11 +15,33 @@
             selectedServiceId: {{ $appointment->service_id }},
             servicePrice: {{ $appointment->price }},
 
-            updateServicePrice() {
+            appStartDate: '{{ \Carbon\Carbon::parse($appointment->app_start_time)->format('Y-m-d') }}',
+            appEndDate: '{{ \Carbon\Carbon::parse($appointment->app_end_time)->format('Y-m-d') }}',
+            appStartHour: {{ \Carbon\Carbon::parse($appointment->app_start_time)->hour }},
+            appEndHour: {{ \Carbon\Carbon::parse($appointment->app_end_time)->hour }},
+            appStartMinute: {{ \Carbon\Carbon::parse($appointment->app_start_time)->minute }},
+            appEndMinute: {{ \Carbon\Carbon::parse($appointment->app_end_time)->minute }},
+
+            diffInHours: 1,
+
+            updateService() {
                 const selectedService = this.services.find(service => service.id == this.selectedServiceId);
                 this.servicePrice = selectedService ? selectedService.price : '';
+
+                if (selectedService) {
+                    const totalMinutes = (this.appStartHour * 60 + this.appStartMinute) + selectedService.duration;
+                    this.appEndHour = Math.floor(totalMinutes / 60) % 24; // Ensure hour is within 24-hour format
+                    this.appEndMinute = totalMinutes % 60;
+                }
+            },
+
+            adjustEndDate() {
+                const start = new Date(this.appStartDate);
+                const end = new Date(this.appEndDate);
+                const duration = end - start;
+                this.appEndDate = new Date(new Date(this.appStartDate).getTime() + duration).toISOString().split('T')[0];
             }
-        }" x-init="updateServicePrice()">
+        }">
             <h1 class="font-bold text-2xl max-sm:text-lg mb-4">
                 {{$appointment->user->first_name . " " . $appointment->user->last_name}} #{{$appointment->id}}
             </h1>
@@ -33,7 +55,7 @@
                         <label for="service" class=" font-bold text-lg">
                             Service
                         </label>
-                        <select name="service" id="service" class="border border-slate-300 rounded-md p-2 w-full" x-model="selectedServiceId" @change="updateServicePrice()">
+                        <select name="service" id="service" class="border border-slate-300 rounded-md p-2 w-full" x-model="selectedServiceId" @change="updateService()">
                             @foreach ($services as $service)
                                 <option value="{{ $service->id }}" {{ $service->id == $appointment->service_id ? 'selected' : '' }}>
                                     {{ $service->name }}
@@ -62,13 +84,15 @@
                         </label>
 
                         <div class="flex items-center gap-1">
-                            <input type="date" name="app_start_date" id="app_start_date" value="{{ \Carbon\Carbon::parse($appointment->app_start_time)->format('Y-m-d') }}" class="border border-slate-300 rounded-md p-2 max-h-10 w-max flex-1 mr-2">
-                            <select name="app_start_hour" class="border border-slate-300 rounded-md p-2 h-full">
+                            <input type="date" name="app_start_date" id="app_start_date" x-model="appStartDate" value="{{ \Carbon\Carbon::parse($appointment->app_start_time)->format('Y-m-d') }}" class="border border-slate-300 rounded-md p-2 max-h-10 w-max flex-1 mr-2" @change="
+                            appEndDate = (new Date(appStartDate)).toISOString().split('T')[0]" />
+                            <select name="app_start_hour" x-model="appStartHour" class="border border-slate-300 rounded-md p-2 h-full" @change="
+                            appEndHour = parseInt(appStartHour) + parseInt(diffInHours);">
                                 @for ($i=10;$i<20;$i++)
                                     <option value="{{ $i }}" {{ $i == \Carbon\Carbon::parse($appointment->app_start_time)->format('G') ? "selected=\"selected\"" : ''}}>{{ $i }}</option>
                                 @endfor
                             </select>
-                            <select name="app_start_minute" class="border border-slate-300 rounded-md p-2 h-full">
+                            <select name="app_start_minute" x-model="appStartMinute" class="border border-slate-300 rounded-md p-2 h-full">
                                 @for ($i=0;$i<60;$i+=15)
                                     <option value="{{ $i }}" {{ $i == \Carbon\Carbon::parse($appointment->app_start_time)->format('i') ? "selected=\"selected\"" : ''}}>{{ $i == 0 ? '00' : $i}}</option>
                                 @endfor
@@ -77,9 +101,9 @@
 
                         <p>
                             @if ($previous->app_end_time >= \Carbon\Carbon::parse($appointment->app_end_time)->startOfDay())
-                                Your previous booking ends at {{\Carbon\Carbon::parse($previous->app_end_time)->format('G:i')}} on this day
+                                Your previous booking ends at {{\Carbon\Carbon::parse($previous->app_end_time)->format('G:i')}} on {{\Carbon\Carbon::parse($previous->app_end_time)->format('jS F')}}
                             @else
-                                You don't have any previous bookings on this day
+                                You don't have any previous bookings on {{\Carbon\Carbon::parse($appointment->app_end_time)->format('jS F')}}
                             @endif
                         </p>
 
@@ -100,13 +124,15 @@
                         </label>
 
                         <div class="flex items-center gap-1">
-                            <input type="date" name="app_end_date" value="{{ \Carbon\Carbon::parse($appointment->app_end_time)->format('Y-m-d') }}" class="border border-slate-300 rounded-md p-2 max-h-10 w-max flex-1 mr-2">
-                            <select name="app_end_hour" class="border border-slate-300 rounded-md p-2 h-full">
+                            <input type="date" name="app_end_date" x-model="appEndDate" value="{{ \Carbon\Carbon::parse($appointment->app_end_time)->format('Y-m-d') }}" class="border border-slate-300 rounded-md p-2 max-h-10 w-max flex-1 mr-2" @change="
+                            appStartDate = (new Date(appEndDate)).toISOString().split('T')[0]" />
+                            <select name="app_end_hour" x-model="appEndHour" class="border border-slate-300 rounded-md p-2 h-full" @change="
+                            diffInHours = appEndHour - appStartHour;">
                                 @for ($i=10;$i<22;$i++)
                                     <option value="{{ $i }}" {{ $i == \Carbon\Carbon::parse($appointment->app_end_time)->format('G') ? "selected=\"selected\"" : ''}}>{{ $i }}</option>
                                 @endfor
                             </select>
-                            <select name="app_end_minute" class="border border-slate-300 rounded-md p-2 h-full">
+                            <select name="app_end_minute" x-model="appEndMinute" class="border border-slate-300 rounded-md p-2 h-full">
                                 @for ($i=0;$i<60;$i+=15)
                                     <option value="{{ $i }}" {{ $i == \Carbon\Carbon::parse($appointment->app_end_time)->format('i') ? "selected=\"selected\"" : ''}}>
                                         {{ $i == 0 ? '00' : $i}}
@@ -117,9 +143,9 @@
 
                         <p>
                             @if ($next->app_start_time <= \Carbon\Carbon::parse($appointment->app_end_time)->addDay()->startOfDay())
-                                Your next booking starts at {{\Carbon\Carbon::parse($next->app_start_time)->format('G:i')}} on this day
+                                Your next booking starts at {{\Carbon\Carbon::parse($next->app_start_time)->format('G:i')}} on {{\Carbon\Carbon::parse($next->app_start_time)->format('jS F')}}
                             @else
-                                You don't have any upcoming bookings on this day
+                                You don't have any upcoming bookings on {{\Carbon\Carbon::parse($appointment->app_start_time)->format('jS F')}}
                             @endif
                         </p>
                         @error('app_end_date')
@@ -154,7 +180,6 @@
                     </x-button>
                     </form>
                 </div>
-        
         </div>
     </x-card>
 </x-user-layout>

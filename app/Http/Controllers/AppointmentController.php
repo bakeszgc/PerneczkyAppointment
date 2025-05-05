@@ -313,12 +313,33 @@ class AppointmentController extends Controller
 
         $app_start_time = Carbon::parse($request->app_start_date . " " . $request->app_start_hour . ":" . $request->app_start_minute);
         $app_end_time = Carbon::parse($request->app_end_date . " " . $request->app_end_hour . ":" . $request->app_end_minute);
+        $barber = auth()->user()->barber;
 
         if ($app_start_time >= $app_end_time) {
             return redirect()->route('appointments.edit',$appointment)->with('error',"The booking's ending time has to be later than its starting time");
         }
 
-        // időpont validation kell
+        // foglalások amik az új foglalás alatt kezdődnek
+        $appointmentsStart = Appointment::where('barber_id','=',$barber->id)
+        ->where('app_start_time','>=',$app_start_time)
+        ->where('app_start_time','<',$app_end_time)
+        ->where('id','!=',$appointment->id)->get();
+
+        // foglalások amik az új foglalás alatt végződnek
+        $appointmentsEnd = Appointment::where('barber_id','=',$barber->id)
+        ->where('app_end_time','>',$app_start_time)
+        ->where('app_end_time','<=',$app_end_time)
+        ->where('id','!=',$appointment->id)->get();
+
+        // foglalások amik az új foglalás előtt kezdődnek de utána végződnek
+        $appointmentsBetween = Appointment::where('barber_id','=',$barber->id)
+        ->where('app_start_time','<=',$app_start_time)
+        ->where('app_end_time','>=',$app_end_time)
+        ->where('id','!=',$appointment->id)->get();
+
+        if ($appointmentsStart->count() + $appointmentsEnd->count() + $appointmentsBetween->count() != 0) {
+            return redirect()->route('appointments.edit',$appointment)->with('error','You have another bookings clashing with the selected timeslot. Please choose another one!');
+        }
 
         $appointment->update([
             'service_id' => $request->service,

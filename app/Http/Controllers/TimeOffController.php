@@ -102,12 +102,9 @@ class TimeOffController extends Controller
         return view('time-off.show',['appointment' => $time_off]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Appointment $time_off)
     {
-        //
+        return view('time-off.edit',['appointment' => $time_off]);
     }
 
     /**

@@ -104,12 +104,11 @@ class TimeOffController extends Controller
 
     public function edit(Appointment $time_off)
     {
+
+        //előző és következő időpontok
         return view('time-off.edit',['appointment' => $time_off]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         //
@@ -118,8 +117,9 @@ class TimeOffController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Appointment $time_off)
     {
-        //
+        $time_off->delete();
+        return redirect()->route('appointments.index')->with('success','Time off has been cancelled successfully!');
     }
 }

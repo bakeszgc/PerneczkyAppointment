@@ -13,7 +13,7 @@
             Bookings
         </x-headline>
         
-        <x-link-button :link="route('appointments.create')" role="createMain">Add&nbsp;New</x-link-button>
+        <x-link-button :link="route('appointments.create')" role="createMain">New&nbsp;Booking</x-link-button>
     </div>
 
     <div class="grid grid-cols-4 max-sm:grid-cols-2 gap-2 mb-4 p-2 rounded-md bg-slate-300 text-center text-lg font-bold">

@@ -7,7 +7,7 @@
 
     <div class="flex justify-between items-end mb-4">
         <x-headline>{{$appointment->user->first_name}}'s Booking</x-headline>
-        <x-link-button :link="route('appointments.create')" role="createMain">Add&nbsp;New</x-link-button>
+        <x-link-button :link="route('appointments.create')" role="createMain">New&nbsp;Booking</x-link-button>
     </div>
 
     <x-appointment-card :appointment="$appointment" access="barber" class="mb-8">

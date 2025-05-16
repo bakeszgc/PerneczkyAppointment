@@ -140,7 +140,7 @@ class DatabaseSeeder extends Seeder
         for ($i=0; $i < 200; $i++) { 
             $randomUser = $users->shuffle()->first();
             $randomBarber = Barber::inRandomOrder()->first();
-            $randomService = Service::inRandomOrder()->first();
+            $randomService = Service::where('id','!=',1)->inRandomOrder()->first();
 
             $date = Carbon::today()->addDays(rand(-7,30));
             $time = $timeslots[array_rand($timeslots)];

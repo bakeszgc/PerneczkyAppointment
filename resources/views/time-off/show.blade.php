@@ -6,7 +6,7 @@
 
     <div class="flex justify-between items-end mb-4">
         <x-headline>{{ $appointment->barber->display_name ?? $appointment->barber->user->first_name}}'s Time Off</x-headline>
-        <x-link-button :link="route('time-off.create')" role="createMain">Add&nbsp;New</x-link-button>
+        <x-link-button :link="route('time-off.create')" role="createMain">New&nbsp;Time&nbsp;Off</x-link-button>
     </div>
 
     <x-card>

@@ -8,9 +8,6 @@ use Illuminate\Http\Request;
 
 class TimeOffController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         //
@@ -105,7 +102,15 @@ class TimeOffController extends Controller
     public function edit(Appointment $time_off)
     {
         //előző és következő időpontok
-        return view('time-off.edit',['appointment' => $time_off]);
+        $previousAppointment = Appointment::where('barber_id','=',auth()->user()->barber->id)->where('app_end_time','<=',$time_off->app_start_time)->orderByDesc('app_end_time')->first();
+
+        $nextAppointment = Appointment::where('barber_id','=',auth()->user()->barber->id)->where('app_start_time','>=',$time_off->app_end_time)->orderBy('app_start_time')->first();
+
+        return view('time-off.edit',[
+            'appointment' => $time_off,
+            'previous' => $previousAppointment,
+            'next' => $nextAppointment
+        ]);
     }
 
     public function update(Request $request, Appointment $time_off)

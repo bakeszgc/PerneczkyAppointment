@@ -148,6 +148,7 @@
                                 You don't have any upcoming bookings on {{\Carbon\Carbon::parse($appointment->app_start_time)->format('jS F')}}
                             @endif
                         </p>
+                        
                         @error('app_end_date')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror

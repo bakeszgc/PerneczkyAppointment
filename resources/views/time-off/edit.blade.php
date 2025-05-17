@@ -55,6 +55,14 @@
                         </select>
                     </div>
 
+                    <p>
+                        @if ($previous->app_end_time >= \Carbon\Carbon::parse($appointment->app_end_time)->startOfDay())
+                            Your previous booking ends at {{\Carbon\Carbon::parse($previous->app_end_time)->format('G:i')}} on {{\Carbon\Carbon::parse($previous->app_end_time)->format('jS F')}}
+                        @else
+                            You don't have any previous bookings on {{\Carbon\Carbon::parse($appointment->app_end_time)->format('jS F')}}
+                        @endif
+                    </p>
+
                     @error('app_start_date')
                         <p class=" text-red-500">{{$message}}</p>
                     @enderror
@@ -95,6 +103,14 @@
                             @endfor
                         </select>
                     </div>
+
+                    <p>
+                        @if ($next->app_start_time <= \Carbon\Carbon::parse($appointment->app_end_time)->addDay()->startOfDay())
+                            Your next booking starts at {{\Carbon\Carbon::parse($next->app_start_time)->format('G:i')}} on {{\Carbon\Carbon::parse($next->app_start_time)->format('jS F')}}
+                        @else
+                            You don't have any upcoming bookings on {{\Carbon\Carbon::parse($appointment->app_start_time)->format('jS F')}}
+                        @endif
+                    </p>
 
                     @error('app_end_date')
                         <p class=" text-red-500">{{$message}}</p>

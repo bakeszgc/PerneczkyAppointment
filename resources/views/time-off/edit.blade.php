@@ -23,6 +23,7 @@
                 app_start_hour: {{ \Carbon\Carbon::parse($appointment->app_start_time)->hour }},
                 app_end_date: '{{ \Carbon\Carbon::parse($appointment->app_end_time)->format('Y-m-d') }}',
                 app_end_hour: {{ \Carbon\Carbon::parse($appointment->app_end_time)->hour }},
+                diff_in_days: {{ \Carbon\Carbon::parse($appointment->app_end_time)->startOfDay()->diffInDays(\Carbon\Carbon::parse($appointment->app_end_time)->startOfDay()) }},
                 diff_in_hours: {{ \Carbon\Carbon::parse($appointment->app_end_time)->hour - \Carbon\Carbon::parse($appointment->app_start_time)->hour }},
                 hour_options: Array.from({ length: 10 }, (_, i) => i + 10)}">
                 <div class="flex flex-col">
@@ -31,7 +32,8 @@
                     </label>
 
                     <div class="flex items-center gap-1">
-                        <input type="date" name="app_start_date" id="app_start_date" x-model="app_start_date" class="border border-slate-300 rounded-md p-2 max-h-10 w-max flex-1 mr-2" @change="app_end_date = (new Date(app_start_date)).toISOString().split('T')[0]" />
+                        <input type="date" name="app_start_date" id="app_start_date" x-model="app_start_date" class="border border-slate-300 rounded-md p-2 max-h-10 w-max flex-1 mr-2" @change="
+                        app_end_date = (new Date(new Date(app_start_date).setDate(new Date(app_start_date).getDate() + diff_in_days))).toISOString().split('T')[0]" />
 
                         <select name="app_start_hour" x-bind:disabled="isChecked" x-model="app_start_hour" class="border border-slate-300 rounded-md p-2 h-full" @change="
                         app_end_hour = parseInt(app_start_hour) + diff_in_hours;
@@ -70,7 +72,7 @@
                     </label>
 
                     <div class="flex items-center gap-1">
-                        <input type="date" name="app_end_date" id="app_end_date" x-model="app_end_date" class="border border-slate-300 rounded-md p-2 max-h-10 w-max flex-1 mr-2" @change="app_start_date = (new Date(app_end_date)).toISOString().split('T')[0]" />
+                        <input type="date" name="app_end_date" id="app_end_date" x-model="app_end_date" class="border border-slate-300 rounded-md p-2 max-h-10 w-max flex-1 mr-2" @change="diff_in_days = Math.ceil((new Date(app_end_date) - new Date(app_start_date)) / (1000 * 60 * 60 * 24));">
 
                         <select name="app_end_hour" x-bind:disabled="isChecked" x-model="app_end_hour" class="border border-slate-300 rounded-md p-2 h-full" @change="
                         diff_in_hours = app_end_hour - app_start_hour;">

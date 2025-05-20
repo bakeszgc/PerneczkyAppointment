@@ -68,7 +68,7 @@
     @endif
     
     @forelse ($appointments as $appointment)
-        <x-appointment-card :appointment="$appointment" access="barber" class="mb-4"/>
+        <x-appointment-card :appointment="$appointment" :showDetails="true" access="barber" class="mb-4"/>
     @empty
         <div class="text-center w-full rounded-md p-8 border border-dashed border-slate-500">
             <p class="text-lg font-medium">You don't have any {{ lcfirst($type) }} appointments!</p>

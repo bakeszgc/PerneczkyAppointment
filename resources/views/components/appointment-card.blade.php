@@ -1,7 +1,7 @@
 <x-card {{$attributes->merge(['class' => ' transition-all'])}}>
-    <div @class(['flex justify-between' => true, 'text-slate-500' => $appointment->deleted_at])>
+    <div @class(['flex justify-between' => true, 'text-slate-500' => $appointment->deleted_at || $appointment->app_start_time < now()])>
         <div>
-            <h2 class="font-bold text-2xl max-sm:text-lg mb-1 flex items-center gap-2">
+            <h2 @class(['font-bold text-2xl max-sm:text-lg mb-1 flex items-center gap-2' => true, 'text-blue-600 hover:text-blue-800' => $appointment->app_start_time >= now() && !$appointment->deleted_at ])>
                 <a href="{{ $access === 'barber' ? route('appointments.show',['appointment' => $appointment]) : route('my-appointments.show',['my_appointment' => $appointment]) }}"
                 @class(['line-through' => $appointment->deleted_at])>
                     {{$appointment->user->first_name . " " . $appointment->user->last_name}} #{{$appointment->id}}
@@ -25,26 +25,31 @@
         <div class="text-right">
             <h2 class="font-bold text-2xl max-sm:text-lg mb-1">
                 @if (Carbon\Carbon::parse($appointment->app_start_time)->isToday())
-                    Today {{Carbon\Carbon::parse($appointment->app_start_time)->format('G:i')}}
+                    Today
                 @elseif (Carbon\Carbon::parse($appointment->app_start_time)->isTomorrow())
-                    Tomorrow {{Carbon\Carbon::parse($appointment->app_start_time)->format('G:i')}}
+                    Tomorrow
                 @elseif (Carbon\Carbon::parse($appointment->app_start_time)->isYesterday())
                     Yesterday
                 @else
-                    {{Carbon\Carbon::parse($appointment->app_start_time)->format('Y.m.d. G:i')}}
+                    {{Carbon\Carbon::parse($appointment->app_start_time)->format('Y.m.d.')}}
                 @endif
             </h2>
             <h3 class="font-medium text-lg max-sm:text-sm">
-                Duration: {{$appointment->getDuration()}} minutes
+                {{ $appointment->getDuration() >= 600 ? 'Full day' : Carbon\Carbon::parse($appointment->app_start_time)->format('G:i') . ' - ' . Carbon\Carbon::parse($appointment->app_end_time)->format('G:i') }}
             </h3>
+            <h4 class="text-base max-sm:text-sm">
+                {{ $appointment->getDuration() . ' minutes' }}
+            </h4>
         </div>
     </div>
 
     <div class="flex gap-2 mt-4">
-
-        <x-link-button :link="$access === 'barber' ? route('appointments.show',['appointment' =>$appointment]) : route('my-appointments.show',['my_appointment' => $appointment])" role="show">
-            Details
-        </x-link-button>
+        
+        @if($showDetails)
+            <x-link-button :link="$access === 'barber' ? route('appointments.show',['appointment' =>$appointment]) : route('my-appointments.show',['my_appointment' => $appointment])" role="show">
+                Details
+            </x-link-button>
+        @endif
         
         @if ($appointment->app_start_time >= now('Europe/Budapest') && !$appointment->deleted_at)
             @if ($access === 'barber')

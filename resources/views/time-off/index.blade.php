@@ -1,7 +1,8 @@
 <x-user-layout title="{{ $type }} Time Offs - " currentView="barber">
 
     <x-breadcrumbs :links="[
-        'Time Offs' => route('time-offs.index')
+        'Time Offs' => route('time-offs.index'),
+        $type => ''
     ]"/>
 
     <div class="flex justify-between items-end mb-4">
@@ -17,6 +18,10 @@
         <a href="{{ route('time-offs.upcoming') }}" @class(['p-2 rounded-md hover:bg-white transition-all' => $type != 'Upcoming', 'p-2 rounded-md bg-white' => $type == 'Upcoming'])>Upcoming</a>
         <a href="{{ route('time-offs.previous') }}" @class(['p-2 rounded-md hover:bg-white transition-all' => $type != 'Previous', 'p-2 rounded-md bg-white' => $type == 'Previous'])>Previous</a>
     </div>
+
+    @if ($type === 'All')
+        <x-calendar :calAppointments="$calAppointments" class="mb-4"></x-calendar>
+    @endif
 
     @forelse ($timeoffs as $timeoff)
         <x-time-off-card :appointment="$timeoff" :showDetails="true" class="mb-4"/>

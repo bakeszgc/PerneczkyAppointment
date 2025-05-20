@@ -14,6 +14,8 @@
 
     'bg-red-600 hover:bg-red-800 text-white' => $role === 'destroyMain',
 
+    'bg-green-600 hover:bg-green-800 text-white' => $role === 'timeoffMain',
+
     'bg-slate-50 hover:bg-slate-200 border-slate-300 text-slate-700' => $role === 'show' || $role === 'edit' || $role === '',
 
     'w-full' => $full
@@ -23,6 +25,7 @@
 @switch($role)
         @case('create')
         @case('createMain')
+        @case('timeoffMain')
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 max-sm:size-4">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
             </svg>

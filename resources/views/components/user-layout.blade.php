@@ -100,7 +100,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('time-off.create') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
+                                <a href="{{ route('time-off.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
                                     Time Off
                                 </a>
                             </li>

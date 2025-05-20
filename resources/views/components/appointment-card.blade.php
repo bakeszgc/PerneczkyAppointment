@@ -28,6 +28,8 @@
                     Today {{Carbon\Carbon::parse($appointment->app_start_time)->format('G:i')}}
                 @elseif (Carbon\Carbon::parse($appointment->app_start_time)->isTomorrow())
                     Tomorrow {{Carbon\Carbon::parse($appointment->app_start_time)->format('G:i')}}
+                @elseif (Carbon\Carbon::parse($appointment->app_start_time)->isYesterday())
+                    Yesterday
                 @else
                     {{Carbon\Carbon::parse($appointment->app_start_time)->format('Y.m.d. G:i')}}
                 @endif
@@ -39,10 +41,10 @@
     </div>
 
     <div class="flex gap-2 mt-4">
-            <x-link-button :link="$access === 'barber' ? route('appointments.show',['appointment' => $appointment]) : route('my-appointments.show',['my_appointment' => $appointment])" role="show">
-                Details
-            </x-link-button>
-        
+
+        <x-link-button :link="$access === 'barber' ? route('appointments.show',['appointment' =>$appointment]) : route('my-appointments.show',['my_appointment' => $appointment])" role="show">
+            Details
+        </x-link-button>
         
         @if ($appointment->app_start_time >= now('Europe/Budapest') && !$appointment->deleted_at)
             @if ($access === 'barber')

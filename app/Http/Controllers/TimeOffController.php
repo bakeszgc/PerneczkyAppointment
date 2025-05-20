@@ -10,7 +10,13 @@ class TimeOffController extends Controller
 {
     public function index()
     {
-        //
+        $timeoffs = Appointment::where('service_id','=',1)
+            ->where('barber_id','=',auth()->user()->barber->id)
+            ->where('app_start_time','>',now())
+            ->orderBy('app_start_time','desc')
+        ->paginate(10);
+
+        return view('time-off.index',['timeoffs' => $timeoffs, 'type' => 'Upcoming']);
     }
 
     public function create()
@@ -81,7 +87,7 @@ class TimeOffController extends Controller
                 $timeOffEnd = $app_start_time->clone()->startOfDay()->addHours(20)->addDays($i);
             }
 
-            Appointment::create([
+            $time_off = Appointment::create([
                 'user_id' => $barber->user_id,
                 'barber_id' => $barber->id,
                 'service_id' => 1,
@@ -91,7 +97,7 @@ class TimeOffController extends Controller
             ]);
         }
 
-        return redirect()->route('appointments.index')->with('success', 'Time off created successfully! Enjoy your well deserved rest!');
+        return redirect()->route('time-off.show',$time_off)->with('success', 'Time off created successfully! Enjoy your well deserved rest!');
     }
 
     public function show(Appointment $time_off)

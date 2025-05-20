@@ -60,7 +60,7 @@ Route::middleware('barber')->group(function() {
     Route::resource('appointments',AppointmentController::class);
 
     // BARBER TIME OFF
-    Route::resource('time-off',TimeOffController::class)->only(['show','create','store','edit','update','destroy']);
+    Route::resource('time-off',TimeOffController::class);
 
 });
 

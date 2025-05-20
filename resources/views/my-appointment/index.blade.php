@@ -10,15 +10,6 @@
         <x-link-button :link="route('my-appointments.create')" role="createMain">Book now</x-link-button>
     </div>
 
-    <!-- <div class="flex gap-4 mb-4">
-        <x-link-button :link="route('my-appointments.index')" :full="true" :role="$type === 'Upcoming' ? 'active' : ''">
-            Upcoming
-        </x-link-button>
-        <x-link-button :link="route('my-appointments.index.previous')" :full="true" :role="$type === 'Previous' ? 'active' : ''">
-            Previous
-        </x-link-button>
-    </div> -->
-
     <div class="grid grid-cols-2 gap-2 mb-4 p-2 rounded-md bg-slate-300 text-center text-lg font-bold">
         <a href="{{ route('my-appointments.index') }}" @class(['p-2 rounded-md hover:bg-white transition-all' => $type == 'Previous', 'p-2 rounded-md bg-white' => $type == 'Upcoming'])>Upcoming</a>
         <a href="{{ route('my-appointments.index.previous') }}" @class(['p-2 rounded-md hover:bg-white transition-all' => $type == 'Upcoming', 'p-2 rounded-md bg-white' => $type == 'Previous'])>Previous</a>

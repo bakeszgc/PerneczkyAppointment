@@ -6,11 +6,11 @@ height: calc(" . $appointment->getDuration() / 60 * 53 .
 
     <a href="{{ $appointment->service_id !== 1 ? route('appointments.show',$appointment) : route('time-offs.show',$appointment) }}">
         <div @class([
-            'bg-blue-100 hover:bg-blue-200 border border-blue-300 transition-all text-blue-600 h-full px-1 max-sm:px-0.5 rounded-md max-lg:translate-y-6 overflow-hidden max-sm:text-xs',
-            'border-dashed bg-green-100 hover:bg-green-200 border-green-600 text-green-600' => $appointment->service_id == 1,
-            'border-l-4' => $appointment->service_id !== 1,
+            'border border-l-4 transition-all h-full px-1 max-sm:px-0.5 rounded-md max-lg:translate-y-6 overflow-hidden max-sm:text-xs',
             'bg-slate-100 hover:bg-slate-200 text-slate-600 border-slate-300' => $appointment->app_start_time < now(),
-            ])>
+            'bg-green-100 hover:bg-green-200 border-green-400 text-green-600' => $appointment->app_start_time >= now() && $appointment->service_id == 1,
+            'bg-blue-100 hover:bg-blue-200 border-blue-300 text-blue-600' => $appointment->app_start_time >= now() && $appointment->service_id != 1
+        ])>
 
             @if ($appointment->getDuration() >= 30)
                 <span class="font-bold">

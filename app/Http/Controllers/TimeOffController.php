@@ -229,6 +229,6 @@ class TimeOffController extends Controller
     public function destroy(Appointment $time_off)
     {
         $time_off->delete();
-        return redirect()->route('appointments.index')->with('success','Time off has been cancelled successfully!');
+        return redirect()->route('time-offs.index')->with('success','Time off has been cancelled successfully!');
     }
 }

@@ -203,31 +203,6 @@ class AppointmentController extends Controller
             return redirect()->route('appointments.create.date',['user_id' => $request->user_id, 'service_id' => $request->service_id])->with('error','You have another bookings clashing with the selected timeslot. Please choose another one!');
         }
 
-        // OLD double check hogy a timeslot nem e lóg bele egy másik appointmentbe
-        // for ($i=0; $i < $duration/15; $i++) { 
-        //     if (Appointment::where('app_start_time','=',$app_start_time->clone()->addMinutes($i*15))
-        //     ->where('barber_id','=',$barber->id)->get()->isNotEmpty())
-        //     {
-        //         return redirect()->route('appointments.create.date',['user_id' => $request->user_id, 'service_id' => $request->service_id])->with('error','The selected date is not available! Please choose another one!');
-        //     }
-        // }
-
-        // OLD double check hogy a timeslotba nem e lóg bele egy másik appointment
-        // for ($i=-1; $i > -6; $i--) {
-        //     $appointments = Appointment::where('app_start_time','=',$app_start_time->clone()->addMinutes($i*15))
-        //     ->where('barber_id','=',$barber->id)->get();
-
-        //     if ($appointments->isNotEmpty())
-        //     {
-        //         foreach ($appointments as $appointment) {
-        //             if ($appointment->app_end_time > $app_start_time) {
-        //                 return redirect()->route('appointments.create.date',['user_id' => $request->user_id, 'service_id' => $request->service_id])
-        //                 ->with('error','The selected date is not available! Please choose another one!');
-        //             }
-        //         }
-        //     }
-        // }
-
         $appointment = Appointment::create([
             'user_id' => $request->user_id,
             'barber_id' => auth()->user()->barber->id,
@@ -247,6 +222,10 @@ class AppointmentController extends Controller
     
     public function show(Appointment $appointment)
     {
+        if ($appointment->barber->id !== auth()->user()->barber->id) {
+            return redirect()->route('appointments.index')->with('error',"You can't view other barbers' bookings.");
+        }
+
         $upcoming = Appointment::where('user_id','=',$appointment->user_id)->where('app_start_time','>=',now())->count();
         $previous = Appointment::where('user_id','=',$appointment->user_id)->where('app_start_time','<=',now())->count();
         $cancelled = Appointment::onlyTrashed()->where('user_id','=',$appointment->user_id)->count();

@@ -2,7 +2,7 @@
     <div @class(['flex justify-between' => true, 'text-slate-500' => $appointment->deleted_at || $appointment->app_start_time < now()])>
         <div>
             <h2 class="font-bold text-2xl max-sm:text-lg mb-1 flex items-center gap-2">
-                <a href="{{ route('time-off.show',$appointment) }}"
+                <a href="{{ route('time-offs.show',$appointment) }}"
                 @class(['line-through' => $appointment->deleted_at])>
                     {{$appointment->user->first_name . " " . $appointment->user->last_name}} #{{$appointment->id}}
                 </a>
@@ -33,15 +33,15 @@
     </div>
     <div class="flex gap-2 mt-4">
         @if ($showDetails)
-            <x-link-button :link="route('time-off.show',$appointment)" role="show">
+            <x-link-button :link="route('time-offs.show',$appointment)" role="show">
                 Details
             </x-link-button>
         @endif
         @if ($appointment->app_start_time >= now('Europe/Budapest') && !$appointment->deleted_at)
-            <x-link-button :link="route('time-off.edit',$appointment)" role="edit">
+            <x-link-button :link="route('time-offs.edit',$appointment)" role="edit">
                 Edit
             </x-link-button>
-            <form action="{{route('time-off.destroy',$appointment) }}" method="POST">
+            <form action="{{route('time-offs.destroy',$appointment) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <x-button role="destroy">

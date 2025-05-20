@@ -60,7 +60,9 @@ Route::middleware('barber')->group(function() {
     Route::resource('appointments',AppointmentController::class);
 
     // BARBER TIME OFF
-    Route::resource('time-off',TimeOffController::class);
+    Route::get('time-offs/upcoming', [TimeOffController::class,'indexUpcoming'])->name('time-offs.upcoming');
+    Route::get('time-offs/previous', [TimeOffController::class,'indexPrevious'])->name('time-offs.previous');
+    Route::resource('time-offs',TimeOffController::class);
 
 });
 

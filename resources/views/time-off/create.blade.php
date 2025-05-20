@@ -7,7 +7,7 @@
     </x-headline>
 
     <x-card class="mb-4">
-        <form action="{{ route('time-off.store') }}" method="POST" x-data="{ isChecked: false }">
+        <form action="{{ route('time-offs.store') }}" method="POST" x-data="{ isChecked: false }">
             @csrf
             <div class="mb-2 grid grid-cols-2 max-sm:grid-cols-1 gap-2" x-data="{
                 app_start_date: (new Date()).toISOString().split('T')[0],

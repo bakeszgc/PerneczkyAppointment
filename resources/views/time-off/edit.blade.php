@@ -1,13 +1,13 @@
 <x-user-layout title="Editing Time Off - " currentView="barber">
     <x-breadcrumbs :links="[
-        'Bookings' => route('appointments.index'),
-        'My Time Off' => route('time-off.show',$appointment),
+        'Time Offs' => route('time-offs.index'),
+        'My Time Off' => route('time-offs.show',$appointment),
         'Edit' => ''
     ]"/>
 
     <div class="flex justify-between items-end mb-4">
         <x-headline>Editing {{ $appointment->barber->display_name ?? $appointment->barber->user->first_name}}'s Time Off</x-headline>
-        <x-link-button :link="route('time-off.create')" role="createMain">Add&nbsp;New</x-link-button>
+        <x-link-button :link="route('time-offs.create')" role="createMain">Add&nbsp;New</x-link-button>
     </div>
 
     <x-card class="mb-4">
@@ -15,7 +15,7 @@
             {{$appointment->user->first_name . " " . $appointment->user->last_name}} #{{$appointment->id}}
         </h1>
 
-        <form action="{{ route('time-off.update',$appointment) }}" method="POST" x-data="{ isChecked: {{ $appointment->getDuration() >= 600 ? 'true' : 'false' }} }">
+        <form action="{{ route('time-offs.update',$appointment) }}" method="POST" x-data="{ isChecked: {{ $appointment->getDuration() >= 600 ? 'true' : 'false' }} }">
             @csrf
             @method('PUT')
             <div class="mb-2 grid grid-cols-2 max-sm:grid-cols-1 gap-2" x-data="{

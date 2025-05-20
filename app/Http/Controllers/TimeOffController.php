@@ -12,11 +12,31 @@ class TimeOffController extends Controller
     {
         $timeoffs = Appointment::where('service_id','=',1)
             ->where('barber_id','=',auth()->user()->barber->id)
-            ->where('app_start_time','>',now())
-            ->orderBy('app_start_time','desc')
+            ->latest()
+        ->paginate(10);
+
+        return view('time-off.index',['timeoffs' => $timeoffs, 'type' => 'All']);
+    }
+
+    public function indexUpcoming()
+    {
+        $timeoffs = Appointment::where('service_id','=',1)
+            ->where('barber_id','=',auth()->user()->barber->id)
+            ->where('app_start_time','>=',now())
+            ->orderBy('app_start_time')
         ->paginate(10);
 
         return view('time-off.index',['timeoffs' => $timeoffs, 'type' => 'Upcoming']);
+    }
+
+    public function indexPrevious() {
+        $timeoffs = Appointment::where('service_id','=',1)
+            ->where('barber_id','=',auth()->user()->barber->id)
+            ->where('app_start_time','<',now())
+            ->orderBy('app_start_time','desc')
+        ->paginate(10);
+
+        return view('time-off.index',['timeoffs' => $timeoffs, 'type' => 'Previous']);
     }
 
     public function create()
@@ -42,14 +62,14 @@ class TimeOffController extends Controller
 
         // app start time nagyobb mint az app end time
         if ($app_start_time > $app_end_time) {
-            return redirect()->route('time-off.create')->with('error',"The ending time of your time off has to be later than its starting time");
+            return redirect()->route('time-offs.create')->with('error',"The ending time of your time off has to be later than its starting time");
         }
 
         // app start time vagy app end time kisebb mint most
         if ($app_start_time < now()) {
-            return redirect()->route('time-off.create')->with('error',"The starting time of your time off cannot be in the past!");
+            return redirect()->route('time-offs.create')->with('error',"The starting time of your time off cannot be in the past!");
         } elseif ($app_end_time < now()) {
-            return redirect()->route('time-off.create')->with('error',"The ending time of your time off cannot be in the past!");
+            return redirect()->route('time-offs.create')->with('error',"The ending time of your time off cannot be in the past!");
         }
 
         $barber = auth()->user()->barber;
@@ -70,7 +90,7 @@ class TimeOffController extends Controller
         ->where('app_end_time','>=',$app_end_time)->get();
 
         if ($appointmentsStart->count() + $appointmentsEnd->count() + $appointmentsBetween->count() != 0) {
-            return redirect()->route('time-off.create')->with('error','You have bookings clashing with the selected timeframe.');
+            return redirect()->route('time-offs.create')->with('error','You have bookings clashing with the selected timeframe.');
         }
 
         // minden napra külön létrehozni time off appointmentet
@@ -97,7 +117,7 @@ class TimeOffController extends Controller
             ]);
         }
 
-        return redirect()->route('time-off.show',$time_off)->with('success', 'Time off created successfully! Enjoy your well deserved rest!');
+        return redirect()->route('time-offs.show',$time_off)->with('success', 'Time off created successfully! Enjoy your well deserved rest!');
     }
 
     public function show(Appointment $time_off)
@@ -137,14 +157,14 @@ class TimeOffController extends Controller
 
         // handling when app start time is later than app end time
         if ($app_start_time > $app_end_time) {
-            return redirect()->route('time-off.edit',$time_off)->with('error',"The ending time of your time off has to be later than its starting time");
+            return redirect()->route('time-offs.edit',$time_off)->with('error',"The ending time of your time off has to be later than its starting time");
         }
 
         // handling when app start time or app end time is in the past
         if ($app_start_time < now()) {
-            return redirect()->route('time-off.edit',$time_off)->with('error',"The starting time of your time off cannot be in the past!");
+            return redirect()->route('time-offs.edit',$time_off)->with('error',"The starting time of your time off cannot be in the past!");
         } elseif ($app_end_time < now()) {
-            return redirect()->route('time-off.edit',$time_off)->with('error',"The ending time of your time off cannot be in the past!");
+            return redirect()->route('time-offs.edit',$time_off)->with('error',"The ending time of your time off cannot be in the past!");
         }
 
         $barber = auth()->user()->barber;
@@ -169,7 +189,7 @@ class TimeOffController extends Controller
 
         // redirect with an error message if there are any clashing appointments
         if ($appointmentsStart + $appointmentsEnd + $appointmentsBetween != 0) {
-            return redirect()->route('time-off.edit',$time_off)->with('error','You have bookings clashing with the selected timeframe.');
+            return redirect()->route('time-offs.edit',$time_off)->with('error','You have bookings clashing with the selected timeframe.');
         }
 
         // handling when time off takes more than one day
@@ -203,7 +223,7 @@ class TimeOffController extends Controller
             'app_end_time' => $app_end_time
         ]);
 
-        return redirect()->route('time-off.show',$time_off)->with('success','Time off has been updated successfully!');
+        return redirect()->route('time-offs.show',$time_off)->with('success','Time off has been updated successfully!');
     }
 
     public function destroy(Appointment $time_off)

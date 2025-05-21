@@ -60,12 +60,14 @@ class UserController extends Controller
         $showProfile = $request->showProfile ?? true;
         $showPicture = $request->showPassword ?? false;
         $showPassword = $request->showPassword ?? false;
+        $showDestroy = $request->showPassword ?? false;
 
         return view('user.show',[
             'user' => $user,
             'showPassword' => $showPassword,
             'showProfile' => $showProfile,
-            'showPicture' => $showPicture
+            'showPicture' => $showPicture,
+            'showDestroy' => $showDestroy
         ]);
     }
 

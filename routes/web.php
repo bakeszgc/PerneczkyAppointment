@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function(){
 
     // USER
     Route::put('users/{user}/update-password',[UserController::class,'updatePassword'])->name('users.update-password');
-    Route::resource('users',UserController::class)->only('show','update');
+    Route::resource('users',UserController::class)->only('show','update','destroy');
 
     // EMAIL VERIFICATION
     Route::get('/email/verify', [AuthController::class,'notice'])->name('verification.notice');

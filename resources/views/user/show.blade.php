@@ -111,7 +111,7 @@
                     </div>
                 </div>
                 
-                <div class="flex-grow-0 pr-8">
+                <div class="flex-grow-0">
                     <span class="font-semibold text-base">Your password must contain</span>
                     <ul class="list-disc *:ml-6 mb-4">
                         <li>
@@ -131,6 +131,13 @@
                 </div>
             </div>
             <x-button role="loginMain" :full="true">Change Password</x-button>
+        </form>
+    </x-show-card>
+
+    <x-show-card :show="$showDestroy" type="destroy" class="mb-4">
+        <p class="mb-4">By deleting your account you will not be able to book upcoming appointments or access your previous bookings. Are you sure you want to proceed?</p>
+        <form action="{{ route('users.destroy',$user) }}">
+            <x-button role="destroyMain">Delete my account</x-button>
         </form>
     </x-show-card>
 </x-user-layout>

@@ -21,8 +21,10 @@
             <div class="mb-2 grid grid-cols-2 max-sm:grid-cols-1 gap-2" x-data="{
                 app_start_date: '{{ \Carbon\Carbon::parse($appointment->app_start_time)->format('Y-m-d') }}',
                 app_start_hour: {{ \Carbon\Carbon::parse($appointment->app_start_time)->hour }},
+                app_start_minute: {{ \Carbon\Carbon::parse($appointment->app_start_time)->minute }},
                 app_end_date: '{{ \Carbon\Carbon::parse($appointment->app_end_time)->format('Y-m-d') }}',
                 app_end_hour: {{ \Carbon\Carbon::parse($appointment->app_end_time)->hour }},
+                app_end_minute: {{ \Carbon\Carbon::parse($appointment->app_end_time)->minute }},
                 diff_in_days: {{ \Carbon\Carbon::parse($appointment->app_end_time)->startOfDay()->diffInDays(\Carbon\Carbon::parse($appointment->app_end_time)->startOfDay()) }},
                 diff_in_hours: {{ \Carbon\Carbon::parse($appointment->app_end_time)->hour - \Carbon\Carbon::parse($appointment->app_start_time)->hour }},
                 hour_options: Array.from({ length: 10 }, (_, i) => i + 10)}">

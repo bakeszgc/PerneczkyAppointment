@@ -53,16 +53,19 @@ class UserController extends Controller
 
         $request->validate([
             'showProfile' => 'nullable|boolean',
+            'showPicture' => 'nullable|boolean',
             'showPassword' => 'nullable|boolean'
         ]);
 
         $showProfile = $request->showProfile ?? true;
+        $showPicture = $request->showPassword ?? false;
         $showPassword = $request->showPassword ?? false;
 
         return view('user.show',[
             'user' => $user,
             'showPassword' => $showPassword,
-            'showProfile' => $showProfile
+            'showProfile' => $showProfile,
+            'showPicture' => $showPicture
         ]);
     }
 

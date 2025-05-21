@@ -3,8 +3,8 @@
         'Account Settings' => ''
     ]" />
     <h1 class="font-extrabold text-4xl mb-4">Account Settings</h1>
-    <x-card class="mb-4">
-        <form id="verification" action="{{ route('verification.send') }}" method="POST"></form>
+
+    <x-card class="mb-6">
         <form action="{{ route('users.update',$user) }}" method="POST">
             @csrf
             @method('PUT')
@@ -76,21 +76,79 @@
                             @enderror
                         </div>
 
-                        
-                        
-                        <div class="flex flex-col col-span-1">
-                            <x-label for="password">Password</x-label>
-                            <p>Want to change your password? <a href="">Click here!</a></p>
-                        </div>
                     </div>
                 </div>
             </div>
-            <div class="mb-2">
+            <div>
                 <x-button role="loginMain" :full="true">Save Changes</x-button>
             </div>
-            <div class="text-center">
-                <a href="" class=" text-red-500 font-bold hover:underline">Delete your account</a>
-            </div>
         </form>
+    </x-card>
+
+    <x-card x-data="{open: {{ $showPassword ? 'true' : 'false' }}}" class="mb-4">
+        <div class="flex justify-between items-center cursor-pointer transition-all" @click="open = !open">
+            <h2 class="text-xl font-bold flex gap-2 items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z" />
+                </svg>
+                <span>Change your password</span>
+            </h2>
+            <div class="hover:bg-blue-100 transition-all rounded-full p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" x-bind:class="!open ? 'size-6 transition-all' : 'rotate-180 size-6 transition-all'">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5"/>
+                </svg>
+            </div>
+        </div>
+
+        <form action="{{ route('users.update-password',auth()->user()->id) }}" method="POST" x-show="open" x-transition>
+            @csrf
+            @method('PUT')
+            <div class="flex gap-4 mt-4 mb-4">
+                <div class="flex-grow">
+                    <div class="flex flex-col mb-2">
+                        <x-label for="password">Your current password*</x-label>
+                        <x-input-field type="password" name="password" id="password"/>
+                        @error('password')
+                            <p class=" text-red-500">{{$message}}</p>
+                        @enderror
+                    </div>
+                    <div class="flex flex-col mb-2">
+                        <x-label for="new_password">Your new password*</x-label>
+                        <x-input-field type="password" name="new_password" id="new_password"/>
+                        @error('new_password')
+                            <p class=" text-red-500">{{$message}}</p>
+                        @enderror
+                    </div>
+                    <div class="flex flex-col">
+                        <x-label for="new_password_confirmation">Your new password again*</x-label>
+                        <x-input-field type="password" name="new_password_confirmation" id="new_password_confirmation"/>
+                        @error('new_password_confirmation')
+                            <p class=" text-red-500">{{$message}}</p>
+                        @enderror
+                    </div>
+                </div>
+                
+                <div class="flex-grow-0 pr-8">
+                    <span class="font-semibold text-base">Your password must contain</span>
+                    <ul class="list-disc *:ml-6 mb-4">
+                        <li>
+                            at least one <span class="font-semibold">undercase letter</span>
+                        </li>
+                        <li>
+                            at least one <span class="font-semibold">uppercase letter</span>
+                        </li>
+                        <li>
+                            at least one <span class="font-semibold">number</span>
+                        </li>
+                        <li>
+                            and be at least <span class="font-semibold">8 characters long</span>
+                        </li>
+                    </ul>
+                    Fields marked with * are <span class="font-semibold">required</span>
+                </div>
+            </div>
+            <x-button role="loginMain" :full="true">Change Password</x-button>
+        </form>
+
     </x-card>
 </x-user-layout>

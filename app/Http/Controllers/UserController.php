@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
+use Validator;
 
 class UserController extends Controller
 {
@@ -44,12 +45,25 @@ class UserController extends Controller
         return redirect()->route('my-appointments.index')->with('success','Your account has been created successfully! Please verify your email address before booking an appointment!');
     }
 
-    public function show(User $user)
+    public function show(Request $request, User $user)
     {
         if (auth()->user()->id != $user->id) {
             return redirect()->route('users.show',auth()->user())->with('error','Sorry! You are not authorized to access that page.');
         }
-        return view('user.show',['user' => $user]);
+
+        $request->validate([
+            'showProfile' => 'nullable|boolean',
+            'showPassword' => 'nullable|boolean'
+        ]);
+
+        $showProfile = $request->showProfile ?? true;
+        $showPassword = $request->showPassword ?? false;
+
+        return view('user.show',[
+            'user' => $user,
+            'showPassword' => $showPassword,
+            'showProfile' => $showProfile
+        ]);
     }
 
     public function update(Request $request, User $user)
@@ -94,5 +108,24 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function updatePassword(Request $request, User $user)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|current_password:web',
+            'new_password' => ['required',Password::min(8)->mixedCase()->numbers()],
+            'new_password_confirmation' => 'required|same:new_password'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('users.show',['user' => $user, 'showPassword' => true])->withErrors($validator);
+        }
+
+        $user->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        return redirect()->route('users.show',['user' => $user->id])->with('success','Your password has been changed successfully!');
     }
 }

@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function(){
     Route::delete('logout',[AuthController::class, 'destroy'])->name('logout');
 
     // USER
+    Route::put('users/{user}/update-password',[UserController::class,'updatePassword'])->name('users.update-password');
     Route::resource('users',UserController::class)->only('show','update');
 
     // EMAIL VERIFICATION

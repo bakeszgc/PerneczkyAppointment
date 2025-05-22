@@ -62,7 +62,9 @@ class MyAppointmentController extends Controller
             return redirect()->route('my-appointments.create.service')->with('error','Please select a service here!');
         }
 
-        $barbers = Barber::all();
+        $barbers = Barber::when(auth()->user()->barber() != null, function($q) {
+            return $q->where('id','!=',auth()->user()->barber->id);
+        })->get();
 
         return view('my-appointment.create_barber',[
             'barbers' => $barbers,
@@ -193,32 +195,6 @@ class MyAppointmentController extends Controller
         if ($appointmentsStart->count() + $appointmentsEnd->count() + $appointmentsBetween->count() != 0) {
             return redirect()->route('my-appointments.create.date',['barber_id' => $request->barber_id, 'service_id' => $request->service_id])->with('error','Your barber has another bookings clashing with the selected timeslot. Please choose another one!');
         }
-
-
-        // OLD double check hogy a timeslot nem e lóg bele egy másik appointmentbe
-        // for ($i=0; $i < $duration/15; $i++) { 
-        //     if (Appointment::where('app_start_time','=',$app_start_time->clone()->addMinutes($i*15))
-        //     ->where('barber_id','=',$request->barber_id)->get()->isNotEmpty())
-        //     {
-        //         return redirect()->route('my-appointments.create.date',['barber_id' => $request->barber_id, 'service_id' => $request->service_id])->with('error','The selected date is not available! Please choose another one!');
-        //     }
-        // }
-
-        // OLD double check hogy a timeslotba nem e lóg bele egy másik appointment
-        // for ($i=-1; $i > -6; $i--) {
-        //     $appointments = Appointment::where('app_start_time','=',$app_start_time->clone()->addMinutes($i*15))
-        //     ->where('barber_id','=',$request->barber_id)->get();
-
-        //     if ($appointments->isNotEmpty())
-        //     {
-        //         foreach ($appointments as $appointment) {
-        //             if ($appointment->app_end_time > $app_start_time) {
-        //                 return redirect()->route('my-appointments.create.date',['barber_id' => $request->barber_id, 'service_id' => $request->service_id])
-        //                 ->with('error','The selected date is not available! Please choose another one!');
-        //             }
-        //         }
-        //     }
-        // }
 
         $appointment = Appointment::create([
             'user_id' => auth()->user()->id,

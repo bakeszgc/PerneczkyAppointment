@@ -1,4 +1,6 @@
 import './bootstrap';
+
+// RELLAX BG
 import Rellax from 'rellax';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -13,4 +15,64 @@ const rellax = new Rellax('.rellax-bg', {
     breakpoints: {
         576: true, // Disable Rellax below 576px
     },
+});
+
+// CROPPER.JS
+import Cropper from 'cropperjs';
+import 'cropperjs/dist/cropper.css'
+
+let cropper;
+document.addEventListener('DOMContentLoaded', () => {
+
+    const imageInput = document.getElementById('selectedImg');
+    const submitButton = document.getElementById('submit');
+    const cropButton = document.getElementById('crop');
+
+    imageInput.addEventListener('change', () => {
+        submitButton.setAttribute("disabled","");
+
+        if (typeof cropper != 'undefined') {
+            console.log("Destroy previous cropper");
+            cropper.destroy();
+            cropper = null;
+        }
+
+        const file = imageInput.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const imgResult = e.target.result;
+
+                const image = document.getElementById('image');
+                image.src = imgResult;
+
+                cropper = new Cropper(image, {
+                    aspectRatio: 1,
+                    viewMode: 3,
+                    minCropBoxWidth: 100,
+                    minCropBoxHeight: 100,
+                    crop(event) {
+                        submitButton.setAttribute("disabled","");
+                    },
+                    preview: '.preview'
+                });
+                cropButton.removeAttribute("hidden","");
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    cropButton.addEventListener("click", function() {
+        let canvas = cropper.getCroppedCanvas();
+
+        canvas.toBlob(function (blob) {
+            const file = new File([blob], 'croppedImage.png',{type: blob.type});
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            
+            const croppedImageInput = document.querySelector("input[name='croppedImg']");
+            croppedImageInput.files = dataTransfer.files;
+            submitButton.removeAttribute("disabled","");
+        });
+    });
 });

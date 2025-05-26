@@ -65,6 +65,8 @@ Route::middleware('barber')->group(function() {
     Route::get('time-offs/previous', [TimeOffController::class,'indexPrevious'])->name('time-offs.previous');
     Route::resource('time-offs',TimeOffController::class);
 
+    // BARBER PROFILE PICTURE
+    Route::post('/upload-cropped',[UserController::class,'uploadCropped'])->name('upload-cropped');
 });
 
 // DEV HOME

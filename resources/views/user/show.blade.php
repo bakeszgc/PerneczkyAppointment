@@ -76,11 +76,62 @@
     </x-show-card>
 
     <x-show-card :show="$showPicture" type="picture" class="mb-4">
-        <div>
-            <img src="{{ asset('pfp/blank.png') }}" alt="profile picture" class=" h-64 max-md:w-full max-md:h-auto border-2 border-blue-500 rounded-md mb-2">
-            <input type="file">
+        <div class="grid grid-cols-2">
+
+        
+            <div class="flex">
+                <div>
+                    <h3 class="font-bold text-lg">Your current profile picture</h3>
+                    <div class="relative w-fit group cursor-pointer">
+                        <img src="{{ asset('pfp/blank.png') }}" alt="" class="w-40 border border-slate-500 group-hover:blur-sm transition-all">
+                        <div class="absolute w-full h-full top-0 flex items-center justify-center group-hover:bg-black group-hover:bg-opacity-75 transition-all">
+                            <label for="selectedImg">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="size-6 opacity-0 group-hover:opacity-100 transition-all cursor-pointer">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
+                                </svg>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div>
+                <p class="mb-1">This picture of you will appear on the homepage and during the appointment booking process. Please take into account the followings before modifying your image:</p>
+                <ul class="list-disc *:ml-6 mb-4">
+                        <li>
+                            The picture needs to be cropped to a 1:1 (square) aspect ratio
+                        </li>
+                        <li>
+                            The uploaded file cannot be bigger than 2 MB.
+                        </li>
+                    </ul>
+            </div>
         </div>
+        <div>
+            <div class="preview w-40 h-40 overflow-hidden">
+            </div>
+            
+            <div>
+                <form action="/upload-cropped" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" id="selectedImg" class="form-control" accept="image/*" hidden>
+                    <input type="file" id="croppedImg" name="croppedImg" class="form-control" hidden>
+                    <button type="submit" id="submit" class="my-2 btn btn-primary" disabled>Save</button>
+                </form>
+                <img src="" alt="" id="image">
+                <button id="crop" class="my-2 btn btn-primary" hidden>Crop</button>
+            </div>
+        </div>
+        <button id="openModal">open</button>
     </x-show-card>
+
+    <div class="modal" id="modal">
+        <p>check check</p>
+        <button id="closeModal">close</button>
+    </div>
+    
+    <script type="text/javascript" src="{{ asset('storage/js/cropper.js') }}"></script>
 
     <x-show-card :show="$showPassword" type="password" class="mb-4">
         <form action="{{ route('users.update-password',auth()->user()->id) }}" method="POST" >

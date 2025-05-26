@@ -15,6 +15,7 @@
         "vite": "^6.0"
     },
     "dependencies": {
+        "cropperjs": "^1.6.2",
         "rellax": "^1.12.1"
     }
 }

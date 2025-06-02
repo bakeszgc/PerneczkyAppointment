@@ -28,6 +28,6 @@ class PictureController extends Controller
                 'pfp_path' => $avatarName
             ]);
         }
-        return redirect()->back()->with('success','Your profile picture has been updated successfully!');
+        return redirect()->route('users.show',['user' => auth()->user(), 'showPicture' => true])->with('success','Your profile picture has been updated successfully!');
     }
 }

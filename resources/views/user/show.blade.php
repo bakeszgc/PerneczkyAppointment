@@ -135,25 +135,21 @@
         </form>
     </x-show-card>
 
-    <div class="fixed top-0 left-0 right-0 bottom-0 z-50 hidden items-center justify-center p-4 bg-black bg-opacity-50" id="cropModal">
-        <div>
-            <x-card class="max-w-4xl mb-4">
-                <div class="flex justify-between items-center mb-4">
-                    <h1 class="text-xl font-bold">Crop your photo</h1>
-                    <div id="closeModal" class="hover:bg-blue-100 transition-all rounded-full p-2 cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                        </svg>
-                    </div>
-                </div>
-                <img src="" alt="" id="image" class="max-w-xl max-h-[50vh]">
-                <div class="flex gap-2 mt-4">
-                    <x-button id="crop" :hidden="true" role="ctaMain">Crop</x-button>
-                    <x-button id="reset" :hidden="true">Reset</x-button>
-                </div>
-            </x-card>
+    <x-modal id="cropModal">
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="text-xl font-bold">Crop your photo</h1>
+            <div id="closeModal" class="hover:bg-blue-100 transition-all rounded-full p-2 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>
+            </div>
         </div>
-    </div>
+        <img src="" alt="" id="image" class="max-w-xl max-h-[50vh]">
+        <div class="flex gap-2 mt-4">
+            <x-button id="crop" :hidden="true" role="ctaMain">Crop</x-button>
+            <x-button id="reset" :hidden="true">Reset</x-button>
+        </div>
+    </x-modal>
     @endif
 
     <x-show-card :show="$showPassword" type="password" class="mb-4">

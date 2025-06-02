@@ -135,17 +135,5 @@ class UserController extends Controller
         return redirect()->route('users.show',['user' => $user->id])->with('success','Your password has been changed successfully!');
     }
 
-    public function uploadCropped(Request $request) {
-        $request->validate([
-            'croppedImg' => 'required|image|mimes:png,jpg,jpeg,gif|max:2048'
-        ]);
-
-        if ($request->hasFile('croppedImg')) {
-            $avatarName = '_avatar' . time() . '.' . request()->croppedImg->getClientOriginalExtension();
-            $request->croppedImg->storeAs('public/pfp', $avatarName);
-            $avatarPath = $avatarName;
-        }
-
-        return redirect()->back()->with('success','asd');
-    }
+    
 }

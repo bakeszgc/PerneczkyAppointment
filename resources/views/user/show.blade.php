@@ -82,14 +82,14 @@
                     <h3 class="font-bold text-lg" id="currentPfpTitle">Your current profile picture</h3>
                     <div class="relative w-fit group cursor-pointer ">
                         <img src="{{ asset('pfp/blank.png') }}" alt="" class="w-40 border border-slate-500 group-hover:blur-sm transition-all">
-                        <div class="absolute w-full h-full top-0 flex items-center justify-center group-hover:bg-black group-hover:bg-opacity-75 transition-all">
-                            <label for="selectedImg">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="size-6 opacity-0 group-hover:opacity-100 transition-all cursor-pointer">
+                        <label for="selectedImg" class="cursor-pointer">
+                            <div class="absolute w-full h-full top-0 flex items-center justify-center group-hover:bg-black group-hover:bg-opacity-75 transition-all">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"stroke-width="1.5" stroke="white" class="size-6 opacity-0 group-hover:opacity-100 transition-all cursor-pointer z-20">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
                                 </svg>
-                            </label>
-                        </div>
+                            </div>
+                        </label>
                     </div>
                 </div>
                 
@@ -108,14 +108,17 @@
         </div>
         
         <div>
-            <form action="{{ route('upload-cropped') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('upload-cropped') }}" name="pictureForm" method="post" enctype="multipart/form-data">
                 @csrf
                 <input type="file" id="selectedImg" class="form-control" accept="image/*" hidden>
                 <input type="file" id="croppedImg" name="croppedImg" class="form-control" hidden>
-                <button type="submit" id="submit" class="my-2 btn btn-primary" disabled>Save</button>
+                <div id="submitDiv" hidden>
+                    <x-button id="submit" :hidden="true" role="ctaMain">Save Changes</x-button>
+                </div>
+                
             </form>
         </div>
-        <button id="openModal">open</button>
+        <!-- <button id="openModal">open</button> -->
     </x-show-card>
 
     <div class="fixed top-0 left-0 right-0 bottom-0 z-50 hidden items-center justify-center p-4 bg-black bg-opacity-50" id="cropModal">

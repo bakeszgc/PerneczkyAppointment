@@ -17,7 +17,7 @@
     'bg-slate-50 hover:bg-slate-200 border-slate-300 text-slate-700' => $role === 'show' || $role === 'edit' || $role === '',
 
     'w-full' => $full
-]) value="{{ $value ?? '' }}" name="{{ $name ?? '' }}" type="{{ $role === 'reset' ? 'reset' : '' }}" {{ $id ? "id=" . $id  : '' }} {{ $hidden ? 'hidden' : '' }}>
+]) {{ $value ? "value=" . $value : '' }} {{ $name ? "name=" . $name : '' }} {{ $role === 'reset' ? "type=reset" : '' }} {{ $id ? "id=" . $id  : '' }} {{ $hidden ? 'hidden' : '' }} {{ $disabled ? 'disabled' : '' }}>
 
     @switch($role)
         @case('create')

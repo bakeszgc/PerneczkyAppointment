@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\MyAppointmentController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\TimeOffController;
-use App\Http\Controllers\UserController;
 use App\Models\Appointment;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\PictureController;
+use App\Http\Controllers\TimeOffController;
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\MyAppointmentController;
 
 // AUTH
 Route::get('login', [AuthController::class, 'create'])->name('login');
@@ -66,7 +67,7 @@ Route::middleware('barber')->group(function() {
     Route::resource('time-offs',TimeOffController::class);
 
     // BARBER PROFILE PICTURE
-    Route::post('/upload-cropped',[UserController::class,'uploadCropped'])->name('upload-cropped');
+    Route::post('/upload-cropped',[PictureController::class,'uploadCropped'])->name('upload-cropped');
 });
 
 // DEV HOME

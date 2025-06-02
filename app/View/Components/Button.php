@@ -14,7 +14,8 @@ class Button extends Component
         public ?string $id,
         public string $role = '',
         public bool $full = false,
-        public bool $hidden = false
+        public bool $hidden = false,
+        public bool $disabled = false
     ) { }
 
     /**

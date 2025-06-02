@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cropButton = document.getElementById('crop');
     const resetButton = document.getElementById('reset');
     const cropModal = document.getElementById('cropModal');
+    const submitDiv = document.getElementById('submitDiv');
 
     imageInput.addEventListener('change', () => {
         submitButton.setAttribute("disabled","");
@@ -80,6 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const croppedImageInput = document.querySelector("input[name='croppedImg']");
             croppedImageInput.files = dataTransfer.files;
             submitButton.removeAttribute("disabled","");
+            submitDiv.removeAttribute("hidden","");
         });
         
         title.innerHTML = "Your updated profile picture";

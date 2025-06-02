@@ -62,7 +62,7 @@ class MyAppointmentController extends Controller
             return redirect()->route('my-appointments.create.service')->with('error','Please select a service here!');
         }
 
-        $barbers = Barber::when(auth()->user()->barber() != null, function($q) {
+        $barbers = Barber::when(auth()->user()->barber != null, function($q) {
             return $q->where('id','!=',auth()->user()->barber->id);
         })->get();
 

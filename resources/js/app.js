@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resetButton = document.getElementById('reset');
     const cropModal = document.getElementById('cropModal');
     const submitDiv = document.getElementById('submitDiv');
+    const currentPfp = document.getElementById('currentPfp');
 
     imageInput.addEventListener('change', () => {
         submitButton.setAttribute("disabled","");
@@ -58,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     crop(event) {
                         submitButton.setAttribute("disabled","");
                     },
-                    // preview: '.preview'
+                    preview: '.preview'
                 });
                 cropButton.removeAttribute("hidden","");
                 resetButton.removeAttribute("hidden","");
@@ -75,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         canvas.toBlob(function (blob) {
             const file = new File([blob], 'croppedImage.png',{type: blob.type});
-            const dataTransfer = new DataTransfer();
+            const dataTransfer = new DataTransfer();            
             dataTransfer.items.add(file);
             
             const croppedImageInput = document.querySelector("input[name='croppedImg']");
@@ -95,11 +96,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // modal
 document.addEventListener('DOMContentLoaded', () => {
-    const openButton = document.getElementById('openModal');
+    // const openButton = document.getElementById('openModal');
     const closeButton = document.getElementById('closeModal');
     const cropModal = document.getElementById('cropModal');
 
-    openButton.addEventListener('click', () => { toggleElement(cropModal); });
+    // openButton.addEventListener('click', () => { toggleElement(cropModal); });
     closeButton.addEventListener('click', () => { toggleElement(cropModal); });
 });
 

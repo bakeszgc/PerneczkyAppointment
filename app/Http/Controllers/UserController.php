@@ -59,7 +59,7 @@ class UserController extends Controller
         ]);
 
         $showProfile = $request->showProfile ?? true;
-        $showPicture = $request->showPicture ?? true;
+        $showPicture = $request->showPicture ?? false;
         $showPassword = $request->showPassword ?? false;
         $showDestroy = $request->showDestroy ?? false;
 

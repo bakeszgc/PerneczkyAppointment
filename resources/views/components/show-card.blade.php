@@ -1,4 +1,4 @@
-<x-card {{ $attributes->merge(['class' => '']) }} x-data="{open: {{ $show ? 'true' : 'false' }}}" class="mb-4">
+<x-card {{ $attributes->merge(['class' => '']) }} x-data="{open: {{ $show ? 'true' : 'false' }}}">
     <div class="flex justify-between items-center cursor-pointer transition-all" @click="open = !open">
         <h2 class="text-xl font-bold flex gap-2 items-center">
             @switch($type)
@@ -35,7 +35,7 @@
         </div>
     </div>
 
-    <div x-show="open" x-transition class="mt-4 px-8">
+    <div x-show="open" x-transition class="mt-4 px-8 pb-8">
         {{ $slot }}
     </div>
 </x-card>

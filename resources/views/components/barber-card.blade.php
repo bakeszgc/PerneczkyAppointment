@@ -1,4 +1,4 @@
-<x-card class="border border-blue-600 rounded-md flex gap-4 p-4">
+<x-card class="flex gap-4">
     <div>
         <img src="{{ asset('pfp/blank.png') }}" alt="{{$barber->display_name ?? $barber->user->first_name}}" class="h-40">
     </div>

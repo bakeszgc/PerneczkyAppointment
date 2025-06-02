@@ -76,13 +76,11 @@
     </x-show-card>
 
     <x-show-card :show="$showPicture" type="picture" class="mb-4">
-        <div class="grid grid-cols-2">
-
-        
+        <div class="grid grid-cols-2">        
             <div class="flex">
                 <div>
-                    <h3 class="font-bold text-lg">Your current profile picture</h3>
-                    <div class="relative w-fit group cursor-pointer">
+                    <h3 class="font-bold text-lg" id="currentPfpTitle">Your current profile picture</h3>
+                    <div class="relative w-fit group cursor-pointer ">
                         <img src="{{ asset('pfp/blank.png') }}" alt="" class="w-40 border border-slate-500 group-hover:blur-sm transition-all">
                         <div class="absolute w-full h-full top-0 flex items-center justify-center group-hover:bg-black group-hover:bg-opacity-75 transition-all">
                             <label for="selectedImg">
@@ -108,30 +106,37 @@
                     </ul>
             </div>
         </div>
+        
         <div>
-            <div class="preview w-40 h-40 overflow-hidden">
-            </div>
-            
-            <div>
-                <form action="/upload-cropped" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <input type="file" id="selectedImg" class="form-control" accept="image/*" hidden>
-                    <input type="file" id="croppedImg" name="croppedImg" class="form-control" hidden>
-                    <button type="submit" id="submit" class="my-2 btn btn-primary" disabled>Save</button>
-                </form>
-                <img src="" alt="" id="image">
-                <button id="crop" class="my-2 btn btn-primary" hidden>Crop</button>
-            </div>
+            <form action="{{ route('upload-cropped') }}" method="post" enctype="multipart/form-data">
+                @csrf
+                <input type="file" id="selectedImg" class="form-control" accept="image/*" hidden>
+                <input type="file" id="croppedImg" name="croppedImg" class="form-control" hidden>
+                <button type="submit" id="submit" class="my-2 btn btn-primary" disabled>Save</button>
+            </form>
         </div>
         <button id="openModal">open</button>
     </x-show-card>
 
-    <div class="modal" id="modal">
-        <p>check check</p>
-        <button id="closeModal">close</button>
+    <div class="fixed top-0 left-0 right-0 bottom-0 z-50 hidden items-center justify-center p-4 bg-black bg-opacity-50" id="cropModal">
+        <div>
+            <x-card class="max-w-4xl mb-4">
+                <div class="flex justify-between items-center mb-4">
+                    <h1 class="text-xl font-bold">Crop your photo</h1>
+                    <div id="closeModal" class="hover:bg-blue-100 transition-all rounded-full p-2 cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        </svg>
+                    </div>
+                </div>
+                <img src="" alt="" id="image" class="max-w-xl max-h-[50vh]">
+                <div class="flex gap-2 mt-4">
+                    <x-button id="crop" :hidden="true" role="ctaMain">Crop</x-button>
+                    <x-button id="reset" :hidden="true">Reset</x-button>
+                </div>
+            </x-card>
+        </div>
     </div>
-    
-    <script type="text/javascript" src="{{ asset('storage/js/cropper.js') }}"></script>
 
     <x-show-card :show="$showPassword" type="password" class="mb-4">
         <form action="{{ route('users.update-password',auth()->user()->id) }}" method="POST" >

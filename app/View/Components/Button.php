@@ -11,8 +11,10 @@ class Button extends Component
     public function __construct(
         public ?string $value,
         public ?string $name,
+        public ?string $id,
         public string $role = '',
         public bool $full = false,
+        public bool $hidden = false
     ) { }
 
     /**

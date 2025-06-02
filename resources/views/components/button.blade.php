@@ -8,7 +8,7 @@
 
     'bg-blue-50 hover:bg-blue-200 border-blue-300 text-blue-700' => $role === 'create' || $role === 'search',
 
-    'bg-blue-600 hover:bg-blue-800 text-white' => $role == 'createMain' || $role === 'loginMain',
+    'bg-blue-600 hover:bg-blue-800 text-white' => $role == 'createMain' || $role === 'loginMain' || $role === 'ctaMain',
 
     'bg-red-50 hover:bg-red-200 border-red-300 text-red-700' => $role === 'destroy',
 
@@ -17,7 +17,7 @@
     'bg-slate-50 hover:bg-slate-200 border-slate-300 text-slate-700' => $role === 'show' || $role === 'edit' || $role === '',
 
     'w-full' => $full
-]) value="{{ $value ?? '' }}" name="{{ $name ?? '' }}" type="{{ $role === 'reset' ? 'reset' : '' }}">
+]) value="{{ $value ?? '' }}" name="{{ $name ?? '' }}" type="{{ $role === 'reset' ? 'reset' : '' }}" {{ $id ? "id=" . $id  : '' }} {{ $hidden ? 'hidden' : '' }}>
 
     @switch($role)
         @case('create')

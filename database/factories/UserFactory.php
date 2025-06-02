@@ -31,6 +31,7 @@ class UserFactory extends Factory
             'tel_number' => fake()->numerify('+36#########'),
             'date_of_birth' => fake()->dateTimeBetween('-60 years','-10 years'),
             'password' => static::$password ??= Hash::make('password'),
+            'pfp_path' => null,
             'remember_token' => Str::random(10),
         ];
     }

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('tel_number')->nullable;
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('pfp_path')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

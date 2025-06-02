@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="flex-shrink-0">
-                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="BarberPic" class=" rounded-md h-52 w-auto">
+                <img src="{{ $barber->user->pfp_path ? asset('storage/pfp/' .  $barber->user->pfp_path) : asset('pfp/pfp_blank.png') }}" alt="BarberPic" class=" rounded-md h-52 w-auto">
             </div>
         </div>
         

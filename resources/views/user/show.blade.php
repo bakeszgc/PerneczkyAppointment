@@ -81,7 +81,7 @@
                 <div>
                     <h3 class="font-bold text-lg" id="currentPfpTitle">Your current profile picture</h3>
                     <div class="relative w-fit group cursor-pointer ">
-                        <img src="{{ asset('pfp/blank.png') }}" alt="" class="w-40 border border-slate-500 group-hover:blur-sm transition-all">
+                        <img src="{{ auth()->user()->pfp_path ? asset('storage/pfp/' . auth()->user()->pfp_path) : asset('pfp/blank.png') }}" alt="" class="w-60 border border-slate-500 group-hover:blur-sm transition-all">
                         <label for="selectedImg" class="cursor-pointer">
                             <div class="absolute w-full h-full top-0 flex items-center justify-center group-hover:bg-black group-hover:bg-opacity-75 transition-all">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"stroke-width="1.5" stroke="white" class="size-6 opacity-0 group-hover:opacity-100 transition-all cursor-pointer z-20">

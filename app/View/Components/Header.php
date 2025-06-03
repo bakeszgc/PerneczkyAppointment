@@ -6,15 +6,12 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Layout extends Component
+class Header extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct(
-        public ?string $title,
-        public string $currentView = 'customer'
-    )
+    public function __construct()
     {
         //
     }
@@ -24,6 +21,6 @@ class Layout extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.layout');
+        return view('components.header');
     }
 }

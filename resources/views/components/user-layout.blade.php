@@ -60,7 +60,7 @@
         </style>
     </head>
 
-    <body class="bg-slate-100 text-slate-800">
+    <body class="bg-slate-50 text-slate-800">
         <nav class="h-12 bg-black py-2 px-4 max-lg:px-0 text-white font-extrabold w-full fixed z-40 drop-shadow-lg  id="navbar">
 
             <img src="{{ asset('logo/perneczky_circle.png') }}" alt="Perneczky BarberShop" id="logo" class="absolute left-1/2 h-20 -translate-x-10 top-2 z-50">

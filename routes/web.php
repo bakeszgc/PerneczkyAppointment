@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Appointment;
+use App\Models\Barber;
+use App\Models\Service;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -71,5 +73,14 @@ Route::middleware('barber')->group(function() {
 });
 
 // DEV HOME
-Route::get('/',fn() => view('home'))->name('home');
+Route::get('/',function() {
+
+    $barbers = Barber::all();
+    $services = Service::where('id','!=',1)->get();
+
+    return view('home',[
+        'barbers' => $barbers,
+        'services' => $services
+    ]);
+})->name('home');
 

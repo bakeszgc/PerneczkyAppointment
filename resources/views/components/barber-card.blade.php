@@ -1,4 +1,4 @@
-<x-card class="flex gap-4">
+<x-card {{ $attributes->merge(['class' => 'flex gap-4']) }}>
     <div>
         <img src="{{ $barber->user->pfp_path ? asset('storage/pfp/' .  $barber->user->pfp_path) : asset('pfp/pfp_blank.png') }}" alt="{{$barber->display_name ?? $barber->user->first_name}}" class="h-40 rounded-md">
     </div>

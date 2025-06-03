@@ -35,14 +35,15 @@
     <x-container>
         <div class="grid grid-cols-2 max-md:grid-cols-1 gap-8">
             @forelse ($services as $service)
-                <div class="border-4 border-blue-700 p-4">
-                    <div class="flex justify-between items-start mb-4">
-                        <h2 class="font-black text-xl">{{ $service->name }}</h2>
-                        <p class="text-xl w-fit">{{ $service->price }}&nbsp;Ft</p>
+                <a href="{{ route('my-appointments.create.barber',['service_id' => $service->id]) }}">
+                    <div class="border-4 border-[#0018d5] p-4 h-full hover:bg-blue-300 transition-all">
+                        <div class="flex justify-between items-start mb-4">
+                            <h2 class="font-black text-xl">{{ $service->name }}</h2>
+                            <p class="text-xl min-w-24 w-fit text-right">{{ number_format($service->price,thousands_separator: ' ') }}&nbsp;Ft</p>
+                        </div>
+                        <p>Estimated duration: {{ $service->duration }} minutes</p>
                     </div>
-                    <p>Estimated duration: {{ $service->duration }} minutes</p>
-                </div>
-                
+                </a>
             @empty
                 
             @endforelse
@@ -84,7 +85,7 @@
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d168.51367156370375!2d19.076890544242058!3d47.485651873511074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4741ddc6dd76e7b1%3A0x4d5f1e74a8e65127!2sCorvin%20Barber%20Shop!5e0!3m2!1shu!2shu!4v1698797075447!5m2!1shu!2shu" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
         <div>
-            <div class="border-4 border-blue-700 p-4 mb-4">
+            <div class="border-4 border-[#0018d5] p-4 mb-4">
                 <img src="" alt="PERNECZKY BarberShop - Corvin">
                 <h2 class="text-2xl font-black mb-2">PERNECZKY Barber Shop - Corvin</h2>
                 <p class="mb-1">H-1082 Budapest</p>

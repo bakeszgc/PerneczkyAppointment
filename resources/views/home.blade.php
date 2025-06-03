@@ -1,11 +1,19 @@
 <x-layout>
     <div class="h-screen w-full bg-black text-white flex flex-col justify-between items-center text-center">
-        <div></div>
-        <div>
-            Perneczky Barber Shop
+        <div class="h-24"></div>
+        <div class="flex flex-col items-center gap-8">
+            <img src="{{ asset('logo/perneczky_barbershop_corvin.svg') }}" alt="PERNECZKY BarberShop Corvin" class=" h-36">
             <x-link-button :link="route('my-appointments.create')" role="ctaMain">BOOK AN APPOINTMENT</x-link-button>
+            <a href="tel:+36704056079" class="flex gap-2 items-center hover:text-blue-500">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+                    <path fill-rule="evenodd" d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z" clip-rule="evenodd" />
+                </svg>
+                <h2 class="font-black text-xl">+36 70 405 6079</h2>
+            </a>
         </div>
-        <div></div>
+        <div>
+            <img src="{{ asset('design/scroll_icon.svg') }}" alt="Scroll icon" class="h-16 mb-8">
+        </div>
     </div>
 
     <x-container class="flex gap-4">

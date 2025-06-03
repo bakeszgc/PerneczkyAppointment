@@ -102,23 +102,23 @@
     </x-container>
 
     <footer class=" py-12 bg-[#0f0f0f] text-white">
-        <div class="max-w-6xl mx-auto flex justify-between">
+        <div class="max-w-6xl mx-auto px-8 flex justify-between">
             <div>
                 <h2 class="text-2xl font-black mb-4">Contact</h2>
                 <ul class="*:mb-1 mb-4">
-                    <li>Tel: <a href="tel:+36704056079">+36 70 405 6079</a></li>
-                    <li>Email: <a href="mailto:perneczkybarbershop@gmail.com">perneczkybarbershop@gmail.com</a></li>
+                    <li>Tel: <a href="tel:+36704056079" class="hover:text-blue-500 transition-all">+36 70 405 6079</a></li>
+                    <li>Email: <a href="mailto:perneczkybarbershop@gmail.com" class="hover:text-blue-500 transition-all">perneczkybarbershop@gmail.com</a></li>
                     <li>Address: 1082 Budapest, Corvin sétány 5.</li>
                 </ul>
                 <div class="flex gap-2">
                     <a href="">
-                        <img src="" alt="Instagram">
+                        <img src="{{ asset('logo/instagram.png') }}" alt="Instagram" class="h-10 hover:scale-105 transition-all">
                     </a>
                     <a href="">
-                        <img src="" alt="Facebook">
+                        <img src="{{ asset('logo/facebook.png') }}" alt="Facebook" class="h-10 hover:scale-105 transition-all">
                     </a>
                     <a href="">
-                        <img src="" alt="Tiktok">
+                        <img src="{{ asset('logo/tiktok.png') }}" alt="Tiktok" class="h-10 hover:scale-105 transition-all">
                     </a>
                 </div>
 
@@ -128,7 +128,7 @@
                 <ul class="*:mb-1">
                     <li>Mo-Sa: 10:00-20:00</li>
                     <li>Su: 10:00-18:00</li>
-                    <li>T&C</li>
+                    <li><a href="{{ asset('files/perneczky_aszf.pdf') }}" target="_blank" class="hover:text-blue-500 transition-all">T&C</a></li>
                 </ul>
             </div>
         </div>

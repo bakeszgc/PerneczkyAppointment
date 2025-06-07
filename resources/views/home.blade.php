@@ -70,7 +70,7 @@
 
                 <x-card class="shadow-xl p-8 text-center">
                     <a href="{{ route('my-appointments.create.service',['barber_id' => $barber]) }}">
-                        <img src="{{ $barber->user->pfp_path ? asset('storage/pfp/' .  $barber->user->pfp_path) : asset('pfp/pfp_blank.png') }}" alt="{{$barber->display_name ?? $barber->user->first_name}}" class=" h-56 rounded-md mb-4 hover:scale-105 hover:shadow-md transition-all">
+                        <img src="{{ $barber->user->pfp_path ? asset('storage/pfp/' .  $barber->user->pfp_path) : asset('pictures/pfp_blank.png') }}" alt="{{$barber->display_name ?? $barber->user->first_name}}" class=" h-56 rounded-md mb-4 hover:scale-105 hover:shadow-md transition-all">
                     </a>
                     <h2 class="font-bold text-xl mb-4">
                         {{ $barber->display_name ?? $barber->user->first_name }}

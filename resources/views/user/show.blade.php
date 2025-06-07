@@ -86,7 +86,7 @@
                 <div class="min-w-60">
                     <h3 class="font-bold text-lg mb-2" id="currentPfpTitle">Your current profile picture</h3>
                     <div class="relative w-fit group cursor-pointer  rounded-md border border-slate-500">
-                        <img src="{{ auth()->user()->pfp_path ? asset('storage/pfp/' . auth()->user()->pfp_path) : asset('pfp/blank.png') }}" alt="Profile picture" id="currentPfp" class="w-60  group-hover:blur-sm transition-all rounded-md max-sm:w-full">
+                        <img src="{{ auth()->user()->pfp_path ? asset('storage/pfp/' . auth()->user()->pfp_path) : asset('pictures/pfp_blank.png') }}" alt="Profile picture" id="currentPfp" class="w-60  group-hover:blur-sm transition-all rounded-md max-sm:w-full">
                         <label for="selectedImg" class="cursor-pointer">
                             <div class="absolute w-full h-full top-0 preview overflow-hidden"></div>
                             <div class="absolute w-full h-full top-0 flex items-center justify-center group-hover:bg-black group-hover:bg-opacity-75 transition-all rounded-md">

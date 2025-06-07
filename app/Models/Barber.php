@@ -23,4 +23,8 @@ class Barber extends Model
     public function getPicture() {
         return $this->user->pfp_path ? asset('storage/pfp/' . $this->user->pfp_path) : asset('pictures/pfp_blank.png');
     }
+
+    public function getName() {
+        return $this->display_name ?? $this->user->first_name;
+    }
 }

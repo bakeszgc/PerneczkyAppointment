@@ -52,6 +52,25 @@ class MyAppointmentController extends Controller
         }
     }
 
+    public function createBarberService(Request $request)
+    {
+        $selectedServiceId = $request->service_id;
+        $selectedBarberId = $request->barber_id;
+
+        $barbers = Barber::when(auth()->user()->barber != null, function($q) {
+            return $q->where('id','!=',auth()->user()->barber->id);
+        })->get();
+
+        $services = Service::where('id','!=',1)->get();
+
+        return view('my-appointment.create_barber_service',[
+            'barbers' => $barbers,
+            'services' => $services,
+            'service_id' => $selectedServiceId,
+            'barber_id' => $selectedBarberId
+        ]);
+    }
+
     public function createBarber(Request $request) {
         if (!auth()->user()) {
            return redirect()->route('login');

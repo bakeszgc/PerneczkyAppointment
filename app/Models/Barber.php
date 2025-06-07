@@ -19,4 +19,8 @@ class Barber extends Model
     public function appointments():HasMany {
         return $this->hasMany(Appointment::class);
     }
+
+    public function getPicture() {
+        return $this->user->pfp_path ? asset('storage/pfp/' . $this->user->pfp_path) : asset('pictures/pfp_blank.png');
+    }
 }

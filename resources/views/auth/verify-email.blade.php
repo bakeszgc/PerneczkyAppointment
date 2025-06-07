@@ -12,7 +12,7 @@
             <div class="flex justify-center">
                 <form action="{{ route('verification.send') }}" method="POST">
                     @csrf
-                    <x-button role="loginMain">
+                    <x-button role="ctaMain">
                         Resend the verification email
                     </x-button>
                 </form>

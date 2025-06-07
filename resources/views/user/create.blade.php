@@ -86,7 +86,7 @@
                     </div>
                 </div>
 
-                <x-button role="loginMain" :full="true">Register</x-button>
+                <x-button role="ctaMain" :full="true">Register</x-button>
             </form>
 
             <p class="text-center font-semibold mt-2">

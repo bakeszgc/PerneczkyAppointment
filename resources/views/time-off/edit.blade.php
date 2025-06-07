@@ -131,7 +131,7 @@
                 <x-label for="full_day">Full day off</x-label>
             </div>
 
-            <x-button role="loginMain" :full="true">
+            <x-button role="ctaMain" :full="true">
                 Update Time Off
             </x-button>
 

@@ -6,9 +6,9 @@
     flex gap-1 items-center justify-center
     max-sm:text-xs',
 
-    'bg-blue-50 hover:bg-blue-200 border-blue-300 text-blue-700' => $role === 'create' || $role === 'active',
+    'bg-blue-50 hover:bg-blue-200 border-blue-300 text-[#0018d5]' => $role === 'create' || $role === 'active',
 
-    'bg-blue-600 hover:bg-blue-800 text-white' => $role == 'createMain' || $role === 'loginMain' || $role === 'ctaMain',
+    'bg-[#0018d5] hover:bg-[#0f0f0f] text-white' => $role == 'createMain' || $role === 'ctaMain',
 
     'bg-red-50 hover:bg-red-200 border-red-300 text-red-700' => $role === 'destroy',
 

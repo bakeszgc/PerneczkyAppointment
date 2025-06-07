@@ -70,7 +70,7 @@
                 </div>
             </div>
             <div>
-                <x-button role="loginMain" :full="true">Save Changes</x-button>
+                <x-button role="ctaMain" :full="true">Save Changes</x-button>
             </div>
         </form>
     </x-show-card>
@@ -200,7 +200,7 @@
                     Fields marked with * are <span class="font-semibold">required</span>
                 </div>
             </div>
-            <x-button role="loginMain" :full="true">Change Password</x-button>
+            <x-button role="ctaMain" :full="true">Change Password</x-button>
         </form>
     </x-show-card>
 

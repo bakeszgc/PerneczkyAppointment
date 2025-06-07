@@ -4,12 +4,15 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{$title ?? ""}}Perneczky BarberShop</title>
+        <link rel="icon" type="image/x-icon" href="{{ asset('logo/favicon.ico') }}">
         
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js" defer></script>
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
         <style>
+            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap');
             *{
                 font-family: 'Poppins', sans-serif;
                 scroll-behavior: smooth;

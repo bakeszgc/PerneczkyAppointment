@@ -45,7 +45,7 @@
     <x-container>
         <div class="grid grid-cols-2 max-md:grid-cols-1 gap-6">
             @forelse ($services as $service)
-                <a href="{{ route('my-appointments.create.barber',['service_id' => $service->id]) }}">
+                <a href="{{ route('my-appointments.create.barber.service',['service_id' => $service->id]) }}">
                     <div class="rounded-md border-2 border-[#0018d5] p-4 h-full hover:bg-[#0018d5] hover:text-white hover:shadow-2xl transition-all">
                         <div class="flex justify-between items-start mb-2">
                             <h2 class="font-black text-lg">{{ $service->name }}</h2>
@@ -69,14 +69,14 @@
             @forelse ($barbers as $barber)
 
                 <x-card class="shadow-xl p-8 text-center">
-                    <a href="{{ route('my-appointments.create.service',['barber_id' => $barber]) }}">
+                    <a href="{{ route('my-appointments.create.barber.service',['barber_id' => $barber]) }}">
                         <img src="{{ $barber->user->pfp_path ? asset('storage/pfp/' .  $barber->user->pfp_path) : asset('pictures/pfp_blank.png') }}" alt="{{$barber->display_name ?? $barber->user->first_name}}" class=" h-56 rounded-md mb-4 hover:scale-105 hover:shadow-md transition-all">
                     </a>
                     <h2 class="font-bold text-xl mb-4">
                         {{ $barber->display_name ?? $barber->user->first_name }}
                     </h2>
                     <div class="flex justify-center">
-                        <x-link-button role="ctaMain" class="w-fit" :link="route('my-appointments.create.service',['barber_id' => $barber])">
+                        <x-link-button role="ctaMain" class="w-fit" :link="route('my-appointments.create.barber.service',['barber_id' => $barber])">
                             BOOK NOW
                         </x-link-button>
                     </div>

@@ -11,6 +11,9 @@
         <script src="https://cdn.tailwindcss.com"></script>
 
         <style>
+            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap');
+
             *{
                 font-family: 'Poppins', sans-serif;
                 scroll-behavior: smooth;

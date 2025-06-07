@@ -2,28 +2,22 @@
     <x-breadcrumbs :links="[
         'Book an Appointment' => ''
     ]"/>
-    <h1 class="font-bold text-4xl">Book an Appointment</h1>
-    <x-card>
+    <x-headline class="mb-4">Book an Appointment</x-headline>
+    <x-card class="text-center">
         <div class="text-center mb-4">
-            <h2 class="font-bold text-2xl mb-4">Already have an account?</h2>
+            <h2 class="font-bold text-xl mb-4">Are you a returning customer?</h2>
             <div class="flex items-center gap-2 justify-center">
-                <x-link-button role="show" link="">Log In</x-link-button>
-                or
-                <x-link-button role="show" link="">Sign up</x-link-button>
+                <x-link-button role="ctaMain" link="{{ route('login') }}">Log In</x-link-button>
+                <p>or</p>
+                <x-link-button role="active" link="{{ route('register') }}">Create an Account</x-link-button>
             </div>
             
         </div>
-        <div class="text-center mb-4">
-            <hr class=" w-10">
+        <div class="mb-4">
+            <hr class="mx-auto w-32">
         </div>
-        <div class="text-center">
-            <h3 class="font-medium text-lg mb-4">Continue without an account</h3>
-            <form action="{{route('my-appointments.create.barber')}}" method="GET">
-                <label for="email">Add your email address</label>
-                <x-input-field type="email" name="email" placeholder="riddim@riddim.com"/>
-                <x-button role="createMain">Sumbit</x-button>
-            </form>
-        </div>
-        
+        <a href="{{route('my-appointments.create.barber')}}" class="text-blue-700 hover:underline">
+            Continue without an account
+        </a>
     </x-card>
 </x-user-layout>

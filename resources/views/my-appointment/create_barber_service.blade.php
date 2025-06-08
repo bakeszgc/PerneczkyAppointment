@@ -48,7 +48,7 @@
                         </p>
                     </div>
 
-                    <p class=" text-base text-slate-500 group-hover:text-white transition-all">Estimated duration: {{ $service->duration }} minutes</p>
+                    <p class=" text-base text-slate-500 group-hover:text-white group-has-[input:checked]:text-white transition-all">Estimated duration: {{ $service->duration }} minutes</p>
                 
                     <input type="radio" id="service_{{ $service->id }}" name="service_id" value="{{ $service->id }}" hidden {{ $service_id && $service_id == $service->id ? 'checked="checked"' : ''}}>
                 </label>

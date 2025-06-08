@@ -1,8 +1,7 @@
 <x-user-layout title="Book an Appointment - ">
     <x-breadcrumbs :links="[
         'Book an Appointment' => route('my-appointments.create'),
-        'Select a Barber' => route('my-appointments.create.barber',['service_id' => $service->id]),
-        'Select a Service' => route('my-appointments.create.service',['barber_id' => $barber->id]),
+        'Select a Barber and a Service' => route('my-appointments.create.barber.service',['service_id' => $service->id, 'barber_id' => $barber->id]),
         'Select a Date' => ''
     ]"/>
 

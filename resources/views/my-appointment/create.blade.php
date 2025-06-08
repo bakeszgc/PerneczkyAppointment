@@ -16,7 +16,7 @@
         <div class="mb-4">
             <hr class="mx-auto w-32">
         </div>
-        <a href="{{route('my-appointments.create.barber')}}" class="text-blue-700 hover:underline">
+        <a href="{{route('my-appointments.create.barber.service')}}" class="text-blue-700 hover:underline">
             Continue without an account
         </a>
     </x-card>

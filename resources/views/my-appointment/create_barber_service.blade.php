@@ -12,7 +12,7 @@
         <div class="grid grid-cols-3 gap-4 mb-8">
             @forelse ($barbers as $barber)
 
-                <label for="barber_{{ $barber->id }}" class="border-2 border-[#0018d5] rounded-md p-4 cursor-pointer hover:bg-[#0018d5] hover:text-white has-checked:bg-[#0018d5] transition-all">
+                <label for="barber_{{ $barber->id }}" class="border-2 border-[#0018d5] rounded-md p-4 cursor-pointer hover:bg-[#0018d5] hover:text-white has-checked:bg-[#0018d5] has-[input:checked]:shadow-2xl transition-all">
                     
                     <div class="relative rounded-md overflow-hidden shadow-2xl">
                         <img src="{{ $barber->getPicture() }}" alt="{{ $barber->getName() }}" class=" rounded-md z-0">
@@ -38,7 +38,7 @@
 
         <div class="grid grid-cols-2 gap-4 mb-8">
             @forelse ($services as $service)
-                <label for="service_{{ $service->id }}" class="border-2 border-[#0018d5] rounded-md p-4 cursor-pointer hover:bg-[#0018d5] hover:text-white has-checked:bg-[#0018d5] has-checked:text-white transition-all group">
+                <label for="service_{{ $service->id }}" class="border-2 border-[#0018d5] rounded-md p-4 cursor-pointer hover:bg-[#0018d5] hover:text-white has-checked:bg-[#0018d5] has-checked:text-white transition-all group has-[input:checked]:shadow-2xl">
                     <div class="flex justify-between items-start">
                         <h2 class="font-black text-lg">
                             {{ $service->name }}

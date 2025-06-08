@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const resetButton = document.getElementById('reset');
     const cropModal = document.getElementById('cropModal');
     const submitDiv = document.getElementById('submitDiv');
-    const currentPfp = document.getElementById('currentPfp');
 
     imageInput.addEventListener('change', () => {
         submitButton.setAttribute("disabled","");

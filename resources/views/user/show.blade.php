@@ -128,7 +128,7 @@
                         </li>
                     </ul>
                     <div id="submitDiv" hidden>
-                        <x-button id="submit" :hidden="true" role="ctaMain">Save Changes</x-button>
+                        <x-button id="submit" role="ctaMain">Save Changes</x-button>
                     </div>
                 </div>
             </div>

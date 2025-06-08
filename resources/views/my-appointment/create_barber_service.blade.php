@@ -15,7 +15,7 @@
                 <label for="barber_{{ $barber->id }}" class="border-2 border-[#0018d5] rounded-md p-4 cursor-pointer hover:bg-[#0018d5] hover:text-white has-checked:bg-[#0018d5] has-[input:checked]:shadow-2xl transition-all">
                     
                     <div class="relative rounded-md overflow-hidden shadow-2xl">
-                        <img src="{{ $barber->getPicture() }}" alt="{{ $barber->getName() }}" class=" rounded-md z-0">
+                        <img src="{{ $barber->getPicture() }}" alt="{{ $barber->getName() }}" class=" min-w-full rounded-md z-0">
 
                         <div class="w-full h-1/2 absolute bottom-0 left-0 z-10" style="background: linear-gradient(0deg,rgba(0, 0, 0, 1) 0%, rgba(255, 255, 255, 0) 100%);">
                             

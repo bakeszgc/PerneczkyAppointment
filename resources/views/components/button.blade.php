@@ -21,7 +21,7 @@
     'w-full' => $full,
     'w-fit' => !$full
     
-]) {!! $value ? 'value="' . $value . '"' : '' !!} {{ $name ? "name=" . $name : '' }} {{ $role === 'reset' ? "type=reset" : '' }} {{ $id ? "id=" . $id  : '' }} {{ $hidden ? 'hidden' : '' }} {{ $disabled ? 'disabled' : '' }}>
+]) {!! $value ? 'value="' . $value . '"' : '' !!} {{ $name ? "name=" . $name : '' }} {{ $role === 'reset' ? "type=reset" : '' }} {{ $id ? "id=" . $id  : '' }} {{ $hidden == true ? 'hidden' : '' }} {{ $disabled == true ? 'disabled' : '' }}>
 
     @switch($role)
         @case('create')

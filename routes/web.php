@@ -45,8 +45,6 @@ Route::middleware(['auth','verified'])->group(function() {
 
     // CUSTOMER CREATE APPOINTMENTS
     Route::get('my-appointments/create/selectBarberService',[MyAppointmentController::class,'createBarberService'])->name('my-appointments.create.barber.service');
-    Route::get('my-appointments/create/selectBarber',[MyAppointmentController::class,'createBarber'])->name('my-appointments.create.barber');
-    Route::get('my-appointments/create/selectService',[MyAppointmentController::class,'createService'])->name('my-appointments.create.service');
     Route::get('my-appointments/create/selectDate',[MyAppointmentController::class,'createDate'])->name('my-appointments.create.date');
 
 });

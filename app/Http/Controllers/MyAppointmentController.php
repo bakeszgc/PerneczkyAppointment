@@ -75,45 +75,6 @@ class MyAppointmentController extends Controller
         ]);
     }
 
-    public function createBarber(Request $request) {
-        if (!auth()->user()) {
-           return redirect()->route('login');
-        }
-
-        $selectedServiceId = $request->service_id;
-        if ($selectedServiceId && (!Service::find($selectedServiceId)) || $selectedServiceId == 1) {
-            return redirect()->route('my-appointments.create.service')->with('error','Please select a service here!');
-        }
-
-        $barbers = Barber::when(auth()->user()->barber != null, function($q) {
-            return $q->where('id','!=',auth()->user()->barber->id);
-        })->get();
-
-        return view('my-appointment.create_barber',[
-            'barbers' => $barbers,
-            'service' => $selectedServiceId ? Service::find($selectedServiceId) : null
-        ]);
-    }
-
-    public function createService(Request $request) {
-        if (!auth()->user()) {
-            return redirect()->route('login');
-        }
-
-        $selectedBarberId = $request->barber_id;
-
-        if ($selectedBarberId && !Barber::find($selectedBarberId) || auth()->user()->barber && $selectedBarberId == auth()->user()->barber->id) {
-            return redirect()->route('my-appointments.create.barber')->with('error','Please select a barber here!');
-        }
-
-        $services = Service::where('id','!=',1)->get();
-
-        return view('my-appointment.create_service',[
-            'services' => $services,
-            'barber' => $selectedBarberId ? Barber::find($selectedBarberId) : null
-        ]);
-    }
-
     public function createDate(Request $request)
     {
         if (!auth()->user()) {

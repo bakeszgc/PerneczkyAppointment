@@ -26,10 +26,10 @@
     @forelse ($timeoffs as $timeoff)
         <x-time-off-card :appointment="$timeoff" :showDetails="true" class="mb-4"/>
     @empty
-        <div class="text-center w-full rounded-md p-8 border border-dashed border-slate-500">
+        <x-empty-card>
             <p class="text-lg font-medium">You don't have any {{ $type != "All" ? lcfirst($type) : '' }} time offs!</p>
             <a href="{{ route('time-offs.create') }}" class=" text-green-700 hover:underline">Set yourself one here!</a>
-        </div>
+        </x-empty-card>
     @endforelse
 
     <div class="mb-4">

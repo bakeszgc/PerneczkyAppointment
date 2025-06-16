@@ -30,10 +30,10 @@
     @forelse ($appointments as $appointment)
         <x-appointment-card :appointment="$appointment" :showDetails="true" access="barber" class="mb-4"/>
     @empty
-        <div class="text-center w-full rounded-md p-8 border border-dashed border-slate-500">
+        <x-empty-card>
             <p class="text-lg font-medium">You don't have any {{ lcfirst($type) }} appointments!</p>
             <a href="{{ route('appointments.create') }}" class=" text-blue-700 hover:underline">Add a new booking here for one of your clients!</a>
-        </div>
+        </x-empty-card>
     @endforelse
 
     <div class="mb-4">

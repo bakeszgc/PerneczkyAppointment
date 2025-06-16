@@ -12,7 +12,7 @@
         <div class="grid grid-cols-3 gap-4 mb-8">
             @forelse ($barbers as $barber)
 
-                <label for="barber_{{ $barber->id }}" class="border-2 border-[#0018d5] rounded-md p-4 cursor-pointer hover:bg-[#0018d5] hover:text-white has-checked:bg-[#0018d5] has-[input:checked]:shadow-2xl transition-all">
+                <label for="barber_{{ $barber->id }}" class="border-2 border-[#0018d5] rounded-md p-4 cursor-pointer hover:bg-[#0018d5] hover:text-white has-[input:checked]:bg-[#0018d5] has-[input:checked]:shadow-2xl transition-all">
                     
                     <div class="relative rounded-md overflow-hidden shadow-2xl">
                         <img src="{{ $barber->getPicture() }}" alt="{{ $barber->getName() }}" class=" min-w-full rounded-md z-0">
@@ -26,7 +26,7 @@
                         </h2>
                     </div>
 
-                    <input type="radio" id="barber_{{ $barber->id }}" name="barber_id" value="{{ $barber->id }}" hidden {{ $barber_id && $barber_id == $barber->id ? 'checked="checked"' : ''}}>
+                    <input type="radio" id="barber_{{ $barber->id }}" name="barber_id" value="{{ $barber->id }}" {{ $barber_id && $barber_id == $barber->id ? 'checked="checked"' : ''}} class="hidden">
                 </label>
                 
             @empty
@@ -38,7 +38,7 @@
 
         <div class="grid grid-cols-2 gap-4 mb-8">
             @forelse ($services as $service)
-                <label for="service_{{ $service->id }}" class="border-2 border-[#0018d5] rounded-md p-4 cursor-pointer hover:bg-[#0018d5] hover:text-white has-checked:bg-[#0018d5] has-checked:text-white transition-all group has-[input:checked]:shadow-2xl">
+                <label for="service_{{ $service->id }}" class="border-2 border-[#0018d5] rounded-md p-4 cursor-pointer hover:bg-[#0018d5] hover:text-white has-[input:checked]:bg-[#0018d5] has-[input:checked]:text-white transition-all group has-[input:checked]:shadow-2xl">
                     <div class="flex justify-between items-start">
                         <h2 class="font-black text-lg">
                             {{ $service->name }}
@@ -50,7 +50,7 @@
 
                     <p class=" text-base text-slate-500 group-hover:text-white group-has-[input:checked]:text-white transition-all">Estimated duration: {{ $service->duration }} minutes</p>
                 
-                    <input type="radio" id="service_{{ $service->id }}" name="service_id" value="{{ $service->id }}" hidden {{ $service_id && $service_id == $service->id ? 'checked="checked"' : ''}}>
+                    <input type="radio" id="service_{{ $service->id }}" name="service_id" value="{{ $service->id }}" hidden {{ $service_id && $service_id == $service->id ? 'checked="checked"' : ''}} class="hidden">
                 </label>
             @empty
                 

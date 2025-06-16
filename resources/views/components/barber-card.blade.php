@@ -14,7 +14,7 @@
                 Book Appointment
             </x-link-button>
         @else
-            <x-link-button role="ctaMain" :link="route('my-appointments.create.service',['barber_id' => $barber->id])">
+            <x-link-button role="ctaMain" :link="route('my-appointments.create.barber.service',['barber_id' => $barber->id])">
                 Book Appointment
             </x-link-button>
         @endif

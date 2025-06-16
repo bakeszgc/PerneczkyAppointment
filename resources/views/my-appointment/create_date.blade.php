@@ -12,7 +12,7 @@
                 <div>
                     <h2 class="font-bold text-2xl mb-2">Your Appointment</h2>
                     <h3 class="font-medium text-lg">
-                        <a href="{{route('my-appointments.create.service',['barber_id' => $barber->id])}}">
+                        <a href="{{route('my-appointments.create.barber.service',['barber_id' => $barber->id])}}">
                             {{$service->name}}
                             •
                             {{$service->duration}} minutes
@@ -21,7 +21,7 @@
                         </a>
                     </h3>
                     <p class="font-medium text-base text-slate-500">
-                        <a href="{{route('my-appointments.create.barber')}}">
+                        <a href="{{route('my-appointments.create.barber.service',['barber_id' => $barber->id])}}">
                         Barber: {{$barber->display_name ?? $barber->user->first_name}}
                         </a>
                     </p>
@@ -50,12 +50,20 @@
         <div class="grid grid-cols-2 max-lg:grid-cols-1 mb-8 gap-4">
             <div>
                 <h3 class="font-medium text-lg mb-2">Today ({{today()->format('l')}})</h3>
-                <div class="flex flex-wrap gap-2 justify-center">
+                <div class="flex flex-wrap gap-2 justify-start">
                     @if ($dates[0] ?? false)
                         @forelse ($dates[0] as $date)
-                                <x-button :value="$date->format('Y-m-d G:i')" name="date">
+                                <!-- <x-button :value="$date->format('Y-m-d G:i')" name="date">
                                     {{$date->format('G:i')}}
-                                </x-button>
+                                </x-button> -->
+                                <label for="date_{{ $date->format('Y-m-d_G:i') }}" class=" font-semibold border-2 border-[#0018d5] text-[#0018d5] rounded-md p-2 cursor-pointer hover:bg-[#0018d5] hover:text-white has-[input:checked]:bg-[#0018d5] has-[input:checked]:shadow-2xl has-[input:checked]:text-white transition-all">
+
+                                    {{$date->format('G:i')}}
+
+                                    <input type="radio" value="{{ $date->format('Y-m-d G:i') }}" name="date" id="date_{{ $date->format('Y-m-d_G:i') }}" class="hidden">
+
+                                </label>
+                                
                         @empty
                             <p>There are no available dates for this day</p>
                         @endforelse
@@ -67,7 +75,7 @@
 
             <div>
                 <h3 class="font-medium text-lg mb-2">Tomorrow ({{today()->addDay()->format('l')}})</h3>
-                <div class="flex flex-wrap gap-2 justify-center">
+                <div class="flex flex-wrap gap-2 justify-start">
                     @if ($dates[1] ?? false)
                         @forelse ($dates[1] as $date)
                                 <x-button :value="$date->format('Y-m-d G:i')" name="date">
@@ -103,7 +111,7 @@
                                     {{today()->addDays($day)->format('m.d.')}}
                                     ({{today()->addDays($day)->format('l')}})
                                 </h3>
-                                <div class="flex flex-wrap gap-2 justify-center">
+                                <div class="flex flex-wrap gap-2 justify-start">
                                     @forelse ($times as $time)
                                             <x-button :value="$time->format('Y-m-d G:i')" name="date">
                                                 {{$time->format('G:i')}}
@@ -120,7 +128,7 @@
 
                 <div class="mb-4">
                     <h3 class="font-medium text-lg">None of these dates work for you?</h3>
-                    <p>Check out <a href="{{route('my-appointments.create.barber',['service_id' => $service->id])}}" class=" text-blue-700 hover:underline">our other barbers</a> or feel free to <a href="https://perneczkybarbershop.hu/en.html#contact" class=" text-blue-700 hover:underline">contact us!</a></p>
+                    <p>Check out <a href="{{route('my-appointments.create.barber.service',['service_id' => $service->id])}}" class=" text-blue-700 hover:underline">our other barbers</a> or feel free to <a href="https://perneczkybarbershop.hu/en.html#contact" class=" text-blue-700 hover:underline">contact us!</a></p>
                 </div>
             </div>
         </div>

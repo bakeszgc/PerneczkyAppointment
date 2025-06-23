@@ -56,21 +56,20 @@
                     <div class="grid grid-cols-6 gap-2">
                         @if ($dates[0] ?? false)
                             @forelse ($dates[0] as $date)
-                                    <!-- <x-button :value="$date->format('Y-m-d G:i')" name="date">
-                                        {{$date->format('G:i')}}
-                                    </x-button> -->
-                                    <label for="date_{{ $date->format('Y-m-d_G:i') }}" class=" font-semibold border-2 border-[#0018d5] text-[#0018d5] rounded-md p-2 cursor-pointer hover:bg-[#0018d5] hover:text-white has-[input:checked]:bg-[#0018d5] has-[input:checked]:shadow-2xl has-[input:checked]:text-white transition-all">
+                                <!-- <x-button :value="$date->format('Y-m-d G:i')" name="date">
+                                    {{$date->format('G:i')}}
+                                </x-button> -->
+                                <label for="date_{{ $date->format('Y-m-d_G:i') }}" class=" font-semibold border-2border-[#0018d5] text-[#0018d5] rounded-md p-2 cursor-pointer hover:bg-[#0018d5]hover:text-white has-[input:checked]:bg-[#0018d5] has-[input:checked]:shadow-2xl has[input:checked]:text-white transition-all">
 
-                                        {{$date->format('G:i')}}
+                                    {{$date->format('G:i')}}
 
-                                        <input type="radio" value="{{ $date->format('Y-m-d G:i') }}" name="date" id="date_{{ $date->format('Y-m-d_G:i') }}" class="hidden">
-                                    </label>
-                                    
+                                    <input type="radio" value="{{ $date->format('Y-m-d G:i') }}" name="date" id="date_{{ $date->format('Y-m-d_G:i') }}" class="hidden">
+                                </label>
                             @empty
-                                <p>There are no available dates for this day</p>
+                                <p class="col-span-6">There are no available dates for this day</p>
                             @endforelse
                         @else
-                            <p>There are no available dates for this day</p>
+                            <p class="col-span-6">There are no available dates for this day</p>
                         @endif
                     </div>
                 </div>
@@ -87,10 +86,10 @@
                                     <input type="radio" value="{{ $date->format('Y-m-d G:i') }}" name="date" id="date_{{ $date->format('Y-m-d_G:i') }}" class="hidden">
                                 </label>
                             @empty
-                                <p>There are no available dates for this day</p>
+                                <p class="col-span-6">There are no available dates for this day</p>
                             @endforelse
                         @else
-                            <p>There are no available dates for this day</p>
+                            <p class="col-span-6">There are no available dates for this day</p>
                         @endif
                     </div>
                 </div>
@@ -126,7 +125,7 @@
                                                 <input type="radio" value="{{ $time->format('Y-m-d G:i') }}" name="date" id="date_{{ $time->format('Y-m-d_G:i') }}" class="hidden">
                                             </label>
                                         @empty
-                                            <p>There are no available dates for this day</p>
+                                            <p class="col-span-6">There are no available dates for this day</p>
                                         @endforelse
                                     </div>
                                 </div>

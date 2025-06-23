@@ -58,7 +58,7 @@
         </div>
 
         <div class="mb-8">
-            <x-button role="ctaMain" :full="true">Check Available Dates</x-button>
+            <x-button role="ctaMain" :full="true" id="ctaButton" :disabled="true">Check Available Dates</x-button>
         </div>
 
     </form>

@@ -144,7 +144,7 @@
         </x-card>
 
         <div class="mb-8">
-            <x-button role="ctaMain" :full="true" id="bookAppointmentButton">Book Appointment</x-button>
+            <x-button role="ctaMain" :full="true" id="ctaButton" :disabled="true">Book Appointment</x-button>
         </div>
     </form>
 </x-user-layout>

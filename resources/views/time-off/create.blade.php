@@ -103,7 +103,7 @@
                 <x-label for="full_day">Full day offs</x-label>
             </div>
 
-            <x-button role="ctaMain" :full="true">
+            <x-button role="timeoffMain" :full="true">
                 Set Time Off
             </x-button>
 

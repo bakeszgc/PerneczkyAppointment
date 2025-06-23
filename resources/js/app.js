@@ -142,26 +142,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (barberRadioButtons && serviceRadioButtons) {
+
+        checkBarberServiceRadioButtons(barberRadioButtons, serviceRadioButtons, submitButton);
+
         barberRadioButtons.forEach(barberButton => {
             barberButton.addEventListener('change', function () {
-                const isAnyBarbersChecked = Array.from(barberRadioButtons).some(radio => radio.checked);
-                const isAnyServicesChecked = Array.from(serviceRadioButtons).some(radio => radio.checked);
-
-                if (submitButton) {
-                    submitButton.disabled = !isAnyBarbersChecked || !isAnyServicesChecked;
-                }
+                checkBarberServiceRadioButtons(barberRadioButtons, serviceRadioButtons, submitButton);
             });
         });
 
         serviceRadioButtons.forEach(serviceButton => {
             serviceButton.addEventListener('change', function () {
-                const isAnyBarbersChecked = Array.from(barberRadioButtons).some(radio => radio.checked);
-                const isAnyServicesChecked = Array.from(serviceRadioButtons).some(radio => radio.checked);
-
-                if (submitButton) {
-                    submitButton.disabled = !isAnyBarbersChecked || !isAnyServicesChecked;
-                }
+                checkBarberServiceRadioButtons(barberRadioButtons, serviceRadioButtons, submitButton);
             });
         });
     }
 });
+
+function checkBarberServiceRadioButtons(barberRadioButtons, serviceRadioButtons, submitButton) {
+    const isAnyBarbersChecked = Array.from(barberRadioButtons).some(radio => radio.checked);
+    const isAnyServicesChecked = Array.from(serviceRadioButtons).some(radio => radio.checked);
+    if (submitButton) { submitButton.disabled = !isAnyBarbersChecked || !isAnyServicesChecked; }
+}

@@ -55,9 +55,15 @@
 
             <div class="flex gap-2">
                 <x-button role="ctaMain">Save Changes</x-button>
-                <x-button role="destroy">Delete Service</x-button>
+                </form>
+
+                <form action="{{ route('services.destroy',$service) }}" method="POST">
+                    @method('DELETE')
+                    @csrf
+                    <x-button role="destroy">Delete Service</x-button>
+                </form>
             </div>
-        </form>
+        
     </x-card>
 
     <x-card>

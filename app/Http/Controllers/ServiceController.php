@@ -6,6 +6,7 @@ use App\Models\Appointment;
 use App\Models\Service;
 use App\Rules\MultipleOf;
 use Illuminate\Http\Request;
+use function PHPUnit\Framework\returnArgument;
 
 class ServiceController extends Controller
 {
@@ -69,8 +70,10 @@ class ServiceController extends Controller
         return redirect()->route('services.show',$service)->with('success',$service->name . " has been updated successfully!");
     }
 
-    public function destroy(string $id)
+    public function destroy(Service $service)
     {
-        //
+        $name = $service->name;
+        $service->delete();
+        return redirect()->route('services.index')->with('success', $name . " has been deleted successfully!");
     }
 }

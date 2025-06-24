@@ -41,7 +41,7 @@
         </div>
 
         <div>
-            <x-link-button link="" role="ctaMain">
+            <x-link-button :link="route('services.create')" role="ctaMain">
                 Add New Service
             </x-link-button>
         </div>

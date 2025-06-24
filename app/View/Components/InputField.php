@@ -15,6 +15,7 @@ class InputField extends Component
         public string $name,
         public ?string $id,
         public ?string $placeholder,
+        public bool $disabled = false,
         public bool $checked = false,
         public string $type = 'text',
         public string $value = '',

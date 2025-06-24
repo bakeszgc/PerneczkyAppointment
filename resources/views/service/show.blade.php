@@ -5,7 +5,7 @@
         $service->name => ''
     ]"/>
 
-    <x-headline class="mb-4">{{ $service->name }}</x-headline>
+    <x-headline class="mb-4">{{ $service->name }} {{ $service->deleted_at ? "(deleted)" : "" }}</x-headline>
 
     <x-card class="mb-6">
         <form action="{{ route('services.update',$service) }}" method="POST">
@@ -15,7 +15,7 @@
                 <x-label for="name">
                     Name
                 </x-label>
-                <x-input-field id="name" name="name" :value="old('name') ?? $service->name"></x-input-field>
+                <x-input-field id="name" name="name" :value="old('name') ?? $service->name" :disabled="isset($service->deleted_at)"></x-input-field>
                 @error('name')
                     <p class=" text-red-500">{{$message}}</p>
                 @enderror
@@ -26,7 +26,7 @@
                     <x-label for="price">
                         Price (in HUF)
                     </x-label>
-                    <x-input-field type="number" id="price" name="price" :value="old('price') ?? $service->price"></x-input-field>
+                    <x-input-field type="number" id="price" name="price" :value="old('price') ?? $service->price" :disabled="isset($service->deleted_at)"></x-input-field>
                     @error('price')
                         <p class=" text-red-500">{{$message}}</p>
                     @enderror
@@ -36,7 +36,7 @@
                     <x-label for="duration">
                         Duration (in minutes)
                     </x-label>
-                    <x-input-field type="number" id="duration" name="duration" :value="old('duration') ?? $service->duration"></x-input-field>
+                    <x-input-field type="number" id="duration" name="duration" :value="old('duration') ?? $service->duration" :disabled="isset($service->deleted_at)"></x-input-field>
                     @error('duration')
                         <p class=" text-red-500">{{$message}}</p>
                     @enderror
@@ -44,7 +44,7 @@
             </div>
 
             <div class="mb-4 flex gap-2">
-                <x-input-field type="checkbox" name="is_visible" id="is_visible" :checked="$service->is_visible" value="is_visible"></x-input-field>
+                <x-input-field type="checkbox" name="is_visible" id="is_visible" :checked="$service->is_visible" value="is_visible" :disabled="isset($service->deleted_at)"></x-input-field>
                 <label for="is_visible">
                     Visible for everyone
                 </label>
@@ -54,13 +54,14 @@
             </div>
 
             <div class="flex gap-2">
-                <x-button role="ctaMain">Save Changes</x-button>
+                <x-button role="ctaMain" :disabled="isset($service->deleted_at)">Save Changes</x-button>
                 </form>
+
                 @if ($service->deleted_at)
                     <form action="{{ route('services.restore',$service) }}" method="POST">
                         @method('PUT')
                         @csrf
-                        <x-button role="">Restore Service</x-button>
+                        <x-button role="restore">Restore Service</x-button>
                     </form>
                 @else
                     <form action="{{ route('services.destroy',$service) }}" method="POST">

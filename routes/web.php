@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ServiceController;
 use App\Models\Appointment;
 use App\Models\Barber;
 use App\Models\Service;
@@ -87,3 +88,5 @@ Route::get('/',function() {
 // ADMIN - TEMP
 Route::get('/admin', [AdminController::class,'index'])->name('admin');
 Route::get('/admin/barbers', [AdminController::class,'barberIndex'])->name('admin.barbers.index');
+
+Route::resource('/admin/services',ServiceController::class);

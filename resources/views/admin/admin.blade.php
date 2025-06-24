@@ -47,8 +47,8 @@
                 Add New Service
             </x-link-button>
 
-            <x-link-button link="">
-                Show Details
+            <x-link-button :link="route('services.index')">
+                Show All Services
             </x-link-button>
         </div>
     </x-show-card>

@@ -62,24 +62,32 @@
             </div>
 
             <div class="flex justify-between items-center gap-4 max-lg:flex-col max-lg:translate-y-2 max-lg:bg-[#0f0f0f] max-lg:pt-12 max-lg:pb-6 max-lg:-translate-x-full nav-menu" id="nav-menu">
-                <ul class="flex items-center gap-4 max-lg:flex-col">
+                <ul class="flex items-center gap-2 max-lg:flex-col">
                     <li>
                         Welcome, {{auth()->user()->barber->display_name ?? auth()->user()->first_name ?? 'Guest'}}!
                     </li>
 
-                    <li>
-                        @if (auth()->user()->barber ?? false)
+                    @if (auth()->user()->barber)
+                        <li>
                             @if ($currentView !== 'barber')
                                 <a href="{{ route('appointments.index') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
-                                Switch to Barber View
+                                Barber View
                                 </a>
                             @else
                                 <a href="{{ route('my-appointments.index') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
-                                Switch to Customer View
+                                Customer View
                                 </a>
                             @endif
-                        @endif
-                    </li>
+                        </li>
+                    @endif
+
+                    @if (auth()->user()->isAdmin)
+                        <li>
+                            <a href="{{ route('admin') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
+                                Admin Dashboard
+                            </a>
+                        </li>
+                    @endif
                 </ul>
 
                 <ul class="flex items-center gap-4 max-lg:flex-col">

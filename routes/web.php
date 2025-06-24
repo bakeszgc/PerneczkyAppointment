@@ -89,4 +89,4 @@ Route::get('/',function() {
 Route::get('/admin', [AdminController::class,'index'])->name('admin');
 Route::get('/admin/barbers', [AdminController::class,'barberIndex'])->name('admin.barbers.index');
 
-Route::resource('/admin/services',ServiceController::class);
+Route::resource('/admin/services',ServiceController::class)->except(['edit']);

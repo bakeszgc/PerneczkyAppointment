@@ -16,6 +16,9 @@
                     Name
                 </x-label>
                 <x-input-field id="name" name="name" :value="old('name') ?? $service->name"></x-input-field>
+                @error('name')
+                    <p class=" text-red-500">{{$message}}</p>
+                @enderror
             </div>
 
             <div class="grid grid-cols-2 gap-4 mb-4">
@@ -24,6 +27,9 @@
                         Price (in HUF)
                     </x-label>
                     <x-input-field type="number" id="price" name="price" :value="old('price') ?? $service->price"></x-input-field>
+                    @error('price')
+                        <p class=" text-red-500">{{$message}}</p>
+                    @enderror
                 </div>
 
                 <div class="flex flex-col">
@@ -31,14 +37,20 @@
                         Duration (in minutes)
                     </x-label>
                     <x-input-field type="number" id="duration" name="duration" :value="old('duration') ?? $service->duration"></x-input-field>
+                    @error('duration')
+                        <p class=" text-red-500">{{$message}}</p>
+                    @enderror
                 </div>
             </div>
 
             <div class="mb-4 flex gap-2">
-                <x-input-field type="checkbox" name="is_visible" id="is_visible" :checked="$service->is_visible"></x-input-field>
+                <x-input-field type="checkbox" name="is_visible" id="is_visible" :checked="$service->is_visible" value="is_visible"></x-input-field>
                 <label for="is_visible">
                     Visible for everyone
                 </label>
+                @error('is_visible')
+                    <p class=" text-red-500">{{$message}}</p>
+                @enderror
             </div>
 
             <div class="flex gap-2">

@@ -11,6 +11,8 @@ class Service extends Model
     /** @use HasFactory<\Database\Factories\ServiceFactory> */
     use HasFactory;
 
+    protected $fillable = ['name','price','duration','is_visible'];
+
     public function appointments(): HasMany {
         return $this->hasMany(Appointment::class);
     }

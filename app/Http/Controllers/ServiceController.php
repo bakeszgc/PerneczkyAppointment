@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\Service;
+use App\Rules\MultipleOf;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
@@ -49,20 +50,22 @@ class ServiceController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, Service $service)
     {
-        //
-    }
+        $request->validate([
+            'name' => ['required','string','min:3','max:255'],
+            'price' => ['required','integer','min:100','max:100000'],
+            'duration' => ['required','integer','multiple_of:15','min:15']
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        $service->update([
+            'name' => $request->name,
+            'price' => $request->price,
+            'duration' => $request->duration,
+            'is_visible' => $request->is_visible ? true : false
+        ]);
+
+        return redirect()->route('services.show',$service)->with('success',$service->name . " has been updated successfully!");
     }
 
     /**

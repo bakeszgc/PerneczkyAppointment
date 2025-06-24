@@ -56,12 +56,19 @@
             <div class="flex gap-2">
                 <x-button role="ctaMain">Save Changes</x-button>
                 </form>
-
-                <form action="{{ route('services.destroy',$service) }}" method="POST">
-                    @method('DELETE')
-                    @csrf
-                    <x-button role="destroy">Delete Service</x-button>
-                </form>
+                @if ($service->deleted_at)
+                    <form action="{{ route('services.restore',$service) }}" method="POST">
+                        @method('PUT')
+                        @csrf
+                        <x-button role="">Restore Service</x-button>
+                    </form>
+                @else
+                    <form action="{{ route('services.destroy',$service) }}" method="POST">
+                        @method('DELETE')
+                        @csrf
+                        <x-button role="destroy">Delete Service</x-button>
+                    </form>
+                @endif
             </div>
         
     </x-card>

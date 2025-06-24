@@ -19,9 +19,12 @@
                     <td></td>
                 </tr>
                 @forelse ($services as $service)
-                    <tr class="odd:bg-slate-100 hover:bg-slate-200 *:p-2">
+                    <tr @class([
+                        'odd:bg-slate-100 hover:bg-slate-200 *:p-2',
+                        'text-slate-500' => $service->deleted_at
+                        ])>
                         <td>{{ $service->id }}</td>
-                        <td>{{ $service->name }}</td>
+                        <td>{{ $service->name }} {{ $service->deleted_at ? '(deleted)' : '' }}</td>
                         <td>{{ number_format($service->price,thousands_separator:" ") }} Ft</td>
                         <td>{{ $service->duration }}&nbsp;minutes</td>
                         <td>{{ $service->created_at }}</td>
@@ -35,6 +38,14 @@
                         </td>
                     </tr>
                 @empty
+                    <tr>
+                        <td colspan="7">
+                            <x-empty-card class="mt-4">
+                                <p class="text-lg font-medium">You don't have any services yet!</p>
+                                <a href="{{ route('services.create') }}" class=" text-blue-700 hover:underline">Add a new one here!</a>
+                            </x-empty-card>
+                        </td>
+                    </tr>
 
                 @endforelse
             </table>

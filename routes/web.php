@@ -89,4 +89,5 @@ Route::get('/',function() {
 Route::get('/admin', [AdminController::class,'index'])->name('admin');
 Route::get('/admin/barbers', [AdminController::class,'barberIndex'])->name('admin.barbers.index');
 
-Route::resource('/admin/services',ServiceController::class)->except(['edit']);
+Route::resource('/admin/services',ServiceController::class)->withTrashed(['show'])->except(['edit']);
+Route::put('/admin/services/{service}/restore',[ServiceController::class,'restore'])->withTrashed()->name('services.restore');

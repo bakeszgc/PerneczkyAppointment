@@ -12,7 +12,7 @@ class ServiceController extends Controller
 {
     public function index()
     {
-        $services = Service::all();
+        $services = Service::withTrashed()->get();
         return view('service.index',['services' => $services]);
     }
 
@@ -73,7 +73,16 @@ class ServiceController extends Controller
     public function destroy(Service $service)
     {
         $name = $service->name;
+        $service->update([
+            'is_visible' => 0
+        ]);
         $service->delete();
-        return redirect()->route('services.index')->with('success', $name . " has been deleted successfully!");
+        return redirect()->route('services.show',$service)->with('success', $name . " has been deleted successfully!");
+    }
+
+    public function restore(Service $service)
+    {
+        $service->restore();
+        return redirect()->route('services.show',$service)->with('success',$service->name . " has been restored successfully!");
     }
 }

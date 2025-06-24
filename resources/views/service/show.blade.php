@@ -7,7 +7,7 @@
 
     <x-headline class="mb-4">{{ $service->name }}</x-headline>
 
-    <x-card>
+    <x-card class="mb-6">
         <form action="{{ route('services.update',$service) }}" method="POST">
             @method('PUT')
             @csrf
@@ -59,11 +59,13 @@
             </div>
         </form>
     </x-card>
+
     <x-card>
-        <h2>Statistics about this service</h2>
-        <ul>
+        <h2 class="text-xl font-bold mb-4">Statistics about this service</h2>
+        <ul class="*:mb-2">
             <li>Service booked: {{ $number }} times</li>
             <li>Revenue generated from this service: {{ number_format($revenue,thousands_separator:' ') }} Ft</li>
+            <li>jöhet ide még valami info</li>
         </ul>
     </x-card>
 </x-user-layout>

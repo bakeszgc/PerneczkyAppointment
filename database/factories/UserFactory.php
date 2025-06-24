@@ -32,6 +32,7 @@ class UserFactory extends Factory
             'date_of_birth' => fake()->dateTimeBetween('-60 years','-10 years'),
             'password' => static::$password ??= Hash::make('password'),
             'pfp_path' => null,
+            'isAdmin' => false,
             'remember_token' => Str::random(10),
         ];
     }

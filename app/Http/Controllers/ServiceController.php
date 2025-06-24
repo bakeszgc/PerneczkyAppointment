@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use App\Models\Service;
 use Illuminate\Http\Request;
 
@@ -35,9 +36,17 @@ class ServiceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Service $service)
     {
-        //
+        $appointments = Appointment::where('service_id','=',$service->id);
+        $revenue = $appointments->clone()->sum('price');
+        $numberOfBookings = $appointments->clone()->count();
+
+        return view('service.show',[
+            'service' => $service,
+            'revenue' => $revenue,
+            'number' => $numberOfBookings
+        ]);
     }
 
     /**

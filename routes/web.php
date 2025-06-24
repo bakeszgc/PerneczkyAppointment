@@ -83,3 +83,15 @@ Route::get('/',function() {
     ]);
 })->name('home');
 
+// ADMIN - TEMP
+Route::get('/admin', function() {
+    $barbers = Barber::limit(6)->get();
+
+    $services = Service::all();
+
+    return view('admin',[
+        'barbers' => $barbers,
+        'services' => $services
+    ]);
+
+})->name('admin');

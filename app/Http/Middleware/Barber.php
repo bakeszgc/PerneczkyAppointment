@@ -17,7 +17,7 @@ class Barber
     {
         if ($request->user() === null) {
             return redirect()->route('login');
-        } elseif ($request->user()->barber === null) {
+        } elseif ($request->user()->barber === null && $request->user()->isAdmin === 0) {
             return redirect()->route('my-appointments.index');
         }
 

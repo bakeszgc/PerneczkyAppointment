@@ -43,7 +43,7 @@
         </div>
 
         <div class="flex gap-2">
-            <x-link-button link="" role="ctaMain">
+            <x-link-button :link="route('services.create')" role="ctaMain">
                 Add New Service
             </x-link-button>
 

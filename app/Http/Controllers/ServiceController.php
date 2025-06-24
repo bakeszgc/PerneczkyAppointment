@@ -9,34 +9,35 @@ use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $services = Service::all();
         return view('service.index',['services' => $services]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('service.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required','string','min:3','max:255'],
+            'price' => ['required','integer','min:100','max:100000'],
+            'duration' => ['required','integer','multiple_of:15','min:15']
+        ]);
+
+        $service = Service::create([
+            'name' => $request->name,
+            'price' => $request->price,
+            'duration' => $request->duration,
+            'is_visible' => $request->is_visible ? true : false
+        ]);
+
+        return redirect()->route('services.show',$service)->with('success',$service->name . " has been created successfully!");
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Service $service)
     {
         $appointments = Appointment::where('service_id','=',$service->id);
@@ -68,9 +69,6 @@ class ServiceController extends Controller
         return redirect()->route('services.show',$service)->with('success',$service->name . " has been updated successfully!");
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //

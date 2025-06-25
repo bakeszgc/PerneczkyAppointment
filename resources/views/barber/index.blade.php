@@ -27,10 +27,10 @@
                         <td>{{ $barber->getName() }}</td>
                         <td>{{ $barber->created_at }}</td>
                         <td class="text-center">
-                            <input type="checkbox" {{ $barber->isVisible ? 'checked' : '' }}>
+                            <input type="checkbox" {{ $barber->is_visible ? 'checked' : '' }}>
                         </td>
                         <td class="text-center">
-                            <input type="checkbox" {{ $barber->user->isAdmin ? 'checked=' : '' }}>
+                            <input type="checkbox" {{ $barber->user->is_admin ? 'checked=' : '' }}>
                         </td>
                         <td>
                             <x-link-button role="show" link="">

@@ -66,7 +66,7 @@
     <body class="bg-slate-50 text-slate-800">
         <nav class="h-12 bg-black py-2 px-4 max-lg:px-0 text-white font-extrabold w-full fixed z-40 drop-shadow-lg  id="navbar">
 
-            <img src="{{ asset('logo/perneczky_circle.png') }}" alt="Perneczky BarberShop" id="logo" class="absolute left-1/2 h-20 -translate-x-10 top-2 z-50">
+            <img src="{{ asset('logo/perneczky_circle.png') }}" alt="Perneczky BarberShop" id="logo" class="absolute left-1/2 h-20 -translate-x-5 top-2 z-50">
 
             <div class="hamburger hidden cursor-pointer max-lg:block w-fit ml-4 mt-1">
                 <span class="bar"></span>
@@ -94,7 +94,7 @@
                         </li>
                     @endif
 
-                    @if (auth()->user()->isAdmin)
+                    @if (auth()->user()->is_admin)
                         <li>
                             <a href="{{ route('admin') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
                                 Admin Dashboard

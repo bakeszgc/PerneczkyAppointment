@@ -17,9 +17,4 @@ class AdminController extends Controller
             'services' => $services
         ]);
     }
-
-    public function barberIndex() {
-        $barbers = Barber::all();
-        return view('admin.barber_index',['barbers' => $barbers]);
-    }
 }

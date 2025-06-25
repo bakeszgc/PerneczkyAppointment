@@ -22,7 +22,7 @@
                 Add New Barber
             </x-link-button>
 
-            <x-link-button :link="route('admin.barbers.index')">
+            <x-link-button :link="route('barbers.index')">
                 Show All Barbers
             </x-link-button>
         </div>

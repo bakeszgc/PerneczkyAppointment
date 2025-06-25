@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BarberController;
 use App\Http\Controllers\ServiceController;
 use App\Models\Appointment;
 use App\Models\Barber;
@@ -87,7 +88,8 @@ Route::get('/',function() {
 
 // ADMIN - TEMP
 Route::get('/admin', [AdminController::class,'index'])->name('admin');
-Route::get('/admin/barbers', [AdminController::class,'barberIndex'])->name('admin.barbers.index');
 
 Route::resource('/admin/services',ServiceController::class)->withTrashed(['show'])->except(['edit']);
 Route::put('/admin/services/{service}/restore',[ServiceController::class,'restore'])->withTrashed()->name('services.restore');
+
+Route::resource('/admin/barbers',BarberController::class)->withTrashed(['show'])->except(['edit']);

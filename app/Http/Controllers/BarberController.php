@@ -32,7 +32,16 @@ class BarberController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'user_id' => ['required','integer','exists:users,id']
+        ]);
+
+        $barber = Barber::create([
+            'user_id' => $request->user_id,
+            'is_visible' => false
+        ]);
+
+        return redirect()->route('barbers.show',$barber)->with('success','New barber has been created successfully!');
     }
 
     public function show(Request $request, Barber $barber)

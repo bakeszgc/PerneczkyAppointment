@@ -31,7 +31,11 @@
         <ul class="flex flex-col gap-4">
             @forelse ($users as $user)
                 <form action="{{ route('barbers.store') }}" method="POST">
+                    @csrf
+                    
                     <li class="flex justify-between {{ !$loop->last ? 'border-b pb-2' : '' }}">
+                        <input type="hidden" name="user_id" value="{{ $user->id }}">
+
                         <div>
                             <h3 class="font-bold text-xl mb-1">
                                 {{ $user->first_name }} {{ $user->last_name }}
@@ -41,20 +45,16 @@
                         </div>
 
                         @if ($user->barber)
-                            <div class="text-right">
+                            <div class="flex flex-col gap-1 items-end">
                                 <x-button role="ctaMain" disabled>Already a Barber</x-button>
-                                <div class="mt-1">
-                                    <a href="{{ route('barbers.show',$user->barber) }}" class="text-sm text-[#0018d5] hover:underline mt-8">
-                                        View {{ $user->barber->getName() }}'s profile
-                                    </a>
-                                </div>
 
+                                <a href="{{ route('barbers.show',$user->barber) }}" class="text-sm text-[#0018d5] hover:underline">
+                                    View {{ $user->barber->getName() }}'s profile
+                                </a>
                             </div>
                         @else
                             <x-button role="ctaMain">Promote to Barber</x-button>
                         @endif
-                        
-
                     </li>
                 </form>
             @empty

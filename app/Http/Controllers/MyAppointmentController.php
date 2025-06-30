@@ -63,9 +63,9 @@ class MyAppointmentController extends Controller
 
         $barbers = Barber::when(auth()->user()->barber != null, function($q) {
             return $q->where('id','!=',auth()->user()->barber->id);
-        })->get();
+        })->where('is_visible','=',1)->get();
 
-        $services = Service::where('id','!=',1)->get();
+        $services = Service::where('is_visible','=',1)->get();
 
         return view('my-appointment.create_barber_service',[
             'barbers' => $barbers,

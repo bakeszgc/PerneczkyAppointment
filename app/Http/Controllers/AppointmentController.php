@@ -93,7 +93,7 @@ class AppointmentController extends Controller
             return redirect()->route('appointments.create')->with('error','Please select a valid user from the list!');
         }
 
-        $services = Service::where('id','!=',1)->get();
+        $services = Service::where('is_visible','=',1)->get();
         return view('appointment.create_service',['services' => $services]);
     }
 
@@ -266,7 +266,7 @@ class AppointmentController extends Controller
 
         $nextAppointment = Appointment::where('barber_id','=',auth()->user()->barber->id)->where('app_start_time','>=',$appointment->app_end_time)->orderBy('app_start_time')->first();
 
-        $services = Service::where('id','!=',1)->get();
+        $services = Service::where('is_visible','=',1)->get();
 
         return view('appointment.edit', [
             'appointment' => $appointment,

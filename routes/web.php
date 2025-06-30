@@ -77,8 +77,8 @@ Route::middleware('barber')->group(function() {
 // DEV HOME
 Route::get('/',function() {
 
-    $barbers = Barber::all();
-    $services = Service::where('id','!=',1)->get();
+    $barbers = Barber::where('is_visible','=',1)->get();
+    $services = Service::where('is_visible','=',1)->get();
 
     return view('home',[
         'barbers' => $barbers,

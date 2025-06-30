@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barber;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -14,9 +15,19 @@ class BarberController extends Controller
         return view('barber.index',['barbers' => $barbers]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        //
+
+        $query = $request->input('query');
+
+        $users = User::when($query, function ($q) use ($query) {
+            $q->where('first_name','like',"%$query%")
+            ->orWhere('last_name','like',"%$query%")
+            ->orWhere('email','like',"%$query%")
+            ->orWhere('tel_number','like',"%$query%");
+        })->paginate(10);
+
+        return view('barber.create',['users' => $users]);
     }
 
     public function store(Request $request)

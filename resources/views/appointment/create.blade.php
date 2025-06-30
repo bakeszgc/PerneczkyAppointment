@@ -38,9 +38,9 @@
                     <x-link-button link="{{ route('appointments.create.service',['user_id' => $user->id]) }}" role="ctaMain">Select Customer</x-link-button>
                 </li>
             @empty
-                <li>
-                    There are no customers with matching properties.
-                </li>
+                <x-empty-card>
+                    There aren't any users with matching properties
+                </x-empty-card>
             @endforelse
         </ul>
     </x-card>

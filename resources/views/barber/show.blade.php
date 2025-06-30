@@ -80,10 +80,25 @@
                 </div>
             </div>
             
-            <div>
-                <x-button role="ctaMain" :full="true">Save Changes</x-button>
+            <div class="flex gap-2">
+                <x-button role="ctaMain" :disabled="isset($barber->deleted_at)">Save Changes</x-button>
+                </form>
+
+                @if ($barber->deleted_at)
+                    <form action="{{ route('barbers.restore',$barber) }}" method="POST">
+                        @method('PUT')
+                        @csrf
+                        <x-button role="restore">Restore Barber Access</x-button>
+                    </form>
+                @else
+                    <form action="{{ route('barbers.destroy',$barber) }}" method="POST">
+                        @method('DELETE')
+                        @csrf
+                        <x-button role="destroy">Remove Barber Access</x-button>
+                    </form>
+                @endif
             </div>
-        </form>
+        
     </x-show-card>
 
     <x-show-card :show="$showPicture" type="picture" class="mb-4">

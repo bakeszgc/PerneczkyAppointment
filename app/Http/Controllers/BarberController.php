@@ -11,7 +11,7 @@ class BarberController extends Controller
 {
     public function index()
     {
-        $barbers = Barber::all();
+        $barbers = Barber::withTrashed()->get();
         return view('barber.index',['barbers' => $barbers]);
     }
 
@@ -48,19 +48,16 @@ class BarberController extends Controller
     {
         $request->validate([
             'showProfile' => 'nullable|boolean',
-            'showPicture' => 'nullable|boolean',
-            'showDestroy' => 'nullable|boolean'
+            'showPicture' => 'nullable|boolean'
         ]);
 
         $showProfile = $request->showProfile ?? true;
         $showPicture = $request->showPicture ?? false;
-        $showDestroy = $request->showDestroy ?? false;
 
         return view('barber.show',[
             'barber' => $barber,
             'showProfile' => $showProfile,
-            'showPicture' => $showPicture,
-            'showDestroy' => $showDestroy
+            'showPicture' => $showPicture
         ]);
     }
 
@@ -93,8 +90,18 @@ class BarberController extends Controller
         return redirect()->route('barbers.show',['barber' => $barber,'showProfile' => true])->with('success',$barber->getName() . "'s personal details have been updated successfully!");
     }
 
-    public function destroy(string $id)
+    public function destroy(Barber $barber)
     {
-        //
+        $barber->update([
+            'is_visible' => false
+        ]);        
+        $barber->delete();
+        return redirect()->route('barbers.show',$barber)->with('success',$barber->getName() . "'s barber access has been removed successfully!");
+    }
+
+    public function restore(Barber $barber)
+    {
+        $barber->restore();
+        return redirect()->route('barbers.show',$barber)->with('success',$barber->getName() . "'s barber access has been restored successfully!");
     }
 }

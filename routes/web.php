@@ -93,3 +93,4 @@ Route::resource('/admin/services',ServiceController::class)->withTrashed(['show'
 Route::put('/admin/services/{service}/restore',[ServiceController::class,'restore'])->withTrashed()->name('services.restore');
 
 Route::resource('/admin/barbers',BarberController::class)->withTrashed(['show'])->except(['edit']);
+Route::put('/admin/barbers/{barber}/restore',[BarberController::class,'restore'])->withTrashed()->name('barbers.restore');

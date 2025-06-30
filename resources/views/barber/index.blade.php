@@ -12,19 +12,21 @@
                 <tr class="*:font-bold *:p-2 bg-slate-300">
                     <td class="max-lg:hidden"></td>
                     <td>ID</td>
-                    <td>Real name</td>
                     <td>Display name</td>
+                    <td>Real name</td>
                     <td>Barber since</td>
                     <td>Visible</td>
                     <td>Admin</td>
                     <td></td>
                 </tr>
                 @forelse ($barbers as $barber)
-                    <tr class="odd:bg-slate-100 hover:bg-slate-200 *:p-2">
+                    <tr @class([
+                        'odd:bg-slate-100 hover:bg-slate-200 *:p-2',
+                        'text-slate-500' => $barber->deleted_at])>
                         <td class="max-lg:hidden"><img src="{{ $barber->getPicture() }}" alt="{{ $barber->getName() }}" class="h-16 rounded-md"></td>
                         <td class="text-center">{{ $barber->id }}</td>
+                        <td>{{ $barber->getName() }} {{ $barber->deleted_at ? '(deleted)' : '' }}</td>
                         <td>{{ $barber->user->first_name . " " . $barber->user->last_name }}</td>
-                        <td>{{ $barber->getName() }}</td>
                         <td>{{ $barber->created_at }}</td>
                         <td class="text-center">
                             <input type="checkbox" {{ $barber->is_visible ? 'checked' : '' }}>

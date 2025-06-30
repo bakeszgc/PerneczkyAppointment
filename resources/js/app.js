@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 submitDiv.removeAttribute("hidden","");
             });
             
-            title.innerHTML = "Your updated profile picture";
+            title.innerHTML = "Updated profile picture";
             toggleElement(cropModal);
         });
     }

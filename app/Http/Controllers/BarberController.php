@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barber;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class BarberController extends Controller
 {
@@ -43,14 +44,33 @@ class BarberController extends Controller
         ]);
     }
 
-    public function edit(string $id)
+    public function update(Request $request, Barber $barber)
     {
-        //
-    }
+        $user = $barber->user;
 
-    public function update(Request $request, string $id)
-    {
-        //
+        $request->validate([
+            'first_name' => ['required','string','max:255'],
+            'last_name' => ['required','string','max:255'],
+            'display_name' => ['nullable','string','max:255',Rule::unique('barbers','display_name')->ignore($barber->id)],
+            'email' => ['required','email',Rule::unique('users','email')->ignore($user->id)],
+            'date_of_birth' => ['required','date','before_or_equal:today'],
+            'telephone_number' => ['required','starts_with:+,0','numeric',Rule::unique('users','tel_number')->ignore($user->id)]
+        ]);
+
+        $barber->update([
+            'display_name' => $request->display_name,
+            'is_visible' => $request->is_visible ? true : false
+        ]);
+
+        $user->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'date_of_birth' => $request->date_of_birth,
+            'tel_number' => $request->telephone_number
+        ]);
+
+        return redirect()->route('barbers.show',['barber' => $barber,'showProfile' => true])->with('success',$barber->getName() . "'s personal details have been updated successfully!");
     }
 
     public function destroy(string $id)

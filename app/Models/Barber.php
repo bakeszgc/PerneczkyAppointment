@@ -12,6 +12,8 @@ class Barber extends Model
     /** @use HasFactory<\Database\Factories\BarberFactory> */
     use HasFactory;
 
+    protected $fillable = ['display_name','is_visible'];
+
     public function user():BelongsTo {
         return $this->belongsTo(User::class);
     }

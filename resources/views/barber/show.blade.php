@@ -7,12 +7,12 @@
 
     <x-headline class="mb-4">{{ $barber->getName() }} {{ $barber->deleted_at ? "(deleted)" : "" }}</x-headline>
 
-    <x-show-card :show="true" type="profile" class="mb-4">
-        <form action="{{ route('barbers.update',$barber->user) }}" method="POST">
+    <x-show-card :show="$showProfile" type="profile" class="mb-4">
+        <form action="{{ route('barbers.update',$barber) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="mb-4">
-                <div class=" grid grid-cols-2 gap-2">
+                <div class="grid grid-cols-2 gap-2 mb-4">
                     <div class="flex flex-col">
                         <x-label for="first_name">First name</x-label>
                         <x-input-field name="first_name" id="first_name" value="{{ old('first_name') ??$barber->user->first_name }}" />
@@ -67,9 +67,19 @@
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
                     </div>
+                </div>
 
+                <div class="mb-4 flex gap-2">
+                    <x-input-field type="checkbox" name="is_visible" id="is_visible" :checked="$barber->is_visible" value="is_visible" :disabled="isset($barber->deleted_at)"></x-input-field>
+                    <label for="is_visible">
+                        Visible for everyone
+                    </label>
+                    @error('is_visible')
+                        <p class=" text-red-500">{{$message}}</p>
+                    @enderror
                 </div>
             </div>
+            
             <div>
                 <x-button role="ctaMain" :full="true">Save Changes</x-button>
             </div>

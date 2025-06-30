@@ -8,7 +8,9 @@
     <x-show-card :show="true" type="barbers" class="mb-6">
         <div class="grid grid-cols-3 gap-6 mb-6">
             @forelse ($barbers as $barber)
-                <x-barber-picture :barber="$barber" />
+                <a href="{{ route('barbers.show',$barber) }}">
+                    <x-barber-picture :barber="$barber" />
+                </a>
             @empty
                 <x-empty-card class="col-span-3">
                     <p class="text-lg font-medium">You don't have any barbers!</p>
@@ -18,7 +20,7 @@
         </div>
 
         <div class="flex gap-2">
-            <x-link-button link="" role="ctaMain">
+            <x-link-button :link="route('barbers.create')" role="ctaMain">
                 Add New Barber
             </x-link-button>
 
@@ -31,7 +33,7 @@
     <x-show-card :show="true" type="services">
         <div class="grid grid-cols-2 gap-4 mb-6">
             @forelse ($services as $service)
-                <x-link-button link="" :full="true">
+                <x-link-button link="{{ route('services.show',$service) }}" :full="true">
                     {{ $service->name }}
                 </x-link-button>
             @empty

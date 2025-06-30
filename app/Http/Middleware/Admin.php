@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Barber
+class Admin
 {
     /**
      * Handle an incoming request.
@@ -17,7 +17,7 @@ class Barber
     {
         if ($request->user() === null) {
             return redirect()->route('login')->with('error','Please sign in before accessing that page!');
-        } elseif ($request->user()->barber === null && $request->user()->is_admin === 0) {
+        } elseif (!$request->user()->is_admin) {
             return back()->with('error','You are not authorized to access that page!');
         }
 

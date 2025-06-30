@@ -53,7 +53,7 @@ Route::middleware(['auth','verified'])->group(function() {
 });
 
 // BARBER ROUTES
-Route::middleware('barber')->group(function() {
+Route::middleware(['barber'])->group(function() {
 
     // BARBER APPOINTMENTS
     Route::get('appointments/upcoming',[AppointmentController::class,'indexUpcoming'])->name('appointments.upcoming');
@@ -74,7 +74,25 @@ Route::middleware('barber')->group(function() {
     Route::post('/upload-cropped/{user}',[PictureController::class,'uploadCropped'])->name('upload-cropped');
 });
 
-// DEV HOME
+// ADMIN ROUTES
+Route::middleware(['admin'])->group(function() {
+
+    // DASHBOARD
+    Route::get('/admin', [AdminController::class,'index'])->name('admin');
+
+    // SERVICES
+    Route::resource('/admin/services',ServiceController::class)->withTrashed(['show'])->except(['edit']);
+    Route::put('/admin/services/{service}/restore',[ServiceController::class,'restore'])->withTrashed()->name('services.restore');
+
+    // BARBERS
+    Route::resource('/admin/barbers',BarberController::class)->withTrashed(['show'])->except(['edit']);
+    Route::put('/admin/barbers/{barber}/restore',[BarberController::class,'restore'])->withTrashed()->name('barbers.restore');
+
+    // BARBER PROFILE PICTURE
+    Route::post('/upload-cropped/{user}',[PictureController::class,'uploadCropped'])->name('upload-cropped');
+});
+
+// HOMEPAGE
 Route::get('/',function() {
 
     $barbers = Barber::where('is_visible','=',1)->get();
@@ -85,12 +103,3 @@ Route::get('/',function() {
         'services' => $services
     ]);
 })->name('home');
-
-// ADMIN - TEMP
-Route::get('/admin', [AdminController::class,'index'])->name('admin');
-
-Route::resource('/admin/services',ServiceController::class)->withTrashed(['show'])->except(['edit']);
-Route::put('/admin/services/{service}/restore',[ServiceController::class,'restore'])->withTrashed()->name('services.restore');
-
-Route::resource('/admin/barbers',BarberController::class)->withTrashed(['show'])->except(['edit']);
-Route::put('/admin/barbers/{barber}/restore',[BarberController::class,'restore'])->withTrashed()->name('barbers.restore');

@@ -1,6 +1,12 @@
-<x-user-layout title="Create an Account - ">
-    <x-card class="p-8 mb-8">
-        <h1 class=" font-bold text-2xl text-center mb-6">Create a New Account</h1>
+<x-user-layout title="Register - ">
+
+    <x-breadcrumbs :links="[
+        'Register' => ''
+    ]" />
+
+    <x-headline class="mb-4">Create a New Account</x-headline>
+
+    <x-card class="mb-8">
         <div class="m-4">
             <form action="{{route('user.store')}}" method="POST">
                 @csrf

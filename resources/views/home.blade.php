@@ -103,7 +103,7 @@
             </div>
             <div class="px-4">
                 <h2 class="text-2xl font-black mb-2">Approaching</h2>
-                <p class="text-justify">Our store is only a 5-minute walk away from the Corvin-negyed or Semmelweis Klinikák stops of the M3 subway, and from the Corvin-negyed stop of trams 4-6 too!</p>
+                <p class="text-justify">Our store is only a 5-minute walk away from the Corvin-negyed or Semmelweis Klinikák stops of the M3 subway, and from the Corvin-negyed stop of trams 4&#8209;6 too!</p>
             </div>
         </div>
 

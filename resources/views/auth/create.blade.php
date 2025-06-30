@@ -1,6 +1,11 @@
 <x-user-layout title="Sign In - ">
-    <x-card class="p-8 mb-8">
-        <h1 class=" font-bold text-2xl text-center mb-4">Sign in to Your Account</h1>
+    <x-breadcrumbs :links="[
+        'Sign In' => ''
+    ]" />
+
+    <x-headline class="mb-4">Sign in to Your Account</x-headline>
+
+    <x-card class="mb-8">
         <div class="m-4">
             <form action="{{route('auth.store')}}" method="POST">
                 @csrf
@@ -22,11 +27,11 @@
 
                 <div class="mb-4 flex justify-between items-center">
                     <div class="flex items-center gap-2">
-                        <input type="checkbox" name="remember" id="remember">
+                        <x-input-field id="remember" name="remember" type="checkbox" />
                         <x-label for="remember">Remember me</x-label>
                     </div>
                     <div>
-                        Forgot your password?
+                        <a href="" class="text-[#0018d5] hover:underline">Forgot your password?</a>
                     </div>
                 </div>
 

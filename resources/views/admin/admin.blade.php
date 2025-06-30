@@ -14,7 +14,7 @@
             @empty
                 <x-empty-card class="col-span-3">
                     <p class="text-lg font-medium">You don't have any barbers!</p>
-                    <a href="" class=" text-blue-700 hover:underline">Add a new one here!</a>
+                    <a href="{{ route('barbers.create') }}" class=" text-blue-700 hover:underline">Add a new one here!</a>
                 </x-empty-card>
             @endforelse
         </div>
@@ -39,7 +39,7 @@
             @empty
                 <x-empty-card class="col-span-3">
                     <p class="text-lg font-medium">You don't have any barbers!</p>
-                    <a href="" class=" text-blue-700 hover:underline">Add a new one here!</a>
+                    <a href="{{ route('services.create') }}" class=" text-blue-700 hover:underline">Add a new one here!</a>
                 </x-empty-card>
             @endforelse
         </div>

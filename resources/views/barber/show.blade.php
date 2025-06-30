@@ -1,67 +1,68 @@
-<x-user-layout title="Account Settings - ">
+<x-user-layout currentView="admin" :title="$barber->getName() . ' - '">
     <x-breadcrumbs :links="[
-        'Account Settings' => ''
-    ]" />
-    <h1 class="font-extrabold text-4xl mb-4">Account Settings</h1>
+        'Admin Dashboard' => route('admin'),
+        'Manage Barbers' => route('barbers.index'),
+        $barber->getName() => ''
+    ]"/>
 
-    <x-show-card :show="$showProfile" type="profile" class="mb-4">
-        <form action="{{ route('users.update',$user) }}" method="POST">
+    <x-headline class="mb-4">{{ $barber->getName() }} {{ $barber->deleted_at ? "(deleted)" : "" }}</x-headline>
+
+    <x-show-card :show="true" type="profile" class="mb-4">
+        <form action="{{ route('barbers.update',$barber->user) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="mb-4">
                 <div class=" grid grid-cols-2 gap-2">
                     <div class="flex flex-col">
                         <x-label for="first_name">First name</x-label>
-                        <x-input-field name="first_name" id="first_name" value="{{ old('first_name') ??$user->first_name }}" />
+                        <x-input-field name="first_name" id="first_name" value="{{ old('first_name') ??$barber->user->first_name }}" />
                         @error('first_name')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
                     </div>
                     <div class="flex flex-col">
                         <x-label for="last_name">Last name</x-label>
-                        <x-input-field name="last_name" id="last_name" value="{{ old('last_name') ??$user->last_name }}" />
+                        <x-input-field name="last_name" id="last_name" value="{{ old('last_name') ??$barber->user->last_name }}" />
                         @error('last_name')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
                     </div>
 
-                    @if ($user->barber)
-                        <div class="flex flex-col col-span-2">
-                            <x-label for="display_name">Display name</x-label>
-                            <x-input-field name="display_name" id="display_name" value="{{ old('display_name') ??$user->barber->display_name }}" />
-                            @error('display_name')
-                                <p class=" text-red-500">{{$message}}</p>
-                            @enderror
-                        </div>
-                    @endif
+                    <div class="flex flex-col col-span-2">
+                        <x-label for="display_name">Display name</x-label>
+                        <x-input-field name="display_name" id="display_name" value="{{ old('display_name') ??$barber->display_name }}" />
+                        @error('display_name')
+                            <p class=" text-red-500">{{$message}}</p>
+                        @enderror
+                    </div>
 
                     <div class="flex flex-col col-span-2">
                         <div class="flex justify-between items-end">
                             <x-label for="email">Email address</x-label>
-                            @if ($user->email_verified_at === null)
+                            @if ($barber->user->email_verified_at === null)
                                 <a href="{{ route('verification.notice') }}"class="font-bold text-base text-blue-500 hover:underline">Verify your email here</a>
                                 <!-- <button form="verification" class="font-bold text-base text-blue-500 hover:underline">Verify your email here</button> -->
                             @else
-                                <p class="text-slate-500 text-sm">Verified on {{ date_format($user->email_verified_at,'d M Y')  }}</p>
+                                <p class="text-slate-500 text-sm">Verified on {{ date_format($barber->user->email_verified_at,'d M Y')  }}</p>
                             @endif
                             
                         </div>
                         
-                        <x-input-field type="email" name="email" id="email" value="{{ old('email') ?? $user->email }}" />
+                        <x-input-field type="email" name="email" id="email" value="{{ old('email') ?? $barber->user->email }}" />
                         @error('email')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
                     </div>
                     <div class="flex flex-col">
                         <x-label for="date_of_birth">Date of birth</x-label>
-                        <x-input-field type="date" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth') ?? $user->date_of_birth }}" />
+                        <x-input-field type="date" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth') ?? $barber->user->date_of_birth }}" />
                         @error('date_of_birth')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
                     </div>
                     <div class="flex flex-col">
                         <x-label for="telephone_number">Telephone number</x-label>
-                        <x-input-field type="tel" name="telephone_number" id="telephone_number" value="{{ old('telephone_number') ?? $user->tel_number }}" />
+                        <x-input-field type="tel" name="telephone_number" id="telephone_number" value="{{ old('telephone_number') ?? $barber->user->tel_number }}" />
                         @error('telephone_number')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
@@ -75,18 +76,18 @@
         </form>
     </x-show-card>
 
-    @if ($user->barber)
     <x-show-card :show="$showPicture" type="picture" class="mb-4">
-        <form action="{{ route('upload-cropped',$user) }}" name="pictureForm" method="post" enctype="multipart/form-data">
+        <form action="{{ route('upload-cropped',$barber->user) }}" name="pictureForm" method="post" enctype="multipart/form-data">
             @csrf
+            <input type="hidden" name="source" value="admin">
             <input type="file" id="selectedImg" class="form-control" accept="image/*" hidden>
             <input type="file" id="croppedImg" name="croppedImg" class="form-control" hidden>
 
             <div class="flex gap-8 max-sm:flex-col">
                 <div class="min-w-60">
-                    <h3 class="font-bold text-lg mb-2" id="currentPfpTitle">Your current profile picture</h3>
+                    <h3 class="font-bold text-lg mb-2" id="currentPfpTitle">Current profile picture</h3>
                     <div class="relative w-fit group cursor-pointer  rounded-md border border-slate-500">
-                        <img src="{{ $user->barber->getPicture() }}" alt="Profile picture" id="currentPfp" class="w-60  group-hover:blur-sm transition-all rounded-md max-sm:w-full">
+                        <img src="{{ $barber->getPicture() }}" alt="Profile picture" id="currentPfp" class="w-60  group-hover:blur-sm transition-all rounded-md max-sm:w-full">
                         <label for="selectedImg" class="cursor-pointer">
                             <div class="absolute w-full h-full top-0 preview overflow-hidden"></div>
                             <div class="absolute w-full h-full top-0 flex items-center justify-center group-hover:bg-black group-hover:bg-opacity-75 transition-all rounded-md">
@@ -104,15 +105,16 @@
                         <p class=" text-red-500">{{$message}}</p>
                     @enderror
                 </div>
+
                 <div>
                     <h3 class="font-bold text-lg mb-2">Guidelines</h3>
                     <p class="mb-2">This picture will appear on the homepage and during the appointment booking process. Please take into account the followings before modifying your image:</p>
                     <ul class="list-disc *:ml-6 *:mb-1 mb-4">
                         <li>
-                            The picture of you needs to be a clear and high quality image
+                            The picture of the barber needs to be a clear and high quality image
                         </li>
                         <li>
-                            Use neutral backgrounds for your profile picture
+                            Use neutral backgrounds for this barber's profile picture
                         </li>
                         <li>
                             Avoid using group pictures
@@ -150,64 +152,5 @@
             <x-button id="reset" :hidden="true">Reset</x-button>
         </div>
     </x-modal>
-    @endif
 
-    <x-show-card :show="$showPassword" type="password" class="mb-4">
-        <form action="{{ route('users.update-password',auth()->user()->id) }}" method="POST" >
-            @csrf
-            @method('PUT')
-            <div class="flex gap-4 mb-4">
-                <div class="flex-grow">
-                    <div class="flex flex-col mb-2">
-                        <x-label for="password">Your current password*</x-label>
-                        <x-input-field type="password" name="password" id="password"/>
-                        @error('password')
-                            <p class=" text-red-500">{{$message}}</p>
-                        @enderror
-                    </div>
-                    <div class="flex flex-col mb-2">
-                        <x-label for="new_password">Your new password*</x-label>
-                        <x-input-field type="password" name="new_password" id="new_password"/>
-                        @error('new_password')
-                            <p class=" text-red-500">{{$message}}</p>
-                        @enderror
-                    </div>
-                    <div class="flex flex-col">
-                        <x-label for="new_password_confirmation">Your new password again*</x-label>
-                        <x-input-field type="password" name="new_password_confirmation" id="new_password_confirmation"/>
-                        @error('new_password_confirmation')
-                            <p class=" text-red-500">{{$message}}</p>
-                        @enderror
-                    </div>
-                </div>
-                
-                <div class="flex-grow-0">
-                    <span class="font-semibold text-base">Your password must contain</span>
-                    <ul class="list-disc *:ml-6 mb-4">
-                        <li>
-                            at least one <span class="font-semibold">undercase letter</span>
-                        </li>
-                        <li>
-                            at least one <span class="font-semibold">uppercase letter</span>
-                        </li>
-                        <li>
-                            at least one <span class="font-semibold">number</span>
-                        </li>
-                        <li>
-                            and be at least <span class="font-semibold">8 characters long</span>
-                        </li>
-                    </ul>
-                    Fields marked with * are <span class="font-semibold">required</span>
-                </div>
-            </div>
-            <x-button role="ctaMain" :full="true">Change Password</x-button>
-        </form>
-    </x-show-card>
-
-    <x-show-card :show="$showDestroy" type="destroy" class="mb-4">
-        <p class="mb-4">By deleting your account you will not be able to book upcoming appointments or access your previous bookings. Are you sure you want to proceed?</p>
-        <form action="{{ route('users.destroy',$user) }}">
-            <x-button role="destroyMain">Delete my account</x-button>
-        </form>
-    </x-show-card>
 </x-user-layout>

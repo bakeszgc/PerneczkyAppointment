@@ -33,7 +33,7 @@
                             <input type="checkbox" {{ $barber->user->is_admin ? 'checked=' : '' }}>
                         </td>
                         <td>
-                            <x-link-button role="show" link="">
+                            <x-link-button role="show" link="{{ route('barbers.show',$barber) }}">
                                 Details
                             </x-button>
                         </td>

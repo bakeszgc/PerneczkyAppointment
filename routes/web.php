@@ -71,7 +71,7 @@ Route::middleware('barber')->group(function() {
     Route::resource('time-offs',TimeOffController::class);
 
     // BARBER PROFILE PICTURE
-    Route::post('/upload-cropped',[PictureController::class,'uploadCropped'])->name('upload-cropped');
+    Route::post('/upload-cropped/{user}',[PictureController::class,'uploadCropped'])->name('upload-cropped');
 });
 
 // DEV HOME

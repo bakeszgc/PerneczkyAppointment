@@ -23,9 +23,24 @@ class BarberController extends Controller
         //
     }
 
-    public function show(string $id)
+    public function show(Request $request, Barber $barber)
     {
-        //
+        $request->validate([
+            'showProfile' => 'nullable|boolean',
+            'showPicture' => 'nullable|boolean',
+            'showDestroy' => 'nullable|boolean'
+        ]);
+
+        $showProfile = $request->showProfile ?? true;
+        $showPicture = $request->showPicture ?? false;
+        $showDestroy = $request->showDestroy ?? false;
+
+        return view('barber.show',[
+            'barber' => $barber,
+            'showProfile' => $showProfile,
+            'showPicture' => $showPicture,
+            'showDestroy' => $showDestroy
+        ]);
     }
 
     public function edit(string $id)

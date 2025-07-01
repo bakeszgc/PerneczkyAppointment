@@ -5,7 +5,7 @@
         $service->name => ''
     ]"/>
 
-    <x-headline class="mb-4">{{ $service->name }} {{ $service->deleted_at ? "(deleted)" : "" }}</x-headline>
+    <x-headline class="mb-4">{{ $service->name }} {{ $service->isDeleted() }}</x-headline>
 
     <x-card class="mb-6">
         <form action="{{ route('services.update',$service) }}" method="POST">

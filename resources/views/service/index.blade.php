@@ -24,7 +24,7 @@
                         'text-slate-500' => $service->deleted_at
                         ])>
                         <td>{{ $service->id }}</td>
-                        <td>{{ $service->name }} {{ $service->deleted_at ? '(deleted)' : '' }}</td>
+                        <td>{{ $service->name }} {{ $service->isDeleted() }}</td>
                         <td>{{ number_format($service->price,thousands_separator:" ") }} Ft</td>
                         <td>{{ $service->duration }}&nbsp;minutes</td>
                         <td>{{ $service->created_at }}</td>

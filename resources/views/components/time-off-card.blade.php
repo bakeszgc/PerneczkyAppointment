@@ -6,9 +6,7 @@
                 @class(['line-through' => $appointment->deleted_at])>
                     {{$appointment->user->first_name . " " . $appointment->user->last_name}} #{{$appointment->id}}
                 </a>
-                @if ($appointment->deleted_at)
-                    <span class=" font-medium text-lg">Cancelled</span>
-                @endif
+                <span class="font-medium text-lg">{{ $appointment->isDeleted() }}</span>
             </h2>
             <h3 class="font-medium text-lg max-sm:text-sm mb-1">
                 TIME OFF

@@ -5,7 +5,7 @@
         $barber->getName() => ''
     ]"/>
 
-    <x-headline class="mb-4">{{ $barber->getName() }} {{ $barber->deleted_at ? "(deleted)" : "" }}</x-headline>
+    <x-headline class="mb-4">{{ $barber->getName() }} {{ $barber->isDeleted() }}</x-headline>
 
     <x-show-card :show="$showProfile" type="profile" class="mb-4">
         <form action="{{ route('barbers.update',$barber) }}" method="POST">

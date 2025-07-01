@@ -17,4 +17,8 @@ class Service extends Model
     public function appointments(): HasMany {
         return $this->hasMany(Appointment::class)->withTrashed();
     }
+
+    public function isDeleted() {
+        return $this->deleted_at ? '- removed' : '';
+    }
 }

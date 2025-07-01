@@ -41,4 +41,8 @@ class Appointment extends Model
 
         return $start->diffInMinutes($end);
     }
+
+    public function isDeleted() {
+        return $this->deleted_at ? 'Cancelled' : '';
+    }
 }

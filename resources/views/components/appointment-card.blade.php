@@ -6,17 +6,15 @@
                 @class(['line-through' => $appointment->deleted_at])>
                     {{$appointment->user->first_name . " " . $appointment->user->last_name}} #{{$appointment->id}}
                 </a>
-                @if ($appointment->deleted_at)
-                    <span class="font-medium text-lg">Cancelled</span>
-                @endif
+                <span class="font-medium text-lg">{{ $appointment->isDeleted() }}</span>
             </h2>
             <h3 class="font-medium text-lg max-sm:text-sm mb-1">
-                {{$appointment->service->name}} {{ $appointment->service->deleted_at ? '(deleted)' : '' }}
+                {{$appointment->service->name}} {{ $appointment->service->isDeleted() }}
                 •
                 {{number_format($appointment->price,thousands_separator:' ')}} Ft
             </h3>
             <p class="font-medium text-base max-sm:text-sm text-slate-500">
-                Barber: {{$appointment->barber->getName() }} {{ $appointment->barber->deleted_at ? '(deleted)' : '' }}
+                Barber: {{$appointment->barber->getName() }} {{ $appointment->barber->isDeleted() }}
             </p>
             <div>
                 {{$slot}}

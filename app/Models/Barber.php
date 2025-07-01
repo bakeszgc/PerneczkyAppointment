@@ -30,4 +30,8 @@ class Barber extends Model
     public function getName() {
         return $this->display_name ?? $this->user->first_name;
     }
+
+    public function isDeleted() {
+        return $this->deleted_at ? '- removed' : '';
+    }
 }

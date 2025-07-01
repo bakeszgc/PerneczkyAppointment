@@ -16,15 +16,15 @@ class Appointment extends Model
     protected $fillable = ['barber_id','service_id','user_id','app_start_time','app_end_time','comment','price'];
 
     public function user():BelongsTo {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
 
     public function barber():BelongsTo {
-        return $this->belongsTo(Barber::class);
+        return $this->belongsTo(Barber::class)->withTrashed();
     }
 
     public function service():BelongsTo {
-        return $this->belongsTo(Service::class);
+        return $this->belongsTo(Service::class)->withTrashed();
     }
     
     public static function closingHour (Carbon $date):int {

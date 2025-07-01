@@ -15,6 +15,6 @@ class Service extends Model
     protected $fillable = ['name','price','duration','is_visible'];
 
     public function appointments(): HasMany {
-        return $this->hasMany(Appointment::class);
+        return $this->hasMany(Appointment::class)->withTrashed();
     }
 }

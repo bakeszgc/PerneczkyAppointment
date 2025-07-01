@@ -16,11 +16,11 @@ class Barber extends Model
     protected $fillable = ['display_name','is_visible','user_id'];
 
     public function user():BelongsTo {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
 
     public function appointments():HasMany {
-        return $this->hasMany(Appointment::class);
+        return $this->hasMany(Appointment::class)->withTrashed();
     }
 
     public function getPicture() {

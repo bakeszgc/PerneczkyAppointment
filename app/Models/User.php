@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,7 +13,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -54,10 +55,10 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function appointments():HasMany {
-        return $this->hasMany(Appointment::class);
+        return $this->hasMany(Appointment::class)->withTrashed();
     }
 
     public function barber():HasOne {
-        return $this->hasOne(Barber::class);
+        return $this->hasOne(Barber::class)->withTrashed();
     }
 }

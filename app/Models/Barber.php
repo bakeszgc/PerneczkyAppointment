@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Barber extends Model
 {
@@ -24,7 +25,11 @@ class Barber extends Model
     }
 
     public function getPicture() {
-        return $this->user->pfp_path ? asset('storage/pfp/' . $this->user->pfp_path) : asset('pictures/pfp_blank.png');
+        if ($this->user->pfp_path && Storage::disk('public')->exists('pfp/' . $this->user->pfp_path)) {
+            return asset('storage/pfp/' . $this->user->pfp_path);
+        } else {
+            return asset('pictures/pfp_blank.png');
+        }
     }
 
     public function getName() {

@@ -21,20 +21,28 @@ class PictureController extends Controller
             'source' => ['nullable','string']
         ]);
 
+        $source = $request->source ?? 'user';
+
         if ($validator->fails()) {
-            return redirect()->route('users.show',['user' => auth()->user(), 'showPicture' => true])->withErrors($validator);
+            if ($source === 'admin') {
+                return redirect()->route('barbers.show',['barber' => $user->barber, 'showPicture' => true])->withErrors($validator);
+            } else {
+                return redirect()->route('users.show',['user' => auth()->user(), 'showPicture' => true])->withErrors($validator);
+            }
         }
 
         if ($request->hasFile('croppedImg')) {
             $avatarName = 'pfp_' . time() . '.' . request()->croppedImg->getClientOriginalExtension();
             Storage::disk('public')->putFileAs('pfp',$request->croppedImg,$avatarName);
+
+            if ($user->pfp_path && Storage::disk('public')->exists('pfp/' . $user->pfp_path)) {
+                Storage::disk('public')->delete('pfp/' . $user->pfp_path);
+            }
             
             $user->update([
                 'pfp_path' => $avatarName
             ]);
         }
-
-        $source = $request->source ?? 'user';
 
         if ($source === 'admin') {
             return redirect()->route('barbers.show',['barber' => $user->barber, 'showPicture' => true])

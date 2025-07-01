@@ -59,7 +59,7 @@
                                 <!-- <x-button :value="$date->format('Y-m-d G:i')" name="date">
                                     {{$date->format('G:i')}}
                                 </x-button> -->
-                                <label for="date_{{ $date->format('Y-m-d_G:i') }}" class=" font-semibold border-2border-[#0018d5] text-[#0018d5] rounded-md p-2 cursor-pointer hover:bg-[#0018d5]hover:text-white has-[input:checked]:bg-[#0018d5] has-[input:checked]:shadow-2xl has[input:checked]:text-white transition-all">
+                                <label for="date_{{ $date->format('Y-m-d_G:i') }}" class="font-semibold border-2 border-[#0018d5] text-[#0018d5] rounded-md p-2 cursor-pointer hover:text-white hover:bg-[#0018d5] has-[input:checked]:bg-[#0018d5] has-[input:checked]:shadow-2xl has-[input:checked]:text-white transition-all">
 
                                     {{$date->format('G:i')}}
 

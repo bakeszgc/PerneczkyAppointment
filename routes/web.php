@@ -22,6 +22,8 @@ Route::resource('auth', AuthController::class)->only(['store']);
 Route::get('register',[UserController::class,'create'])->name('register');
 Route::resource('user',UserController::class)->only('store');
 
+Route::get('reset-password',[AuthController::class, 'forgotPassword'])->name('forgot-password');
+
 // AUTH REQUIRED ROUTES
 Route::middleware('auth')->group(function(){
 

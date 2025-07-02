@@ -72,4 +72,8 @@ class AuthController extends Controller
         }
         return redirect()->route('verification.send');
     }
+
+    public function forgotPassword() {
+        return view('auth.forgot-password');
+    }
 }

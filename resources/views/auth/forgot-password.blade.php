@@ -1,13 +1,13 @@
-<x-user-layout title="Reset Password - ">
+<x-user-layout title="Forgot Password - ">
     <x-breadcrumbs :links="[
         'Sign In' => route('login'),
-        'Reset Password' => ''
+        'Forgot Password' => ''
     ]" />
 
-    <x-headline class="mb-4">Reset Your Password</x-headline>
+    <x-headline class="mb-4">Forgot Password</x-headline>
 
     <x-card class="mb-8 p-8">
-        <form action="" method="POST">
+        <form action="{{ route('password.email') }}" method="POST">
             @csrf
 
             <div class="flex flex-col mb-2">
@@ -18,11 +18,11 @@
                 @enderror
             </div>
 
-            <p class="mb-4">
-                Enter your email address and we'll send you a link to change your password. If you still need help please <a href="{{ route('home') }}#contact">contact us</a>.
+            <p class="mb-4 text-justify">
+                Enter your email address that you have used for your account and we will send you a link to change your password. If you still need help please <a href="{{ route('home') }}#contact" class="text-[#0018d5] hover:underline">contact us</a>.
             </p>
 
-            <x-button :full="true" role="ctaMain">Reset my password</x-button>
+            <x-button :full="true" role="ctaMain">Send password reset link</x-button>
         </form>
     </x-card>
 

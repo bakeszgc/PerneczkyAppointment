@@ -22,7 +22,11 @@ Route::resource('auth', AuthController::class)->only(['store']);
 Route::get('register',[UserController::class,'create'])->name('register');
 Route::resource('user',UserController::class)->only('store');
 
-Route::get('reset-password',[AuthController::class, 'forgotPassword'])->name('forgot-password');
+// PASSWORD RESET
+Route::get('/forgot-password',[AuthController::class, 'forgotPassword'])->name('password.request');
+Route::post('/forgot-password',[AuthController::class,'sendPasswordResetEmail'])->name('password.email');
+Route::get('/reset-password/{token}',[AuthController::class,'resetPassword'])->name('password.reset');
+Route::post('/reset-password',[AuthController::class,'updatePassword'])->name('password.update');
 
 // AUTH REQUIRED ROUTES
 Route::middleware('auth')->group(function(){

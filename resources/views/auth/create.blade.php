@@ -31,7 +31,7 @@
                         <x-label for="remember">Remember me</x-label>
                     </div>
                     <div>
-                        <a href="{{ route('forgot-password') }}" class="text-[#0018d5] hover:underline">Forgot your password?</a>
+                        <a href="{{ route('password.request') }}" class="text-[#0018d5] hover:underline">Forgot your password?</a>
                     </div>
                 </div>
 

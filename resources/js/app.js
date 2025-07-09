@@ -122,21 +122,20 @@ function toggleElement(element) {
 
 // REMOVES DISABLED FROM SUBMIT BUTTON AFTER THE RADIO BUTTONS ARE CHECKED
 document.addEventListener('DOMContentLoaded', () => {
-    const dateRadioButtons = document.querySelectorAll('input[name="date"]');
+    
+    const dayRadioButtons = document.querySelectorAll('input[name="day"]');
     const barberRadioButtons = document.querySelectorAll('input[name="barber_id"]');
     const serviceRadioButtons = document.querySelectorAll('input[name="service_id"]');
     const submitButton = document.getElementById('ctaButton');
 
     if (submitButton) submitButton.disabled = true;
 
-    if (dateRadioButtons) {
-        dateRadioButtons.forEach(button => {
-            button.addEventListener('change', function () {
-                const isAnyDatesChecked = Array.from(dateRadioButtons).some(radio => radio.checked);
+    checkDateRadioButtons(submitButton);
 
-                if (submitButton) {
-                    submitButton.disabled = !isAnyDatesChecked;
-                }
+    if (dayRadioButtons) {
+        dayRadioButtons.forEach(dayButton => {
+            dayButton.addEventListener('change', function () {
+                checkDateRadioButtons(submitButton);
             });
         });
     }
@@ -163,4 +162,19 @@ function checkBarberServiceRadioButtons(barberRadioButtons, serviceRadioButtons,
     const isAnyBarbersChecked = Array.from(barberRadioButtons).some(radio => radio.checked);
     const isAnyServicesChecked = Array.from(serviceRadioButtons).some(radio => radio.checked);
     if (submitButton) { submitButton.disabled = !isAnyBarbersChecked || !isAnyServicesChecked; }
+}
+
+function checkDateRadioButtons(submitButton) {
+    const dateRadioButtons = document.querySelectorAll('input[name="date"]');
+
+    if (dateRadioButtons) {
+        dateRadioButtons.forEach(dateButton => {
+            dateButton.addEventListener('change', function () {
+                const isAnyDatesChecked = Array.from(dateRadioButtons).some(radio => radio.checked);
+                if (submitButton) {
+                    submitButton.disabled = !isAnyDatesChecked;
+                }
+            });
+        });
+    }
 }

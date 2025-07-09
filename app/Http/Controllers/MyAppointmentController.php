@@ -141,8 +141,21 @@ class MyAppointmentController extends Controller
             $dates[$dayDiff][] = $date;
         }
 
+        // TESTING PURPOSE
+        $availableSlotsByDate = [];
+        foreach ($freeDates as $date) {
+            $actualDate = Carbon::parse($date)->format('Y-m-d');
+
+            if (!isset($availableSlotsByDate[$actualDate])) {
+                $availableSlotsByDate[$actualDate] = [];
+            }
+
+            $availableSlotsByDate[$actualDate][] = $date->format('G:i');
+        }
+
         return view('my-appointment.create_date',[
             'dates' => $dates,
+            'availableSlotsByDate' => $availableSlotsByDate,
             'barber' => Barber::find($request->barber_id),
             'service' => Service::find($request->service_id)
         ]);

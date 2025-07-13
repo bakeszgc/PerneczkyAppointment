@@ -178,3 +178,21 @@ function checkDateRadioButtons(submitButton) {
         });
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const calendarContainter = document.getElementById('calendarContainter');
+    const nextMonthButton = document.getElementById('nextMonthButton');
+    const previousMonthButton = document.getElementById('previousMonthButton');
+
+    nextMonthButton.addEventListener('click', () => {
+        calendarContainter.classList.add('-translate-x-1/4');
+        nextMonthButton.setAttribute('disabled','');
+        previousMonthButton.removeAttribute('disabled','');
+    });
+
+    previousMonthButton.addEventListener('click', () => {
+        calendarContainter.classList.remove('-translate-x-1/4');
+        previousMonthButton.setAttribute('disabled','');
+        nextMonthButton.removeAttribute('disabled','');
+    });
+})

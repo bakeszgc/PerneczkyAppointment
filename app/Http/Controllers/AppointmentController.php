@@ -173,18 +173,18 @@ class AppointmentController extends Controller
 
         // foglalások amik az új foglalás alatt kezdődnek
         $appointmentsStart = Appointment::barberFilter($barber)
-        ->laterThan($app_start_time)
-        ->earlierThan($app_end_time)->get();
+        ->startLaterThan($app_start_time)
+        ->startEarlierThan($app_end_time,false)->get();
 
         // foglalások amik az új foglalás alatt végződnek
         $appointmentsEnd = Appointment::barberFilter($barber)
-        ->laterThan($app_start_time,'app_end_time')
-        ->earlierThan($app_end_time,'app_end_time')->get();
+        ->endLaterThan($app_start_time,false)
+        ->endEarlierThan($app_end_time,)->get();
 
         // foglalások amik az új foglalás előtt kezdődnek de utána végződnek
         $appointmentsBetween = Appointment::barberFilter($barber)
-        ->earlierThan($app_start_time)
-        ->laterThan($app_end_time,'app_end_time')->get();
+        ->startEarlierThan($app_start_time)
+        ->endLaterThan($app_end_time)->get();
 
         if ($appointmentsStart->count() + $appointmentsEnd->count() + $appointmentsBetween->count() != 0) {
             return redirect()->route('appointments.create.date',['user_id' => $request->user_id, 'service_id' => $request->service_id])->with('error','You have another bookings clashing with the selected timeslot. Please choose another one!');
@@ -249,9 +249,9 @@ class AppointmentController extends Controller
             return redirect()->route('appointments.show',$appointment)->with('error',"You can't edit cancelled bookings.");
         }
 
-        $previousAppointment = Appointment::barberFilter(auth()->user()->barber)->earlierThan($appointment->app_start_time,'app_end_time')->orderByDesc('app_end_time')->first();
+        $previousAppointment = Appointment::barberFilter(auth()->user()->barber)->endEarlierThan($appointment->app_start_time)->orderByDesc('app_end_time')->first();
 
-        $nextAppointment = Appointment::barberFilter(auth()->user()->barber)->laterThan($appointment->app_end_time)->orderBy('app_start_time')->first();
+        $nextAppointment = Appointment::barberFilter(auth()->user()->barber)->startLaterThan($appointment->app_end_time)->orderBy('app_start_time')->first();
 
         $services = Service::where('is_visible','=',1)->get();
 
@@ -287,20 +287,20 @@ class AppointmentController extends Controller
 
         // foglalások amik az új foglalás alatt kezdődnek
         $appointmentsStart = Appointment::barberFilter($barber)
-        ->laterThan($app_start_time)
-        ->earlierThan($app_end_time)
+        ->startLaterThan($app_start_time)
+        ->startEarlierThan($app_end_time,false)
         ->where('id','!=',$appointment->id)->get();
 
         // foglalások amik az új foglalás alatt végződnek
         $appointmentsEnd = Appointment::barberFilter($barber)
-        ->laterThan($app_start_time,'app_end_time')
-        ->earlierThan($app_end_time,'app_end_time')
+        ->endLaterThan($app_start_time,false)
+        ->endEarlierThan($app_end_time)
         ->where('id','!=',$appointment->id)->get();
 
         // foglalások amik az új foglalás előtt kezdődnek de utána végződnek
         $appointmentsBetween = Appointment::barberFilter($barber)
-        ->earlierThan($app_start_time)
-        ->laterThan($app_end_time,'app_end_time')
+        ->startEarlierThan($app_start_time)
+        ->endLaterThan($app_end_time)
         ->where('id','!=',$appointment->id)->get();
 
         if ($appointmentsStart->count() + $appointmentsEnd->count() + $appointmentsBetween->count() != 0) {

@@ -174,18 +174,18 @@ class MyAppointmentController extends Controller
 
         // foglalások amik az új foglalás alatt kezdődnek
         $appointmentsStart = Appointment::barberFilter($barber)
-        ->laterThan($app_start_time)
-        ->earlierThan($app_end_time)->get();
+        ->startLaterThan($app_start_time)
+        ->startEarlierThan($app_end_time,false)->get();
 
         // foglalások amik az új foglalás alatt végződnek
         $appointmentsEnd = Appointment::barberFilter($barber)
-        ->laterThan($app_start_time,'app_end_time')
-        ->earlierThan($app_end_time,'app_end_time')->get();
+        ->endLaterThan($app_start_time,false)
+        ->endEarlierThan($app_end_time)->get();
 
         // foglalások amik az új foglalás előtt kezdődnek de utána végződnek
         $appointmentsBetween = Appointment::barberFilter($barber)
-        ->earlierThan($app_start_time)
-        ->laterThan($app_end_time,'app_end_time')->get();
+        ->startEarlierThan($app_start_time)
+        ->endLaterThan($app_end_time)->get();
 
         if ($appointmentsStart->count() + $appointmentsEnd->count() + $appointmentsBetween->count() != 0) {
             return redirect()->route('my-appointments.create.date',['barber_id' => $request->barber_id, 'service_id' => $request->service_id])->with('error','Your barber has another bookings clashing with the selected timeslot. Please choose another one!');

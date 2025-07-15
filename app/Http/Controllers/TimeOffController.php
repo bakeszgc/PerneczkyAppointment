@@ -80,18 +80,18 @@ class TimeOffController extends Controller
 
         // foglalások amik az új foglalás alatt kezdődnek
         $appointmentsStart = Appointment::barberFilter($barber)
-        ->laterThan($app_start_time)
-        ->earlierThan($app_end_time)->get();
+        ->startLaterThan($app_start_time)
+        ->startEarlierThan($app_end_time,false)->get();
 
         // foglalások amik az új foglalás alatt végződnek
         $appointmentsEnd = Appointment::barberFilter($barber)
-        ->laterThan($app_start_time,'app_end_time')
-        ->earlierThan($app_end_time,'app_end_time')->get();
+        ->endLaterThan($app_start_time,false)
+        ->endEarlierThan($app_end_time)->get();
 
         // foglalások amik az új foglalás előtt kezdődnek de utána végződnek
         $appointmentsBetween = Appointment::barberFilter($barber)
-        ->earlierThan($app_start_time)
-        ->laterThan($app_end_time,'app_end_time')->get();
+        ->startEarlierThan($app_start_time)
+        ->endLaterThan($app_end_time)->get();
 
         if ($appointmentsStart->count() + $appointmentsEnd->count() + $appointmentsBetween->count() != 0) {
             return redirect()->route('time-offs.create')->with('error','You have bookings clashing with the selected timeframe.');
@@ -132,9 +132,9 @@ class TimeOffController extends Controller
     public function edit(Appointment $time_off)
     {
         //előző és következő időpontok
-        $previousAppointment = Appointment::barberFilter(auth()->user()->barber)->earlierThan($time_off->app_start_time,'app_end_time')->orderByDesc('app_end_time')->first();
+        $previousAppointment = Appointment::barberFilter(auth()->user()->barber)->endEarlierThan($time_off->app_start_time)->orderByDesc('app_end_time')->first();
 
-        $nextAppointment = Appointment::barberFilter(auth()->user()->barber)->laterThan($time_off->app_end_time)->orderBy('app_start_time')->first();
+        $nextAppointment = Appointment::barberFilter(auth()->user()->barber)->startLaterThan($time_off->app_end_time)->orderBy('app_start_time')->first();
 
         return view('time-off.edit',[
             'appointment' => $time_off,
@@ -175,20 +175,20 @@ class TimeOffController extends Controller
 
         // counting appointments (besides the time off being updated) starting while the updated time off
         $appointmentsStart = Appointment::barberFilter($barber)
-        ->laterThan($app_start_time)
-        ->earlierThan($app_end_time)
+        ->startLaterThan($app_start_time)
+        ->startEarlierThan($app_end_time,false)
         ->where('id','!=',$time_off->id)->count();
 
         // counting appointments (besides the time off being updated) ending while the updated time off
         $appointmentsEnd = Appointment::barberFilter($barber)
-        ->laterThan($app_start_time,'app_end_time')
-        ->earlierThan($app_end_time,'app_end_time')
+        ->endLaterThan($app_start_time, false)
+        ->endEarlierThan($app_end_time)
         ->where('id','!=',$time_off->id)->count();
 
         // counting appointments (besides the time off being updated) starting before and ending after the updated time off
         $appointmentsBetween = Appointment::barberFilter($barber)
-        ->earlierThan($app_start_time)
-        ->laterThan($app_end_time,'app_end_time')
+        ->startEarlierThan($app_start_time)
+        ->endLaterThan($app_end_time)
         ->where('id','!=',$time_off->id)->count();
 
         // redirect with an error message if there are any clashing appointments

@@ -49,22 +49,38 @@ class Appointment extends Model
     }
 
     // SCOPES
-    public function scopeLaterThan(Builder $query, Carbon $datetime, string $initDateTime = 'app_start_time') {
-        $query->where($initDateTime,'>=',$datetime);
+
+    // LATER & EARLIER APPOINTMENTS
+    public function scopeStartLaterThan(Builder $query, Carbon $dateTime, bool $allowEqual = true) {
+        $operator = $allowEqual ? '>=' : '>';
+        $query->where('app_start_time',$operator,$dateTime);
     }
 
-    public function scopeEarlierThan(Builder $query, Carbon $datetime, string $initDateTime = 'app_start_time') {
-        $query->where($initDateTime,'<',$datetime);
+    public function scopeStartEarlierThan(Builder $query, Carbon $dateTime, bool $allowEqual = true) {
+        $operator = $allowEqual ? '<=' : '<';
+        $query->where('app_start_time',$operator,$dateTime);
     }
 
+    public function scopeEndLaterThan(Builder $query, Carbon $dateTime, bool $allowEqual = true) {
+        $operator = $allowEqual ? '>=' : '>';
+        $query->where('app_end_time',$operator,$dateTime);
+    }
+
+    public function scopeEndEarlierThan(Builder $query, Carbon $dateTime, bool $allowEqual = true) {
+        $operator = $allowEqual ? '<=' : '<';
+        $query->where('app_end_time',$operator,$dateTime);
+    }
+
+    // UPCOMING & PREVIOUS APPOINTMENTS
     public function scopeUpcoming(Builder $query) {
-        $query->laterThan(now('Europe/Budapest'))->orderBy('app_start_time');
+        $query->startLaterThan(now('Europe/Budapest'))->orderBy('app_start_time');
     }
 
     public function scopePrevious(Builder $query) {
-        $query->earlierThan(now('Europe/Budapest'))->orderBy('app_start_time','desc');
+        $query->startEarlierThan(now('Europe/Budapest'))->orderBy('app_start_time','desc');
     }
 
+    // APPOINTMENTS OF A CERTAIN BARBER OR USER
     public function scopeBarberFilter(Builder $query, Barber|HasOne $barber) {
         $query->where('barber_id','=',$barber->id);
     }
@@ -73,6 +89,7 @@ class Appointment extends Model
         $query->where('user_id','=',$user   ->id);
     }
 
+    // WITHOUT TIMEOFFS OR TIMEOFFS ONLY
     public function scopeWithoutTimeOffs(Builder $query) {
         $query->where('service_id','!=',1);
     }

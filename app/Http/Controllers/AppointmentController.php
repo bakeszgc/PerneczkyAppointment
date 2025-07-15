@@ -17,12 +17,9 @@ class AppointmentController extends Controller
 {
     public function index()
     {
-        $appointments = Appointment::where('barber_id','=',auth()->user()->barber->id)
-        ->where('service_id','!=',1)->withTrashed()->latest()->paginate(10);
+        $appointments = Appointment::barberFilter(auth()->user()->barber)->withoutTimeOffs()->withTrashed()->latest()->paginate(10);
 
-        $calAppointments = Appointment::where('barber_id','=',auth()->user()->barber->id)->with([
-            'user','service','barber'
-        ])->whereBetween('app_start_time',[date("Y-m-d", strtotime('monday this week')),date("Y-m-d", strtotime('monday next week'))])->get();
+        $calAppointments = Appointment::barberFilter(auth()->user()->barber)->whereBetween('app_start_time',[date("Y-m-d", strtotime('monday this week')),date("Y-m-d", strtotime('monday next week'))])->get();
      
         return view('appointment.index',[
             'appointments' => $appointments,
@@ -32,12 +29,8 @@ class AppointmentController extends Controller
     }
 
     public function indexUpcoming() {
-        $upcomingAppointments = Appointment::with([
-            'user','service','barber'
-        ])->where('app_start_time','>=',now('Europe/Budapest'))
-        ->where('barber_id','=',auth()->user()->barber->id)
-        ->where('service_id','!=',1)
-        ->orderBy('app_start_time')->paginate(10);
+        $upcomingAppointments = Appointment::upcoming()->barberFilter(auth()->user()->barber)
+        ->withoutTimeOffs()->paginate(10);
         
         return view('appointment.index',[
             'appointments' => $upcomingAppointments,
@@ -46,12 +39,8 @@ class AppointmentController extends Controller
     }
 
     public function indexPrevious() {
-        $previousAppointments = Appointment::with([
-            'user','service','barber'
-        ])->where('app_start_time','<=',now('Europe/Budapest'))
-        ->where('barber_id','=',auth()->user()->barber->id)
-        ->where('service_id','!=',1)
-        ->orderBy('app_start_time','desc')->paginate(10);
+        $previousAppointments = Appointment::previous()->barberFilter(auth()->user()->barber)
+        ->withoutTimeOffs()->paginate(10);
         
         return view('appointment.index',[
             'appointments' => $previousAppointments,
@@ -60,10 +49,8 @@ class AppointmentController extends Controller
     }
 
     public function indexCancelled() {
-        $cancelledAppointments = Appointment::onlyTrashed()->with(['user','service','barber'])
-        ->where('barber_id','=',auth()->user()->barber->id)
-        ->where('service_id','!=',1)
-        ->orderBy('app_start_time','desc')->paginate(10);
+        $cancelledAppointments = Appointment::onlyTrashed()->barberFilter(auth()->user()->barber)
+        ->withoutTimeOffs()->orderBy('app_start_time','desc')->paginate(10);
 
         return view('appointment.index',[
             'appointments' => $cancelledAppointments,
@@ -125,14 +112,14 @@ class AppointmentController extends Controller
         }
 
         // foglalt app_start_timeok
-        $reservedDates = Appointment::where('barber_id','=',$barber->id)->pluck('app_start_time')
+        $reservedDates = Appointment::barberFilter($barber)->pluck('app_start_time')
         ->map(fn ($time) => Carbon::parse($time))->toArray();
 
         // timeslotok amikbe belelóg egy másik foglalás
         // timeslotok amik belelógnának egy következő foglalásba
         $overlapDates = [];
         foreach ($reservedDates as $date) {
-            $appointments = Appointment::where('barber_id','=',$barber->id)
+            $appointments = Appointment::barberFilter($barber)
                 ->where('app_start_time','=',$date)->get();
             $service = Service::findOrFail($request->service_id);
 
@@ -185,19 +172,19 @@ class AppointmentController extends Controller
         $barber = auth()->user()->barber;
 
         // foglalások amik az új foglalás alatt kezdődnek
-        $appointmentsStart = Appointment::where('barber_id','=',$barber->id)
-        ->where('app_start_time','>=',$app_start_time)
-        ->where('app_start_time','<',$app_end_time)->get();
+        $appointmentsStart = Appointment::barberFilter($barber)
+        ->laterThan($app_start_time)
+        ->earlierThan($app_end_time)->get();
 
         // foglalások amik az új foglalás alatt végződnek
-        $appointmentsEnd = Appointment::where('barber_id','=',$barber->id)
-        ->where('app_end_time','>',$app_start_time)
-        ->where('app_end_time','<=',$app_end_time)->get();
+        $appointmentsEnd = Appointment::barberFilter($barber)
+        ->laterThan($app_start_time,'app_end_time')
+        ->earlierThan($app_end_time,'app_end_time')->get();
 
         // foglalások amik az új foglalás előtt kezdődnek de utána végződnek
-        $appointmentsBetween = Appointment::where('barber_id','=',$barber->id)
-        ->where('app_start_time','<=',$app_start_time)
-        ->where('app_end_time','>=',$app_end_time)->get();
+        $appointmentsBetween = Appointment::barberFilter($barber)
+        ->earlierThan($app_start_time)
+        ->laterThan($app_end_time,'app_end_time')->get();
 
         if ($appointmentsStart->count() + $appointmentsEnd->count() + $appointmentsBetween->count() != 0) {
             return redirect()->route('appointments.create.date',['user_id' => $request->user_id, 'service_id' => $request->service_id])->with('error','You have another bookings clashing with the selected timeslot. Please choose another one!');
@@ -226,16 +213,16 @@ class AppointmentController extends Controller
             return redirect()->route('appointments.index')->with('error',"You can't view other barbers' bookings.");
         }
 
-        $upcoming = Appointment::where('user_id','=',$appointment->user_id)->where('app_start_time','>=',now())->count();
-        $previous = Appointment::where('user_id','=',$appointment->user_id)->where('app_start_time','<=',now())->count();
-        $cancelled = Appointment::onlyTrashed()->where('user_id','=',$appointment->user_id)->count();
+        $upcoming = Appointment::userFilter($appointment->user)->upcoming()->count();
+        $previous = Appointment::userFilter($appointment->user)->previous()->count();
+        $cancelled = Appointment::onlyTrashed()->userFilter($appointment->user)->count();
 
-        $barber = Appointment::select('barber_id',DB::raw('COUNT(barber_id) as selection_count'))->where('user_id','=',$appointment->user_id)->groupBy('barber_id')->orderByDesc('selection_count')->first();
+        $barber = Appointment::select('barber_id',DB::raw('COUNT(barber_id) as selection_count'))->userFilter($appointment->user)->groupBy('barber_id')->orderByDesc('selection_count')->first();
 
         $favBarber = Barber::find($barber->barber_id);
         $numBarber = $barber->selection_count;
 
-        $service = Appointment::select('service_id',DB::raw('COUNT(service_id) as selection_count'))->where('user_id','=',$appointment->user_id)->groupBy('service_id')->orderByDesc('selection_count')->first();
+        $service = Appointment::select('service_id',DB::raw('COUNT(service_id) as selection_count'))->userFilter($appointment->user)->groupBy('service_id')->orderByDesc('selection_count')->first();
 
         $favService = Service::find($service->service_id);
         $numService = $service->selection_count;
@@ -262,9 +249,9 @@ class AppointmentController extends Controller
             return redirect()->route('appointments.show',$appointment)->with('error',"You can't edit cancelled bookings.");
         }
 
-        $previousAppointment = Appointment::where('barber_id','=',auth()->user()->barber->id)->where('app_end_time','<=',$appointment->app_start_time)->orderByDesc('app_end_time')->first();
+        $previousAppointment = Appointment::barberFilter(auth()->user()->barber)->earlierThan($appointment->app_start_time,'app_end_time')->orderByDesc('app_end_time')->first();
 
-        $nextAppointment = Appointment::where('barber_id','=',auth()->user()->barber->id)->where('app_start_time','>=',$appointment->app_end_time)->orderBy('app_start_time')->first();
+        $nextAppointment = Appointment::barberFilter(auth()->user()->barber)->laterThan($appointment->app_end_time)->orderBy('app_start_time')->first();
 
         $services = Service::where('is_visible','=',1)->get();
 
@@ -299,21 +286,21 @@ class AppointmentController extends Controller
         }
 
         // foglalások amik az új foglalás alatt kezdődnek
-        $appointmentsStart = Appointment::where('barber_id','=',$barber->id)
-        ->where('app_start_time','>=',$app_start_time)
-        ->where('app_start_time','<',$app_end_time)
+        $appointmentsStart = Appointment::barberFilter($barber)
+        ->laterThan($app_start_time)
+        ->earlierThan($app_end_time)
         ->where('id','!=',$appointment->id)->get();
 
         // foglalások amik az új foglalás alatt végződnek
-        $appointmentsEnd = Appointment::where('barber_id','=',$barber->id)
-        ->where('app_end_time','>',$app_start_time)
-        ->where('app_end_time','<=',$app_end_time)
+        $appointmentsEnd = Appointment::barberFilter($barber)
+        ->laterThan($app_start_time,'app_end_time')
+        ->earlierThan($app_end_time,'app_end_time')
         ->where('id','!=',$appointment->id)->get();
 
         // foglalások amik az új foglalás előtt kezdődnek de utána végződnek
-        $appointmentsBetween = Appointment::where('barber_id','=',$barber->id)
-        ->where('app_start_time','<=',$app_start_time)
-        ->where('app_end_time','>=',$app_end_time)
+        $appointmentsBetween = Appointment::barberFilter($barber)
+        ->earlierThan($app_start_time)
+        ->laterThan($app_end_time,'app_end_time')
         ->where('id','!=',$appointment->id)->get();
 
         if ($appointmentsStart->count() + $appointmentsEnd->count() + $appointmentsBetween->count() != 0) {

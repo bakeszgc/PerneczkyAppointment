@@ -11,13 +11,12 @@ class TimeOffController extends Controller
     public function index()
     {
         $timeoffs = Appointment::where('service_id','=',1)
-            ->where('barber_id','=',auth()->user()->barber->id)
+            ->barberFilter(auth()->user()->barber)
             ->latest()
         ->paginate(10);
 
-        $calAppointments = Appointment::where('barber_id','=',auth()->user()->barber->id)->with([
-            'user','service','barber'
-        ])->whereBetween('app_start_time',[date("Y-m-d", strtotime('monday this week')),date("Y-m-d", strtotime('monday next week'))])->get();
+        $calAppointments = Appointment::barberFilter(auth()->user()->barber)
+        ->whereBetween('app_start_time',[date("Y-m-d", strtotime('monday this week')),date("Y-m-d", strtotime('monday next week'))])->get();
 
         return view('time-off.index',[
             'timeoffs' => $timeoffs,
@@ -28,9 +27,8 @@ class TimeOffController extends Controller
     public function indexUpcoming()
     {
         $timeoffs = Appointment::where('service_id','=',1)
-            ->where('barber_id','=',auth()->user()->barber->id)
-            ->where('app_start_time','>=',now())
-            ->orderBy('app_start_time')
+            ->barberFilter(auth()->user()->barber)
+            ->upcoming()
         ->paginate(10);
 
         return view('time-off.index',['timeoffs' => $timeoffs, 'type' => 'Upcoming']);
@@ -38,9 +36,8 @@ class TimeOffController extends Controller
 
     public function indexPrevious() {
         $timeoffs = Appointment::where('service_id','=',1)
-            ->where('barber_id','=',auth()->user()->barber->id)
-            ->where('app_start_time','<',now())
-            ->orderBy('app_start_time','desc')
+            ->barberFilter(auth()->user()->barber)
+            ->previous()
         ->paginate(10);
 
         return view('time-off.index',['timeoffs' => $timeoffs, 'type' => 'Previous']);
@@ -82,19 +79,19 @@ class TimeOffController extends Controller
         $barber = auth()->user()->barber;
 
         // foglalások amik az új foglalás alatt kezdődnek
-        $appointmentsStart = Appointment::where('barber_id','=',$barber->id)
-        ->where('app_start_time','>=',$app_start_time)
-        ->where('app_start_time','<',$app_end_time)->get();
+        $appointmentsStart = Appointment::barberFilter($barber)
+        ->laterThan($app_start_time)
+        ->earlierThan($app_end_time)->get();
 
         // foglalások amik az új foglalás alatt végződnek
-        $appointmentsEnd = Appointment::where('barber_id','=',$barber->id)
-        ->where('app_end_time','>',$app_start_time)
-        ->where('app_end_time','<=',$app_end_time)->get();
+        $appointmentsEnd = Appointment::barberFilter($barber)
+        ->laterThan($app_start_time,'app_end_time')
+        ->earlierThan($app_end_time,'app_end_time')->get();
 
         // foglalások amik az új foglalás előtt kezdődnek de utána végződnek
-        $appointmentsBetween = Appointment::where('barber_id','=',$barber->id)
-        ->where('app_start_time','<=',$app_start_time)
-        ->where('app_end_time','>=',$app_end_time)->get();
+        $appointmentsBetween = Appointment::barberFilter($barber)
+        ->earlierThan($app_start_time)
+        ->laterThan($app_end_time,'app_end_time')->get();
 
         if ($appointmentsStart->count() + $appointmentsEnd->count() + $appointmentsBetween->count() != 0) {
             return redirect()->route('time-offs.create')->with('error','You have bookings clashing with the selected timeframe.');
@@ -135,9 +132,9 @@ class TimeOffController extends Controller
     public function edit(Appointment $time_off)
     {
         //előző és következő időpontok
-        $previousAppointment = Appointment::where('barber_id','=',auth()->user()->barber->id)->where('app_end_time','<=',$time_off->app_start_time)->orderByDesc('app_end_time')->first();
+        $previousAppointment = Appointment::barberFilter(auth()->user()->barber)->earlierThan($time_off->app_start_time,'app_end_time')->orderByDesc('app_end_time')->first();
 
-        $nextAppointment = Appointment::where('barber_id','=',auth()->user()->barber->id)->where('app_start_time','>=',$time_off->app_end_time)->orderBy('app_start_time')->first();
+        $nextAppointment = Appointment::barberFilter(auth()->user()->barber)->laterThan($time_off->app_end_time)->orderBy('app_start_time')->first();
 
         return view('time-off.edit',[
             'appointment' => $time_off,
@@ -177,21 +174,21 @@ class TimeOffController extends Controller
         $barber = auth()->user()->barber;
 
         // counting appointments (besides the time off being updated) starting while the updated time off
-        $appointmentsStart = Appointment::where('barber_id','=',$barber->id)
-        ->where('app_start_time','>=',$app_start_time)
-        ->where('app_start_time','<',$app_end_time)
+        $appointmentsStart = Appointment::barberFilter($barber)
+        ->laterThan($app_start_time)
+        ->earlierThan($app_end_time)
         ->where('id','!=',$time_off->id)->count();
 
         // counting appointments (besides the time off being updated) ending while the updated time off
-        $appointmentsEnd = Appointment::where('barber_id','=',$barber->id)
-        ->where('app_end_time','>',$app_start_time)
-        ->where('app_end_time','<=',$app_end_time)
+        $appointmentsEnd = Appointment::barberFilter($barber)
+        ->laterThan($app_start_time,'app_end_time')
+        ->earlierThan($app_end_time,'app_end_time')
         ->where('id','!=',$time_off->id)->count();
 
         // counting appointments (besides the time off being updated) starting before and ending after the updated time off
-        $appointmentsBetween = Appointment::where('barber_id','=',$barber->id)
-        ->where('app_start_time','<=',$app_start_time)
-        ->where('app_end_time','>=',$app_end_time)
+        $appointmentsBetween = Appointment::barberFilter($barber)
+        ->earlierThan($app_start_time)
+        ->laterThan($app_end_time,'app_end_time')
         ->where('id','!=',$time_off->id)->count();
 
         // redirect with an error message if there are any clashing appointments

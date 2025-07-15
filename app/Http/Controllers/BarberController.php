@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use App\Models\Barber;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -54,8 +55,15 @@ class BarberController extends Controller
         $showProfile = $request->showProfile ?? true;
         $showPicture = $request->showPicture ?? false;
 
+        $numberOfBookings = [
+            'upcoming' => Appointment::barberFilter($barber)->upcoming()->count(),
+            'previous' => Appointment::barberFilter($barber)->previous()->count(),
+            'cancelled' => Appointment::onlyTrashed()->barberFilter($barber)->count()
+        ];
+
         return view('barber.show',[
             'barber' => $barber,
+            'numberOfBookings' => $numberOfBookings,
             'showProfile' => $showProfile,
             'showPicture' => $showPicture
         ]);

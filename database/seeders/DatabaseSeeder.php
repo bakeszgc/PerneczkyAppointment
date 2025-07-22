@@ -48,7 +48,8 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'TIMEOFF',
                 'price' => 0,
-                'duration' => 0
+                'duration' => 0,
+                'is_visible' => 0
             ],
             [
                 'name' => 'Haircut',

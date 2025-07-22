@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminAppointmentController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BarberController;
 use App\Http\Controllers\ServiceController;
@@ -96,6 +97,12 @@ Route::middleware(['admin'])->group(function() {
 
     // BARBER PROFILE PICTURE
     Route::post('/upload-cropped/{user}',[PictureController::class,'uploadCropped'])->name('upload-cropped');
+
+    //BARBERS' BOOKINGS
+    Route::get('/admin/barbers/{barber}/bookings/upcoming',[AdminAppointmentController::class,'indexUpcoming'])->name('bookings.upcoming');
+    Route::get('/admin/barbers/{barber}/bookings/previous',[AdminAppointmentController::class,'indexPrevious'])->name('bookings.previous');
+    Route::get('/admin/barbers/{barber}/bookings/cancelled',[AdminAppointmentController::class,'indexCancelled'])->name('bookings.cancelled');
+    Route::resource('/admin/barbers/{barber}/bookings',AdminAppointmentController::class)->withTrashed(['show']);
 });
 
 // HOMEPAGE

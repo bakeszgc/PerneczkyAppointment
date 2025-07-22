@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Models\Barber;
 use Closure;
 use App\Models\Appointment;
 use Illuminate\View\Component;
@@ -13,7 +14,8 @@ class CalendarEvent extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public Appointment $appointment
+        public Appointment $appointment,
+        public ?Barber $barber
     )
     {
         //

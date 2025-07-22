@@ -1,3 +1,7 @@
+@php
+    use Carbon\Carbon;
+@endphp
+
 <x-card {{$attributes->merge(['class' => ' transition-all'])}}>
     <div @class(['flex justify-between' => true, 'text-slate-500' => $appointment->deleted_at || $appointment->app_start_time < now()])>
         <div>
@@ -22,18 +26,18 @@
         </div>
         <div class="text-right">
             <h2 class="font-bold text-2xl max-sm:text-lg mb-1">
-                @if (Carbon\Carbon::parse($appointment->app_start_time)->isToday())
+                @if (Carbon::parse($appointment->app_start_time)->isToday())
                     Today
-                @elseif (Carbon\Carbon::parse($appointment->app_start_time)->isTomorrow())
+                @elseif (Carbon::parse($appointment->app_start_time)->isTomorrow())
                     Tomorrow
-                @elseif (Carbon\Carbon::parse($appointment->app_start_time)->isYesterday())
+                @elseif (Carbon::parse($appointment->app_start_time)->isYesterday())
                     Yesterday
                 @else
-                    {{Carbon\Carbon::parse($appointment->app_start_time)->format('Y.m.d.')}}
+                    {{Carbon::parse($appointment->app_start_time)->format('Y.m.d.')}}
                 @endif
             </h2>
             <h3 class="font-medium text-lg max-sm:text-sm">
-                {{ $appointment->getDuration() >= 600 ? 'Full day' : Carbon\Carbon::parse($appointment->app_start_time)->format('G:i') . ' - ' . Carbon\Carbon::parse($appointment->app_end_time)->format('G:i') }}
+                {{ $appointment->getDuration() >= 600 ? 'Full day' : Carbon::parse($appointment->app_start_time)->format('G:i') . ' - ' . Carbon::parse($appointment->app_end_time)->format('G:i') }}
             </h3>
             <h4 class="text-base max-sm:text-sm">
                 {{ $appointment->getDuration() . ' minutes' }}
@@ -42,21 +46,43 @@
     </div>
 
     <div class="flex gap-2 mt-4">
+
+        @php
+            $detailsLink = '';
+            $editLink = '';
+            $cancelLink = '';
+
+            switch($access) {
+                case 'admin':
+                    $detailsLink = route('bookings.show',['barber' => $barber, 'booking' => $appointment]);
+                    $editLink = route('bookings.edit',['barber' => $barber, 'booking' => $appointment]);
+                    $cancelLink = route('bookings.destroy',['barber' => $barber, 'booking' => $appointment]);
+                    break;
+                case 'barber':
+                    $detailsLink = route('appointments.show',['appointment' =>$appointment]);
+                    $editLink = route('appointments.edit',['appointment' => $appointment]);
+                    $cancelLink = route('appointments.destroy',['appointment' => $appointment]);
+                    break;
+                default:
+                    $detailsLink = route('my-appointments.show',['my_appointment' => $appointment]);
+                    $cancelLink = route('my-appointments.destroy',['my_appointment' => $appointment]);
+            }
+        @endphp
         
         @if($showDetails)
-            <x-link-button :link="$access === 'barber' ? route('appointments.show',['appointment' =>$appointment]) : route('my-appointments.show',['my_appointment' => $appointment])" role="show">
+            <x-link-button :link="$detailsLink" role="show">
                 Details
             </x-link-button>
         @endif
         
         @if ($appointment->app_start_time >= now('Europe/Budapest') && !$appointment->deleted_at)
-            @if ($access === 'barber')
-                <x-link-button :link="route('appointments.edit',['appointment' => $appointment])" role="edit">
+            @if ($access === 'barber' || $access === 'admin')
+                <x-link-button :link="$editLink" role="edit">
                     Edit
                 </x-link-button>
             @endif
 
-            <form action="{{$access === 'barber' ? route('appointments.destroy',['appointment' => $appointment]) : route('my-appointments.destroy',['my_appointment' => $appointment])}}" method="POST">
+            <form action="{{ $cancelLink }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <x-button role="destroy">

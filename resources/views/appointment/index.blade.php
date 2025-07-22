@@ -39,11 +39,19 @@
     </div>
 
     @if ($type === 'All')
-        <x-calendar :calAppointments="$calAppointments" class="mb-4"></x-calendar>
+        @isset($barber)
+            <x-calendar :calAppointments="$calAppointments" class="mb-4" :barber="$barber"></x-calendar>
+        @else
+            <x-calendar :calAppointments="$calAppointments" class="mb-4"></x-calendar>
+        @endisset
     @endif
     
     @forelse ($appointments as $appointment)
-        <x-appointment-card :appointment="$appointment" :showDetails="true" access="{{ isset($barber) ? 'admin' : 'barber' }}" class="mb-4"/>
+        @isset($barber)
+            <x-appointment-card :appointment="$appointment" :showDetails="true" access="{{ isset($barber) ? 'admin' : 'barber' }}" :barber="$barber" class="mb-4" />
+        @else
+            <x-appointment-card :appointment="$appointment" :showDetails="true" access="{{ isset($barber) ? 'admin' : 'barber' }}" class="mb-4" />
+        @endisset
     @empty
         <x-empty-card>
             <p class="text-lg font-medium">You don't have any {{ lcfirst($type) }} appointments!</p>

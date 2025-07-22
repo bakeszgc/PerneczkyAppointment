@@ -2,10 +2,11 @@
 
 namespace App\View\Components;
 
-use App\Models\Appointment;
 use Closure;
-use Illuminate\Contracts\View\View;
+use App\Models\Barber;
+use App\Models\Appointment;
 use Illuminate\View\Component;
+use Illuminate\Contracts\View\View;
 
 class AppointmentCard extends Component
 {
@@ -15,7 +16,8 @@ class AppointmentCard extends Component
     public function __construct(
         public Appointment $appointment,
         public bool $showDetails = false,
-        public string $access = 'user'
+        public string $access = 'user',
+        public ?Barber $barber
     )
     {}
 

@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Models\Barber;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
@@ -13,7 +14,8 @@ class Calendar extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public Collection $calAppointments
+        public Collection $calAppointments,
+        public ?Barber $barber
     )
     {
         //

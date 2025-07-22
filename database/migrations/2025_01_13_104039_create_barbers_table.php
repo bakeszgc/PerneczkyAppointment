@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('display_name')->nullable();
             $table->foreignIdFor(User::class);
+            $table->boolean('is_visible');
             $table->timestamps();
             $table->softDeletes();
         });

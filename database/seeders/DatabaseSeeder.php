@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             'last_name' => 'Bacsa',
             'date_of_birth' => '2000-03-18',
             'tel_number' => '+36706390318',
-            'email' => 'bacsabence00@gmail.com'
+            'email' => 'bacsabence00@gmail.com',
+            'is_admin' => true
         ]);
         User::factory(50)->create();
 
@@ -124,7 +125,8 @@ class DatabaseSeeder extends Seeder
             Service::create([
                 'name' => $service['name'],
                 'price' => $service['price'],
-                'duration' => $service['duration']
+                'duration' => $service['duration'],
+                'is_visible' => true
             ]);
         }
 

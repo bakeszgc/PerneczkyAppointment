@@ -86,7 +86,7 @@ class Appointment extends Model
     }
 
     public function scopeUserFilter(Builder $query, User|BelongsTo $user) {
-        $query->where('user_id','=',$user   ->id);
+        $query->where('user_id','=',$user->id);
     }
 
     // WITHOUT TIMEOFFS OR TIMEOFFS ONLY

@@ -17,7 +17,7 @@ class BarberFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'is_visible' => true
         ];
     }
 }

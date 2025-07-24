@@ -143,7 +143,7 @@
             </div>
 
             <div>
-                <x-button role="ctaMain" :full="true">Search</x-button>
+                <x-button role="ctaMain" :full="true" id="submitButton" :disabled="true">Search</x-button>
             </div>
         </form>
     </x-card>
@@ -204,6 +204,24 @@
                         input.removeAttribute('disabled','');
                     });
                 }
+            }
+            
+            // adads
+            const submitButton = document.getElementById("submitButton");
+            if (submitButton) {
+                const allInput = document.querySelectorAll('input, select, textarea');
+
+                allInput.forEach(el => {
+                    if (
+                        (el.tagName === 'INPUT' && (el.type === 'text' || el.type === 'date' || el.type === 'radio')) ||
+                        el.tagName === 'SELECT' || el.tagName === 'TEXTAREA'
+                    ) {
+                        el.addEventListener('change', function () {
+                            submitButton.disabled = false;
+                        });
+                    }
+                    
+                });
             }
         });
     </script>

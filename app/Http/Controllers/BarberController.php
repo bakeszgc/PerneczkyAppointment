@@ -54,18 +54,29 @@ class BarberController extends Controller
 
         $showProfile = $request->showProfile ?? true;
         $showPicture = $request->showPicture ?? false;
+        $showBookings = $request->showBookings ?? false;
 
-        $numberOfBookings = [
-            'upcoming' => Appointment::barberFilter($barber)->upcoming()->count(),
-            'previous' => Appointment::barberFilter($barber)->previous()->count(),
-            'cancelled' => Appointment::onlyTrashed()->barberFilter($barber)->count()
+        $sumOfBookings = [
+            'previous' => [
+                'count' => Appointment::barberFilter($barber)->previous()->count(),
+                'income' => Appointment::barberFilter($barber)->previous()->sum('price')
+            ],
+            'upcoming' => [
+                'count' => Appointment::barberFilter($barber)->upcoming()->count(),
+                'income' => Appointment::barberFilter($barber)->upcoming()->sum('price')
+            ],
+            'cancelled' => [
+                'count' => Appointment::onlyTrashed()->barberFilter($barber)->count(),
+                'income' => Appointment::onlyTrashed()->barberFilter($barber)->sum('price')
+            ]
         ];
 
         return view('barber.show',[
             'barber' => $barber,
-            'numberOfBookings' => $numberOfBookings,
+            'sumOfBookings' => $sumOfBookings,
             'showProfile' => $showProfile,
-            'showPicture' => $showPicture
+            'showPicture' => $showPicture,
+            'showBookings' => $showBookings
         ]);
     }
 

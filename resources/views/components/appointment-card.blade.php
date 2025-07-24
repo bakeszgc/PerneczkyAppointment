@@ -1,25 +1,48 @@
 @php
     use Carbon\Carbon;
+
+    $detailsLink = '';
+    $editLink = '';
+    $cancelLink = '';
+
+    switch($access) {
+        case 'admin':
+            $detailsLink = route('bookings.show',['booking' => $appointment]);
+            $editLink = route('bookings.edit',['booking' => $appointment]);
+            $cancelLink = route('bookings.destroy',['booking' => $appointment]);
+            break;
+        case 'barber':
+            $detailsLink = route('appointments.show',['appointment' =>$appointment]);
+            $editLink = route('appointments.edit',['appointment' => $appointment]);
+            $cancelLink = route('appointments.destroy',['appointment' => $appointment]);
+            break;
+        default:
+            $detailsLink = route('my-appointments.show',['my_appointment' => $appointment]);
+            $cancelLink = route('my-appointments.destroy',['my_appointment' => $appointment]);
+    }
 @endphp
 
 <x-card {{$attributes->merge(['class' => ' transition-all'])}}>
     <div @class(['flex justify-between' => true, 'text-slate-500' => $appointment->deleted_at || $appointment->app_start_time < now()])>
         <div>
             <h2 @class(['font-bold text-2xl max-sm:text-lg mb-1 flex items-center gap-2' => true, 'text-blue-600 hover:text-blue-800' => $appointment->app_start_time >= now() && !$appointment->deleted_at ])>
-                <a href="{{ $access === 'barber' ? route('appointments.show',['appointment' => $appointment]) : route('my-appointments.show',['my_appointment' => $appointment]) }}"
+                <a href="{{ $detailsLink }}"
                 @class(['line-through' => $appointment->deleted_at])>
                     {{$appointment->user->first_name . " " . $appointment->user->last_name}} #{{$appointment->id}}
                 </a>
                 <span class="font-medium text-lg">{{ $appointment->isDeleted() }}</span>
             </h2>
+
             <h3 class="font-medium text-lg max-sm:text-sm mb-1">
                 {{$appointment->service->name}} {{ $appointment->service->isDeleted() }}
                 •
                 {{number_format($appointment->price,thousands_separator:' ')}} Ft
             </h3>
+
             <p class="font-medium text-base max-sm:text-sm text-slate-500">
                 Barber: {{$appointment->barber->getName() }} {{ $appointment->barber->isDeleted() }}
             </p>
+            
             <div>
                 {{$slot}}
             </div>
@@ -46,28 +69,6 @@
     </div>
 
     <div class="flex gap-2 mt-4">
-
-        @php
-            $detailsLink = '';
-            $editLink = '';
-            $cancelLink = '';
-
-            switch($access) {
-                case 'admin':
-                    $detailsLink = route('bookings.show',['barber' => $barber, 'booking' => $appointment]);
-                    $editLink = route('bookings.edit',['barber' => $barber, 'booking' => $appointment]);
-                    $cancelLink = route('bookings.destroy',['barber' => $barber, 'booking' => $appointment]);
-                    break;
-                case 'barber':
-                    $detailsLink = route('appointments.show',['appointment' =>$appointment]);
-                    $editLink = route('appointments.edit',['appointment' => $appointment]);
-                    $cancelLink = route('appointments.destroy',['appointment' => $appointment]);
-                    break;
-                default:
-                    $detailsLink = route('my-appointments.show',['my_appointment' => $appointment]);
-                    $cancelLink = route('my-appointments.destroy',['my_appointment' => $appointment]);
-            }
-        @endphp
         
         @if($showDetails)
             <x-link-button :link="$detailsLink" role="show">

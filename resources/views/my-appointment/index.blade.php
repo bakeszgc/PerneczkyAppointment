@@ -16,7 +16,7 @@
     </div>
 
     @forelse ($appointments as $appointment)
-        <x-appointment-card :appointment="$appointment" :showDetails="true" class="mb-4"/>
+        <x-appointment-card :appointment="$appointment" :showDetails="true" access="user" class="mb-4"/>
     @empty
         <x-empty-card>
             <p class="text-lg font-medium">You don't have any {{ lcfirst($type) }} appointments!</p>

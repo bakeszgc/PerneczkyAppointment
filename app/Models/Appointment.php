@@ -89,6 +89,11 @@ class Appointment extends Model
         $query->where('user_id','=',$user->id);
     }
 
+    // APPOINTMENTS OF A CERTAIN SERVICE
+    public function scopeServiceFilter(Builder $query, Service|HasOne $service) {
+        $query->where('service_id','=',$service->id);
+    }
+
     // WITHOUT TIMEOFFS OR TIMEOFFS ONLY
     public function scopeWithoutTimeOffs(Builder $query) {
         $query->where('service_id','!=',1);

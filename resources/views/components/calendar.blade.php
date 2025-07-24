@@ -32,7 +32,6 @@
             @else
                 <x-calendar-event :appointment="$appointment" />
             @endisset
-            
         @endforeach
         
         @if (now()->format('G') >= 10 && now()->format('G') <= 21)

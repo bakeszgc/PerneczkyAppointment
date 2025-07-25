@@ -17,7 +17,6 @@ class AppointmentCard extends Component
         public Appointment $appointment,
         public bool $showDetails = false,
         public string $access = 'user',
-        public ?Barber $barber
     )
     {}
 

@@ -27,11 +27,7 @@
         </div>
         
         @foreach ($calAppointments as $appointment)
-            @isset($barber)
-                <x-calendar-event :appointment="$appointment" :barber="$barber" />
-            @else
-                <x-calendar-event :appointment="$appointment" />
-            @endisset
+            <x-calendar-event :appointment="$appointment" />
         @endforeach
         
         @if (now()->format('G') >= 10 && now()->format('G') <= 21)

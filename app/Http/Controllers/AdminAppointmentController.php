@@ -96,54 +96,6 @@ class AdminAppointmentController extends Controller
         ]);
     }
 
-    public function indexBarber(Barber $barber)
-    {
-        $appointments = Appointment::barberFilter($barber)->withoutTimeOffs()->withTrashed()->latest()->paginate(10);
-
-        $calAppointments = Appointment::barberFilter($barber)->whereBetween('app_start_time',[date("Y-m-d", strtotime('monday this week')),date("Y-m-d", strtotime('monday next week'))])->get();
-     
-        return view('appointment.index',[
-            'appointments' => $appointments,
-            'calAppointments' => $calAppointments,
-            'type' => 'All',
-            'barber' => $barber
-        ]);
-    }
-
-    public function indexBarberUpcoming (Barber $barber)
-    {
-        $upcomingAppointments = Appointment::upcoming()->barberFilter($barber)
-        ->withoutTimeOffs()->paginate(10);
-        
-        return view('appointment.index',[
-            'appointments' => $upcomingAppointments,
-            'type' => 'Upcoming',
-            'barber' => $barber
-        ]);
-    }
-
-    public function indexBarberPrevious(Barber $barber) {
-        $previousAppointments = Appointment::previous()->barberFilter($barber)
-        ->withoutTimeOffs()->paginate(10);
-        
-        return view('appointment.index',[
-            'appointments' => $previousAppointments,
-            'type' => 'Previous',
-            'barber' => $barber
-        ]);
-    }
-
-    public function indexBarberCancelled(Barber $barber) {
-        $cancelledAppointments = Appointment::onlyTrashed()->barberFilter($barber)
-        ->withoutTimeOffs()->orderBy('app_start_time','desc')->paginate(10);
-
-        return view('appointment.index',[
-            'appointments' => $cancelledAppointments,
-            'type' => 'Cancelled',
-            'barber' => $barber
-        ]);
-    }
-
     public function create()
     {
         //

@@ -12,11 +12,7 @@ height: calc(" . $appointment->getDuration() / 60 * 53 .
         $showLink = '';
 
         if ($appointment->service_id !== 1) {
-            if (isset($barber)) {
-                $showLink = route('bookings.show',['booking' => $appointment]);
-            } else {
-                $showLink = route('appointments.show',$appointment);
-            }
+            $showLink = route('appointments.show',$appointment);
         } else {
             $showLink = route('time-offs.show',$appointment);
         }

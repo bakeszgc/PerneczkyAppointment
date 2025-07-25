@@ -98,12 +98,7 @@ Route::middleware(['admin'])->group(function() {
     // BARBER PROFILE PICTURE
     Route::post('/upload-cropped/{user}',[PictureController::class,'uploadCropped'])->name('upload-cropped');
 
-    //BARBERS' BOOKINGS
-    Route::get('/admin/barbers/{barber}/bookings',[AdminAppointmentController::class,'indexBarber'])->name('bookings.barber');
-    Route::get('/admin/barbers/{barber}/bookings/upcoming',[AdminAppointmentController::class,'indexBarberUpcoming'])->name('bookings.barber.upcoming');
-    Route::get('/admin/barbers/{barber}/bookings/previous',[AdminAppointmentController::class,'indexBarberPrevious'])->name('bookings.barber.previous');
-    Route::get('/admin/barbers/{barber}/bookings/cancelled',[AdminAppointmentController::class,'indexBarberCancelled'])->name('bookings.barber.cancelled');
-
+    //ADMIN BOOKINGS
     Route::resource('/admin/bookings',AdminAppointmentController::class)->withTrashed(['show']);
 });
 

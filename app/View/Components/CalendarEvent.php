@@ -14,8 +14,7 @@ class CalendarEvent extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public Appointment $appointment,
-        public ?Barber $barber
+        public Appointment $appointment
     )
     {
         //

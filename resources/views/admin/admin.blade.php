@@ -30,7 +30,7 @@
         </div>
     </x-show-card>
 
-    <x-show-card :show="true" type="services">
+    <x-show-card :show="true" type="services" class="mb-4">
         <div class="grid grid-cols-2 gap-4 mb-6">
             @forelse ($services as $service)
                 <x-link-button link="{{ route('services.show',$service) }}" :full="true">
@@ -52,6 +52,14 @@
             <x-link-button :link="route('services.index')">
                 Show All Services
             </x-link-button>
+        </div>
+    </x-show-card>
+
+    <x-show-card :show="true" type="bookings">
+        <x-sum-of-bookings class="mb-8" :sumOfBookings="$sumOfBookings" />
+
+        <div>
+            <x-link-button :link="route('bookings.index')" :full="true">All bookings</x-link-button>
         </div>
     </x-show-card>
 </x-user-layout>

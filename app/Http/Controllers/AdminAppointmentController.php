@@ -9,6 +9,7 @@ use App\Models\Service;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\BookingCancellationNotification;
 
 class AdminAppointmentController extends Controller
 {
@@ -241,8 +242,19 @@ class AdminAppointmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Appointment $booking)
     {
-        //
+        if ($booking->app_start_time > now()) {
+            return redirect()->back()->with('error',"You can't cancel a previous booking!");
+        }
+
+        $booking->user->notify(
+            new BookingCancellationNotification($booking,'barber')
+        );
+
+        $booking->delete();
+
+        return redirect()->route('bookings.show',$booking)
+            ->with('success','Booking cancelled successfully! Be sure to set up a new booking with your client!');
     }
 }

@@ -320,6 +320,10 @@ class AppointmentController extends Controller
 
     public function destroy(Appointment $appointment)
     {
+        if ($appointment->app_start_time > now()) {
+            return redirect()->back()->with('error',"You can't cancel a previous booking!");
+        }
+
         $appointment->user->notify(
             new BookingCancellationNotification($appointment,'barber')
         );

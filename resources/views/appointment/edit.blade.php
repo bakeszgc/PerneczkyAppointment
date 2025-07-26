@@ -1,5 +1,15 @@
-<x-user-layout title="Editing {{$appointment->user->first_name}}'s Appointment - " currentView="barber">
-    <x-breadcrumbs :links="[
+@php
+    $view = $view ?? 'barber';
+@endphp
+
+<x-user-layout title="Editing {{$appointment->user->first_name}}'s Appointment - " currentView="{{ $view }}">
+
+    <x-breadcrumbs :links="$view == 'admin' ? [
+        'Admin Dashboard' => route('admin'),
+        'Bookings' => route('bookings.index'),
+        $appointment->user->first_name . '\'s Booking' => route('bookings.show',$appointment),
+        'Edit' => ''
+    ] : [
         'Bookings' => route('appointments.index'),
         $appointment->user->first_name . '\'s Booking' => route('appointments.show',$appointment),
         'Edit' => ''
@@ -30,7 +40,7 @@
 
                 if (selectedService) {
                     const totalMinutes = (this.appStartHour * 60 + this.appStartMinute) + selectedService.duration;
-                    this.appEndHour = Math.floor(totalMinutes / 60) % 24; // Ensure hour is within 24-hour format
+                    this.appEndHour = Math.floor(totalMinutes / 60) % 24;
                     this.appEndMinute = totalMinutes % 60;
                 }
             },
@@ -46,61 +56,67 @@
                 {{$appointment->user->first_name . " " . $appointment->user->last_name}} #{{$appointment->id}}
             </h1>
             
-            <form action="{{route('appointments.update',$appointment)}}" method="POST">
+            <form action="{{$view == 'admin' ? route('bookings.update',$appointment) : route('appointments.update',$appointment)}}" method="POST">
                 @csrf
                 @method('PUT')
 
-                <div class="mb-4 grid grid-cols-2 max-sm:grid-cols-1 gap-2">
+                <div class="mb-4 grid grid-cols-2 max-sm:grid-cols-1 gap-4">
                     <div>
-                        <label for="service" class=" font-bold text-lg">
+                        <x-label for="service">
                             Service
-                        </label>
-                        <select name="service" id="service" class="border border-slate-300 rounded-md p-2 w-full" x-model="selectedServiceId" @change="updateService()">
+                        </x-label>
+
+                        <x-select name="service" id="service" x-model="selectedServiceId" @change="updateService()" class="w-full">
                             @foreach ($services as $service)
                                 <option value="{{ $service->id }}" {{ $service->id == $appointment->service_id ? 'selected' : '' }}>
                                     {{ $service->name }}
                                 </option>
                             @endforeach
-                        </select>
+                        </x-select>
+
                         @error('service')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
                     </div>
                     <div>
-                        <label for="price" class=" font-bold text-lg">
+                        <x-label for="price">
                             Price (in HUF)
-                        </label>
-                        <x-input-field type="number" name="price" id="price" :value="$appointment->price" x-model="servicePrice" class="w-full max-h-9"/>
+                        </x-label>
+
+                        <x-input-field type="number" name="price" id="price" :value="$appointment->price" x-model="servicePrice" class="w-full h-fit"/>
+
                         @error('price')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
                     </div>
                 </div>
 
-                <div class="mb-4 grid grid-cols-2 max-sm:grid-cols-1 gap-2">
+                <div class="mb-4 grid grid-cols-2 max-sm:grid-cols-1 gap-4">
                     <div class="flex flex-col">
-                        <label for="app_start_date" class=" font-bold text-lg">
+                        <x-label for="app_start_date">
                             Booking's start time
-                        </label>
+                        </x-label>
 
                         <div class="flex items-center gap-1">
-                            <input type="date" name="app_start_date" id="app_start_date" x-model="appStartDate" value="{{ \Carbon\Carbon::parse($appointment->app_start_time)->format('Y-m-d') }}" class="border border-slate-300 rounded-md p-2 max-h-10 w-max flex-1 mr-2" @change="
+                            <x-input-field type="date" name="app_start_date" id="app_start_date" x-model="appStartDate" value="{{ \Carbon\Carbon::parse($appointment->app_start_time)->format('Y-m-d') }}" class="flex-1 mr-2" @change="
                             appEndDate = (new Date(appStartDate)).toISOString().split('T')[0]" />
-                            <select name="app_start_hour" x-model="appStartHour" class="border border-slate-300 rounded-md p-2 h-full" @change="
+
+                            <x-select name="app_start_hour" id="startHour" x-model="appStartHour" @change="
                             appEndHour = parseInt(appStartHour) + parseInt(diffInHours);">
                                 @for ($i=10;$i<20;$i++)
-                                    <option value="{{ $i }}" {{ $i == \Carbon\Carbon::parse($appointment->app_start_time)->format('G') ? "selected=\"selected\"" : ''}}>{{ $i }}</option>
+                                    <option value="{{ $i }}" {{ $i == \Carbon\Carbon::parse($appointment->app_start_time)->format('G') ? "selected" : ''}}>{{ $i }}</option>
                                 @endfor
-                            </select>
-                            <select name="app_start_minute" x-model="appStartMinute" class="border border-slate-300 rounded-md p-2 h-full">
+                            </x-select>
+
+                            <x-select name="app_start_minute" id="startMinute" x-model="appStartMinute">
                                 @for ($i=0;$i<60;$i+=15)
-                                    <option value="{{ $i }}" {{ $i == \Carbon\Carbon::parse($appointment->app_start_time)->format('i') ? "selected=\"selected\"" : ''}}>{{ $i == 0 ? '00' : $i}}</option>
+                                    <option value="{{ $i }}" {{ $i == \Carbon\Carbon::parse($appointment->app_start_time)->format('i') ? "selected" : ''}}>{{ $i == 0 ? '00' : $i}}</option>
                                 @endfor
-                            </select>
+                            </x-select>
                         </div>
 
                         <p>
-                            @if ($previous->app_end_time >= \Carbon\Carbon::parse($appointment->app_end_time)->startOfDay())
+                            @if ($previous && $previous->app_end_time >= \Carbon\Carbon::parse($appointment->app_end_time)->startOfDay())
                                 Your previous booking ends at {{\Carbon\Carbon::parse($previous->app_end_time)->format('G:i')}} on {{\Carbon\Carbon::parse($previous->app_end_time)->format('jS F')}}
                             @else
                                 You don't have any previous bookings on {{\Carbon\Carbon::parse($appointment->app_end_time)->format('jS F')}}
@@ -119,30 +135,32 @@
                     </div>
 
                     <div class="flex flex-col">
-                        <label for="app_end_time" class=" font-bold text-lg">
+                        <x-label for="app_end_time">
                             Booking's end time
-                        </label>
+                        </x-label>
 
                         <div class="flex items-center gap-1">
-                            <input type="date" name="app_end_date" x-model="appEndDate" value="{{ \Carbon\Carbon::parse($appointment->app_end_time)->format('Y-m-d') }}" class="border border-slate-300 rounded-md p-2 max-h-10 w-max flex-1 mr-2" @change="
+                            <x-input-field type="date" name="app_end_date" x-model="appEndDate" value="{{ \Carbon\Carbon::parse($appointment->app_end_time)->format('Y-m-d') }}" class="flex-1 mr-2" @change="
                             appStartDate = (new Date(appEndDate)).toISOString().split('T')[0]" />
-                            <select name="app_end_hour" x-model="appEndHour" class="border border-slate-300 rounded-md p-2 h-full" @change="
+
+                            <x-select name="app_end_hour" id="endHour" x-model="appEndHour" @change="
                             diffInHours = appEndHour - appStartHour;">
                                 @for ($i=10;$i<22;$i++)
-                                    <option value="{{ $i }}" {{ $i == \Carbon\Carbon::parse($appointment->app_end_time)->format('G') ? "selected=\"selected\"" : ''}}>{{ $i }}</option>
+                                    <option value="{{ $i }}" {{ $i == \Carbon\Carbon::parse($appointment->app_end_time)->format('G') ? "selected" : ''}}>{{ $i }}</option>
                                 @endfor
-                            </select>
-                            <select name="app_end_minute" x-model="appEndMinute" class="border border-slate-300 rounded-md p-2 h-full">
+                            </x-select>
+
+                            <x-select name="app_end_minute" id="endMinute" x-model="appEndMinute">
                                 @for ($i=0;$i<60;$i+=15)
-                                    <option value="{{ $i }}" {{ $i == \Carbon\Carbon::parse($appointment->app_end_time)->format('i') ? "selected=\"selected\"" : ''}}>
+                                    <option value="{{ $i }}" {{ $i == \Carbon\Carbon::parse($appointment->app_end_time)->format('i') ? "selected" : ''}}>
                                         {{ $i == 0 ? '00' : $i}}
                                     </option>
                                 @endfor
-                            </select>
+                            </x-select>
                         </div>
 
                         <p>
-                            @if ($next->app_start_time <= \Carbon\Carbon::parse($appointment->app_end_time)->addDay()->startOfDay())
+                            @if ($next && $next->app_start_time <= \Carbon\Carbon::parse($appointment->app_end_time)->addDay()->startOfDay())
                                 Your next booking starts at {{\Carbon\Carbon::parse($next->app_start_time)->format('G:i')}} on {{\Carbon\Carbon::parse($next->app_start_time)->format('jS F')}}
                             @else
                                 You don't have any upcoming bookings on {{\Carbon\Carbon::parse($appointment->app_start_time)->format('jS F')}}
@@ -161,12 +179,28 @@
                     </div>
                 </div>
                 
-                <div class="mb-4">
-                    <label for="comment" class="font-bold text-lg">Comment</label>
-                    <textarea name="comment" id="comment" class="border border-slate-300 rounded-md p-2 w-full">{{$appointment->comment}}</textarea>
-                    @error('comment')
-                        <p class=" text-red-500">{{$message}}</p>
-                    @enderror
+                <div @class(['mb-4','grid grid-cols-2 gap-4' => $view == 'admin'])>
+                    <div>
+                        <x-label for="comment">Comment</x-label>
+
+                        <x-textarea name="comment" id="comment" class="w-full">{{old('comment') ?? $appointment->comment}}</x-textarea>
+
+                        @error('comment')
+                            <p class=" text-red-500">{{$message}}</p>
+                        @enderror
+                    </div>
+
+                    @if ($view == 'admin')
+                        <div>
+                            <x-label for="barber">Barber</x-label>
+                            
+                            <x-select name="barber" id="barber" class="w-full">
+                                @foreach ($barbers as $barber)
+                                    <option value="{{ $barber->id }}" {{ $barber->id == $appointment->barber_id ? 'selected' : '' }}>{{ $barber->getName() }}</option>
+                                @endforeach
+                            </x-select>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="flex gap-2">

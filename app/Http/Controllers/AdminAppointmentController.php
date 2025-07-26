@@ -158,9 +158,29 @@ class AdminAppointmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Appointment $booking)
     {
-        //
+        if ($booking->app_start_time <= now()) {
+            return redirect()->route('bookings.show',$booking)->with('error',"You can't edit bookings from the past.");
+        } elseif ($booking->deleted_at) {
+            return redirect()->route('bookings.show',$booking)->with('error',"You can't edit cancelled bookings.");
+        }
+
+        $previousAppointment = Appointment::barberFilter($booking->barber)->endEarlierThan(Carbon::parse($booking->app_start_time))->orderByDesc('app_end_time')->first();
+
+        $nextAppointment = Appointment::barberFilter($booking->barber)->startLaterThan(Carbon::parse($booking->app_end_time))->orderBy('app_start_time')->first();
+
+        $services = Service::where('is_visible','=',1)->get();
+        $barbers = Barber::all();
+
+        return view('appointment.edit', [
+            'appointment' => $booking,
+            'services' => $services,
+            'barbers' => $barbers,
+            'previous' => $previousAppointment,
+            'next' => $nextAppointment,
+            'view' => 'admin'
+        ]);
     }
 
     /**

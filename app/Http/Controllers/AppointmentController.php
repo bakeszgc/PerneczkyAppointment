@@ -249,9 +249,9 @@ class AppointmentController extends Controller
             return redirect()->route('appointments.show',$appointment)->with('error',"You can't edit cancelled bookings.");
         }
 
-        $previousAppointment = Appointment::barberFilter(auth()->user()->barber)->endEarlierThan($appointment->app_start_time)->orderByDesc('app_end_time')->first();
+        $previousAppointment = Appointment::barberFilter(auth()->user()->barber)->endEarlierThan(Carbon::parse($appointment->app_start_time))->orderByDesc('app_end_time')->first();
 
-        $nextAppointment = Appointment::barberFilter(auth()->user()->barber)->startLaterThan($appointment->app_end_time)->orderBy('app_start_time')->first();
+        $nextAppointment = Appointment::barberFilter(auth()->user()->barber)->startLaterThan(Carbon::parse($appointment->app_end_time))->orderBy('app_start_time')->first();
 
         $services = Service::where('is_visible','=',1)->get();
 

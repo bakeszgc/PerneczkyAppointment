@@ -1,16 +1,20 @@
+<x-user-layout title="{{$appointment->user->first_name}}'s Booking - " currentView="{{ $view ?? 'barber' }}">
 
-<x-user-layout title="{{$appointment->user->first_name}}'s Booking - " currentView="barber">
-    <x-breadcrumbs :links="[
+    <x-breadcrumbs :links="$view == 'admin' ? [
+            'Admin Dashboard' => route('admin'),
+            'Bookings' => route('bookings.index'),
+            $appointment->user->first_name . '\'s Booking' => ''
+        ] : [
         'Bookings' => route('appointments.index'),
         $appointment->user->first_name . '\'s Booking' => ''
     ]"/>
 
     <div class="flex justify-between items-end mb-4">
         <x-headline>{{$appointment->user->first_name}}'s Booking</x-headline>
-        <x-link-button :link="route('appointments.create')" role="createMain">New&nbsp;Booking</x-link-button>
+        <x-link-button :link="$view == 'admin' ? route('bookings.create') : route('appointments.create')"  role="createMain">New&nbsp;Booking</x-link-button>
     </div>
 
-    <x-appointment-card :appointment="$appointment" access="barber" class="mb-8">
+    <x-appointment-card :appointment="$appointment" access="{{ $view ?? 'barber' }}" class="mb-8">
         <div class="text-base max-sm:text-sm text-slate-500">
             Comment:
             @if (!$appointment->comment)

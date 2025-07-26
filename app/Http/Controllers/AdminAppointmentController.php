@@ -155,9 +155,6 @@ class AdminAppointmentController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Appointment $booking)
     {
         if ($booking->app_start_time <= now()) {
@@ -183,12 +180,62 @@ class AdminAppointmentController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Appointment $booking)
     {
-        //
+        $request->validate([
+            'service' => 'required|integer|exists:services,id',
+            'barber' => 'required|integer|exists:barbers,id',
+            'price' => 'required|integer|min:0',
+            'app_start_date' => ['required','date','after_or_equal:today'],
+            'app_start_hour' => ['required','integer','between:10,19'],
+            'app_start_minute' => 'required|integer|multiple_of:15',
+            'app_end_date' => ['required','date','after_or_equal:app_start_date'],
+            'app_end_hour' => ['required','between:10,21','integer','gte:app_start_hour'],
+            'app_end_minute' => 'required|integer|multiple_of:15',
+            'comment' => 'nullable|max:255',
+        ]);
+
+        $app_start_time = Carbon::parse($request->app_start_date . " " . $request->app_start_hour . ":" . $request->app_start_minute);
+        $app_end_time = Carbon::parse($request->app_end_date . " " . $request->app_end_hour . ":" . $request->app_end_minute);
+
+        $barber = Barber::find($request->barber);
+
+        if ($app_start_time >= $app_end_time) {
+            return redirect()->route('appointments.edit',$booking)->with('error',"The booking's ending time has to be later than its starting time");
+        }
+
+        // foglalások amik az új foglalás alatt kezdődnek
+        $appointmentsStart = Appointment::barberFilter($barber)
+        ->startLaterThan($app_start_time)
+        ->startEarlierThan($app_end_time,false)
+        ->where('id','!=',$booking->id)->get();
+
+        // foglalások amik az új foglalás alatt végződnek
+        $appointmentsEnd = Appointment::barberFilter($barber)
+        ->endLaterThan($app_start_time,false)
+        ->endEarlierThan($app_end_time)
+        ->where('id','!=',$booking->id)->get();
+
+        // foglalások amik az új foglalás előtt kezdődnek de utána végződnek
+        $appointmentsBetween = Appointment::barberFilter($barber)
+        ->startEarlierThan($app_start_time)
+        ->endLaterThan($app_end_time)
+        ->where('id','!=',$booking->id)->get();
+
+        if ($appointmentsStart->count() + $appointmentsEnd->count() + $appointmentsBetween->count() != 0) {
+            return redirect()->route('appointments.edit',$booking)->with('error','You have another bookings clashing with the selected timeslot. Please choose another one!');
+        }
+
+        $booking->update([
+            'service_id' => $request->service,
+            'barber_id' => $request->barber,
+            'comment' => $request->comment,
+            'price' => $request->price,
+            'app_start_time' => $app_start_time,
+            'app_end_time' => $app_end_time
+        ]);
+
+        return redirect()->route('bookings.show',$booking)->with('success','Booking has been updated successfully!');
     }
 
     /**

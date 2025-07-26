@@ -31,11 +31,11 @@ class AdminAppointmentController extends Controller
         $fromAppStartTime = null;
         $toAppStartTime = null;
 
-        if ($request->has(['from_app_start_date','from_app_start_hour','from_app_start_minute'])) {
+        if ($request->has('from_app_start_date')) {
             $fromAppStartTime = new Carbon($request->from_app_start_date . ' ' . ($request->from_app_start_hour ?? '10') . ':' . ($request->from_app_start_minute ?? '00'));
         }
 
-        if ($request->has(['to_app_start_date','to_app_start_hour','to_app_start_minute'])) {
+        if ($request->has('to_app_start_date')) {
             $toAppStartTime = new Carbon($request->to_app_start_date . ' ' . ($request->to_app_start_hour ?? '10') . ':' . ($request->to_app_start_minute ?? '00'));
         }
 
@@ -46,7 +46,20 @@ class AdminAppointmentController extends Controller
         }
 
 
-        $appointments = Appointment::withoutTimeOffs()->withTrashed()
+        $appointments = Appointment::withoutTimeOffs()
+            ->when($request->cancelled, function ($q) use ($request) {
+                switch ($request->cancelled) {
+                    case 1:
+                        $q->withTrashed();
+                        break;
+                    case 2:
+                        $q->onlyTrashed();
+                        break;
+                    default:
+                        $q;
+                        break;
+                }
+            })
             ->when($request->barber, function ($q) use ($request) {
                 $barber = Barber::find($request->barber);
                 $q->barberFilter($barber);

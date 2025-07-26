@@ -44,7 +44,7 @@
                         </x-select>
                     </div>
 
-                    <div class="flex flex-col">
+                    <div class="flex flex-col mb-4">
                         <x-label for="userSelect">Customer</x-label>
                         <x-select name="user" id="userSelect">
                             <option value="empty"></option>
@@ -54,6 +54,30 @@
                                 </option>
                             @endforeach
                         </x-select>
+                    </div>
+
+                    <div class="*:mt-2 *:flex *:gap-2 *:items-center">
+
+                        @php
+                            $cancelledRadioButtons = [
+                                0 => [
+                                    'name' => 'Cancelled excluded'
+                                ],
+                                1 => [
+                                    'name' => 'Cancelled included'
+                                ],
+                                2 => [
+                                    'name' => 'Cancelled only'
+                                ]
+                            ];
+                        @endphp
+
+                        @foreach ($cancelledRadioButtons as $cancelledRadioButton => $details)
+                            <label for="cancelled_{{ $cancelledRadioButton }}">
+                                <input type="radio" name="cancelled" value="{{ $cancelledRadioButton }}" id="cancelled_{{ $cancelledRadioButton }}" {{ $cancelledRadioButton == (request('cancelled') ?? 1) ? 'checked' : '' }}>
+                                <p>{{ $details['name'] }}</p>
+                            </label>
+                        @endforeach
                     </div>
                 </div>
 
@@ -149,13 +173,16 @@
     </x-card>
 
     <h2 class="text-2xl font-bold mb-4">
-        Search result
+        Search results
     </h2>
 
     @forelse ($appointments as $appointment)
         <x-appointment-card access="admin" :appointment="$appointment" :showDetails="true" class="mb-4" />
     @empty
-        <div></div>
+        <x-empty-card>
+            <p class="text-lg font-medium">No bookings were found for the applied filters!</p>
+            <a href="{{ route('bookings.create') }}" class=" text-blue-700 hover:underline">Add a new booking here for one of your clients!</a>
+        </x-empty-card>
     @endforelse
 
     <div class="mb-4">

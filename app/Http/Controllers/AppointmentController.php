@@ -81,7 +81,10 @@ class AppointmentController extends Controller
         }
 
         $services = Service::where('is_visible','=',1)->get();
-        return view('appointment.create_service',['services' => $services]);
+        return view('my-appointment.create_barber_service',[
+            'services' => $services,
+            'view' => 'barber'
+        ]);
     }
 
     public function createDate(Request $request)

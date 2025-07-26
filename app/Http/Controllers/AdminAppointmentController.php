@@ -116,17 +116,11 @@ class AdminAppointmentController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Appointment $booking)
     {
         $upcoming = Appointment::userFilter($booking->user)->upcoming()->count();
@@ -239,9 +233,6 @@ class AdminAppointmentController extends Controller
         return redirect()->route('bookings.show',$booking)->with('success','Booking has been updated successfully!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Appointment $booking)
     {
         if ($booking->app_start_time > now()) {

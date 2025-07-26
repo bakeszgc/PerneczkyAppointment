@@ -120,64 +120,64 @@ function toggleElement(element) {
     }
 }
 
-// REMOVES DISABLED FROM SUBMIT BUTTON AFTER THE RADIO BUTTONS ARE CHECKED
-document.addEventListener('DOMContentLoaded', () => {
+// // REMOVES DISABLED FROM SUBMIT BUTTON AFTER THE RADIO BUTTONS ARE CHECKED
+// document.addEventListener('DOMContentLoaded', () => {
     
-    const dayRadioButtons = document.querySelectorAll('input[name="day"]');
-    const barberRadioButtons = document.querySelectorAll('input[name="barber_id"]');
-    const serviceRadioButtons = document.querySelectorAll('input[name="service_id"]');
-    const submitButton = document.getElementById('ctaButton');
+//     const dayRadioButtons = document.querySelectorAll('input[name="day"]');
+//     const barberRadioButtons = document.querySelectorAll('input[name="barber_id"]');
+//     const serviceRadioButtons = document.querySelectorAll('input[name="service_id"]');
+//     const submitButton = document.getElementById('ctaButton');
 
-    if (submitButton) submitButton.disabled = true;
+//     if (submitButton) submitButton.disabled = true;
 
-    checkDateRadioButtons(submitButton);
+//     checkDateRadioButtons(submitButton);
 
-    if (dayRadioButtons) {
-        dayRadioButtons.forEach(dayButton => {
-            dayButton.addEventListener('change', function () {
-                checkDateRadioButtons(submitButton);
-            });
-        });
-    }
+//     if (dayRadioButtons) {
+//         dayRadioButtons.forEach(dayButton => {
+//             dayButton.addEventListener('change', function () {
+//                 checkDateRadioButtons(submitButton);
+//             });
+//         });
+//     }
 
-    if (barberRadioButtons && serviceRadioButtons) {
+//     if (barberRadioButtons && serviceRadioButtons) {
 
-        checkBarberServiceRadioButtons(barberRadioButtons, serviceRadioButtons, submitButton);
+//         checkBarberServiceRadioButtons(barberRadioButtons, serviceRadioButtons, submitButton);
 
-        barberRadioButtons.forEach(barberButton => {
-            barberButton.addEventListener('change', function () {
-                checkBarberServiceRadioButtons(barberRadioButtons, serviceRadioButtons, submitButton);
-            });
-        });
+//         barberRadioButtons.forEach(barberButton => {
+//             barberButton.addEventListener('change', function () {
+//                 checkBarberServiceRadioButtons(barberRadioButtons, serviceRadioButtons, submitButton);
+//             });
+//         });
 
-        serviceRadioButtons.forEach(serviceButton => {
-            serviceButton.addEventListener('change', function () {
-                checkBarberServiceRadioButtons(barberRadioButtons, serviceRadioButtons, submitButton);
-            });
-        });
-    }
-});
+//         serviceRadioButtons.forEach(serviceButton => {
+//             serviceButton.addEventListener('change', function () {
+//                 checkBarberServiceRadioButtons(barberRadioButtons, serviceRadioButtons, submitButton);
+//             });
+//         });
+//     }
+// });
 
-function checkBarberServiceRadioButtons(barberRadioButtons, serviceRadioButtons, submitButton) {
-    const isAnyBarbersChecked = Array.from(barberRadioButtons).some(radio => radio.checked);
-    const isAnyServicesChecked = Array.from(serviceRadioButtons).some(radio => radio.checked);
-    if (submitButton) { submitButton.disabled = !isAnyBarbersChecked || !isAnyServicesChecked; }
-}
+// function checkBarberServiceRadioButtons(barberRadioButtons, serviceRadioButtons, submitButton) {
+//     const isAnyBarbersChecked = Array.from(barberRadioButtons).some(radio => radio.checked);
+//     const isAnyServicesChecked = Array.from(serviceRadioButtons).some(radio => radio.checked);
+//     if (submitButton) { submitButton.disabled = !isAnyBarbersChecked || !isAnyServicesChecked; }
+// }
 
-function checkDateRadioButtons(submitButton) {
-    const dateRadioButtons = document.querySelectorAll('input[name="date"]');
+// function checkDateRadioButtons(submitButton) {
+//     const dateRadioButtons = document.querySelectorAll('input[name="date"]');
 
-    if (dateRadioButtons) {
-        dateRadioButtons.forEach(dateButton => {
-            dateButton.addEventListener('change', function () {
-                const isAnyDatesChecked = Array.from(dateRadioButtons).some(radio => radio.checked);
-                if (submitButton) {
-                    submitButton.disabled = !isAnyDatesChecked;
-                }
-            });
-        });
-    }
-}
+//     if (dateRadioButtons) {
+//         dateRadioButtons.forEach(dateButton => {
+//             dateButton.addEventListener('change', function () {
+//                 const isAnyDatesChecked = Array.from(dateRadioButtons).some(radio => radio.checked);
+//                 if (submitButton) {
+//                     submitButton.disabled = !isAnyDatesChecked;
+//                 }
+//             });
+//         });
+//     }
+// }
 
 document.addEventListener('DOMContentLoaded', () => {
     const calendarContainter = document.getElementById('calendarContainter');

@@ -1,4 +1,8 @@
-<x-user-layout title="{{$appointment->user->first_name}}'s Booking - " currentView="{{ $view ?? 'barber' }}">
+@php
+    $view = $view ?? 'barber';
+@endphp
+
+<x-user-layout title="{{$appointment->user->first_name}}'s Booking - " currentView="{{ $view }">
 
     <x-breadcrumbs :links="$view == 'admin' ? [
             'Admin Dashboard' => route('admin'),
@@ -14,7 +18,7 @@
         <x-link-button :link="$view == 'admin' ? route('bookings.create') : route('appointments.create')"  role="createMain">New&nbsp;Booking</x-link-button>
     </div>
 
-    <x-appointment-card :appointment="$appointment" access="{{ $view ?? 'barber' }}" class="mb-8">
+    <x-appointment-card :appointment="$appointment" access="{{ $view }}" class="mb-8">
         <div class="text-base max-sm:text-sm text-slate-500">
             Comment:
             @if (!$appointment->comment)

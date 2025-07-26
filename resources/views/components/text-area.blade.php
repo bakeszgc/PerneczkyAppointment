@@ -1,0 +1,1 @@
+<textarea name="{{ $name }}" id="{{ $id }}" {{ $attributes->merge(['class' => 'border border-slate-300 rounded-md p-2 hover:border-blue-500 hover:drop-shadow transition-all disabled:bg-slate-100 disabled:text-slate-400 disabled:hover:border-slate-300 disabled:hover:drop-shadow-none']) }}>{{ $slot }}</textarea>

@@ -28,9 +28,9 @@
     }
 @endphp
 
-<x-user-layout title="{{ $view == 'user' ? 'New Appointment - ' : 'New Booking'}}">
+<x-user-layout title="{{ $view == 'user' ? 'New Appointment - ' : 'New Booking - '}}">
 
-    <x-breadcrumbs :links="$breadcrumbLinks"/>
+    <x-breadcrumbs :links="$breadcrumbLinks" />
 
     <form action="{{ $createDateLink }}" method="GET">
 

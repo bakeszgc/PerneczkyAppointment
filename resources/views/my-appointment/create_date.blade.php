@@ -1,29 +1,63 @@
 @php
     use Carbon\Carbon;
+
+    $view = $view ?? 'user';
+
+    switch($view) {
+        case 'user':
+            $serviceLink = route('my-appointments.create.barber.service',['service_id' => $service->id, 'barber_id' => $barber->id]);
+
+            $storeLink = route('my-appointments.store',['barber_id' => $barber->id, 'service_id' => $service->id]);
+
+            $breadcrumbLinks = [
+                'Book an Appointment' => route('my-appointments.create'),
+                'Select a Barber and a Service' => $serviceLink,
+                'Select a Date' => ''
+            ];
+            
+            break;
+
+        case 'barber':
+            $serviceLink = route('appointments.create.service',['service_id' => $service->id, 'user_id' => $user->id]);
+            $storeLink = route('appointments.store',['service_id' => $service->id, 'user_id' => $user->id]);
+
+            $breadcrumbLinks = [
+                'Bookings' => route('appointments.index'),
+                'New Booking' => route('appointments.create'),
+                'Select a Service' => $serviceLink,
+                'Select a Date' => ''
+            ];
+            
+            break;
+
+        case 'admin':
+            $serviceLink = '';
+            $breadcrumbLinks = [
+                'Admin Dashboard' => route('admin'),
+                'Bookings' => route('bookings.index'),
+                'Select a Barber and a Service' => $serviceLink,
+                'Select a Date' => ''
+            ];
+            //$storeLink = route('bookings.store');
+            break;
+    }
 @endphp
 
-<x-user-layout title="Book an Appointment - ">
-    <x-breadcrumbs :links="[
-        'Book an Appointment' => route('my-appointments.create'),
-        'Select a Barber and a Service' => route('my-appointments.create.barber.service',['service_id' => $service->id, 'barber_id' => $barber->id]),
-        'Select a Date' => ''
-    ]"/>
+<x-user-layout title="{{ $view == 'user' ? 'New Appointment - ' : 'New Booking - ' }}">
+    <x-breadcrumbs :links="$breadcrumbLinks"/>
 
     <h1 class="font-extrabold text-4xl mb-4">Select your Date</h1>
 
-    <form action="{{route('my-appointments.store',[
-        'barber_id' => $barber,
-        'service_id' => $service
-    ])}}" method="POST">
+    <form action="{{$storeLink}}" method="POST">
         @csrf
 
         <x-card class="mb-4">
             <div class="flex justify-between gap-4">
                 <div class="flex flex-col justify-between">
                     <div>
-                        <h2 class="font-bold text-2xl mb-2">Your Appointment</h2>
+                        <h2 class="font-bold text-2xl mb-2">{{ $view == 'user' ? 'Your' : ($user->first_name . "'s")}} Appointment</h2>
                         <h3 class="font-medium text-lg">
-                            <a href="{{route('my-appointments.create.barber.service',['barber_id' => $barber->id])}}">
+                            <a href="{{ $serviceLink }}">
                                 {{$service->name}}
                                 •
                                 {{$service->duration}} minutes
@@ -32,7 +66,7 @@
                             </a>
                         </h3>
                         <p class="font-medium text-base text-slate-500">
-                            <a href="{{route('my-appointments.create.barber.service',['barber_id' => $barber->id])}}">
+                            <a href="{{ $serviceLink }}">
                             Barber: {{$barber->getName()}}
                             </a>
                         </p>

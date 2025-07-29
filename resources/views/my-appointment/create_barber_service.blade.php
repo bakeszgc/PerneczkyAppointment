@@ -23,12 +23,12 @@
                 'Bookings' => route('bookings.index'),
                 'Select a Barber and a Service' => ''
             ];
-            //$createDateLink = route('bookings.create.date');
+            $createDateLink = route('bookings.create.date');
             break;
     }
 @endphp
 
-<x-user-layout title="{{ $view == 'user' ? 'New Appointment - ' : 'New Booking - '}}">
+<x-user-layout title="{{ $view == 'user' ? 'New Appointment - ' : 'New Booking - '}}" currentView="{{ $view }}">
 
     <x-breadcrumbs :links="$breadcrumbLinks" />
 

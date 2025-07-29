@@ -99,8 +99,8 @@ Route::middleware(['admin'])->group(function() {
     Route::post('/upload-cropped/{user}',[PictureController::class,'uploadCropped'])->name('upload-cropped');
 
     //ADMIN BOOKINGS
-    Route::resource('/admin/bookings',AdminAppointmentController::class)->withTrashed(['show']);
     Route::get('/admin/bookings/createBarberService',[AdminAppointmentController::class,'createBarberService'])->name('bookings.create.barber.service');
+    Route::resource('/admin/bookings',AdminAppointmentController::class)->withTrashed(['show']);
 });
 
 // HOMEPAGE

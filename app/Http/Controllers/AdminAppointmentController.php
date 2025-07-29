@@ -135,9 +135,25 @@ class AdminAppointmentController extends Controller
     public function createBarberService(Request $request)
     {
         $request->validate([
-            'user_id' => 'required|integer|exists:users,id'
+            'user_id' => 'required|integer|exists:users,id',
+            'service_id' => 'nullable|integer|exists:services,id',
+            'barber_id' => 'nullable|integer|exists:barbers,id'
         ]);
-        
+
+        $selectedServiceId = $request->service_id;
+        $selectedBarberId = $request->barber_id;
+
+        $barbers = Barber::where('is_visible','=',1)->get();
+
+        $services = Service::where('is_visible','=',1)->get();
+
+        return view('my-appointment.create_barber_service',[
+            'barbers' => $barbers,
+            'services' => $services,
+            'service_id' => $selectedServiceId,
+            'barber_id' => $selectedBarberId,
+            'view' => 'admin'
+        ]);
     }
 
     public function store(Request $request)

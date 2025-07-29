@@ -143,24 +143,76 @@
             </div>
         </x-card>
 
-        <script>
-
-            function appointmentCalendar() {
-                return {
-                    selectedTime: null,
-                    selectedDate: null,
-                    slotsByDate: @json($availableSlotsByDate),
-
-                    init() {
-                        this.selectedDate = Object.keys(this.slotsByDate)[0] || null;
-                    }
-                }
-            }
-
-        </script>
-
         <div class="mb-8">
-            <x-button role="ctaMain" :full="true" id="ctaButton" :disabled="false">Book Appointment</x-button>
+            <x-button role="ctaMain" :full="true" id="submitBtnForRadioBtns" :disabled="true">Book Appointment</x-button>
         </div>
     </form>
+
+    <script>
+
+        function appointmentCalendar() {
+            return {
+                selectedTime: null,
+                selectedDate: null,
+                slotsByDate: @json($availableSlotsByDate),
+
+                init() {
+                    this.selectedDate = Object.keys(this.slotsByDate)[0] || null;
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // NEXT MONTH + PREVIOUS MONTH BUTTONS
+            const calendarContainter = document.getElementById('calendarContainter');
+            const nextMonthButton = document.getElementById('nextMonthButton');
+            const previousMonthButton = document.getElementById('previousMonthButton');
+
+            nextMonthButton.addEventListener('click', () => {
+                calendarContainter.classList.add('-translate-x-1/4');
+                nextMonthButton.setAttribute('disabled','');
+                previousMonthButton.removeAttribute('disabled','');
+            });
+
+            previousMonthButton.addEventListener('click', () => {
+                calendarContainter.classList.remove('-translate-x-1/4');
+                previousMonthButton.setAttribute('disabled','');
+                nextMonthButton.removeAttribute('disabled','');
+            });
+
+            // REMOVING DISABLED FROM SUBMIT BUTTON AFTER A TIMESLOT GETS SELECTED 
+            const dayRadioButtons = document.querySelectorAll('input[name="day"]');
+            const submitButton = document.getElementById('submitBtnForRadioBtns');
+
+            if (submitButton) submitButton.disabled = true;
+
+            checkDateRadioButtons(submitButton);
+            if (dayRadioButtons) {
+                dayRadioButtons.forEach(dayButton => {
+                    dayButton.addEventListener('change', function () {
+                        checkDateRadioButtons(submitButton);
+                    });
+                });
+            }
+
+            
+        });
+
+        function checkDateRadioButtons(submitButton) {
+            const dateRadioButtons = document.querySelectorAll('input[name="date"]');
+
+            if (dateRadioButtons) {
+                dateRadioButtons.forEach(dateButton => {
+                    dateButton.addEventListener('change', function () {
+                        const isAnyDatesChecked = Array.from(dateRadioButtons).some(radio => radio.checked);
+                        if (submitButton) {
+                            submitButton.disabled = !isAnyDatesChecked;
+                        }
+                    });
+                });
+            }
+        }
+
+    </script>
 </x-user-layout>

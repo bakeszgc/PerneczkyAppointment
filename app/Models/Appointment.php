@@ -17,6 +17,7 @@ class Appointment extends Model
 
     protected $fillable = ['barber_id','service_id','user_id','app_start_time','app_end_time','comment','price'];
 
+    // RELATIONSHIP METHODS
     public function user():BelongsTo {
         return $this->belongsTo(User::class)->withTrashed();
     }
@@ -48,7 +49,7 @@ class Appointment extends Model
         return $this->deleted_at ? 'Cancelled' : '';
     }
 
-    // RETRIEVES ALL FREE TIMESLOTS FOR THE NEXT DAYS
+    // RETRIEVING ALL FREE TIMESLOTS FOR THE NEXT DAYS
     public static function getFreeTimeSlots(Barber $barber, Service $service, int $numberOfDays = 14)  {
         
         // ALL TIMESLOTS (15 MIN LONG EACH)
@@ -108,6 +109,41 @@ class Appointment extends Model
         }
 
         return $availableSlotsByDate;
+    }
+
+    // CHECKING IF A BEING CREATED/EDITED APPOINTMENT CLASHING WITH OTHER ONES
+    // RETURNS TRUE IF THERE ARE NO CLASHES
+    public static function checkAppointmentClashes(Carbon $appStartTime, Carbon $appEndTime, Barber $barber, ?Appointment $appointment = null) {
+        
+        // APPOINTMENTS STARTING DURING THE NEW APPOINTMENT
+        $appointmentsStart = Appointment::barberFilter($barber)
+        ->startLaterThan($appStartTime)
+        ->startEarlierThan($appEndTime,false)
+        ->when($appointment, function ($q) use ($appointment) {
+            $q->where('id','!=',$appointment->id);
+        })->get();
+
+        // APPOINTMENTS ENDING DURING THE NEW APPOINTMENT
+        $appointmentsEnd = Appointment::barberFilter($barber)
+        ->endLaterThan($appStartTime,false)
+        ->endEarlierThan($appEndTime)
+        ->when($appointment, function ($q) use ($appointment) {
+            $q->where('id','!=',$appointment->id);
+        })->get();
+
+        // APPOINTMENTS STARTING BEFORE AND ENDING AFTER THE NEW APPOINTMENT
+        $appointmentsBetween = Appointment::barberFilter($barber)
+        ->startEarlierThan($appStartTime)
+        ->endLaterThan($appEndTime)
+        ->when($appointment, function ($q) use ($appointment) {
+            $q->where('id','!=',$appointment->id);
+        })->get();
+
+        if ($appointmentsStart->count() + $appointmentsEnd->count() + $appointmentsBetween->count() == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     // SCOPES

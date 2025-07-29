@@ -78,22 +78,7 @@ class TimeOffController extends Controller
 
         $barber = auth()->user()->barber;
 
-        // foglalások amik az új foglalás alatt kezdődnek
-        $appointmentsStart = Appointment::barberFilter($barber)
-        ->startLaterThan($app_start_time)
-        ->startEarlierThan($app_end_time,false)->get();
-
-        // foglalások amik az új foglalás alatt végződnek
-        $appointmentsEnd = Appointment::barberFilter($barber)
-        ->endLaterThan($app_start_time,false)
-        ->endEarlierThan($app_end_time)->get();
-
-        // foglalások amik az új foglalás előtt kezdődnek de utána végződnek
-        $appointmentsBetween = Appointment::barberFilter($barber)
-        ->startEarlierThan($app_start_time)
-        ->endLaterThan($app_end_time)->get();
-
-        if ($appointmentsStart->count() + $appointmentsEnd->count() + $appointmentsBetween->count() != 0) {
+        if (Appointment::checkAppointmentClashes($app_start_time,$app_end_time,$barber)) {
             return redirect()->route('time-offs.create')->with('error','You have bookings clashing with the selected timeframe.');
         }
 
@@ -173,26 +158,7 @@ class TimeOffController extends Controller
 
         $barber = auth()->user()->barber;
 
-        // counting appointments (besides the time off being updated) starting while the updated time off
-        $appointmentsStart = Appointment::barberFilter($barber)
-        ->startLaterThan($app_start_time)
-        ->startEarlierThan($app_end_time,false)
-        ->where('id','!=',$time_off->id)->count();
-
-        // counting appointments (besides the time off being updated) ending while the updated time off
-        $appointmentsEnd = Appointment::barberFilter($barber)
-        ->endLaterThan($app_start_time, false)
-        ->endEarlierThan($app_end_time)
-        ->where('id','!=',$time_off->id)->count();
-
-        // counting appointments (besides the time off being updated) starting before and ending after the updated time off
-        $appointmentsBetween = Appointment::barberFilter($barber)
-        ->startEarlierThan($app_start_time)
-        ->endLaterThan($app_end_time)
-        ->where('id','!=',$time_off->id)->count();
-
-        // redirect with an error message if there are any clashing appointments
-        if ($appointmentsStart + $appointmentsEnd + $appointmentsBetween != 0) {
+        if (!Appointment::checkAppointmentClashes($app_start_time,$app_end_time,$barber,$time_off)) {
             return redirect()->route('time-offs.edit',$time_off)->with('error','You have bookings clashing with the selected timeframe.');
         }
 

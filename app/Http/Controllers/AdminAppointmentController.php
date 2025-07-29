@@ -199,25 +199,7 @@ class AdminAppointmentController extends Controller
             return redirect()->route('appointments.edit',$booking)->with('error',"The booking's ending time has to be later than its starting time");
         }
 
-        // foglalások amik az új foglalás alatt kezdődnek
-        $appointmentsStart = Appointment::barberFilter($barber)
-        ->startLaterThan($app_start_time)
-        ->startEarlierThan($app_end_time,false)
-        ->where('id','!=',$booking->id)->get();
-
-        // foglalások amik az új foglalás alatt végződnek
-        $appointmentsEnd = Appointment::barberFilter($barber)
-        ->endLaterThan($app_start_time,false)
-        ->endEarlierThan($app_end_time)
-        ->where('id','!=',$booking->id)->get();
-
-        // foglalások amik az új foglalás előtt kezdődnek de utána végződnek
-        $appointmentsBetween = Appointment::barberFilter($barber)
-        ->startEarlierThan($app_start_time)
-        ->endLaterThan($app_end_time)
-        ->where('id','!=',$booking->id)->get();
-
-        if ($appointmentsStart->count() + $appointmentsEnd->count() + $appointmentsBetween->count() != 0) {
+        if (!Appointment::checkAppointmentClashes($app_start_time,$app_end_time,$barber,$booking)) {
             return redirect()->route('appointments.edit',$booking)->with('error','You have another bookings clashing with the selected timeslot. Please choose another one!');
         }
 

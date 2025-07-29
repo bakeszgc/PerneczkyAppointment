@@ -316,7 +316,7 @@ class AdminAppointmentController extends Controller
 
     public function destroy(Appointment $booking)
     {
-        if ($booking->app_start_time > now()) {
+        if ($booking->app_start_time < now()) {
             return redirect()->back()->with('error',"You can't cancel a previous booking!");
         }
 

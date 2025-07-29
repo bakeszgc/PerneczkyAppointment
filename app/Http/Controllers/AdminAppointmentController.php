@@ -136,7 +136,7 @@ class AdminAppointmentController extends Controller
     {
         $request->validate([
             'user_id' => 'required|integer|exists:users,id',
-            'service_id' => 'nullable|integer|exists:services,id',
+            'service_id' => 'nullable|integer|gt:1|exists:services,id',
             'barber_id' => 'nullable|integer|exists:barbers,id'
         ]);
 
@@ -152,6 +152,29 @@ class AdminAppointmentController extends Controller
             'services' => $services,
             'service_id' => $selectedServiceId,
             'barber_id' => $selectedBarberId,
+            'view' => 'admin'
+        ]);
+    }
+
+    public function createDate(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|integer|exists:users,id',
+            'service_id' => 'required|integer|gt:1|exists:services,id',
+            'barber_id' => 'required|integer|exists:barbers,id'
+        ]);
+
+        $barber = Barber::find($request->barber_id);
+        $service = Service::find($request->service_id);
+        $user = User::find($request->user_id);
+
+        $availableSlotsByDate = Appointment::getFreeTimeSlots($barber,$service);
+
+        return view('my-appointment.create_date',[
+            'availableSlotsByDate' => $availableSlotsByDate,
+            'barber' => $barber,
+            'service' => $service,
+            'user' => $user,
             'view' => 'admin'
         ]);
     }

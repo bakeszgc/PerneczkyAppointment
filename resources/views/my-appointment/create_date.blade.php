@@ -31,19 +31,20 @@
             break;
 
         case 'admin':
-            $serviceLink = '';
+            $serviceLink = route('bookings.create.barber.service',['user_id' => $user->id,'barber_id' => $barber->id, 'service_id' => $service->id]);
+            $storeLink = route('bookings.store');
+
             $breadcrumbLinks = [
                 'Admin Dashboard' => route('admin'),
                 'Bookings' => route('bookings.index'),
                 'Select a Barber and a Service' => $serviceLink,
                 'Select a Date' => ''
             ];
-            //$storeLink = route('bookings.store');
             break;
     }
 @endphp
 
-<x-user-layout title="{{ $view == 'user' ? 'New Appointment - ' : 'New Booking - ' }}">
+<x-user-layout title="{{ $view == 'user' ? 'New Appointment - ' : 'New Booking - ' }}" currentView="{{ $view }}">
     <x-breadcrumbs :links="$breadcrumbLinks"/>
 
     <h1 class="font-extrabold text-4xl mb-4">Select your Date</h1>

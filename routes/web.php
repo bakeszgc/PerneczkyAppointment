@@ -100,6 +100,7 @@ Route::middleware(['admin'])->group(function() {
 
     //ADMIN BOOKINGS
     Route::get('/admin/bookings/createBarberService',[AdminAppointmentController::class,'createBarberService'])->name('bookings.create.barber.service');
+    Route::get('/admin/bookings/createDate',[AdminAppointmentController::class,'createDate'])->name('bookings.create.date');
     Route::resource('/admin/bookings',AdminAppointmentController::class)->withTrashed(['show']);
 });
 

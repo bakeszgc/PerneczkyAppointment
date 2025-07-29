@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Appointment;
+use Carbon\Carbon;
 use App\Models\Barber;
 use App\Models\Service;
+use App\Models\Appointment;
+use Illuminate\Http\Request;
+use App\Rules\ValidAppointmentTime;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Collection;
 use App\Notifications\BookingCancellationNotification;
 use App\Notifications\BookingConfirmationNotification;
-use App\Rules\ValidAppointmentTime;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
-use Illuminate\Pagination\Paginator;
 
 class MyAppointmentController extends Controller
 {
@@ -91,7 +91,7 @@ class MyAppointmentController extends Controller
         return view('my-appointment.create_date',[
             'availableSlotsByDate' => $availableSlotsByDate,
             'barber' => $barber,
-            'service' => $service,
+            'service' => $service
         ]);
     }
 

@@ -60,6 +60,10 @@ class AppointmentController extends Controller
 
     public function create(Request $request)
     {
+        $request->validate([
+            'query' => 'nullable|string|max:255'
+        ]);
+        
         $query = $request->input('query');
 
         $users = User::where('id','!=',auth()->user()->id)

@@ -1,19 +1,35 @@
-<x-user-layout title="New Booking - " currentView="barber">
-    <x-breadcrumbs :links="[
-        'Bookings' => route('appointments.index'),
-        'New Booking' => ''
-    ]"/>
+@php
+    $view = $view ?? 'barber';
+
+    if($view == 'admin') {
+        $breadcrumbLinks = [
+            'Admin Dashboard' => route('admin'),
+            'Bookings' => route('bookings.index'),
+            'New Booking' => ''
+        ];
+        $submitLink = route('bookings.create');
+    } else {
+        $breadcrumbLinks = [
+            'Bookings' => route('appointments.index'),
+            'New Booking' => ''
+        ];
+        $submitLink = route('appointments.create');
+    }
+@endphp
+
+<x-user-layout title="New Booking - " currentView="{{ $view }}">
+    <x-breadcrumbs :links="$breadcrumbLinks"/>
     <x-headline class="mb-4">
         Create New Booking
     </x-headline>
     
     <x-card class="mb-8">
         <h2 class="font-bold text-2xl max-sm:text-lg mb-4">Search for an existing user here</h2>
-        <form method="GET" action="{{ route('appointments.create') }}">
+        <form method="GET" action="{{ $submitLink }}">
             <div class="flex gap-2 mb-2">
-                <x-input-field name="query" placeholder="Search users..." value="{{ request('query') }}" class="w-full"></x-input-field>
+                <x-input-field name="query" placeholder="Search users..." value="{{ old('query') ?? request('query') }}" class="w-full" />
 
-                <x-link-button link="{{ route('appointments.create') }}" role="destroy">Clear</x-link-button>
+                <x-link-button link="{{ $submitLink }}" role="destroy">Clear</x-link-button>
                 <x-button role="search">Search</x-button>
             </div>
             <p class="text-slate-500">
@@ -35,7 +51,7 @@
                         <p class="text-slate-500">Email: {{ $user->email }}</p>
                         <p class="text-slate-500">Tel: {{ $user->tel_number }}</p>
                     </div>
-                    <x-link-button link="{{ route('appointments.create.service',['user_id' => $user->id]) }}" role="ctaMain">Select Customer</x-link-button>
+                    <x-link-button link="{{ $view == 'admin' ? route('bookings.create.barber.service',['user_id' => $user->id]) : route('appointments.create.service',['user_id' => $user->id]) }}" role="ctaMain">Select Customer</x-link-button>
                 </li>
             @empty
                 <x-empty-card>

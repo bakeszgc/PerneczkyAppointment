@@ -32,7 +32,7 @@
 
         case 'admin':
             $serviceLink = route('bookings.create.barber.service',['user_id' => $user->id,'barber_id' => $barber->id, 'service_id' => $service->id]);
-            $storeLink = route('bookings.store');
+            $storeLink = route('bookings.store',['service_id' => $service->id, 'user_id' => $user->id, 'barber_id' => $barber->id]);
 
             $breadcrumbLinks = [
                 'Admin Dashboard' => route('admin'),

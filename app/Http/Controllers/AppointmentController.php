@@ -149,7 +149,7 @@ class AppointmentController extends Controller
             new BookingConfirmationNotification($appointment)
         );
 
-        return redirect()->route('appointments.show',['appointment' =>  $appointment])->with('success','Appointment booked successfully! See you soon!');
+        return redirect()->route('appointments.show',['appointment' =>  $appointment])->with('success','New booking has been created successfully!');
     }
     
     public function show(Appointment $appointment)

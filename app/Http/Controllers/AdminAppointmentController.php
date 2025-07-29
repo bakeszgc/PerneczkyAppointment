@@ -9,7 +9,9 @@ use App\Models\Service;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Rules\ValidAppointmentTime;
 use App\Notifications\BookingCancellationNotification;
+use App\Notifications\BookingConfirmationNotification;
 
 class AdminAppointmentController extends Controller
 {
@@ -181,7 +183,41 @@ class AdminAppointmentController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
+            'user_id' => ['required','integer','exists:users,id'],
+            'service_id' => ['required','integer','gt:1','exists:services,id'],
+            'barber_id' => ['required','integer','exists:barbers,id'],
+            'comment' => ['nullable','string']
+        ]);
+
+        $barber = Barber::find($request->barber_id);
+        $user = User::find($request->user_id);
+        $service = Service::find($request->service_id);
+
+        $app_start_time = Carbon::parse($request->date);
+        $duration = $service->duration;
+        $app_end_time = $app_start_time->clone()->addMinutes($duration);
+
+        if (!Appointment::checkAppointmentClashes($app_start_time,$app_end_time,$barber)) {
+            return redirect()->route('bookings.create.date',['user_id' => $user->id, 'service_id' => $service->id, 'barber_id' => $barber->id])->with('error','You have another bookings clashing with the selected timeslot. Please choose another one!');
+        }
+
+        $appointment = Appointment::create([
+            'user_id' => $user->id,
+            'barber_id' => $barber->id,
+            'service_id' => $service->id,
+            'app_start_time' => $app_start_time,
+            'app_end_time' => $app_end_time,
+            'price' => $service->price,
+            'comment' => $request->comment,
+        ]);
+
+        $appointment->user->notify(
+            new BookingConfirmationNotification($appointment)
+        );
+
+        return redirect()->route('bookings.show',['booking' =>  $appointment])->with('success','New booking has been created successfully!');
     }
 
     public function show(Appointment $booking)

@@ -48,6 +48,68 @@ class Appointment extends Model
         return $this->deleted_at ? 'Cancelled' : '';
     }
 
+    // RETRIEVES ALL FREE TIMESLOTS FOR THE NEXT DAYS
+    public static function getFreeTimeSlots(Barber $barber, Service $service, int $numberOfDays = 14)  {
+        
+        // ALL TIMESLOTS (15 MIN LONG EACH)
+        $allDates = [];
+
+        for ($d=0; $d < $numberOfDays; $d++) {
+            for ($h=10; $h < Appointment::closingHour(today()->addDays($d)); $h++) { 
+                for ($m=0; $m < 60; $m+=15) {
+                    $time = today()->addDays($d)->addHours($h)->addMinutes($m);
+
+                    if ($time >= now('Europe/Budapest')) {
+                        $allDates[] = $time;
+                    }
+                }
+            }
+        }
+
+        // RESERVED TIMESLOTS FOR THE SELECTED BARBER
+        $reservedDates = Appointment::barberFilter($barber)->pluck('app_start_time')
+        ->map(fn ($time) => Carbon::parse($time))->toArray();
+
+        // TIMESLOTS THOSE WOULD OVERLAP WITH ANOTHER BOOKING
+        $overlapDates = [];
+
+        foreach ($reservedDates as $date) {
+            $appointments = Appointment::barberFilter($barber)
+            ->where('app_start_time','=',$date)->get();
+
+            foreach ($appointments as $appointment)
+            {
+                $appDuration = $appointment->getDuration();
+                $serviceDuration = $service->duration;
+
+                for ($i=0; $i < $appDuration/15; $i++) { 
+                    $overlapDates[] = Carbon::parse($date)->clone()->addMinutes($i*15);
+                }
+                for ($i=0; $i < $serviceDuration/15; $i++) { 
+                    $overlapDates[] = Carbon::parse($date)->clone()->addMinutes($i*-15);
+                }
+            }
+        }
+
+        // ALL FREE DATES
+        $freeDates = array_diff($allDates,$reservedDates,$overlapDates);
+
+        // CONVERTING FREE DATES
+        $availableSlotsByDate = [];
+
+        foreach ($freeDates as $date) {
+            $actualDate = Carbon::parse($date)->format('Y-m-d');
+
+            if (!isset($availableSlotsByDate[$actualDate])) {
+                $availableSlotsByDate[$actualDate] = [];
+            }
+
+            $availableSlotsByDate[$actualDate][] = $date->format('G:i');
+        }
+
+        return $availableSlotsByDate;
+    }
+
     // SCOPES
 
     // LATER & EARLIER APPOINTMENTS

@@ -89,74 +89,27 @@ class AppointmentController extends Controller
 
     public function createDate(Request $request)
     {
-        // redirect ha nincs a user_id az adatbázisban vagy pont a barber a user_id
-        if (!User::find($request->user_id) || $request->user_id === auth()->user()->id) {
-            return redirect()->route('appointments.create')->with('error','Please select a valid user from the list!');
-        } 
-        // redirect ha nincs a service_id az adatbázisban vagy a timeoffot választotta
-        if (!Service::find($request->service_id) || $request->service_id == 1) {
-            return redirect()->route('appointments.create.service',['user_id' => $request->user_id])->with('error','Please select a valid service from the list');
-        }
+        $request->validate([
+            'service_id' => ['required','integer','exists:services,id','gt:1'],
+            'user_id' => ['required','integer','exists:users,id',function($attribute, $value, $fail) {
+                if ($value == auth()->user()->id) {
+                    $fail("You can't select yourself as a customer.");
+                }
+            }]
+        ]);
 
         $barber = auth()->user()->barber;
+        $service = Service::find($request->service_id);
+        $user = User::find($request->user_id);
 
-        // összes lehetséges időpont
-        $allDates = [];
-        for ($d=0; $d < 14; $d++) {
-            for ($h=10; $h < Appointment::closingHour(today()->addDays($d)); $h++) { 
-                for ($m=0; $m < 60; $m+=15) {
+        $availableSlotsByDate = Appointment::getFreeTimeSlots($barber,$service);
 
-                    $time = today()->addDays($d)->addHours($h)->addMinutes($m);
-                    if ($time >= now('Europe/Budapest')) {
-                        $allDates[] = $time;
-                    }
-                }
-            }
-        }
-
-        // foglalt app_start_timeok
-        $reservedDates = Appointment::barberFilter($barber)->pluck('app_start_time')
-        ->map(fn ($time) => Carbon::parse($time))->toArray();
-
-        // timeslotok amikbe belelóg egy másik foglalás
-        // timeslotok amik belelógnának egy következő foglalásba
-        $overlapDates = [];
-        foreach ($reservedDates as $date) {
-            $appointments = Appointment::barberFilter($barber)
-                ->where('app_start_time','=',$date)->get();
-            $service = Service::findOrFail($request->service_id);
-
-            foreach ($appointments as $appointment)
-            {
-                $appDuration = $appointment->getDuration();
-                $serviceDuration = $service->duration;
-                for ($i=0; $i < $appDuration/15; $i++) { 
-                    $overlapDates[] = Carbon::parse($date)->clone()->addMinutes($i*15);
-                }
-                for ($i=0; $i < $serviceDuration/15; $i++) { 
-                    $overlapDates[] = Carbon::parse($date)->clone()->addMinutes($i*-15);
-                }
-            }
-        }
-
-        $freeDates = array_diff($allDates,$reservedDates,$overlapDates);
-
-        $dates = [];
-        foreach ($freeDates as $date) {
-            $dayDiff = today()->diffInDays($date);
-
-            if (!isset($dates[$dayDiff])) {
-                $dates[$dayDiff] = [];
-            }
-
-            $dates[$dayDiff][] = $date;
-        }
-
-        return view('appointment.create_date',[
-            'dates' => $dates,
-            'user' => User::findOrFail($request->user_id),
+        return view('my-appointment.create_date',[
+            'availableSlotsByDate' => $availableSlotsByDate,
             'barber' => $barber,
-            'service' => Service::findOrFail($request->service_id)
+            'service' => $service,
+            'user' => $user,
+            'view' => 'barber'
         ]);
     }
 

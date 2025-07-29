@@ -84,76 +84,14 @@ class MyAppointmentController extends Controller
         }
 
         $barber = Barber::find($request->barber_id);
+        $service = Service::find($request->service_id);
 
-        // összes lehetséges időpont
-        $allDates = [];
-        for ($d=0; $d < 14; $d++) {
-            for ($h=10; $h < Appointment::closingHour(today()->addDays($d)); $h++) { 
-                for ($m=0; $m < 60; $m+=15) {
-
-                    $time = today()->addDays($d)->addHours($h)->addMinutes($m);
-                    if ($time >= now('Europe/Budapest')) {
-                        $allDates[] = $time;
-                    }
-                }
-            }
-        }
-
-        // foglalt app_start_timeok
-        $reservedDates = Appointment::barberFilter($barber)->pluck('app_start_time')
-        ->map(fn ($time) => Carbon::parse($time))->toArray();
-
-        // timeslotok amikbe belelóg egy másik foglalás
-        // timeslotok amik belelógnának egy következő foglalásba
-        $overlapDates = [];
-        foreach ($reservedDates as $date) {
-            $appointments = Appointment::barberFilter($barber)
-                ->where('app_start_time','=',$date)->get();
-            $service = Service::findOrFail($request->service_id);
-
-            foreach ($appointments as $appointment)
-            {
-                $appDuration = $appointment->getDuration();
-                $serviceDuration = $service->duration;
-                for ($i=0; $i < $appDuration/15; $i++) { 
-                    $overlapDates[] = Carbon::parse($date)->clone()->addMinutes($i*15);
-                }
-                for ($i=0; $i < $serviceDuration/15; $i++) { 
-                    $overlapDates[] = Carbon::parse($date)->clone()->addMinutes($i*-15);
-                }
-            }
-        }
-
-        $freeDates = array_diff($allDates,$reservedDates,$overlapDates);
-
-        $dates = [];
-        foreach ($freeDates as $date) {
-            $dayDiff = today()->diffInDays($date);
-
-            if (!isset($dates[$dayDiff])) {
-                $dates[$dayDiff] = [];
-            }
-
-            $dates[$dayDiff][] = $date;
-        }
-
-        // TESTING PURPOSE
-        $availableSlotsByDate = [];
-        foreach ($freeDates as $date) {
-            $actualDate = Carbon::parse($date)->format('Y-m-d');
-
-            if (!isset($availableSlotsByDate[$actualDate])) {
-                $availableSlotsByDate[$actualDate] = [];
-            }
-
-            $availableSlotsByDate[$actualDate][] = $date->format('G:i');
-        }
+        $availableSlotsByDate = Appointment::getFreeTimeSlots($barber,$service);
 
         return view('my-appointment.create_date',[
-            'dates' => $dates,
             'availableSlotsByDate' => $availableSlotsByDate,
-            'barber' => Barber::find($request->barber_id),
-            'service' => Service::find($request->service_id)
+            'barber' => $barber,
+            'service' => $service,
         ]);
     }
 

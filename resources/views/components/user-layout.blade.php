@@ -96,33 +96,47 @@
 
                     @if (auth()->user()->is_admin ?? false)
                         <li>
-                            <a href="{{ route('admin') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
-                                Admin Dashboard
-                            </a>
+                            @if ($currentView !== 'admin')
+                                <a href="{{ route('admin') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
+                                    Admin Dashboard
+                                </a>
+                            @else
+                                <a href="{{ route('my-appointments.index') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
+                                    Customer View
+                                </a>
+                            @endif
+                            
                         </li>
                     @endif
                 </ul>
 
                 <ul class="flex items-center gap-4 max-lg:flex-col">
                     @auth
-                        @if ($currentView === 'barber')
-                            <li>
-                                <a href="{{ route('appointments.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
-                                    Bookings
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('time-offs.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
-                                    Time Off
-                                </a>
-                            </li>
-                        @else
-                            <li>
-                                <a href="{{ route('my-appointments.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
-                                    My Appointments
-                                </a>
-                            </li>
-                        @endif
+                        @switch($currentView)
+                            @case('barber')
+                                <li>
+                                    <a href="{{ route('appointments.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
+                                        Bookings
+                                    </a>
+                                </li>
+                                @break
+                            
+                            @case('admin')
+                                <li>
+                                    <a href="{{ route('admin') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
+                                        Admin Dashboard
+                                    </a>
+                                </li>
+                            @break
+                        
+                            @default
+                                <li>
+                                    <a href="{{ route('my-appointments.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
+                                        My Appointments
+                                    </a>
+                                </li>
+                                
+                        @endswitch
                         <li>
                             <a href="{{ route('users.show',auth()->user()) }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
                                 Account Settings

@@ -92,7 +92,7 @@
                     </div>
                 </div>
 
-                <x-button role="ctaMain" :full="true">Register</x-button>
+                <x-button role="ctaMain" :full="true" :disabled="true" id="submitButton">Register</x-button>
             </form>
 
             <p class="text-center font-semibold mt-2">

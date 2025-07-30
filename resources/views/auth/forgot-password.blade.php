@@ -22,7 +22,7 @@
                 Enter your email address that you have used for your account and we will send you a link to change your password. If you still need help please <a href="{{ route('home') }}#contact" class="text-[#0018d5] hover:underline">contact us</a>.
             </p>
 
-            <x-button :full="true" role="ctaMain">Send password reset link</x-button>
+            <x-button :full="true" role="ctaMain" :disabled="true" id="submitButton">Send password reset link</x-button>
         </form>
     </x-card>
 

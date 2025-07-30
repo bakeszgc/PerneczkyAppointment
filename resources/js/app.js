@@ -99,8 +99,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// MODAL OPEN & CLOSE
+
+
 document.addEventListener('DOMContentLoaded', () => {
+
+    // MODAL OPEN & CLOSE
     // const openButton = document.getElementById('openModal');
     const closeButton = document.getElementById('closeModal');
     const cropModal = document.getElementById('cropModal');
@@ -108,6 +111,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // openButton.addEventListener('click', () => { toggleElement(cropModal); });
     if (closeButton) {
         closeButton.addEventListener('click', () => { toggleElement(cropModal); });
+    }
+
+    // SUBMIT BUTTON ACTIVATES ON INPUT CHANGE
+    const submitButton = document.getElementById('submitButton');
+    const inputs = document.querySelectorAll('input');
+
+    if (submitButton) {
+        submitButton.disabled = true;
+
+        inputs.forEach(input => {
+            input.addEventListener('change', function() {
+                submitButton.disabled = false;
+            })
+        });
     }
 });
 

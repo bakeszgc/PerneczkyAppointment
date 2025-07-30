@@ -27,7 +27,8 @@ class AuthController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required',
+            'remember' => 'nullable'
         ]);
     
         $credentials = $request->only('email','password');
@@ -47,7 +48,7 @@ class AuthController extends Controller
         request()->session()->invalidate();
         request()->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()->route('home');
     }
 
     // EMAIL VERIFICATION

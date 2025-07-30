@@ -35,7 +35,7 @@
                     </div>
                 </div>
 
-                <x-button role="ctaMain" :full="true">Sign in</x-button>
+                <x-button role="ctaMain" :full="true" id="submitButton" :disabled="true">Sign in</x-button>
             </form>
 
             <p class="text-center font-semibold mt-2">

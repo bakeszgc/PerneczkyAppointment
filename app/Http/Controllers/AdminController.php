@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Barber;
 use App\Models\Service;
 use App\Models\Appointment;
@@ -12,6 +13,7 @@ class AdminController extends Controller
     public function index() {
         $barbers = Barber::limit(6)->get();
         $services = Service::all();
+        $users = User::withCount('appointments')->orderByDesc('appointments_count')->limit(5)->get();
 
         $sumOfBookings = [
             'previous' => [
@@ -29,6 +31,7 @@ class AdminController extends Controller
         ];
 
         return view('admin/admin',[
+            'users' => $users,
             'barbers' => $barbers,
             'services' => $services,
             'sumOfBookings' => $sumOfBookings

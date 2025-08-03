@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminAppointmentController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BarberController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ServiceController;
 use App\Models\Appointment;
 use App\Models\Barber;
@@ -98,10 +99,13 @@ Route::middleware(['admin'])->group(function() {
     // BARBER PROFILE PICTURE
     Route::post('/upload-cropped/{user}',[PictureController::class,'uploadCropped'])->name('upload-cropped');
 
-    //ADMIN BOOKINGS
+    // ADMIN BOOKINGS
     Route::get('/admin/bookings/createBarberService',[AdminAppointmentController::class,'createBarberService'])->name('bookings.create.barber.service');
     Route::get('/admin/bookings/createDate',[AdminAppointmentController::class,'createDate'])->name('bookings.create.date');
     Route::resource('/admin/bookings',AdminAppointmentController::class)->withTrashed(['show']);
+
+    // ADMIN USERS
+    Route::resource('/admin/customers',CustomerController::class)->except(['create','store']);
 });
 
 // HOMEPAGE

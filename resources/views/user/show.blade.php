@@ -119,7 +119,17 @@
         </form>
     </x-show-card>
 
+    @if ($view == 'admin')
+        <x-show-card type="bookings" :show="true" class="mb-4">
+            <x-sum-of-bookings :sumOfBookings="$sumOfBookings" :user="$user" />
 
+            <div class="flex gap-2 mt-8">
+                <x-link-button :link="route('bookings.index',['customer' => $user->id])" role="ctaMain">All bookings</x-link-button>
+
+                <x-link-button :link="route('bookings.create.barber.service',['user_id' => $user->id])" role="create">New booking</x-link-button>
+            </div>
+        </x-show-card>
+    @endif
 
     @if ($user->barber && $view != 'admin')
         <x-show-card :show="$showPicture" type="picture" class="mb-4">

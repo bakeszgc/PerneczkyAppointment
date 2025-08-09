@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Appointment;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -45,12 +46,28 @@ class CustomerController extends Controller
         $showPassword = $request->showPassword ?? false;
         $showDestroy = $request->showDestroy ?? false;
 
+        $sumOfBookings = [
+            'previous' => [
+                'count' => Appointment::userFilter($customer)->previous()->count(),
+                'income' => Appointment::userFilter($customer)->previous()->sum('price')
+            ],
+            'upcoming' => [
+                'count' => Appointment::userFilter($customer)->upcoming()->count(),
+                'income' => Appointment::userFilter($customer)->upcoming()->sum('price')
+            ],
+            'cancelled' => [
+                'count' => Appointment::onlyTrashed()->userFilter($customer)->count(),
+                'income' => Appointment::onlyTrashed()->userFilter($customer)->sum('price')
+            ]
+        ];
+
         return view('user.show',[
             'user' => $customer,
             'showPassword' => $showPassword,
             'showProfile' => $showProfile,
             'showPicture' => $showPicture,
             'showDestroy' => $showDestroy,
+            'sumOfBookings' => $sumOfBookings,
             'view' => 'admin'
         ]);
     }

@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use App\Models\Barber;
+use App\Models\User;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -14,7 +15,8 @@ class SumOfBookings extends Component
      */
     public function __construct(
         public array $sumOfBookings,
-        public ?Barber $barber
+        public ?Barber $barber,
+        public ?User $user
     )
     {
         //

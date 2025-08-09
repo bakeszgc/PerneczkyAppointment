@@ -3,7 +3,11 @@
     @foreach ($sumOfBookings as $bookingType => $sumOfBooking)
         <div class="even:border-x-2">
             @php
-                $arguments = ['barber' => $barber->id];
+                $arguments = [
+                    'barber' => $barber->id,
+                    'customer' => $user->id
+                ];
+
                 if ($bookingType != 'cancelled') {
                     $arguments['time_window'] = $bookingType;
                 } else {
@@ -30,9 +34,9 @@
                 @endswitch
                 <h2 class="text-xl font-bold mb-2">{{ ucfirst($bookingType) }}</h2>
             </a>
-            <div class="flex justify-between w-full px-2">
+            <div class="flex justify-between w-full px-8">
                 <div class="flex-1">
-                    <p>Number of bookings</p>
+                    <p>Bookings</p>
                     <p>Income</p>
                 </div>
                 <div class="text-right">

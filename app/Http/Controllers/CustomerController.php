@@ -45,6 +45,7 @@ class CustomerController extends Controller
         $showPicture = $request->showPicture ?? false;
         $showPassword = $request->showPassword ?? false;
         $showDestroy = $request->showDestroy ?? false;
+        $showBookings = $request->showBookings ?? false;
 
         $sumOfBookings = [
             'previous' => [
@@ -67,6 +68,7 @@ class CustomerController extends Controller
             'showProfile' => $showProfile,
             'showPicture' => $showPicture,
             'showDestroy' => $showDestroy,
+            'showBookings' => $showBookings,
             'sumOfBookings' => $sumOfBookings,
             'view' => 'admin'
         ]);

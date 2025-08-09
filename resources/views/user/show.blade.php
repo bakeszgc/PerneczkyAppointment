@@ -120,7 +120,7 @@
     </x-show-card>
 
     @if ($view == 'admin')
-        <x-show-card type="bookings" :show="true" class="mb-4">
+        <x-show-card type="bookings" :show="$showBookings" class="mb-4">
             <x-sum-of-bookings :sumOfBookings="$sumOfBookings" :user="$user" />
 
             <div class="flex gap-2 mt-8">

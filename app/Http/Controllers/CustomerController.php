@@ -18,22 +18,6 @@ class CustomerController extends Controller
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
     public function show(Request $request, User $customer)
     {
         $request->validate([
@@ -74,14 +58,6 @@ class CustomerController extends Controller
             'sumOfBookings' => $sumOfBookings,
             'view' => 'admin'
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
 public function update(Request $request, User $customer)
@@ -142,11 +118,24 @@ public function update(Request $request, User $customer)
         return redirect()->route('customers.show',$customer)->with('success','Account has been updated successfully!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(User $customer)
     {
-        //
+        if ($customer->deleted_at) {
+            return redirect()->back()->with('error',$customer->first_name . "'s account has been already deleted!");
+        }
+
+        $customer->delete();
+
+        return redirect()->route('customers.show',$customer)->with('success',$customer->first_name . "'s account has been deleted sucessfully!");
+    }
+
+    public function restore(User $customer) {
+        if ($customer->deleted_at != null) {
+            return redirect()->back()->with('error',$customer->first_name . "'s account has not been deleted yet!");
+        }
+
+        $customer->restore();
+
+        return redirect()->route('customers.show',$customer)->with('success',$customer->first_name . "'s account has been restored sucessfully!");
     }
 }

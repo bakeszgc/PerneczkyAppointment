@@ -105,7 +105,8 @@ Route::middleware(['admin'])->group(function() {
     Route::resource('/admin/bookings',AdminAppointmentController::class)->withTrashed(['show']);
 
     // ADMIN USERS
-    Route::resource('/admin/customers',CustomerController::class)->except(['create','store']);
+    Route::resource('/admin/customers',CustomerController::class)->except(['create','store','edit'])->withTrashed(['show','destroy']);
+    Route::put('/admin/customers/{customer}/restore',[CustomerController::class,'restore'])->withTrashed()->name('customers.restore');
 });
 
 // HOMEPAGE

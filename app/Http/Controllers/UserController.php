@@ -111,11 +111,6 @@ class UserController extends Controller
 
     }
 
-    public function destroy(string $id)
-    {
-        //
-    }
-
     public function updatePassword(Request $request, User $user)
     {
         $validator = Validator::make($request->all(), [

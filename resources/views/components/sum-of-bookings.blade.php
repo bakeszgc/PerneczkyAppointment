@@ -5,7 +5,7 @@
             @php
                 $arguments = [
                     'barber' => $barber->id,
-                    'customer' => $user->id
+                    'user' => $user->id
                 ];
 
                 if ($bookingType != 'cancelled') {

@@ -111,9 +111,17 @@ class BarberController extends Controller
 
     public function destroy(Barber $barber)
     {
+        // sets barber visibility to false
         $barber->update([
             'is_visible' => false
-        ]);        
+        ]);
+
+        // cancelling upcoming bookings of the barber
+        $upcomingBookings = Appointment::barberFilter($barber)->upcoming()->get();
+        foreach ($upcomingBookings as $booking) {
+            $booking->delete();
+        }
+
         $barber->delete();
         return redirect()->route('barbers.show',$barber)->with('success',$barber->getName() . "'s barber access has been removed successfully!");
     }

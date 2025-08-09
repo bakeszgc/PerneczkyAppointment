@@ -10,7 +10,7 @@
             All Bookings
         </x-headline>
         
-        <x-link-button :link="route('bookings.create')" role="createMain">New&nbsp;Booking</x-link-button>
+        <x-link-button :link="route('bookings.create')" role="createMain">New&nbsp;booking</x-link-button>
     </div>
 
     <x-card class="mb-8">
@@ -23,7 +23,7 @@
                             <option value="empty"></option>
                             @foreach ($barbers as $barber)
                                 <option value="{{ $barber->id }}" {{ request('barber') == $barber->id ? 'selected' : '' }}>
-                                    {{ $barber->getName() }}
+                                    {{ $barber->getName() }} {{ $barber->deleted_at ? '(deleted)' : '' }}
                                 </option>
                             @endforeach
                         </x-select>
@@ -38,7 +38,7 @@
                             <option value="empty"></option>
                             @foreach ($services as $service)
                                 <option value="{{ $service->id }}" {{ request('service') == $service->id ? 'selected' : '' }}>
-                                    {{ $service->name }}
+                                    {{ $service->name }} {{ $service->deleted_at ? '(deleted)' : '' }}
                                 </option>
                             @endforeach
                         </x-select>
@@ -50,7 +50,7 @@
                             <option value="empty"></option>
                             @foreach ($users as $user)
                                 <option value="{{ $user->id }}" {{ request('user') == $user->id ? 'selected' : '' }}>
-                                    {{ $user->first_name . " " . $user->last_name }}
+                                    {{ $user->first_name . " " . $user->last_name }} {{ $user->deleted_at ? '(deleted)' : '' }}
                                 </option>
                             @endforeach
                         </x-select>

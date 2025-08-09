@@ -73,7 +73,7 @@ class AdminAppointmentController extends Controller
                 $q->serviceFilter($service);
             })
             ->when($request->user, function ($q) use ($request) {
-                $user = User::find($request->user);
+                $user = User::withTrashed()->find($request->user);
                 $q->userFilter($user);
             })
             ->when($request->from_app_start_date || $request->to_app_start_date || $request->time_window, function ($q) use ($request, $fromAppStartTime, $toAppStartTime) {
@@ -101,9 +101,9 @@ class AdminAppointmentController extends Controller
             })
             ->orderBy('app_start_time')->paginate(10);
 
-        $barbers = Barber::where('is_visible','=',1)->get();
-        $services = Service::where('is_visible','=',1)->get();
-        $users = User::orderBy('first_name')->get();
+        $barbers = Barber::withTrashed()->get();
+        $services = Service::withTrashed()->get();
+        $users = User::withTrashed()->orderBy('first_name')->get();
      
         return view('admin.appointment.index',[
             'appointments' => $appointments,

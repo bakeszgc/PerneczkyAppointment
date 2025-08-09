@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -30,12 +31,28 @@ class CustomerController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Request $request, User $customer)
     {
-        //
+        $request->validate([
+            'showProfile' => 'nullable|boolean',
+            'showPicture' => 'nullable|boolean',
+            'showPassword' => 'nullable|boolean',
+            'showDestroy' => 'nullable|boolean'
+        ]);
+
+        $showProfile = $request->showProfile ?? true;
+        $showPicture = $request->showPicture ?? false;
+        $showPassword = $request->showPassword ?? false;
+        $showDestroy = $request->showDestroy ?? false;
+
+        return view('user.show',[
+            'user' => $customer,
+            'showPassword' => $showPassword,
+            'showProfile' => $showProfile,
+            'showPicture' => $showPicture,
+            'showDestroy' => $showDestroy,
+            'view' => 'admin'
+        ]);
     }
 
     /**

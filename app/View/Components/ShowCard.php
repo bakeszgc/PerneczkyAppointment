@@ -12,8 +12,8 @@ class ShowCard extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public bool $show,
-        public string $type
+        public string $type,
+        public bool $show = false
     )
     {
         //

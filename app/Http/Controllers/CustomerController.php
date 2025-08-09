@@ -27,10 +27,11 @@ class CustomerController extends Controller
             'showDestroy' => 'nullable|boolean'
         ]);
 
-        $showProfile = $request->showProfile ?? true;
+        $showProfile = $request->showProfile ?? !isset($customer->deleted_at) ?? true;
         $showPicture = $request->showPicture ?? false;
         $showPassword = $request->showPassword ?? false;
         $showDestroy = $request->showDestroy ?? false;
+        $showRestore = $request->showRestore ?? true;
         $showBookings = $request->showBookings ?? false;
 
         $sumOfBookings = [
@@ -54,6 +55,7 @@ class CustomerController extends Controller
             'showProfile' => $showProfile,
             'showPicture' => $showPicture,
             'showDestroy' => $showDestroy,
+            'showRestore' => $showRestore,
             'showBookings' => $showBookings,
             'sumOfBookings' => $sumOfBookings,
             'view' => 'admin'
@@ -88,7 +90,7 @@ public function update(Request $request, User $customer)
         // checks if the customer's relationship to the barber model is different compared to the data sent in request
         // if it's different then creates a new barber/restores it if the user has been a barber before
         // or soft deletes the barber when barber access is being revoked
-        $isBarberAccessDifferent = ($customer->barber && $customer->barber->deleted_at == null) !== ($request->boolean('is_barber'));
+        $isBarberAccessDifferent = ($customer->barber && !isset($customer->barber->deleted_at)) !== ($request->boolean('is_barber'));
 
         if ($isBarberAccessDifferent) {
             if ($request->boolean('is_barber')) {
@@ -130,7 +132,7 @@ public function update(Request $request, User $customer)
     }
 
     public function restore(User $customer) {
-        if ($customer->deleted_at != null) {
+        if (!isset($customer->deleted_at)) {
             return redirect()->back()->with('error',$customer->first_name . "'s account has not been deleted yet!");
         }
 

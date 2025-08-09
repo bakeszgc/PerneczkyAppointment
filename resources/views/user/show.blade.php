@@ -18,7 +18,12 @@
 
 <x-user-layout title="{{ $title }} - ">
     <x-breadcrumbs :links="$breadcrumbLinks" />
-    <h1 class="font-extrabold text-4xl mb-4">{{ $title }}</h1>
+
+    <x-headline class="mb-4">
+        <span @class(['text-slate-500' => isset($user->deleted_at)])>
+            {{ $title }} {{ isset($user->deleted_at) ? '(deleted)' : '' }}
+        </span>
+    </x-headline>
 
     <x-show-card :show="$showProfile" type="profile" class="mb-4">
         <form action="{{ route('customers.update',$user) }}" method="POST">
@@ -29,7 +34,7 @@
                 <div class=" grid grid-cols-2 gap-2">
                     <div class="flex flex-col">
                         <x-label for="first_name">First name</x-label>
-                        <x-input-field name="first_name" id="first_name" value="{{ old('first_name') ??$user->first_name }}" />
+                        <x-input-field name="first_name" id="first_name" value="{{ old('first_name') ??$user->first_name }}" :disabled="isset($user->deleted_at)" />
                         @error('first_name')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
@@ -37,7 +42,7 @@
 
                     <div class="flex flex-col">
                         <x-label for="last_name">Last name</x-label>
-                        <x-input-field name="last_name" id="last_name" value="{{ old('last_name') ??$user->last_name }}" />
+                        <x-input-field name="last_name" id="last_name" value="{{ old('last_name') ??$user->last_name }}" :disabled="isset($user->deleted_at)" />
                         @error('last_name')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
@@ -46,7 +51,7 @@
                     @if ($user->barber && $view != 'admin')
                         <div class="flex flex-col col-span-2">
                             <x-label for="display_name">Display name</x-label>
-                            <x-input-field name="display_name" id="display_name" value="{{ old('display_name') ??$user->barber->display_name }}" />
+                            <x-input-field name="display_name" id="display_name" value="{{ old('display_name') ??$user->barber->display_name }}" :disabled="isset($user->deleted_at)" />
                             @error('display_name')
                                 <p class=" text-red-500">{{$message}}</p>
                             @enderror
@@ -68,7 +73,7 @@
                             
                         </div>
                         
-                        <x-input-field type="email" name="email" id="email" value="{{ old('email') ?? $user->email }}" />
+                        <x-input-field type="email" name="email" id="email" value="{{ old('email') ?? $user->email }}" :disabled="isset($user->deleted_at)" />
                         @error('email')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
@@ -76,7 +81,7 @@
 
                     <div class="flex flex-col">
                         <x-label for="date_of_birth">Date of birth</x-label>
-                        <x-input-field type="date" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth') ?? $user->date_of_birth }}" />
+                        <x-input-field type="date" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth') ?? $user->date_of_birth }}" :disabled="isset($user->deleted_at)" />
                         @error('date_of_birth')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
@@ -84,7 +89,7 @@
 
                     <div class="flex flex-col">
                         <x-label for="telephone_number">Telephone number</x-label>
-                        <x-input-field type="tel" name="telephone_number" id="telephone_number" value="{{ old('telephone_number') ?? $user->tel_number }}" />
+                        <x-input-field type="tel" name="telephone_number" id="telephone_number" value="{{ old('telephone_number') ?? $user->tel_number }}" :disabled="isset($user->deleted_at)" />
                         @error('telephone_number')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
@@ -95,12 +100,12 @@
             @if ($view == 'admin')
                 <div class="mb-4 *:flex *:items-center *:gap-2">
                     <div class="mb-2">
-                        <x-input-field type="checkbox" name="is_barber" id="is_barber" value="1" :checked="$user->barber && $user->barber->deleted_at == null" />
+                        <x-input-field type="checkbox" name="is_barber" id="is_barber" value="1" :checked="$user->barber && $user->barber->deleted_at == null" :disabled="isset($user->deleted_at)" />
                         <label for="is_barber">Barber access</label>
                     </div>
 
                     <div>
-                        <x-input-field type="checkbox" name="is_admin" id="is_admin" value="1" :checked="$user->is_admin" />
+                        <x-input-field type="checkbox" name="is_admin" id="is_admin" value="1" :checked="$user->is_admin" :disabled="isset($user->deleted_at)" />
                         <label for="is_admin">Admin access</label>
                     </div>
                 </div>
@@ -109,6 +114,13 @@
                     <div class="border-2 border-dashed rounded-md p-4 border-yellow-400 mb-4">
                         <h3 class="text-xl mb-2 font-base">Attention</h3>
                         <p>{{ $user->first_name }} is one of your employees and you are currently viewing his customer page. If you want to edit their details or see their stats as barbers then check his <a href="{{ route('barbers.show',$user->barber) }}" class="text-blue-700 hover:underline">barber page!</a></p>
+                    </div>
+                @endif
+
+                @if (isset($user->deleted_at))
+                    <div class="border-2 border-dashed rounded-md p-4 border-yellow-400 mb-4">
+                        <h3 class="text-xl mb-2 font-base">Attention</h3>
+                        <p>{{ $user->first_name }}'s account is currently disabled. If you want to edit their details you need to restore the account first!</p>
                     </div>
                 @endif
             @endif
@@ -126,7 +138,9 @@
             <div class="flex gap-2 mt-8">
                 <x-link-button :link="route('bookings.index',['user' => $user->id])" role="ctaMain">All bookings</x-link-button>
 
-                <x-link-button :link="route('bookings.create.barber.service',['user_id' => $user->id])" role="create">New booking</x-link-button>
+                @if (!$user->deleted_at)
+                    <x-link-button :link="route('bookings.create.barber.service',['user_id' => $user->id])" role="create">New booking</x-link-button>
+                @endif
             </div>
         </x-show-card>
     @endif
@@ -211,12 +225,35 @@
     
 
     @if ($view == 'admin')
-        <x-show-card :show="$showDestroy" type="destroy" class="mb-4">
-            <p class="mb-4">By deleting {{ $user->first_name }}'s account they will not be able to book upcoming appointments or access their previous bookings. Are you sure you want to proceed?</p>
-            <form action="{{ route('customers.destroy',$user) }}">
-                <x-button role="destroyMain">Delete this account</x-button>
-            </form>
-        </x-show-card>
+
+        @if ($user->deleted_at)
+            <x-show-card :show="$showRestore" type="restore" class="mb-4">
+                <p class="mb-2 text-justify">
+                    This account has been deleted and can no longer be accessed. {{ $user->first_name }} cannot log in, view their appointments, or create new ones.
+                </p>
+
+                <p class="mb-4 text-justify">
+                    If you wish to have your account restored. You must restore the account to re-enable their access and be able to edit their details on the admin page.
+                </p>
+
+                <form action="{{ route('customers.restore',$user) }}" method="post">
+                    @method('PUT')
+                    @csrf
+                    <x-button role="ctaMain">Restore account</x-button>
+                </form>
+            </x-show-card>
+        @else
+            <x-show-card :show="$showDestroy" type="destroy" class="mb-4">
+                <p class="mb-4">Deleting this account will prevent {{ $user->first_name }} from logging in, viewing their appointments, or creating new ones. The account can only be restored by an administrator. Are you sure you want to proceed?</p>
+
+                <form action="{{ route('customers.destroy',$user) }}" method="post">
+                    @method('DELETE')
+                    @csrf
+                    <x-button role="destroyMain">Delete account</x-button>
+                </form>
+            </x-show-card>
+        @endif
+
     @else
         <x-show-card :show="$showPassword" type="password" class="mb-4">
             <form action="{{ route('users.update-password',auth()->user()->id) }}" method="POST" >

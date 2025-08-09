@@ -126,6 +126,29 @@ public function update(Request $request, User $customer)
             return redirect()->back()->with('error',$customer->first_name . "'s account has been already deleted!");
         }
 
+        // deletes upcoming appointments of the user
+        $upcomingAppointments = Appointment::userFilter($customer)->upcoming()->get();
+        foreach ($upcomingAppointments as $appointment) {
+            $appointment->delete();
+        }
+
+        // deletes upcoming bookings if the user is a barber
+        // revokes user's barber access
+        if ($customer->barber) {
+            $upcomingBookings = Appointment::barberFilter($customer->barber)->upcoming()->get();
+            foreach ($upcomingBookings as $booking) {
+                $booking->delete();
+            }
+
+            $customer->barber->delete();
+        }
+
+        // revokes user's admin access
+        $customer->update([
+            'is_admin' => 0
+        ]);
+
+        // soft-deletes user
         $customer->delete();
 
         return redirect()->route('customers.show',$customer)->with('success',$customer->first_name . "'s account has been deleted sucessfully!");

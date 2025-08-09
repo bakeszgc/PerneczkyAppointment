@@ -95,17 +95,17 @@
             @if ($view == 'admin')
                 <div class="mb-4 *:flex *:items-center *:gap-2">
                     <div class="mb-2">
-                        <x-input-field type="checkbox" name="is_barber" id="is_barber" :checked="$user->barber ? true : false" />
+                        <x-input-field type="checkbox" name="is_barber" id="is_barber" value="1" :checked="$user->barber && $user->barber->deleted_at == null" />
                         <label for="is_barber">Barber access</label>
                     </div>
 
                     <div>
-                        <x-input-field type="checkbox" name="is_admin" id="is_admin" :checked="$user->is_admin" />
+                        <x-input-field type="checkbox" name="is_admin" id="is_admin" value="1" :checked="$user->is_admin" />
                         <label for="is_admin">Admin access</label>
                     </div>
                 </div>
 
-                @if ($user->barber)
+                @if ($user->barber && $user->barber->deleted_at == null)
                     <div class="border-2 border-dashed rounded-md p-4 border-yellow-400 mb-4">
                         <h3 class="text-xl mb-2 font-base">Attention</h3>
                         <p>{{ $user->first_name }} is one of your employees and you are currently viewing his customer page. If you want to edit their details or see their stats as barbers then check his <a href="{{ route('barbers.show',$user->barber) }}" class="text-blue-700 hover:underline">barber page!</a></p>

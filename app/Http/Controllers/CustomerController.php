@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barber;
 use App\Models\User;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CustomerController extends Controller
 {
@@ -82,12 +84,62 @@ class CustomerController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+public function update(Request $request, User $customer)
     {
-        //
+        $request->validate([
+            'first_name' => 'required|string|min:2|max:255',
+            'last_name' => 'required|string|min:2|max:255',
+            'display_name' => 'string|nullable',
+            'date_of_birth' => 'required|date|before_or_equal:today',
+            'telephone_number' => ['required','starts_with:+,0','numeric',Rule::unique('users','tel_number')->ignore($customer->id)],
+            'email' => ['required','email',Rule::unique('users','email')->ignore($customer->id)],
+            'is_barber' => 'nullable',
+            'is_admin' => 'nullable|boolean'
+        ]);
+
+        $isEmailDifferent = $customer->email !== $request->email;
+        
+
+        $customer->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'date_of_birth' => $request->date_of_birth,
+            'tel_number' => $request->telephone_number,
+            'email' => $request->email,
+            'is_admin' => $request->boolean('is_admin')
+        ]);
+
+        // checks if the customer's relationship to the barber model is different compared to the data sent in request
+        // if it's different then creates a new barber/restores it if the user has been a barber before
+        // or soft deletes the barber when barber access is being revoked
+        $isBarberAccessDifferent = ($customer->barber && $customer->barber->deleted_at == null) !== ($request->boolean('is_barber'));
+
+        if ($isBarberAccessDifferent) {
+            if ($request->boolean('is_barber')) {
+                if ($customer->barber) {
+                    $customer->barber->restore();
+                } else {
+                    Barber::create([
+                        'user_id' => $customer->id,
+                        'is_visible' => false,
+                    ]);
+                }
+            } else {
+                $barber = $customer->barber;
+                $barber->is_visible = false;
+                $barber->delete();
+            }
+        }
+
+        if ($isEmailDifferent) {
+            $customer->update([
+                'email_verified_at' => null
+            ]);
+
+            return redirect()->route('customers.show',$customer)->with('success','Account has been updated successfully! The new email address has to be verified!');
+        }
+
+        return redirect()->route('customers.show',$customer)->with('success','Account has been updated successfully!');
     }
 
     /**

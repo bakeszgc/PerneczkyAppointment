@@ -17,6 +17,8 @@ class Admin
     {
         if ($request->user() === null) {
             return redirect()->route('login')->with('error','Please sign in before accessing that page!');
+        } elseif (!isset($request->user()->email_verified_at)) {
+            return redirect()->route('verification.notice');
         } elseif (!$request->user()->is_admin) {
             return back()->with('error','You are not authorized to access that page!');
         }

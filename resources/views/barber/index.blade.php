@@ -47,8 +47,8 @@
         </div>
 
         <div>
-            <x-link-button link="" role="ctaMain">
-                Add New Barber
+            <x-link-button link="{{ route('barbers.create') }}" role="createMain">
+                New barber
             </x-link-button>
         </div>
     </x-card>

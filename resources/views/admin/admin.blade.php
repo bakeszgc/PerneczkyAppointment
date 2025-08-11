@@ -41,10 +41,10 @@
                             {{ $user->appointments_count }}
                         </td>
                         <td class="text-center">
-                            <x-input-field type="checkbox" name="is_barber" id="is_barber" :checked="$user->barber ?? false" value="is_barber" />
+                            <x-input-field type="checkbox" name="is_barber" id="is_barber" :checked="isset($user->barber) && $user->barber->deleted_at == null" value="is_barber" />
                         </td>
                         <td class="text-center">
-                            <x-input-field type="checkbox" name="is_barber" id="is_barber" :checked="$user->is_admin ?? false" value="is_barber" />
+                            <x-input-field type="checkbox" name="is_barber" id="is_barber" :checked="$user->is_admin" value="is_barber" />
                         </td>
                         <td>
                             <x-link-button :link="route('customers.show',$user)" role="show">

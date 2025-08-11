@@ -5,7 +5,11 @@
         $barber->getName() => ''
     ]"/>
 
-    <x-headline class="mb-4">{{ $barber->getName() }} {{ $barber->isDeleted() }}</x-headline>
+    <x-headline class="mb-4">
+        <span @class(['text-slate-500' => isset($barber->deleted_at)])>
+            {{ $barber->getName() . ' ' . $barber->isDeleted() }}
+        </span>
+    </x-headline>
 
     <x-show-card :show="$showProfile" type="profile" class="mb-4">
         <form action="{{ route('barbers.update',$barber) }}" method="POST">
@@ -30,7 +34,7 @@
 
                     <div class="flex flex-col col-span-2">
                         <x-label for="display_name">Display name</x-label>
-                        <x-input-field name="display_name" id="display_name" value="{{ old('display_name') ??$barber->display_name }}" />
+                        <x-input-field name="display_name" id="display_name" value="{{ old('display_name') ??$barber->display_name }}" :disabled="isset($barber->deleted_at)" />
                         @error('display_name')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
@@ -40,8 +44,7 @@
                         <div class="flex justify-between items-end">
                             <x-label for="email">Email address</x-label>
                             @if ($barber->user->email_verified_at === null)
-                                <a href="{{ route('verification.notice') }}"class="font-bold text-base text-blue-500 hover:underline">Verify your email here</a>
-                                <!-- <button form="verification" class="font-bold text-base text-blue-500 hover:underline">Verify your email here</button> -->
+                                <p class="text-slate-500 text-sm">Not verified yet</p>
                             @else
                                 <p class="text-slate-500 text-sm">Verified on {{ date_format($barber->user->email_verified_at,'d M Y')  }}</p>
                             @endif
@@ -81,20 +84,20 @@
             </div>
             
             <div class="flex gap-2">
-                <x-button role="ctaMain" :disabled="isset($barber->deleted_at)">Save Changes</x-button>
+                <x-button role="ctaMain" :disabled="isset($barber->deleted_at)">Save changes</x-button>
                 </form>
 
                 @if ($barber->deleted_at)
                     <form action="{{ route('barbers.restore',$barber) }}" method="POST">
                         @method('PUT')
                         @csrf
-                        <x-button role="restore">Restore Barber Access</x-button>
+                        <x-button role="restore">Restore barber access</x-button>
                     </form>
                 @else
                     <form action="{{ route('barbers.destroy',$barber) }}" method="POST">
                         @method('DELETE')
                         @csrf
-                        <x-button role="destroy">Remove Barber Access</x-button>
+                        <x-button role="destroy">Remove barber access</x-button>
                     </form>
                 @endif
             </div>

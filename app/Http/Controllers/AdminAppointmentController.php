@@ -65,11 +65,11 @@ class AdminAppointmentController extends Controller
                 }
             })
             ->when($request->barber, function ($q) use ($request) {
-                $barber = Barber::find($request->barber);
+                $barber = Barber::withTrashed()->find($request->barber);
                 $q->barberFilter($barber);
             })
             ->when($request->service, function ($q) use ($request) {
-                $service = Service::find($request->service);
+                $service = Service::withTrashed()->find($request->service);
                 $q->serviceFilter($service);
             })
             ->when($request->user, function ($q) use ($request) {

@@ -37,7 +37,7 @@
 
                     <x-select name="service" id="service" class="w-full">
                         @foreach ($services as $service)
-                            <option value="{{ $service->id }}" {{ $service->id == $appointment->service_id ? 'selected' : '' }}>
+                            <option value="{{ $service->id }}" @selected($service->id == $appointment->service_id)>
                                 {{ $service->name }}
                             </option>
                         @endforeach
@@ -161,7 +161,9 @@
                         
                         <x-select name="barber" id="barber" class="w-full">
                             @foreach ($barbers as $barber)
-                                <option value="{{ $barber->id }}" {{ $barber->id == $appointment->barber_id ? 'selected' : '' }}>{{ $barber->getName() }}</option>
+                                <option value="{{ $barber->id }}" @selected($barber->id == $appointment->barber_id)>
+                                    {{ $barber->getName() }}
+                                </option>
                             @endforeach
                         </x-select>
                     </div>
@@ -218,8 +220,6 @@
             const priceInput = document.getElementById('price');
 
             const services = {!! $services !!};
-            let selectedServiceId = {{ $appointment->service_id }};
-            let price = {{ $appointment->price }};  
 
             serviceInput.addEventListener('change', function () {
                 selectedService = services.find(service => service.id == serviceInput.value);

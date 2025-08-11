@@ -22,7 +22,7 @@
                         <x-select name="barber" id="barberSelect">
                             <option value="empty"></option>
                             @foreach ($barbers as $barber)
-                                <option value="{{ $barber->id }}" {{ request('barber') == $barber->id ? 'selected' : '' }}>
+                                <option value="{{ $barber->id }}" @selected(request('barber') == $barber->id)>
                                     {{ $barber->getName() }} {{ $barber->deleted_at ? '(deleted)' : '' }}
                                 </option>
                             @endforeach
@@ -37,7 +37,7 @@
                         <x-select name="service" id="serviceSelect">
                             <option value="empty"></option>
                             @foreach ($services as $service)
-                                <option value="{{ $service->id }}" {{ request('service') == $service->id ? 'selected' : '' }}>
+                                <option value="{{ $service->id }}" @selected(request('service') == $service->id)>
                                     {{ $service->name }} {{ $service->deleted_at ? '(deleted)' : '' }}
                                 </option>
                             @endforeach
@@ -49,7 +49,7 @@
                         <x-select name="user" id="userSelect">
                             <option value="empty"></option>
                             @foreach ($users as $user)
-                                <option value="{{ $user->id }}" {{ request('user') == $user->id ? 'selected' : '' }}>
+                                <option value="{{ $user->id }}" @selected(request('user') == $user->id)>
                                     {{ $user->first_name . " " . $user->last_name }} {{ $user->deleted_at ? '(deleted)' : '' }}
                                 </option>
                             @endforeach
@@ -90,7 +90,7 @@
                             <x-select name="from_app_start_hour" id="fromHour" :disabled="request('time_window') == 'previous' || request('time_window') == 'upcoming'" class="dateTimeInput">
                                 <option value="empty"></option>
                                 @for ($i=10;$i<=20;$i++)
-                                    <option value="{{ $i }}" {{ request('from_app_start_hour') == $i ? 'selected' : '' }}>
+                                    <option value="{{ $i }}" @selected(request('from_app_start_hour') == $i)>
                                         {{ $i }}
                                     </option>
                                 @endfor
@@ -99,7 +99,7 @@
                             <x-select name="from_app_start_minute" id="fromMinute" :disabled="request('time_window') == 'previous' || request('time_window') == 'upcoming'" class="dateTimeInput">
                                 <option value="empty"></option>
                                 @for ($i=0;$i<=45;$i+=15)
-                                    <option value="{{ $i }}" {{ request('from_app_start_minute') === strval($i) ? 'selected' : '' }}>
+                                    <option value="{{ $i }}" @selected(request('from_app_start_minute') === strval($i))>
                                         {{ $i === 0 ? '00' : $i }}
                                     </option>
                                 @endfor
@@ -115,7 +115,7 @@
                             <x-select name="to_app_start_hour" id="toHour" :disabled="request('time_window') == 'previous' || request('time_window') == 'upcoming'" class="dateTimeInput">
                                 <option value="empty"></option>
                                 @for ($i=10;$i<=20;$i++)
-                                    <option value="{{ $i }}" {{ request('to_app_start_hour') == $i ? 'selected' : '' }}>
+                                    <option value="{{ $i }}" @selected(request('to_app_start_hour') == $i)>
                                         {{ $i }}
                                     </option>
                                 @endfor
@@ -124,7 +124,7 @@
                             <x-select name="to_app_start_minute" id="toMinute" :disabled="request('time_window') == 'previous' || request('time_window') == 'upcoming'" class="dateTimeInput">
                                 <option value="empty"></option>
                                 @for ($i=0;$i<=45;$i+=15)
-                                    <option value="{{$i}}" {{ request('to_app_start_minute') === strval($i) ? 'selected' : '' }}>
+                                    <option value="{{$i}}" @selected(request('to_app_start_minute') === strval($i))>
                                         {{ $i === 0 ? '00' : $i }}
                                     </option>
                                 @endfor

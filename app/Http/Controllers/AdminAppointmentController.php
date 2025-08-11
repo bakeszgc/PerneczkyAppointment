@@ -145,9 +145,9 @@ class AdminAppointmentController extends Controller
         $selectedServiceId = $request->service_id;
         $selectedBarberId = $request->barber_id;
 
-        $barbers = Barber::where('is_visible','=',1)->get();
+        $barbers = Barber::all();
 
-        $services = Service::where('is_visible','=',1)->get();
+        $services = Service::where('id','!=',1)->get();
 
         return view('my-appointment.create_barber_service',[
             'barbers' => $barbers,

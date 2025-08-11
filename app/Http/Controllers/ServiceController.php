@@ -54,6 +54,10 @@ class ServiceController extends Controller
 
     public function update(Request $request, Service $service)
     {
+        if (isset($service->deleted_at)) {
+            return redirect()->route('services.show',$service)->with('error','You cannot edit deleted services. If you wish to proceed please restore ' . $service->name . ' first!');
+        }
+
         $request->validate([
             'name' => ['required','string','min:3','max:255'],
             'price' => ['required','integer','min:100','max:100000'],
@@ -64,7 +68,7 @@ class ServiceController extends Controller
             'name' => $request->name,
             'price' => $request->price,
             'duration' => $request->duration,
-            'is_visible' => $request->is_visible ? true : false
+            'is_visible' => isset($request->is_visible)
         ]);
 
         return redirect()->route('services.show',$service)->with('success',$service->name . " has been updated successfully!");

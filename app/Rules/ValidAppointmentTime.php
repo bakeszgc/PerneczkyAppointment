@@ -22,15 +22,20 @@ class ValidAppointmentTime implements ValidationRule
             $minutes = $app_start_time->minute;
             $seconds = $app_start_time->second;
 
-            // nyitás előtti és zárás utáni időpont sem lehet
+            // appointment start can't be before the opening and after the closing hour
             if ($hours<10 || $hours >= Appointment::closingHour($app_start_time)) {
-                $fail('The selected date is not available! Please choose another one!');
+                $fail('The selected date is out of! Please choose another one!');
             }
 
-            // csak negyed órás app_start_timeok lehetnek
+            // appointment can only start on every 15 mins
             if (!in_array($minutes,[0,15,30,45]) || $seconds != 0) {
                 $fail('The selected date is not available! Please choose another one!');
             }
+
+            if ($app_start_time < now()) {
+                $fail('The selected date is in the past! Please choose another one!');
+            }
+
         } catch (\Exception $e) {
             $fail('The selected date is not available! Please choose another one!');
         }

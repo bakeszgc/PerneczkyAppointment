@@ -19,7 +19,7 @@
     </div>
 
     <div class="grid grid-cols-2 gap-4">
-        <x-appointment-button :appointment="$previous" type="previous" />
-        <x-appointment-button :appointment="$upcoming" type="upcoming" />
+        <x-appointment-button :appointment="$previous" type="latest" />
+        <x-appointment-button :appointment="$upcoming" type="next" />
     </div>
 </li>

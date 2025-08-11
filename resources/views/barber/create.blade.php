@@ -66,7 +66,7 @@
     </x-card>
 
     <div @class(['mb-4' => $users->count() == 10])>
-        {{ $users->links() }}
+        {{ $users->appends($_GET)->links() }}
     </div>
 
 </x-user-layout>

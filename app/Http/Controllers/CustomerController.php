@@ -10,12 +10,30 @@ use Illuminate\Validation\Rule;
 
 class CustomerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $request->validate([
+            'query' => 'nullable|string|max:255'
+        ]);
+        
+        $query = $request->input('query');
+
+        $users = User::when($query, function ($q) use ($query) {
+            $q->where('first_name','like',"%$query%")
+            ->orWhere('last_name','like',"%$query%")
+            ->orWhere('email','like',"%$query%")
+            ->orWhere('tel_number','like',"%$query%");
+        })->orderBy('first_name')->paginate(10)->through(function ($user) {
+            return [
+                'user' => $user,
+                'previous' => Appointment::userFilter($user)->previous()->orderByDesc('app_start_time')->first(),
+                'upcoming' => Appointment::userFilter($user)->upcoming()->orderBy('app_start_time')->first()
+            ];
+        });
+        
+        //dd($users);
+
+        return view('admin.customer.index',['users' => $users]);
     }
 
     public function show(Request $request, User $customer)

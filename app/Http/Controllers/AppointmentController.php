@@ -72,7 +72,7 @@ class AppointmentController extends Controller
             ->orWhere('last_name','like',"%$query%")
             ->orWhere('email','like',"%$query%")
             ->orWhere('tel_number','like',"%$query%");
-        })->paginate(10);
+        })->orderBy('first_name')->paginate(10);
 
         return view('appointment.create',['users' => $users]);
     }

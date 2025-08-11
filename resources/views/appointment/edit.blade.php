@@ -26,15 +26,6 @@
             selectedServiceId: {{ $appointment->service_id }},
             servicePrice: {{ $appointment->price }},
 
-            appStartDate: '{{ Carbon::parse($appointment->app_start_time)->format('Y-m-d') }}',
-            appEndDate: '{{ Carbon::parse($appointment->app_end_time)->format('Y-m-d') }}',
-            appStartHour: {{ Carbon::parse($appointment->app_start_time)->hour }},
-            appEndHour: {{ Carbon::parse($appointment->app_end_time)->hour }},
-            appStartMinute: {{ Carbon::parse($appointment->app_start_time)->minute }},
-            appEndMinute: {{ Carbon::parse($appointment->app_end_time)->minute }},
-
-            diffInHours: 1,
-
             updateService() {
                 const selectedService = this.services.find(service => service.id == this.selectedServiceId);
                 this.servicePrice = selectedService ? selectedService.price : '';
@@ -44,13 +35,6 @@
                     this.appEndHour = Math.floor(totalMinutes / 60) % 24;
                     this.appEndMinute = totalMinutes % 60;
                 }
-            },
-
-            adjustEndDate() {
-                const start = new Date(this.appStartDate);
-                const end = new Date(this.appEndDate);
-                const duration = end - start;
-                this.appEndDate = new Date(new Date(this.appStartDate).getTime() + duration).toISOString().split('T')[0];
             }
         }">
             <h1 class="font-bold text-2xl max-sm:text-lg mb-4">
@@ -94,22 +78,20 @@
 
                 <div class="mb-4 grid grid-cols-2 max-sm:grid-cols-1 gap-4">
                     <div class="flex flex-col">
-                        <x-label for="app_start_date">
+                        <x-label for="startDate">
                             Booking's start time
                         </x-label>
 
                         <div class="flex items-center gap-1">
-                            <x-input-field type="date" name="app_start_date" id="app_start_date" x-model="appStartDate" value="{{ Carbon::parse($appointment->app_start_time)->format('Y-m-d') }}" class="flex-1 mr-2" @change="
-                            appEndDate = (new Date(appStartDate)).toISOString().split('T')[0]" />
+                            <x-input-field type="date" name="app_start_date" id="startDate" value="{{ Carbon::parse($appointment->app_start_time)->format('Y-m-d') }}" class="flex-1 mr-2 appStartInput" />
 
-                            <x-select name="app_start_hour" id="startHour" x-model="appStartHour" @change="
-                            appEndHour = parseInt(appStartHour) + parseInt(diffInHours);">
+                            <x-select name="app_start_hour" id="startHour" class="appStartInput">
                                 @for ($i=10;$i<20;$i++)
                                     <option value="{{ $i }}" {{ $i == Carbon::parse($appointment->app_start_time)->format('G') ? "selected" : ''}}>{{ $i }}</option>
                                 @endfor
                             </x-select>
 
-                            <x-select name="app_start_minute" id="startMinute" x-model="appStartMinute">
+                            <x-select name="app_start_minute" id="startMinute" class="appStartInput">
                                 @for ($i=0;$i<60;$i+=15)
                                     <option value="{{ $i }}" {{ $i == Carbon::parse($appointment->app_start_time)->format('i') ? "selected" : ''}}>{{ $i == 0 ? '00' : $i}}</option>
                                 @endfor
@@ -136,22 +118,20 @@
                     </div>
 
                     <div class="flex flex-col">
-                        <x-label for="app_end_time">
+                        <x-label for="endDate">
                             Booking's end time
                         </x-label>
 
                         <div class="flex items-center gap-1">
-                            <x-input-field type="date" name="app_end_date" x-model="appEndDate" value="{{ Carbon::parse($appointment->app_end_time)->format('Y-m-d') }}" class="flex-1 mr-2" @change="
-                            appStartDate = (new Date(appEndDate)).toISOString().split('T')[0]" />
+                            <x-input-field type="date" name="app_end_date" id="endDate" value="{{ Carbon::parse($appointment->app_end_time)->format('Y-m-d') }}" class="flex-1 mr-2 appEndInput" />
 
-                            <x-select name="app_end_hour" id="endHour" x-model="appEndHour" @change="
-                            diffInHours = appEndHour - appStartHour;">
+                            <x-select name="app_end_hour" id="endHour" class="appEndInput">
                                 @for ($i=10;$i<22;$i++)
                                     <option value="{{ $i }}" {{ $i == Carbon::parse($appointment->app_end_time)->format('G') ? "selected" : ''}}>{{ $i }}</option>
                                 @endfor
                             </x-select>
 
-                            <x-select name="app_end_minute" id="endMinute" x-model="appEndMinute">
+                            <x-select name="app_end_minute" id="endMinute" class="appEndInput">
                                 @for ($i=0;$i<60;$i+=15)
                                     <option value="{{ $i }}" {{ $i == Carbon::parse($appointment->app_end_time)->format('i') ? "selected" : ''}}>
                                         {{ $i == 0 ? '00' : $i}}
@@ -218,4 +198,48 @@
                 </div>
         </div>
     </x-card>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const appStartInputs = document.querySelectorAll('.appStartInput');
+            const appEndInputs = document.querySelectorAll('.appEndInput');
+
+            const appStartDate = document.getElementById('startDate');
+            const appStartHour = document.getElementById('startHour');
+            const appStartMinute = document.getElementById('startMinute');
+
+            const appEndDate = document.getElementById('endDate');
+            const appEndHour = document.getElementById('endHour');
+            const appEndMinute = document.getElementById('endMinute');
+            
+            let timeDifference = getTimeDifference(appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute);
+
+            appStartInputs.forEach(input => {
+                input.addEventListener('change', function () {
+                    startDateTime = getDateTime(appStartDate,appStartHour,appStartMinute);
+                    endDateTime = new Date(structuredClone(startDateTime).setMinutes(startDateTime.getMinutes() + timeDifference));
+
+                    appEndDate.value = endDateTime.toISOString().split('T')[0];
+                    appEndHour.value = endDateTime.getHours();
+                    appEndMinute.value = endDateTime.getMinutes();
+                });
+            });
+
+            appEndInputs.forEach(input => {
+                input.addEventListener('change', function () {
+                    timeDifference = getTimeDifference(appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute);
+                });
+            });
+        });
+
+        function getDateTime(date, hour, minute) {
+            return new Date((date.value).concat(" ",hour.value,":",minute.value));
+        }
+
+        function getTimeDifference(appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute) {
+            startDateTime = getDateTime(appStartDate,appStartHour,appStartMinute);
+            endDateTime = getDateTime(appEndDate,appEndHour,appEndMinute);
+            return (endDateTime - startDateTime) / 1000 / 60;
+        }
+    </script>
 </x-user-layout>

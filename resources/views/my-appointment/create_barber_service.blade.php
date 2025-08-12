@@ -81,7 +81,10 @@
         </div>
 
         <div class="mb-8">
-            <input type="hidden" name="user_id" value="{{ request('user_id') }}">
+            @if ($view != 'user')
+                <input type="hidden" name="user_id" value="{{ request('user_id') }}">
+            @endif
+            
             <x-button role="ctaMain" :full="true" id="submitBtnForRadioBtns" :disabled="true">Check Available Dates</x-button>
         </div>
 

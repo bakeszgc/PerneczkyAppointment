@@ -44,7 +44,7 @@
                         
                         <x-barber-picture :barber="$barber" />
 
-                        <input type="radio" id="barber_{{ $barber->id }}" name="barber_id" value="{{ $barber->id }}" {{ request('barber_id') && request('barber_id') == $barber->id ? 'checked' : ''}} class="hidden">
+                        <input type="radio" id="barber_{{ $barber->id }}" name="barber_id" value="{{ $barber->id }}" @checked(request('barber_id') && request('barber_id') == $barber->id) class="hidden">
                     </label>
                     
                 @empty
@@ -71,7 +71,7 @@
 
                     <p class=" text-base text-slate-500 group-hover:text-white group-has-[input:checked]:text-white transition-all">Estimated duration: {{ $service->duration }} minutes</p>
                 
-                    <input type="radio" id="service_{{ $service->id }}" name="service_id" value="{{ $service->id }}" hidden {{ request('service_id') && request('service_id') == $service->id ? 'checked' : ''}} class="hidden">
+                    <input type="radio" id="service_{{ $service->id }}" name="service_id" value="{{ $service->id }}" @checked(request('service_id') && request('service_id') == $service->id) class="hidden">
                 </label>
             @empty
                 <x-empty-card>

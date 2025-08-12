@@ -126,14 +126,7 @@
 
                                             <span x-text="time"></span>
 
-                                            <input
-                                                type="radio"
-                                                name="date"
-                                                class="hidden"
-                                                :id="`date_${selectedDate}_${time}`"
-                                                :value="`${selectedDate} ${time}`"
-                                                x-model="selectedTime"
-                                            >
+                                            <input type="radio" name="date" class="hidden" :id="`date_${selectedDate}_${time}`" :value="`${selectedDate} ${time}`" x-model="selectedTime">
                                         </label>
                                     </template>
                                 </div>

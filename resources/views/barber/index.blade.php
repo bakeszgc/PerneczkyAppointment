@@ -29,10 +29,10 @@
                         <td>{{ $barber->user->first_name . " " . $barber->user->last_name }}</td>
                         <td>{{ $barber->created_at }}</td>
                         <td class="text-center">
-                            <input type="checkbox" {{ $barber->is_visible ? 'checked' : '' }}>
+                            <x-input-field type="checkbox" name="isVisible" id="isVisibleCheckBox" :checked="$barber->is_visible" :readonly="true" />
                         </td>
                         <td class="text-center">
-                            <input type="checkbox" {{ $barber->user->is_admin ? 'checked=' : '' }}>
+                            <x-input-field type="checkbox" name="isAdmin" id="isAdminCheckBox"  :checked="$barber->user->is_admin" :readonly="true" />
                         </td>
                         <td>
                             <x-link-button role="show" link="{{ route('barbers.show',$barber) }}">

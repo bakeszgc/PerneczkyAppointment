@@ -19,6 +19,7 @@ class InputField extends Component
         public bool $checked = false,
         public string $type = 'text',
         public string $value = '',
+        public bool $readonly = false
     )
     {
         //

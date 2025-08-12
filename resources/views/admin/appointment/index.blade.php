@@ -74,7 +74,7 @@
 
                         @foreach ($cancelledRadioButtons as $cancelledRadioButton => $details)
                             <label for="cancelled_{{ $cancelledRadioButton }}">
-                                <input type="radio" name="cancelled" value="{{ $cancelledRadioButton }}" id="cancelled_{{ $cancelledRadioButton }}" {{ $cancelledRadioButton == (request('cancelled') ?? 1) ? 'checked' : '' }}>
+                                <x-input-field type="radio" name="cancelled" :value="$cancelledRadioButton" id="cancelled_{{ $cancelledRadioButton }}" :checked="$cancelledRadioButton == (request('cancelled') ?? 1)" />
                                 <p>{{ $details['name'] }}</p>
                             </label>
                         @endforeach
@@ -157,7 +157,7 @@
                                 <label for="{{ $timeWindowOption['id'] }}" class="rounded-md has-[input:checked]:bg-white transition-all hover:bg-white cursor-pointer">
                                     {{ ucfirst($timeWindowOption['name']) }}
 
-                                    <input type="radio" name="time_window" id="{{ $timeWindowOption['id'] }}" class="hidden" value="{{ $timeWindowOption['name'] }}" {{ $loop->index == 0 ? 'checked' : '' }} {{ request('time_window') == $timeWindowOption['name'] ? 'checked' : '' }}>
+                                    <input type="radio" name="time_window" id="{{ $timeWindowOption['id'] }}" class="hidden" value="{{ $timeWindowOption['name'] }}" @checked(request('time_window') == $timeWindowOption['name'] || $loop->index == 0)>
                                 </label>
 
                             @endforeach

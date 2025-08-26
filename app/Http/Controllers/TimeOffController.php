@@ -78,7 +78,7 @@ class TimeOffController extends Controller
 
         $barber = auth()->user()->barber;
 
-        if (Appointment::checkAppointmentClashes($app_start_time,$app_end_time,$barber)) {
+        if (!Appointment::checkAppointmentClashes($app_start_time,$app_end_time,$barber)) {
             return redirect()->route('time-offs.create')->with('error','You have bookings clashing with the selected timeframe.');
         }
 

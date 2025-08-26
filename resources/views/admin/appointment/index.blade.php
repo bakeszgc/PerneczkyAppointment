@@ -1,4 +1,4 @@
-<x-user-layout title="All Bookings - " currentView="admin">
+<x-user-layout title="All Bookings" currentView="admin">
 
     <x-breadcrumbs :links="[
         'Admin Dashboard' => route('admin'),

@@ -1,4 +1,4 @@
-<x-user-layout title="Verify Your Email Address - ">
+<x-user-layout title="Verify Your Email Address">
     <x-breadcrumbs :links="[
         'Verify Your Email Address' => ''
     ]"/>

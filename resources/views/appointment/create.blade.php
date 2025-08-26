@@ -17,7 +17,7 @@
     }
 @endphp
 
-<x-user-layout title="New Booking - " currentView="{{ $view }}">
+<x-user-layout title="New Booking" currentView="{{ $view }}">
     <x-breadcrumbs :links="$breadcrumbLinks"/>
     <x-headline class="mb-4">
         Create New Booking

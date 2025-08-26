@@ -1,4 +1,4 @@
-<x-user-layout title="Register - ">
+<x-user-layout title="Register">
 
     <x-breadcrumbs :links="[
         'Register' => ''

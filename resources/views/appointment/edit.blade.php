@@ -3,7 +3,7 @@
     $view = $view ?? 'barber';
 @endphp
 
-<x-user-layout title="Editing {{$appointment->user->first_name}}'s Appointment - " currentView="{{ $view }}">
+<x-user-layout title="Editing {{$appointment->user->first_name}}'s Appointment" currentView="{{ $view }}">
 
     <x-breadcrumbs :links="$view == 'admin' ? [
         'Admin Dashboard' => route('admin'),

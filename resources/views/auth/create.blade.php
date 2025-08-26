@@ -1,4 +1,4 @@
-<x-user-layout title="Sign In - ">
+<x-user-layout title="Sign In">
     <x-breadcrumbs :links="[
         'Sign In' => ''
     ]" />

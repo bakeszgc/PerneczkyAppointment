@@ -1,4 +1,4 @@
-<x-user-layout title="My Time Off - " currentView="barber">
+<x-user-layout title="My Time Off" currentView="barber">
     <x-breadcrumbs :links="[
         'Time Offs' => route('time-offs.index'),
         'My Time Off' => ''

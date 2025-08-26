@@ -16,7 +16,7 @@
     }
 @endphp
 
-<x-user-layout title="{{ $title }} - ">
+<x-user-layout title="{{ $title }}">
     <x-breadcrumbs :links="$breadcrumbLinks" />
 
     <x-headline class="mb-4">

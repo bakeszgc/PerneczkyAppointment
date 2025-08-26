@@ -1,4 +1,4 @@
-<x-user-layout title="My Appointments - ">
+<x-user-layout title="My Appointments">
     <x-breadcrumbs :links="[
         'My Appointments' => route('my-appointments.index')
     ]"/>

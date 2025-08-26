@@ -1,4 +1,4 @@
-<x-user-layout title="Reset Password - ">
+<x-user-layout title="Reset Password">
     <x-breadcrumbs :links="[
         'Sign In' => route('login'),
         'Forgot Password' => route('password.request'),

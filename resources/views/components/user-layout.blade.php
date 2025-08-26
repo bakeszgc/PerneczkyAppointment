@@ -75,7 +75,7 @@
             </div>
 
             <div class="flex justify-between items-center gap-4 max-lg:flex-col max-lg:translate-y-2 max-lg:bg-slate-950 max-lg:pt-12 max-lg:pb-6 max-lg:-translate-x-full nav-menu" id="nav-menu">
-                <ul class="flex items-center gap-2 max-lg:flex-col">
+                <ul class="flex items-center gap-2 max-lg:gap-4 max-lg:flex-col">
                     <li>
                         Welcome, {{auth()->user()->barber->display_name ?? auth()->user()->first_name ?? 'Guest'}}!
                     </li>
@@ -110,13 +110,16 @@
                     @endif
                 </ul>
 
-                <ul class="flex items-center gap-4 max-lg:flex-col">
+                <ul class="flex items-center gap-2 max-lg:flex-col">
                     @auth
                         @switch($currentView)
                             @case('barber')
-                                <li>
+                                <li class="flex items-center gap-2 max-lg:flex-col">
                                     <a href="{{ route('appointments.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
                                         Bookings
+                                    </a>
+                                    <a href="{{ route('time-offs.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
+                                        Time Offs
                                     </a>
                                 </li>
                                 @break
@@ -146,7 +149,7 @@
                             <form action="{{route('logout')}}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button class="bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">Sign Out</button>
+                                <button class="bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all max-lg:mt-2">Sign Out</button>
                             </form>
                         </li>
                     @else

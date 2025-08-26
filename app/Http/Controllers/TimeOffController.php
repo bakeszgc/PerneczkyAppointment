@@ -45,7 +45,10 @@ class TimeOffController extends Controller
 
     public function create()
     {
-        return view('time-off.create');
+        return view('appointment.edit',[
+            'view' => 'timeoff',
+            'action' => 'create'
+        ]);
     }
 
     public function store(Request $request)

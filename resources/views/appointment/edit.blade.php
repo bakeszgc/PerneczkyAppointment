@@ -3,6 +3,7 @@
 
     $view ??= 'booking';
     $access ??= 'barber';
+    $action ??= 'edit';
 
     switch ($access) {
         case 'admin':
@@ -13,7 +14,7 @@
 
                 case 'booking':
                     $title = "Editing " . $appointment->user->first_name . "'s Booking";
-                    $updateRoute = route('bookings.update',$appointment);
+                    $formRoute = route('bookings.update',$appointment);
                     $destroyRoute = route('bookings.destroy',$appointment);
                     $breadcrumbLinks = [
                         'Admin Dashboard' => route('admin'),
@@ -28,19 +29,32 @@
         case 'barber':
             switch ($view) {
                 case 'timeoff':
-                    $title = "Editing Your Time Off";
-                    $updateRoute = route('time-offs.update',$appointment);
-                    $destroyRoute = route('time-offs.destroy',$appointment);
-                    $breadcrumbLinks = [
-                        'Time Offs' => route('time-offs.index'),
-                        'Your Time Off' => route('time-offs.show',$appointment),
-                        'Edit' => ''
-                    ];
+                    switch ($action) {
+                        case 'edit':
+                            $title = "Editing Your Time Off";
+                            $formRoute = route('time-offs.update',$appointment);
+                            $destroyRoute = route('time-offs.destroy',$appointment);
+                            $breadcrumbLinks = [
+                                'Time Offs' => route('time-offs.index'),
+                                'Your Time Off' => route('time-offs.show',$appointment),
+                                'Edit' => ''
+                            ];
+                        break;
+
+                        case 'create':
+                            $title = "Set Your Time Off";
+                            $formRoute = route('time-offs.store');
+                            $breadcrumbLinks = [
+                                'Time Offs' => route('time-offs.index'),
+                                'Create' => ''
+                            ];
+                        break;
+                    }
                 break;
 
                 case 'booking':
                     $title = "Editing " . $appointment->user->first_name . "'s Booking";
-                    $updateRoute = route('appointments.update',$appointment);
+                    $formRoute = route('appointments.update',$appointment);
                     $destroyRoute = route('appointments.destroy',$appointment);
                     $breadcrumbLinks = [
                         'Bookings' => route('appointments.index'),
@@ -62,13 +76,17 @@
     </x-headline>
 
     <x-card>
-        <h1 class="font-bold text-2xl max-sm:text-lg mb-4">
-            {{$appointment->user->first_name . " " . $appointment->user->last_name}} #{{$appointment->id}}
-        </h1>
+        @if ($action == 'edit')
+            <h1 class="font-bold text-2xl max-sm:text-lg mb-4">
+                {{$appointment->user->first_name . " " . $appointment->user->last_name}} #{{$appointment->id}}
+            </h1>
+        @endif        
         
-        <form action="{{ $updateRoute }}" method="POST">
+        <form action="{{ $formRoute }}" method="POST">
             @csrf
-            @method('PUT')
+            @if ($action == 'edit')
+                @method('PUT')
+            @endif
 
             <div class="mb-4 grid grid-cols-2 max-sm:grid-cols-1 gap-4">
 
@@ -110,28 +128,30 @@
                     </x-label>
 
                     <div class="flex items-center gap-1">
-                        <x-input-field type="date" name="app_start_date" id="startDate" value="{{ Carbon::parse($appointment->app_start_time)->format('Y-m-d') }}" class="flex-1 mr-1 appStartInput" />
+                        <x-input-field type="date" name="app_start_date" id="startDate" value="{{ isset($appointment) ? Carbon::parse($appointment->app_start_time)->format('Y-m-d') : now()->format('Y-m-d') }}" class="flex-1 mr-1 appStartInput" />
 
-                        <x-select name="app_start_hour" id="startHour" :disabled="$appointment->isFullDay() && $view == 'timeoff'" class="appStartInput">
+                        <x-select name="app_start_hour" id="startHour" :disabled="isset($appointment) && $appointment->isFullDay() && $view == 'timeoff'" class="appStartInput">
                             @for ($i=10;$i<20;$i++)
-                                <option value="{{ $i }}" {{ $i == Carbon::parse($appointment->app_start_time)->format('G') ? "selected" : ''}}>{{ $i }}</option>
+                                <option value="{{ $i }}" @selected(isset($appointment) ? $i == Carbon::parse($appointment->app_start_time)->format('G') : $i == 10)>{{ $i }}</option>
                             @endfor
                         </x-select>
 
-                        <x-select name="app_start_minute" id="startMinute" :disabled="$appointment->isFullDay() && $view == 'timeoff'" class="appStartInput">
+                        <x-select name="app_start_minute" id="startMinute" :disabled="isset($appointment) && $appointment->isFullDay() && $view == 'timeoff'" class="appStartInput">
                             @for ($i=0;$i<60;$i+=15)
-                                <option value="{{ $i }}" {{ $i == Carbon::parse($appointment->app_start_time)->format('i') ? "selected" : ''}}>{{ $i == 0 ? '00' : $i}}</option>
+                                <option value="{{ $i }}" @selected(isset($appointment) ? $i == Carbon::parse($appointment->app_start_time)->format('i') : $i == 0)>{{ $i == 0 ? '00' : $i}}</option>
                             @endfor
                         </x-select>
                     </div>
 
-                    <p>
-                        @if ($previous && $previous->app_end_time >= Carbon::parse($appointment->app_end_time)->startOfDay())
-                            Your previous booking ends at {{Carbon::parse($previous->app_end_time)->format('G:i')}} on {{Carbon::parse($previous->app_end_time)->format('jS F')}}
-                        @else
-                            You don't have any previous bookings on {{Carbon::parse($appointment->app_end_time)->format('jS F')}}
-                        @endif
-                    </p>
+                    @isset ($previous)
+                        <p>
+                            @if ($previous->app_end_time >= Carbon::parse($appointment->app_end_time)->startOfDay())
+                                Your previous booking ends at {{Carbon::parse($previous->app_end_time)->format('G:i')}} on {{Carbon::parse($previous->app_end_time)->format('jS F')}}
+                            @else
+                                You don't have any previous bookings on {{Carbon::parse($appointment->app_end_time)->format('jS F')}}
+                            @endif
+                        </p>
+                    @endisset                   
 
                     @error('app_start_date')
                         <p class=" text-red-500">{{$message}}</p>
@@ -150,30 +170,32 @@
                     </x-label>
 
                     <div class="flex items-center gap-1">
-                        <x-input-field type="date" name="app_end_date" id="endDate" value="{{ Carbon::parse($appointment->app_end_time)->format('Y-m-d') }}" class="flex-1 mr-1 appEndInput" />
+                        <x-input-field type="date" name="app_end_date" id="endDate" value="{{ isset($appointment) ? Carbon::parse($appointment->app_end_time)->format('Y-m-d') : now()->format('Y-m-d') }}" class="flex-1 mr-1 appEndInput" />
 
-                        <x-select name="app_end_hour" id="endHour" :disabled="$appointment->isFullDay() && $view == 'timeoff'" class="appEndInput">
+                        <x-select name="app_end_hour" id="endHour" :disabled="isset($appointment) && $appointment->isFullDay() && $view == 'timeoff'" class="appEndInput">
                             @for ($i=10;$i<22;$i++)
-                                <option value="{{ $i }}" {{ $i == Carbon::parse($appointment->app_end_time)->format('G') ? "selected" : ''}}>{{ $i }}</option>
+                                <option value="{{ $i }}" @selected(isset($appointment) ? $i == Carbon::parse($appointment->app_end_time)->format('G') : $i == 11)>{{ $i }}</option>
                             @endfor
                         </x-select>
 
-                        <x-select name="app_end_minute" id="endMinute" :disabled="$appointment->isFullDay() && $view == 'timeoff'" class="appEndInput">
+                        <x-select name="app_end_minute" id="endMinute" :disabled="isset($appointment) && $appointment->isFullDay() && $view == 'timeoff'" class="appEndInput">
                             @for ($i=0;$i<60;$i+=15)
-                                <option value="{{ $i }}" {{ $i == Carbon::parse($appointment->app_end_time)->format('i') ? "selected" : ''}}>
+                                <option value="{{ $i }}" @selected(isset($appointment) ? $i == Carbon::parse($appointment->app_end_time)->format('i') : $i == 0)>
                                     {{ $i == 0 ? '00' : $i}}
                                 </option>
                             @endfor
                         </x-select>
                     </div>
 
-                    <p>
-                        @if ($next && $next->app_start_time <= Carbon::parse($appointment->app_end_time)->addDay()->startOfDay())
-                            Your next booking starts at {{Carbon::parse($next->app_start_time)->format('G:i')}} on {{Carbon::parse($next->app_start_time)->format('jS F')}}
-                        @else
-                            You don't have any upcoming bookings on {{Carbon::parse($appointment->app_start_time)->format('jS F')}}
-                        @endif
-                    </p>
+                    @isset($next)
+                        <p>
+                            @if ($next->app_start_time <= Carbon::parse($appointment->app_end_time)->addDay()->startOfDay())
+                                Your next booking starts at {{Carbon::parse($next->app_start_time)->format('G:i')}} on {{Carbon::parse($next->app_start_time)->format('jS F')}}
+                            @else
+                                You don't have any upcoming bookings on {{Carbon::parse($appointment->app_start_time)->format('jS F')}}
+                            @endif
+                        </p>
+                    @endisset                    
                     
                     @error('app_end_date')
                         <p class=" text-red-500">{{$message}}</p>
@@ -218,25 +240,27 @@
 
                 @case('timeoff')
                     <div class="flex gap-2 items-center mb-4">
-                        <x-input-field type="checkbox" id="fullDayCheckBox" name="full_day" :checked="$appointment->isFullDay()"  />
+                        <x-input-field type="checkbox" id="fullDayCheckBox" name="full_day" :checked="isset($appointment) ? $appointment->isFullDay() : false"  />
                         <x-label for="fullDayCheckBox">Full day off</x-label>
                     </div>
                 @break                    
             @endswitch
 
             <div class="flex gap-2">
-                <x-button role="{{ $view == 'timeoff' ? 'timeoffMain' : 'ctaMain' }}">
-                    Update
+                <x-button role="{{ $view == 'timeoff' ? ($action == 'edit' ? 'timeoffMain' : 'timeoffCreateMain') : 'ctaMain' }}">
+                    {{ $action == 'edit' ? 'Update' : 'Create' }}
                 </x-button>
                 </form>
 
-                <form action="{{ $destroyRoute }}" method="post">
-                    @csrf
-                    @method('DELETE')
-                        <x-button role="destroy">
-                            Cancel
-                        </x-button>
-                </form>
+                @if ($action == 'edit')
+                    <form action="{{ $destroyRoute }}" method="post">
+                        @csrf
+                        @method('DELETE')
+                            <x-button role="destroy">
+                                Cancel
+                            </x-button>
+                    </form>
+                @endif
             </div>
     </x-card>
 
@@ -302,6 +326,8 @@
                             appStartMinute.value = 0;
                             appEndHour.value = 20;
                             appEndMinute.value = 0;
+                        } else {
+                            appEndHour.value = parseInt(appStartHour.value) + 1;                            
                         }
 
                         appStartHour.toggleAttribute('disabled');

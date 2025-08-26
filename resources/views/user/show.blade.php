@@ -3,6 +3,7 @@
 
     if($view == 'admin') {
         $title = $user->first_name . ' ' . $user->last_name;
+        $updateRoute = route('customers.update',$user);
         $breadcrumbLinks = [
             'Admin Dashboard' => route('admin'),
             'Manage Customers' => route('customers.index'),
@@ -10,6 +11,7 @@
         ];
     } else {
         $title = 'Account Settings';
+        $updateRoute = route('users.update',$user);
         $breadcrumbLinks = [
             'Account Settings' => ''
         ];
@@ -26,7 +28,7 @@
     </x-headline>
 
     <x-show-card :show="$showProfile" type="profile" class="mb-4">
-        <form action="{{ route('customers.update',$user) }}" method="POST">
+        <form action="{{ $updateRoute }}" method="POST">
             @csrf
             @method('PUT')
 

@@ -117,14 +117,15 @@ class TimeOffController extends Controller
     public function edit(Appointment $time_off)
     {
         //előző és következő időpontok
-        $previousAppointment = Appointment::barberFilter(auth()->user()->barber)->endEarlierThan($time_off->app_start_time)->orderByDesc('app_end_time')->first();
+        $previousAppointment = Appointment::barberFilter(auth()->user()->barber)->endEarlierThan(Carbon::parse($time_off->app_start_time))->orderByDesc('app_end_time')->first();
 
-        $nextAppointment = Appointment::barberFilter(auth()->user()->barber)->startLaterThan($time_off->app_end_time)->orderBy('app_start_time')->first();
+        $nextAppointment = Appointment::barberFilter(auth()->user()->barber)->startLaterThan(Carbon::parse($time_off->app_end_time))->orderBy('app_start_time')->first();
 
-        return view('time-off.edit',[
+        return view('appointment.edit',[
             'appointment' => $time_off,
             'previous' => $previousAppointment,
-            'next' => $nextAppointment
+            'next' => $nextAppointment,
+            'view' => 'timeoff'
         ]);
     }
 

@@ -49,6 +49,10 @@ class Appointment extends Model
         return $this->deleted_at ? 'Cancelled' : '';
     }
 
+    public function isFullDay() {
+        return Carbon::parse($this->app_start_time)->format('G') == 10 && $this->getDuration() >= 600;
+    }
+
     // RETRIEVING ALL FREE TIMESLOTS FOR THE NEXT DAYS
     public static function getFreeTimeSlots(Barber $barber, Service $service, int $numberOfDays = 14)  {
         

@@ -61,7 +61,7 @@ Route::middleware(['auth','verified'])->group(function() {
 });
 
 // BARBER ROUTES
-Route::middleware(['barber'])->group(function() {
+Route::middleware(['auth','verified','barber'])->group(function() {
 
     // BARBER APPOINTMENTS
     Route::get('appointments/upcoming',[AppointmentController::class,'indexUpcoming'])->name('appointments.upcoming');
@@ -83,7 +83,7 @@ Route::middleware(['barber'])->group(function() {
 });
 
 // ADMIN ROUTES
-Route::middleware(['admin'])->group(function() {
+Route::middleware(['auth','verified','admin'])->group(function() {
 
     // DASHBOARD
     Route::get('/admin', [AdminController::class,'index'])->name('admin');

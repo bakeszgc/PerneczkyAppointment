@@ -1,21 +1,22 @@
-<x-user-layout title="{{$type}} Bookings" currentView="barber">
+<x-user-layout title="Your {{$type != 'All' ? $type . ' ' : ' ' }}Bookings" currentView="barber">
 
     <x-breadcrumbs :links="[
-        'Bookings' => route('appointments.index'),
-        $type => ''
+        'Bookings' => route('appointments.index')
     ]"/>
 
 
     <div class="flex justify-between items-end mb-4">
         <x-headline>
-            @if ($type != null)
-                {{$type}}
+            Your
+
+            @if (isset($type))
+                {{$type != 'All' ? $type : ''}}
             @endif
 
             Bookings
         </x-headline>
         
-        <x-link-button :link="route('appointments.create')" role="createMain">New&nbsp;Booking</x-link-button>
+        <x-link-button :link="route('appointments.create')" role="createMain">New&nbsp;booking</x-link-button>
     </div>
 
     <div class="grid grid-cols-4 max-sm:grid-cols-2 gap-2 mb-4 p-2 rounded-md bg-slate-300 text-center text-lg font-bold">

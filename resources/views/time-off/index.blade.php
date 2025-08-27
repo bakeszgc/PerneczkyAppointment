@@ -1,13 +1,12 @@
-<x-user-layout title="{{ $type }} Time Offs" currentView="barber">
+<x-user-layout title="Your {{ $type !== 'All' ? $type : '' }} Time Offs" currentView="barber">
 
     <x-breadcrumbs :links="[
-        'Time Offs' => route('time-offs.index'),
-        $type => ''
+        'Time Offs' => route('time-offs.index')
     ]"/>
 
     <div class="flex justify-between items-end mb-4">
         <x-headline>
-            {{ $type }} Time Offs
+            Your {{ $type !== 'All' ? $type : '' }} Time Offs
         </x-headline>
         
         <x-link-button :link="route('time-offs.create')" role="timeoffMain">New&nbsp;Time&nbsp;Off</x-link-button>

@@ -122,12 +122,13 @@ class DatabaseSeeder extends Seeder
                 'duration' => 30
             ]            
         ];
+
         foreach ($services as $service) {
-            Service::create([
+            Service::factory()->create([
                 'name' => $service['name'],
                 'price' => $service['price'],
                 'duration' => $service['duration'],
-                'is_visible' => true
+                'is_visible' => $service['is_visible'] ?? true
             ]);
         }
 

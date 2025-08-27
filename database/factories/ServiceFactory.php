@@ -17,9 +17,7 @@ class ServiceFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->words(3,true),
-            'price' => fake()->randomFloat(0,5000,15000),
-            'duration' => fake()->numberBetween(15,120)
+            'is_visible' => true
         ];
     }
 }

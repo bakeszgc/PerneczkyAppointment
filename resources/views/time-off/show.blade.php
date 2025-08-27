@@ -1,16 +1,18 @@
-<x-user-layout title="My Time Off" currentView="barber">
+<x-user-layout title="Your Time Off" currentView="barber">
     <x-breadcrumbs :links="[
         'Time Offs' => route('time-offs.index'),
-        'My Time Off' => ''
+        'Your Time Off' => ''
     ]"/>
 
     <div class="flex justify-between items-end mb-4">
-        <x-headline>{{ $appointment->barber->display_name ?? $appointment->barber->user->first_name}}'s Time Off</x-headline>
+        <x-headline>Your Time Off</x-headline>
         <x-link-button :link="route('time-offs.create')" role="timeoffMain">New&nbsp;Time&nbsp;Off</x-link-button>
     </div>
 
-    <x-time-off-card :appointment="$appointment">
+    <x-time-off-card :appointment="$appointment" class="mb-4" />
 
-    </x-time-off-card>
+    <div class="text-center">
+        Need a break{{ $appointment->app_start_time >= now('Europe/Budapest') ? ' earlier' : ''}}? <a href="{{ route('time-offs.create') }}" class="text-blue-700 hover:underline">Set a time off here!</a>
+    </div>
 
 </x-user-layout>

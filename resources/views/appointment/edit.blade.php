@@ -46,7 +46,7 @@
                             $formRoute = route('time-offs.store');
                             $breadcrumbLinks = [
                                 'Time Offs' => route('time-offs.index'),
-                                'Create' => ''
+                                'New Time Off' => ''
                             ];
                         break;
                     }
@@ -124,7 +124,7 @@
 
                 <div class="flex flex-col">
                     <x-label for="startDate">
-                        Booking's start time
+                        {{ $view == 'booking' ? 'Booking' : 'Time off' }}'s start time
                     </x-label>
 
                     <div class="flex items-center gap-1">
@@ -166,7 +166,7 @@
 
                 <div class="flex flex-col">
                     <x-label for="endDate">
-                        Booking's end time
+                        {{ $view == 'booking' ? 'Booking' : 'Time off' }}'s end time
                     </x-label>
 
                     <div class="flex items-center gap-1">

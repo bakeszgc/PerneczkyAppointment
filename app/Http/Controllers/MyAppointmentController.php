@@ -150,6 +150,8 @@ class MyAppointmentController extends Controller
             return redirect()->back()->with('error',"You can't cancel a previous appointment!");
         } elseif ($my_appointment->user_id != auth()->user()->id) {
             return redirect()->back()->with('error',"You can't cancel other customers' appointments!");
+        } elseif (isset($my_appointment->deleted_at)) {
+            return redirect()->back()->with('error',"You can't cancel an already cancelled appointment!");
         } elseif ($my_appointment->service_id == 1) {
             return redirect()->back()->with('error', "You can't cancel a time off here. Please switch to barber view to manage your time offs!");
         }

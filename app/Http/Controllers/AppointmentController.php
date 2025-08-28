@@ -154,8 +154,10 @@ class AppointmentController extends Controller
     
     public function show(Appointment $appointment)
     {
-        if ($appointment->barber->id !== auth()->user()->barber->id) {
+        if ($appointment->barber_id !== auth()->user()->barber->id) {
             return redirect()->route('appointments.index')->with('error',"You can't view other barbers' bookings.");
+        } elseif ($appointment->service_id == 1) {
+            return redirect()->route('time-offs.show',$appointment);
         }
 
         $upcoming = Appointment::userFilter($appointment->user)->upcoming()->count();
@@ -192,6 +194,8 @@ class AppointmentController extends Controller
             return redirect()->route('appointments.show',$appointment)->with('error',"You can't edit bookings from the past.");
         } elseif ($appointment->deleted_at) {
             return redirect()->route('appointments.show',$appointment)->with('error',"You can't edit cancelled bookings.");
+        } elseif ($appointment->service_id == 1) {
+            return redirect()->route('time-offs.edit',$appointment);
         }
 
         $previousAppointment = Appointment::barberFilter(auth()->user()->barber)->endEarlierThan(Carbon::parse($appointment->app_start_time))->orderByDesc('app_end_time')->first();
@@ -210,6 +214,16 @@ class AppointmentController extends Controller
     
     public function update(Request $request, Appointment $appointment)
     {
+        if ($appointment->barber->id != auth()->user()->barber->id) {
+            return redirect()->route('appointments.index')->with('error',"You can't edit other barbers' bookings.");
+        } elseif ($appointment->app_start_time <= now()) {
+            return redirect()->route('appointments.show',$appointment)->with('error',"You can't edit bookings from the past.");
+        } elseif ($appointment->deleted_at) {
+            return redirect()->route('appointments.show',$appointment)->with('error',"You can't edit cancelled bookings.");
+        } elseif ($appointment->service_id == 1) {
+            return redirect()->route('time-offs.edit',$appointment);
+        }
+
         $request->validate([
             'service' => 'required',
             'price' => 'required|integer|min:0',
@@ -249,6 +263,12 @@ class AppointmentController extends Controller
     {
         if ($appointment->app_start_time < now()) {
             return redirect()->back()->with('error',"You can't cancel a previous booking!");
+        } elseif ($appointment->barber_id != auth()->user()->barber->id) {
+            return redirect()->back()->with('error',"You can't cancel other barbers' appointments!");
+        } elseif (isset($appointment->deleted_at)) {
+            return redirect()->back()->with('error',"You can't cancel an already cancelled appointment!");
+        } elseif ($appointment->service_id == 1) {
+            return redirect()->route('time-offs.show',$appointment)->with('error', "You can't cancel a time off as a booking. Please try again here!");
         }
 
         $appointment->user->notify(

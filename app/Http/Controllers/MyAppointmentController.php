@@ -134,8 +134,11 @@ class MyAppointmentController extends Controller
     public function show(Appointment $my_appointment)
     {
         if ($my_appointment->user->id != auth()->user()->id) {
-            return redirect()->route('my-appointments.index');
+            return redirect()->route('my-appointments.index')->with('error',"You cannot see other customers' bookings!");
+        } elseif ($my_appointment->service_id == 1) {
+            return redirect()->route('my-appointments.index')->with('error', 'You cannot view your time offs in the customer view. Please switch to barber view to manage your time offs!');
         }
+
         return view('my-appointment.show',[
             'appointment' => $my_appointment
         ]);
@@ -145,6 +148,10 @@ class MyAppointmentController extends Controller
     {
         if ($my_appointment->app_start_time < now()) {
             return redirect()->back()->with('error',"You can't cancel a previous appointment!");
+        } elseif ($my_appointment->user_id != auth()->user()->id) {
+            return redirect()->back()->with('error',"You can't cancel other customers' appointments!");
+        } elseif ($my_appointment->service_id == 1) {
+            return redirect()->back()->with('error', "You can't cancel a time off here. Please switch to barber view to manage your time offs!");
         }
 
         $my_appointment->barber->user->notify(

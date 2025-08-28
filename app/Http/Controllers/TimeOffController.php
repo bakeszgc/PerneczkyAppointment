@@ -114,11 +114,27 @@ class TimeOffController extends Controller
 
     public function show(Appointment $time_off)
     {
+        if ($time_off->barber_id !== auth()->user()->barber->id) {
+            return redirect()->route('time-offs.index')->with('error',"You can't view other barbers' time offs.");
+        } elseif ($time_off->service_id !== 1) {
+            return redirect()->route('appointments.show',$time_off);
+        }
+
         return view('time-off.show',['appointment' => $time_off]);
     }
 
     public function edit(Appointment $time_off)
     {
+        if ($time_off->barber_id !== auth()->user()->barber->id) {
+            return redirect()->route('time-offs.index')->with('error',"You can't edit other barbers' time offs!");
+        } elseif ($time_off->deleted_at) {
+            return redirect()->route('time-offs.show',$time_off)->with('error',"You can't edit cancelled time offs!");
+        } elseif ($time_off->app_start_time <= now()) {
+            return redirect()->route('time-offs.show',$time_off)->with('error',"You can't edit time offs from the past!");
+        } elseif ($time_off->service_id !== 1) {
+            return redirect()->route('appointments.show',$time_off);
+        }
+
         //előző és következő időpontok
         $previousAppointment = Appointment::barberFilter(auth()->user()->barber)->endEarlierThan(Carbon::parse($time_off->app_start_time))->orderByDesc('app_end_time')->first();
 
@@ -143,6 +159,16 @@ class TimeOffController extends Controller
             'app_end_minute' => 'nullable|integer|multiple_of:15',
             'full_day' => 'nullable'
         ]);
+
+        if ($time_off->barber_id !== auth()->user()->barber->id) {
+            return redirect()->route('time-offs.index')->with('error',"You can't edit other barbers' time offs!");
+        } elseif ($time_off->deleted_at) {
+            return redirect()->route('time-offs.show',$time_off)->with('error',"You can't edit cancelled time offs!");
+        } elseif ($time_off->app_start_time <= now()) {
+            return redirect()->route('time-offs.show',$time_off)->with('error',"You can't edit time offs from the past!");
+        } elseif ($time_off->service_id !== 1) {
+            return redirect()->route('appointments.show',$time_off);
+        }
 
         // setting start and end times, if hour and minute are not sent through then considering as a full day
         $app_start_time = Carbon::parse($request->app_start_date . " " . ($request->app_start_hour ?? 10) . ":" . ($request->app_start_minute ?? 00));
@@ -202,6 +228,16 @@ class TimeOffController extends Controller
 
     public function destroy(Appointment $time_off)
     {
+        if ($time_off->app_start_time < now()) {
+            return redirect()->back()->with('error',"You can't cancel a previous time off!");
+        } elseif ($time_off->barber_id != auth()->user()->barber->id) {
+            return redirect()->back()->with('error',"You can't cancel other barbers' time offs!");
+        } elseif (isset($time_off->deleted_at)) {
+            return redirect()->back()->with('error',"You can't cancel an already cancelled time off!");
+        } elseif ($time_off->service_id !== 1) {
+            return redirect()->route('appointments.show',$time_off)->with('error', "You can't cancel a booking as a time off. Please try again here!");
+        }
+
         $time_off->delete();
         return redirect()->route('time-offs.index')->with('success','Time off has been cancelled successfully!');
     }

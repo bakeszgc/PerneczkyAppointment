@@ -222,6 +222,10 @@ class AdminAppointmentController extends Controller
 
     public function show(Appointment $booking)
     {
+        if ($booking->service_id == 1) {
+            return redirect()->route('admin-time-offs.show',$booking);
+        }
+
         $upcoming = Appointment::userFilter($booking->user)->upcoming()->count();
         $previous = Appointment::userFilter($booking->user)->previous()->count();
         $cancelled = Appointment::onlyTrashed()->userFilter($booking->user)->count();
@@ -255,6 +259,8 @@ class AdminAppointmentController extends Controller
             return redirect()->route('bookings.show',$booking)->with('error',"You can't edit bookings from the past.");
         } elseif ($booking->deleted_at) {
             return redirect()->route('bookings.show',$booking)->with('error',"You can't edit cancelled bookings.");
+        } elseif ($booking->service_id == 1) {
+            return redirect()->route('admin-time-offs.edit',$booking);
         }
 
         $previousAppointment = Appointment::barberFilter($booking->barber)->endEarlierThan(Carbon::parse($booking->app_start_time))->orderByDesc('app_end_time')->first();
@@ -289,6 +295,14 @@ class AdminAppointmentController extends Controller
             'comment' => 'nullable|max:255',
         ]);
 
+        if ($booking->app_start_time <= now()) {
+            return redirect()->route('bookings.show',$booking)->with('error',"You can't edit bookings from the past!");
+        } elseif ($booking->deleted_at) {
+            return redirect()->route('bookings.show',$booking)->with('error',"You can't edit cancelled bookings!");
+        } elseif ($booking->service_id == 1) {
+            return redirect()->route('admin-time-offs.edit',$booking)->with('error',"You can't edit a time off as a booking. Please try again here!");
+        }
+
         $app_start_time = Carbon::parse($request->app_start_date . " " . $request->app_start_hour . ":" . $request->app_start_minute);
         $app_end_time = Carbon::parse($request->app_end_date . " " . $request->app_end_hour . ":" . $request->app_end_minute);
 
@@ -318,6 +332,10 @@ class AdminAppointmentController extends Controller
     {
         if ($booking->app_start_time < now()) {
             return redirect()->back()->with('error',"You can't cancel a previous booking!");
+        } elseif ($booking->deleted_at) {
+            return redirect()->route('bookings.show',$booking)->with('error',"You can't cancel an already cancelled booking!");
+        } elseif ($booking->service_id == 1) {
+            return redirect()->route('admin-time-offs.show',$booking)->with('error',"You can't cancel a time off as a booking. Please try again here!");
         }
 
         $booking->user->notify(

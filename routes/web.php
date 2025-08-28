@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminAppointmentController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminTimeOffController;
 use App\Http\Controllers\BarberController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ServiceController;
@@ -107,6 +108,9 @@ Route::middleware(['auth','verified','admin'])->group(function() {
     // ADMIN USERS
     Route::resource('/admin/customers',CustomerController::class)->except(['create','store','edit'])->withTrashed(['show','destroy']);
     Route::put('/admin/customers/{customer}/restore',[CustomerController::class,'restore'])->withTrashed()->name('customers.restore');
+
+    //ADMIN TIME OFFS
+    Route::resource('/admin/time-offs',AdminTimeOffController::class)->names('admin-time-offs');
 });
 
 // HOMEPAGE

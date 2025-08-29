@@ -18,7 +18,7 @@
 
 <x-card {{$attributes->merge(['class' => ''])}}>
     <div @class(['flex justify-between' => true, 'text-slate-500' => $appointment->deleted_at || $appointment->app_start_time < now()])>
-        <div>
+        <div class="mb-4">
             <h2 @class(['font-bold text-2xl max-sm:text-lg mb-1 flex items-center gap-2' => true, 'text-green-600 hover:text-green-800' => $appointment->app_start_time >= now() && !$appointment->deleted_at ])>
                 <a href="{{ $showRoute }}"
                 @class(['line-through' => $appointment->deleted_at])>
@@ -26,10 +26,18 @@
                 </a>
                 <span class="font-medium text-lg">{{ $appointment->isDeleted() }}</span>
             </h2>
-            <h3 class="font-medium text-lg max-sm:text-sm mb-1">
+
+            @if ($access == 'admin')
+                <p class="font-medium text-lg max-sm:text-sm">
+                    Barber: {{$appointment->barber->getName() }} {{ $appointment->barber->isDeleted() }}
+                </p>
+            @endif
+            
+            <p class="font-medium text-lg max-sm:text-sm">
                 TIME OFF
-            </h3>
+            </p>
         </div>
+
         <div class="text-right">
             <h2 class="font-bold text-2xl max-sm:text-lg mb-1">
                 @if (Carbon::parse($appointment->app_start_time)->isToday())
@@ -50,6 +58,7 @@
             </h4>
         </div>
     </div>
+
     <div class="flex gap-2">
         @if ($showDetails)
             <x-link-button :link="$showRoute" role="show">

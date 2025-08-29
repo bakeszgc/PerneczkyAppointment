@@ -199,7 +199,7 @@
 
     @forelse ($appointments as $appointment)
         @if ($view == 'Time Off')
-            <x-time-off-card :appointment="$appointment" :showDetails="true" class="mb-4" />
+            <x-time-off-card access="admin" :appointment="$appointment" :showDetails="true" class="mb-4" />
         @else
             <x-appointment-card access="admin" :appointment="$appointment" :showDetails="true" class="mb-4" />
         @endif        

@@ -200,4 +200,8 @@ class Appointment extends Model
     public function scopeWithoutTimeOffs(Builder $query) {
         $query->where('service_id','!=',1);
     }
+
+    public function scopeOnlyTimeOffs(Builder $query) {
+        $query->where('service_id','=',1);
+    }
 }

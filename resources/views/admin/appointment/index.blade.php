@@ -1,87 +1,56 @@
-<x-user-layout title="All Bookings" currentView="admin">
+@php
+    $view ??= 'Booking';
 
-    <x-breadcrumbs :links="[
-        'Admin Dashboard' => route('admin'),
-        'Bookings' => route('bookings.index')
-    ]"/>
+    switch ($view) {
+        case 'Time Off':
+            $createRoute = route('admin-time-offs.create');
+            $breadcrumbLinks = [
+                'Admin Dashboard' => route('admin'),
+                'Time Offs' => route('admin-time-offs.index')
+            ];
+        break;
 
+        case 'Booking':
+            $createRoute = route('bookings.create');
+            $breadcrumbLinks = [
+                'Admin Dashboard' => route('admin'),
+                'Bookings' => route('bookings.index')
+            ];
+        break;
+    }
+@endphp
+
+<x-user-layout title="All {{ $view }}s" currentView="admin">
+
+    <x-breadcrumbs :links="$breadcrumbLinks"/>
+    
     <div class="flex justify-between items-end mb-4">
         <x-headline>
-            All Bookings
+            All {{ $view }}s
         </x-headline>
         
-        <x-link-button :link="route('bookings.create')" role="createMain">New&nbsp;booking</x-link-button>
+        <x-link-button :link="$createRoute" role="{{ $view == 'Time Off' ? 'timeoffCreateMain' : 'createMain' }}">New&nbsp;{{ $view }}</x-link-button>
     </div>
 
     <x-card class="mb-8">
         <form action="" method="GET" id="filterForm">
             <div class="grid grid-cols-2 gap-4 mb-8">
-                <div>
-                    <div class="flex flex-col mb-4">
-                        <x-label for="barberSelect">Barber</x-label>
-                        <x-select name="barber" id="barberSelect">
-                            <option value="empty"></option>
-                            @foreach ($barbers as $barber)
-                                <option value="{{ $barber->id }}" @selected(request('barber') == $barber->id)>
-                                    {{ $barber->getName() }} {{ $barber->deleted_at ? '(deleted)' : '' }}
-                                </option>
-                            @endforeach
-                        </x-select>
-                        @error('barber')
-                            {{ $message }}
-                        @enderror
-                    </div>
-
-                    <div class="flex flex-col mb-4">
-                        <x-label for="serviceSelect">Service</x-label>
-                        <x-select name="service" id="serviceSelect">
-                            <option value="empty"></option>
-                            @foreach ($services as $service)
-                                <option value="{{ $service->id }}" @selected(request('service') == $service->id)>
-                                    {{ $service->name }} {{ $service->deleted_at ? '(deleted)' : '' }}
-                                </option>
-                            @endforeach
-                        </x-select>
-                    </div>
-
-                    <div class="flex flex-col mb-4">
-                        <x-label for="userSelect">Customer</x-label>
-                        <x-select name="user" id="userSelect">
-                            <option value="empty"></option>
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}" @selected(request('user') == $user->id)>
-                                    {{ $user->first_name . " " . $user->last_name }} {{ $user->deleted_at ? '(deleted)' : '' }}
-                                </option>
-                            @endforeach
-                        </x-select>
-                    </div>
-
-                    <div class="*:mt-2 *:flex *:gap-2 *:items-center">
-
-                        @php
-                            $cancelledRadioButtons = [
-                                0 => [
-                                    'name' => 'Cancelled excluded'
-                                ],
-                                1 => [
-                                    'name' => 'Cancelled included'
-                                ],
-                                2 => [
-                                    'name' => 'Cancelled only'
-                                ]
-                            ];
-                        @endphp
-
-                        @foreach ($cancelledRadioButtons as $cancelledRadioButton => $details)
-                            <label for="cancelled_{{ $cancelledRadioButton }}">
-                                <x-input-field type="radio" name="cancelled" :value="$cancelledRadioButton" id="cancelled_{{ $cancelledRadioButton }}" :checked="$cancelledRadioButton == (request('cancelled') ?? 1)" />
-                                <p>{{ $details['name'] }}</p>
-                            </label>
+                <div class="flex flex-col">
+                    <x-label for="barberSelect">Barber</x-label>
+                    <x-select name="barber" id="barberSelect">
+                        <option value="empty"></option>
+                        @foreach ($barbers as $barber)
+                            <option value="{{ $barber->id }}" @selected(request('barber') == $barber->id)>
+                                {{ $barber->getName() }} {{ $barber->deleted_at ? '(deleted)' : '' }}
+                            </option>
                         @endforeach
-                    </div>
+                    </x-select>
+                    @error('barber')
+                        {{ $message }}
+                    @enderror
                 </div>
 
-                <div>
+                <div class=" row-span-2">
                     <div class="flex flex-col mb-4">
                         <x-label for="fromDate">From</x-label>
                         <div class="flex gap-2">
@@ -107,7 +76,7 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-col mb-4">
+                    <div class="flex flex-col">
                         <x-label for="toDate">To</x-label>
                         <div class="flex gap-2">
                             <x-input-field type="date" name="to_app_start_date" id="toDate" :disabled="request('time_window') == 'previous' || request('time_window') == 'upcoming'" class="flex-1 dateTimeInput" value="{{ request('to_app_start_date') }}" />
@@ -131,39 +100,91 @@
                             </x-select>
                         </div>
                     </div>
+                </div>
+
+                @if ($view == 'Booking')
+                    <div class="flex flex-col">
+                        <x-label for="serviceSelect">Service</x-label>
+                        <x-select name="service" id="serviceSelect">
+                            <option value="empty"></option>
+                            @foreach ($services as $service)
+                                <option value="{{ $service->id }}" @selected(request('service') == $service->id)>
+                                    {{ $service->name }} {{ $service->deleted_at ? '(deleted)' : '' }}
+                                </option>
+                            @endforeach
+                        </x-select>
+                    </div>
 
                     <div class="flex flex-col">
+                        <x-label for="userSelect">Customer</x-label>
+                        <x-select name="user" id="userSelect">
+                            <option value="empty"></option>
+                            @foreach ($users as $user)
+                                <option value="{{ $user->id }}" @selected(request('user') == $user->id)>
+                                    {{ $user->first_name . " " . $user->last_name }} {{ $user->deleted_at ? '(deleted)' : '' }}
+                                </option>
+                            @endforeach
+                        </x-select>
+                    </div>
+                @endif
+
+                <div class="flex flex-col">
+                    @php
+                        $timeWindowOptions = [
+                            [
+                                'id' => 'custom_time_window',
+                                'name' => 'custom'
+                            ],
+                            [
+                                'id' => 'previous_time_window',
+                                'name' => 'previous'
+                            ],
+                            [
+                                'id' => 'upcoming_time_window',
+                                'name' => 'upcoming'
+                            ],
+                        ];
+                    @endphp
+
+                    <x-label for="custom_time_window">Time window</x-label>
+                    <div class="grid grid-cols-3 gap-2 p-2 rounded-md bg-slate-300 text-center text-lg font-bold">
+                        @foreach ($timeWindowOptions as $timeWindowOption)
+
+                            <label for="{{ $timeWindowOption['id'] }}" class="rounded-md has-[input:checked]:bg-white transition-all hover:bg-white cursor-pointer">
+                                {{ ucfirst($timeWindowOption['name']) }}
+
+                                <input type="radio" name="time_window" id="{{ $timeWindowOption['id'] }}" class="hidden" value="{{ $timeWindowOption['name'] }}" @checked(request('time_window') == $timeWindowOption['name'] || $loop->index == 0)>
+                            </label>
+
+                        @endforeach
+                    </div>
+                </div>
+
+                @if ($view == 'Booking')
+                    <div class="*:mt-2 *:flex *:gap-2 *:items-center">
                         @php
-                            $timeWindowOptions = [
-                                [
-                                    'id' => 'custom_time_window',
-                                    'name' => 'custom'
+                            $cancelledRadioButtons = [
+                                0 => [
+                                    'name' => 'Cancelled excluded'
                                 ],
-                                [
-                                    'id' => 'previous_time_window',
-                                    'name' => 'previous'
+                                1 => [
+                                    'name' => 'Cancelled included'
                                 ],
-                                [
-                                    'id' => 'upcoming_time_window',
-                                    'name' => 'upcoming'
-                                ],
+                                2 => [
+                                    'name' => 'Cancelled only'
+                                ]
                             ];
                         @endphp
 
-                        <x-label for="custom_time_window">Time window</x-label>
-                        <div class="grid grid-cols-3 gap-2 p-2 rounded-md bg-slate-300 text-center text-lg font-bold">
-                            @foreach ($timeWindowOptions as $timeWindowOption)
-
-                                <label for="{{ $timeWindowOption['id'] }}" class="rounded-md has-[input:checked]:bg-white transition-all hover:bg-white cursor-pointer">
-                                    {{ ucfirst($timeWindowOption['name']) }}
-
-                                    <input type="radio" name="time_window" id="{{ $timeWindowOption['id'] }}" class="hidden" value="{{ $timeWindowOption['name'] }}" @checked(request('time_window') == $timeWindowOption['name'] || $loop->index == 0)>
-                                </label>
-
-                            @endforeach
-                        </div>
+                        @foreach ($cancelledRadioButtons as $cancelledRadioButton => $details)
+                            <label for="cancelled_{{ $cancelledRadioButton }}">
+                                <x-input-field type="radio" name="cancelled" :value="$cancelledRadioButton" id="cancelled_{{ $cancelledRadioButton }}" :checked="$cancelledRadioButton == (request('cancelled') ?? 1)" />
+                                <p>{{ $details['name'] }}</p>
+                            </label>
+                        @endforeach
                     </div>
-                </div>
+                @endif
+                
             </div>
 
             <div>

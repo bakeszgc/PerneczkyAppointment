@@ -14,7 +14,8 @@ class TimeOffCard extends Component
      */
     public function __construct(
         public Appointment $appointment,
-        public bool $showDetails = false
+        public bool $showDetails = false,
+        public string $access = 'barber'
     )
     {
         //

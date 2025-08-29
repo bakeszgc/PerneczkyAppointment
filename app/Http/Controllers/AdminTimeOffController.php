@@ -14,8 +14,6 @@ class AdminTimeOffController extends Controller
     public function index(Request $request) {
         $request->validate([
             'barber' => 'integer|exists:barbers,id',
-            'service' => 'integer|exists:services,id',
-            'user' => 'integer|exists:users,id',
             'from_app_start_date' => 'date',
             'from_app_start_hour' => 'int|between:10,20',
             'from_app_start_minute' => 'int|between:0,45|multiple_of:15',
@@ -46,30 +44,9 @@ class AdminTimeOffController extends Controller
         }
 
         $appointments = Appointment::onlyTimeOffs()
-            ->when($request->cancelled, function ($q) use ($request) {
-                switch ($request->cancelled) {
-                    case 1:
-                        $q->withTrashed();
-                        break;
-                    case 2:
-                        $q->onlyTrashed();
-                        break;
-                    default:
-                        $q;
-                        break;
-                }
-            })
             ->when($request->barber, function ($q) use ($request) {
                 $barber = Barber::withTrashed()->find($request->barber);
                 $q->barberFilter($barber);
-            })
-            ->when($request->service, function ($q) use ($request) {
-                $service = Service::withTrashed()->find($request->service);
-                $q->serviceFilter($service);
-            })
-            ->when($request->user, function ($q) use ($request) {
-                $user = User::withTrashed()->find($request->user);
-                $q->userFilter($user);
             })
             ->when($request->from_app_start_date || $request->to_app_start_date || $request->time_window, function ($q) use ($request, $fromAppStartTime, $toAppStartTime) {
                 switch ($request->time_window) {

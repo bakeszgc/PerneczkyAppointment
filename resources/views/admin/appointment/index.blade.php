@@ -198,7 +198,11 @@
     </h2>
 
     @forelse ($appointments as $appointment)
-        <x-appointment-card access="admin" :appointment="$appointment" :showDetails="true" class="mb-4" />
+        @if ($view == 'Time Off')
+            <x-time-off-card :appointment="$appointment" :showDetails="true" class="mb-4" />
+        @else
+            <x-appointment-card access="admin" :appointment="$appointment" :showDetails="true" class="mb-4" />
+        @endif        
     @empty
         <x-empty-card>
             <p class="text-lg font-medium">No bookings were found for the applied filters!</p>
@@ -236,6 +240,10 @@
             const fromHourInput = document.getElementById("fromHour");
             const fromMinuteInput = document.getElementById("fromMinute");
 
+            const toDateInput = document.getElementById("toDate");
+            const toHourInput = document.getElementById("toHour");
+            const toMinuteInput = document.getElementById("toMinute");
+
             timeWindowSelector.forEach(timeWindowButton => {
                 timeWindowButton.addEventListener('change', function () {
                     checkSelectedTimeWindow(timeWindowButton,dateTimeInputs);
@@ -251,26 +259,49 @@
                     dateTimeInputs.forEach(input => {
                         input.removeAttribute('disabled','');
                     });
+
+                    checkDateInputs(fromDateInput,fromHourInput,fromMinuteInput);
+                    checkDateInputs(toDateInput,toHourInput,toMinuteInput);
                 }
             }
             
-            // adads
-            const submitButton = document.getElementById("submitButton");
-            if (submitButton) {
-                const allInput = document.querySelectorAll('input, select, textarea');
+            // ENABLES HOUR AND MINUTE SELECT WHEN DATE AND HOUR HAS VALUE
+            checkDateInputs(fromDateInput,fromHourInput,fromMinuteInput);
+            checkDateInputs(toDateInput,toHourInput,toMinuteInput);
 
-                allInput.forEach(el => {
-                    if (
-                        (el.tagName === 'INPUT' && (el.type === 'text' || el.type === 'date' || el.type === 'radio')) ||
-                        el.tagName === 'SELECT' || el.tagName === 'TEXTAREA'
-                    ) {
-                        el.addEventListener('change', function () {
-                            submitButton.disabled = false;
-                        });
-                    }
-                    
-                });
-            }
+            fromDateInput.addEventListener('change', function () {
+                checkDateInputs(fromDateInput,fromHourInput,fromMinuteInput);
+            });
+
+            fromHourInput.addEventListener('change', function () {
+                checkDateInputs(fromDateInput,fromHourInput,fromMinuteInput);
+            });
+
+            toDateInput.addEventListener('change', function () {
+                checkDateInputs(toDateInput,toHourInput,toMinuteInput);
+            });
+
+            toHourInput.addEventListener('change', function () {
+                checkDateInputs(toDateInput,toHourInput,toMinuteInput);
+            });
+
+            function checkDateInputs(dateInput, hourInput, minuteInput) {
+                if (dateInput.value == '') {
+                    hourInput.disabled = true;
+                    minuteInput.disabled = true;
+                    hourInput.value = 'empty';
+                    minuteInput.value = 'empty';
+                } else {
+                    hourInput.disabled = false;
+                }
+
+                if (hourInput.value == 'empty') {
+                    minuteInput.disabled = true;
+                    minuteInput.value = 'empty';
+                } else {
+                    minuteInput.disabled = false;
+                }
+            }            
         });
     </script>
 

@@ -1,26 +1,41 @@
 @php
     use Carbon\Carbon;
 
-    $view ??= 'booking';
+    $view ??= 'Booking';
     $access ??= 'barber';
     $action ??= 'edit';
 
     switch ($access) {
         case 'admin':
             switch ($view) {
-                case 'timeoff':
-                    $title = "Editing " . $appointment->barber->getName() . "'s Time Off";
-                    $formRoute = route('admin-time-offs.update',$appointment);
-                    $destroyRoute = route('admin-time-offs.destroy',$appointment);
-                    $breadcrumbLinks = [
-                        'Admin Dashboard' => route('admin'),
-                        'Time Offs' => route('admin-time-offs.index'),
-                        $appointment->barber->getName() . '\'s Time Off' => route('admin-time-offs.show',$appointment),
-                        'Edit' => ''
-                    ];
+                case 'Time Off':
+                    switch ($action) {
+                        case 'edit':
+                            $title = "Editing " . $appointment->barber->getName() . "'s Time Off";
+                            $formRoute = route('admin-time-offs.update',$appointment);
+                            $destroyRoute = route('admin-time-offs.destroy',$appointment);
+                            $breadcrumbLinks = [
+                                'Admin Dashboard' => route('admin'),
+                                'Time Offs' => route('admin-time-offs.index'),
+                                $appointment->barber->getName() . '\'s Time Off' => route('admin-time-offs.show',$appointment),
+                                'Edit' => ''
+                            ];
+                        break;
+
+                        case 'create':
+                            $title = "Set A New Time Off";
+                            $formRoute = route('admin-time-offs.store');
+                            $breadcrumbLinks = [
+                                'Admin Dashboard' => route('admin'),
+                                'Time Offs' => route('admin-time-offs.index'),
+                                'New Time Off' => ''
+                            ];
+                        break;
+                    }
+                    
                 break;
 
-                case 'booking':
+                case 'Booking':
                     $title = "Editing " . $appointment->user->first_name . "'s Booking";
                     $formRoute = route('bookings.update',$appointment);
                     $destroyRoute = route('bookings.destroy',$appointment);
@@ -36,7 +51,7 @@
 
         case 'barber':
             switch ($view) {
-                case 'timeoff':
+                case 'Time Off':
                     switch ($action) {
                         case 'edit':
                             $title = "Editing Your Time Off";
@@ -60,7 +75,7 @@
                     }
                 break;
 
-                case 'booking':
+                case 'Booking':
                     $title = "Editing " . $appointment->user->first_name . "'s Booking";
                     $formRoute = route('appointments.update',$appointment);
                     $destroyRoute = route('appointments.destroy',$appointment);
@@ -98,7 +113,7 @@
 
             <div class="mb-4 grid grid-cols-2 max-sm:grid-cols-1 gap-4">
 
-                @if ($view == 'booking')
+                @if ($view == 'Booking')
                     <div>
                         <x-label for="service">
                             Service
@@ -130,21 +145,36 @@
                     </div>
                 @endif
 
+                @if ($access == 'admin' && $view == 'Time Off' && $action == 'create')
+                    <div class=" col-span-2">
+                        <x-label for="barber">Barber</x-label>
+                        
+                        <x-select name="barber" id="barber" class="w-full">
+                            <option value="empty"></option>
+                            @foreach ($barbers as $barber)
+                                <option value="{{ $barber->id }}" @selected(old('barber'))>
+                                    {{ $barber->getName() }}
+                                </option>
+                            @endforeach
+                        </x-select>
+                    </div>
+                @endif
+
                 <div class="flex flex-col">
                     <x-label for="startDate">
-                        {{ $view == 'booking' ? 'Booking' : 'Time off' }}'s start time
+                        {{ $view == 'Booking' ? 'Booking' : 'Time off' }}'s start time
                     </x-label>
 
                     <div class="flex items-center gap-1">
                         <x-input-field type="date" name="app_start_date" id="startDate" value="{{ isset($appointment) ? Carbon::parse($appointment->app_start_time)->format('Y-m-d') : now()->format('Y-m-d') }}" class="flex-1 mr-1 appStartInput" />
 
-                        <x-select name="app_start_hour" id="startHour" :disabled="isset($appointment) && $appointment->isFullDay() && $view == 'timeoff'" class="appStartInput">
+                        <x-select name="app_start_hour" id="startHour" :disabled="isset($appointment) && $appointment->isFullDay() && $view == 'Time Off'" class="appStartInput">
                             @for ($i=10;$i<20;$i++)
                                 <option value="{{ $i }}" @selected(isset($appointment) ? $i == Carbon::parse($appointment->app_start_time)->format('G') : $i == 10)>{{ $i }}</option>
                             @endfor
                         </x-select>
 
-                        <x-select name="app_start_minute" id="startMinute" :disabled="isset($appointment) && $appointment->isFullDay() && $view == 'timeoff'" class="appStartInput">
+                        <x-select name="app_start_minute" id="startMinute" :disabled="isset($appointment) && $appointment->isFullDay() && $view == 'Time Off'" class="appStartInput">
                             @for ($i=0;$i<60;$i+=15)
                                 <option value="{{ $i }}" @selected(isset($appointment) ? $i == Carbon::parse($appointment->app_start_time)->format('i') : $i == 0)>{{ $i == 0 ? '00' : $i}}</option>
                             @endfor
@@ -174,19 +204,19 @@
 
                 <div class="flex flex-col">
                     <x-label for="endDate">
-                        {{ $view == 'booking' ? 'Booking' : 'Time off' }}'s end time
+                        {{ $view == 'Booking' ? 'Booking' : 'Time off' }}'s end time
                     </x-label>
 
                     <div class="flex items-center gap-1">
                         <x-input-field type="date" name="app_end_date" id="endDate" value="{{ isset($appointment) ? Carbon::parse($appointment->app_end_time)->format('Y-m-d') : now()->format('Y-m-d') }}" class="flex-1 mr-1 appEndInput" />
 
-                        <x-select name="app_end_hour" id="endHour" :disabled="isset($appointment) && $appointment->isFullDay() && $view == 'timeoff'" class="appEndInput">
+                        <x-select name="app_end_hour" id="endHour" :disabled="isset($appointment) && $appointment->isFullDay() && $view == 'Time Off'" class="appEndInput">
                             @for ($i=10;$i<22;$i++)
                                 <option value="{{ $i }}" @selected(isset($appointment) ? $i == Carbon::parse($appointment->app_end_time)->format('G') : $i == 11)>{{ $i }}</option>
                             @endfor
                         </x-select>
 
-                        <x-select name="app_end_minute" id="endMinute" :disabled="isset($appointment) && $appointment->isFullDay() && $view == 'timeoff'" class="appEndInput">
+                        <x-select name="app_end_minute" id="endMinute" :disabled="isset($appointment) && $appointment->isFullDay() && $view == 'Time Off'" class="appEndInput">
                             @for ($i=0;$i<60;$i+=15)
                                 <option value="{{ $i }}" @selected(isset($appointment) ? $i == Carbon::parse($appointment->app_end_time)->format('i') : $i == 0)>
                                     {{ $i == 0 ? '00' : $i}}
@@ -218,7 +248,7 @@
             </div>
 
             @switch($view)
-                @case('booking')
+                @case('Booking')
                     <div @class(['mb-4','grid grid-cols-2 gap-4' => $access == 'admin'])>
                         <div>
                             <x-label for="comment">Comment</x-label>
@@ -246,7 +276,7 @@
                     </div>
                 @break
 
-                @case('timeoff')
+                @case('Time Off')
                     <div class="flex gap-2 items-center mb-4">
                         <x-input-field type="checkbox" id="fullDayCheckBox" name="full_day" :checked="isset($appointment) ? $appointment->isFullDay() : false"  />
                         <x-label for="fullDayCheckBox">Full day off</x-label>
@@ -255,7 +285,7 @@
             @endswitch
 
             <div class="flex gap-2">
-                <x-button role="{{ $view == 'timeoff' ? ($action == 'edit' ? 'timeoffMain' : 'timeoffCreateMain') : 'ctaMain' }}">
+                <x-button role="{{ $view == 'Time Off' ? ($action == 'edit' ? 'timeoffMain' : 'timeoffCreateMain') : 'ctaMain' }}">
                     {{ $action == 'edit' ? 'Update' : 'Create' }}
                 </x-button>
                 </form>

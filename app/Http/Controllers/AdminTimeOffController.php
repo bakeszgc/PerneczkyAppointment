@@ -83,17 +83,16 @@ class AdminTimeOffController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('appointment.edit',[
+            'barbers' => Barber::all(),
+            'view' => 'Time Off',
+            'action' => 'create',
+            'access' => 'admin'
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
@@ -130,7 +129,7 @@ class AdminTimeOffController extends Controller
             'appointment' => $time_off,
             'previous' => $previousAppointment,
             'next' => $nextAppointment,
-            'view' => 'timeoff',
+            'view' => 'Time Off',
             'access' => 'admin'
         ]);
     }

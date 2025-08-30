@@ -46,7 +46,7 @@ class TimeOffController extends Controller
     public function create()
     {
         return view('appointment.edit',[
-            'view' => 'timeoff',
+            'view' => 'Time Off',
             'action' => 'create'
         ]);
     }
@@ -144,7 +144,7 @@ class TimeOffController extends Controller
             'appointment' => $time_off,
             'previous' => $previousAppointment,
             'next' => $nextAppointment,
-            'view' => 'timeoff'
+            'view' => 'Time Off'
         ]);
     }
 

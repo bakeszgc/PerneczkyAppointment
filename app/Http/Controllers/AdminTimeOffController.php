@@ -99,38 +99,132 @@ class AdminTimeOffController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Appointment $time_off)
     {
+        if ($time_off->service_id !== 1) {
+            return redirect()->route('bookings.show',$time_off);
+        }
+
         return view('time-off.show',[
             'appointment' => $time_off,
             'access' => 'admin'
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Appointment $time_off)
     {
-        //
+        if ($time_off->deleted_at) {
+            return redirect()->route('admin-time-offs.show',$time_off)->with('error',"You can't edit cancelled time offs!");
+        } elseif ($time_off->app_start_time <= now()) {
+            return redirect()->route('admin-time-offs.show',$time_off)->with('error',"You can't edit time offs from the past!");
+        } elseif ($time_off->service_id !== 1) {
+            return redirect()->route('bookings.edit',$time_off);
+        }
+
+        // PREVIOUS AND UPCOMING APPOINTMENTS
+        $previousAppointment = Appointment::barberFilter($time_off->barber)->endEarlierThan(Carbon::parse($time_off->app_start_time))->orderByDesc('app_end_time')->first();
+
+        $nextAppointment = Appointment::barberFilter($time_off->barber)->startLaterThan(Carbon::parse($time_off->app_end_time))->orderBy('app_start_time')->first();
+
+        return view('appointment.edit',[
+            'appointment' => $time_off,
+            'previous' => $previousAppointment,
+            'next' => $nextAppointment,
+            'view' => 'timeoff',
+            'access' => 'admin'
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Appointment $time_off)
     {
-        //
+        $request->validate([
+            'app_start_date' => ['required','date','after_or_equal:today'],
+            'app_start_hour' => ['nullable','integer','between:10,19'],
+            'app_start_minute' => 'nullable|integer|multiple_of:15',
+            'app_end_date' => ['required','date','after_or_equal:app_start_date'],
+            'app_end_hour' => ['nullable','between:10,21','integer'],
+            'app_end_minute' => 'nullable|integer|multiple_of:15',
+            'full_day' => 'nullable'
+        ]);
+
+        if ($time_off->deleted_at) {
+            return redirect()->route('admin-time-offs.show',$time_off)->with('error',"You can't edit cancelled time offs!");
+        } elseif ($time_off->app_start_time <= now()) {
+            return redirect()->route('admin-time-offs.show',$time_off)->with('error',"You can't edit time offs from the past!");
+        } elseif ($time_off->service_id !== 1) {
+            return redirect()->route('bookings.show',$time_off);
+        }
+
+        // setting start and end times, if hour and minute are not sent through then considering as a full day
+        $app_start_time = Carbon::parse($request->app_start_date . " " . ($request->app_start_hour ?? 10) . ":" . ($request->app_start_minute ?? 00));
+        $app_end_time = Carbon::parse($request->app_end_date . " " . ($request->app_end_hour ?? 20) . ":" . ($request->app_end_minute ?? 00));
+
+        // handling when app start time is later than app end time
+        if ($app_start_time > $app_end_time) {
+            return redirect()->route('time-offs.edit',$time_off)->with('error',"The ending time of your time off has to be later than its starting time");
+        }
+
+        // handling when app start time or app end time is in the past
+        if ($app_start_time < now()) {
+            return redirect()->route('time-offs.edit',$time_off)->with('error',"The starting time of your time off cannot be in the past!");
+        } elseif ($app_end_time < now()) {
+            return redirect()->route('time-offs.edit',$time_off)->with('error',"The ending time of your time off cannot be in the past!");
+        }
+
+        $barber = $time_off->barber;
+
+        if (!Appointment::checkAppointmentClashes($app_start_time,$app_end_time,$barber,$time_off)) {
+            return redirect()->route('admin-time-offs.edit',$time_off)->with('error','You have bookings clashing with the selected timeframe.');
+        }
+
+        // handling when time off takes more than one day
+        $numOfDays = $app_start_time->clone()->startOfDay()->diffInDays($app_end_time->clone()->startOfDay())+1;
+
+        if ($numOfDays > 1) {
+            for ($i=1; $i < $numOfDays; $i++) { 
+                $timeOffStart = $app_start_time->clone()->startOfDay()->addHours(10)->addDays($i);
+                $timeOffEnd = $app_end_time;
+
+                if ($i != $numOfDays-1) {
+                    $timeOffEnd = $app_start_time->clone()->startOfDay()->addHours(20)->addDays($i);
+                }
+
+                Appointment::create([
+                    'user_id' => $barber->user_id,
+                    'barber_id' => $barber->id,
+                    'service_id' => 1,
+                    'app_start_time' => $timeOffStart,
+                    'app_end_time' => $timeOffEnd,
+                    'price' => 0
+                ]);
+            }
+
+            $app_end_time = $app_start_time->clone()->startOfDay()->addHours(20);
+        }
+
+        // updating time off and redirecting
+        $time_off->update([
+            'app_start_time' => $app_start_time,
+            'app_end_time' => $app_end_time
+        ]);
+
+        return redirect()->route('admin-time-offs.show',$time_off)->with('success','Time off has been updated successfully!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Appointment $time_off)
     {
-        //
+        if ($time_off->app_start_time < now()) {
+            return redirect()->back()->with('error',"You can't cancel a previous time off!");
+        } elseif (isset($time_off->deleted_at)) {
+            return redirect()->back()->with('error',"You can't cancel an already cancelled time off!");
+        } elseif ($time_off->service_id !== 1) {
+            return redirect()->route('bookings.show',$time_off)->with('error', "You can't cancel a booking as a time off. Please try again here!");
+        }
+
+        $time_off->delete();
+        return redirect()->route('admin-time-offs.index')->with('success',$time_off->barber->getName() . '\'s time off has been cancelled successfully!');
     }
 }

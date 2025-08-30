@@ -132,10 +132,10 @@ class TimeOffController extends Controller
         } elseif ($time_off->app_start_time <= now()) {
             return redirect()->route('time-offs.show',$time_off)->with('error',"You can't edit time offs from the past!");
         } elseif ($time_off->service_id !== 1) {
-            return redirect()->route('appointments.show',$time_off);
+            return redirect()->route('appointments.edit',$time_off);
         }
 
-        //előző és következő időpontok
+        // PREVIOUS AND UPCOMING APPOINTMENTS
         $previousAppointment = Appointment::barberFilter(auth()->user()->barber)->endEarlierThan(Carbon::parse($time_off->app_start_time))->orderByDesc('app_end_time')->first();
 
         $nextAppointment = Appointment::barberFilter(auth()->user()->barber)->startLaterThan(Carbon::parse($time_off->app_end_time))->orderBy('app_start_time')->first();

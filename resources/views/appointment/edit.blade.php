@@ -9,7 +9,15 @@
         case 'admin':
             switch ($view) {
                 case 'timeoff':
-
+                    $title = "Editing " . $appointment->barber->getName() . "'s Time Off";
+                    $formRoute = route('admin-time-offs.update',$appointment);
+                    $destroyRoute = route('admin-time-offs.destroy',$appointment);
+                    $breadcrumbLinks = [
+                        'Admin Dashboard' => route('admin'),
+                        'Time Offs' => route('admin-time-offs.index'),
+                        $appointment->barber->getName() . '\'s Time Off' => route('admin-time-offs.show',$appointment),
+                        'Edit' => ''
+                    ];
                 break;
 
                 case 'booking':

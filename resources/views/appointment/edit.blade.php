@@ -157,6 +157,10 @@
                                 </option>
                             @endforeach
                         </x-select>
+
+                        @error('barber')
+                            <p class=" text-red-500">{{$message}}</p>
+                        @enderror
                     </div>
                 @endif
 
@@ -271,6 +275,10 @@
                                         </option>
                                     @endforeach
                                 </x-select>
+
+                                @error('barber')
+                                    <p class=" text-red-500">{{$message}}</p>
+                                @enderror
                             </div>
                         @endif
                     </div>

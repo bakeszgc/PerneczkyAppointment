@@ -95,7 +95,64 @@ class AdminTimeOffController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'app_start_date' => ['required','date','after_or_equal:today'],
+            'app_start_hour' => ['nullable','integer','between:10,19'],
+            'app_start_minute' => 'nullable|integer|multiple_of:15',
+            'app_end_date' => ['required','date','after_or_equal:app_start_date'],
+            'app_end_hour' => ['nullable','between:10,21','integer'],
+            'app_end_minute' => 'nullable|integer|multiple_of:15',
+            'barber' => 'required|exists:barbers,id',
+            'full_day' => 'nullable'
+        ]);
+
+        // SETTING START AND END TIMES TO 10 AND 20 IF THEY ARE NOT SENT THROUGH REQUEST
+        $app_start_time = Carbon::parse($request->app_start_date . " " . ($request->app_start_hour ?? 10) . ":" . ($request->app_start_minute ?? 00));
+        $app_end_time = Carbon::parse($request->app_end_date . " " . ($request->app_end_hour ?? 20) . ":" . ($request->app_end_minute ?? 00));
+
+        // APP START TIME IS LATER THAN APP END TIME
+        if ($app_start_time > $app_end_time) {
+            return redirect()->route('admin-time-offs.create')->with('error',"The ending time of your time off has to be later than its starting time");
+        }
+
+        // APP START TIME OR APP END TIME IN THE PAST
+        if ($app_start_time < now()) {
+            return redirect()->route('admin-time-offs.create')->with('error',"The starting time of your time off cannot be in the past!");
+        } elseif ($app_end_time < now()) {
+            return redirect()->route('admin-time-offs.create')->with('error',"The ending time of your time off cannot be in the past!");
+        }
+
+        $barber = Barber::find($request->barber);
+
+        if (!Appointment::checkAppointmentClashes($app_start_time,$app_end_time,$barber)) {
+            return redirect()->route('admin-time-offs.create')->with('error','You have bookings clashing with the selected timeframe.');
+        }
+
+        // CREATING A TIME OFF FOR EACH DAY
+        $numOfDays = $app_start_time->clone()->startOfDay()->diffInDays($app_end_time->clone()->startOfDay())+1;
+        for ($i=0; $i < $numOfDays; $i++) { 
+
+            $timeOffStart = $app_start_time;
+            $timeOffEnd = $app_end_time;
+            
+            if ($i != 0) {
+                $timeOffStart = $app_start_time->clone()->startOfDay()->addHours(10)->addDays($i);
+            }
+            if ($i != $numOfDays-1) {
+                $timeOffEnd = $app_start_time->clone()->startOfDay()->addHours(20)->addDays($i);
+            }
+
+            $time_off = Appointment::create([
+                'user_id' => $barber->user_id,
+                'barber_id' => $barber->id,
+                'service_id' => 1,
+                'app_start_time' => $timeOffStart,
+                'app_end_time' => $timeOffEnd,
+                'price' => 0
+            ]);
+        }
+
+        return redirect()->route('admin-time-offs.show',$time_off)->with('success', 'Time off for ' . $barber->getName() . ' has been created successfully!');
     }
 
     public function show(Appointment $time_off)
@@ -134,9 +191,6 @@ class AdminTimeOffController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Appointment $time_off)
     {
         $request->validate([
@@ -163,14 +217,14 @@ class AdminTimeOffController extends Controller
 
         // handling when app start time is later than app end time
         if ($app_start_time > $app_end_time) {
-            return redirect()->route('time-offs.edit',$time_off)->with('error',"The ending time of your time off has to be later than its starting time");
+            return redirect()->route('admin-time-offs.edit',$time_off)->with('error',"The ending time of your time off has to be later than its starting time");
         }
 
         // handling when app start time or app end time is in the past
         if ($app_start_time < now()) {
-            return redirect()->route('time-offs.edit',$time_off)->with('error',"The starting time of your time off cannot be in the past!");
+            return redirect()->route('admin-time-offs.edit',$time_off)->with('error',"The starting time of your time off cannot be in the past!");
         } elseif ($app_end_time < now()) {
-            return redirect()->route('time-offs.edit',$time_off)->with('error',"The ending time of your time off cannot be in the past!");
+            return redirect()->route('admin-time-offs.edit',$time_off)->with('error',"The ending time of your time off cannot be in the past!");
         }
 
         $barber = $time_off->barber;

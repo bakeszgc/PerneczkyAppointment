@@ -113,9 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
         closeButton.addEventListener('click', () => { toggleElement(cropModal); });
     }
 
-    // SUBMIT BUTTON ACTIVATES ON INPUT CHANGE
+    // SUBMIT BUTTON ACTIVATES ON INPUT OR SELECT CHANGE
     const submitButton = document.getElementById('submitButton');
-    const inputs = document.querySelectorAll('input');
+    const inputs = document.querySelectorAll('input, select');
 
     if (submitButton) {
         submitButton.disabled = true;

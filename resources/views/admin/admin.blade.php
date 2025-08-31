@@ -6,7 +6,7 @@
     <x-headline class="mb-4">Admin Dashboard</x-headline>
 
     <x-show-card :show="true" type="bookings" class="mb-6">
-        <x-sum-of-bookings class="mb-8" :sumOfBookings="$sumOfBookings" />
+        <x-sum-of-bookings class="mb-8" :sumOfBookings="$sumOfBookings" context="bookings" />
 
         <div class="flex gap-2">
             <x-link-button :link="route('bookings.index')" role="ctaMain">
@@ -15,6 +15,70 @@
 
             <x-link-button :link="route('bookings.create')" role="create">
                 New booking
+            </x-link-button>
+        </div>
+    </x-show-card>
+
+    <x-show-card :show="true" type="barbers" class="mb-6">
+        <div class="grid grid-cols-3 gap-6 mb-6">
+            @forelse ($barbers as $barber)
+                <a href="{{ route('barbers.show',$barber) }}">
+                    <x-barber-picture :barber="$barber" />
+                </a>
+            @empty
+                <x-empty-card class="col-span-3">
+                    <p class="text-lg font-medium">You don't have any barbers!</p>
+                    <a href="{{ route('barbers.create') }}" class=" text-blue-700 hover:underline">Add a new one here!</a>
+                </x-empty-card>
+            @endforelse
+        </div>
+
+        <div class="flex gap-2">
+            <x-link-button :link="route('barbers.index')" role="ctaMain">
+                All barbers
+            </x-link-button>
+
+            <x-link-button :link="route('barbers.create')" role="create">
+                New barber
+            </x-link-button>
+        </div>
+    </x-show-card>
+
+    <x-show-card :show="true" type="timeoff" class="mb-6">
+        <x-sum-of-bookings class="mb-8" :sumOfBookings="$sumOfTimeOffs" context="time offs" />
+
+        <div class="flex gap-2">
+            <x-link-button :link="route('admin-time-offs.index')" role="timeoffMain">
+                All time offs
+            </x-link-button>
+
+            <x-link-button :link="route('admin-time-offs.create')" role="timeoffCreate">
+                New time off
+            </x-link-button>
+        </div>
+    </x-show-card>
+
+    <x-show-card :show="true" type="services" class="mb-6">
+        <div class="grid grid-cols-2 gap-4 mb-6">
+            @forelse ($services as $service)
+                <x-link-button link="{{ route('services.show',$service) }}" :full="true">
+                    {{ $service->name }}
+                </x-link-button>
+            @empty
+                <x-empty-card class="col-span-3">
+                    <p class="text-lg font-medium">You don't have any services!</p>
+                    <a href="{{ route('services.create') }}" class=" text-blue-700 hover:underline">Add a new one here!</a>
+                </x-empty-card>
+            @endforelse
+        </div>
+
+        <div class="flex gap-2">
+            <x-link-button :link="route('services.index')" role="ctaMain">
+                All services
+            </x-link-button>
+
+            <x-link-button :link="route('services.create')" role="create">
+                Create service
             </x-link-button>
         </div>
     </x-show-card>
@@ -71,56 +135,4 @@
             </x-link-button>
         </div>
     </x-show-card>
-
-    <x-show-card :show="true" type="barbers" class="mb-6">
-        <div class="grid grid-cols-3 gap-6 mb-6">
-            @forelse ($barbers as $barber)
-                <a href="{{ route('barbers.show',$barber) }}">
-                    <x-barber-picture :barber="$barber" />
-                </a>
-            @empty
-                <x-empty-card class="col-span-3">
-                    <p class="text-lg font-medium">You don't have any barbers!</p>
-                    <a href="{{ route('barbers.create') }}" class=" text-blue-700 hover:underline">Add a new one here!</a>
-                </x-empty-card>
-            @endforelse
-        </div>
-
-        <div class="flex gap-2">
-            <x-link-button :link="route('barbers.index')" role="ctaMain">
-                All barbers
-            </x-link-button>
-
-            <x-link-button :link="route('barbers.create')" role="create">
-                New barber
-            </x-link-button>
-        </div>
-    </x-show-card>
-
-    <x-show-card :show="true" type="services" class="mb-6">
-        <div class="grid grid-cols-2 gap-4 mb-6">
-            @forelse ($services as $service)
-                <x-link-button link="{{ route('services.show',$service) }}" :full="true">
-                    {{ $service->name }}
-                </x-link-button>
-            @empty
-                <x-empty-card class="col-span-3">
-                    <p class="text-lg font-medium">You don't have any barbers!</p>
-                    <a href="{{ route('services.create') }}" class=" text-blue-700 hover:underline">Add a new one here!</a>
-                </x-empty-card>
-            @endforelse
-        </div>
-
-        <div class="flex gap-2">
-            <x-link-button :link="route('services.index')" role="ctaMain">
-                All services
-            </x-link-button>
-
-            <x-link-button :link="route('services.create')" role="create">
-                Create service
-            </x-link-button>
-        </div>
-    </x-show-card>
-
-    
 </x-user-layout>

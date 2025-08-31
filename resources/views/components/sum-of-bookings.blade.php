@@ -1,7 +1,11 @@
-<div {{ $attributes->merge(['class' => 'grid grid-cols-3']) }}>
+@php
+    use App\Models\Appointment;
+@endphp
+
+<div {{ $attributes->merge(['class' => 'flex justify-between']) }}>
     
-    @foreach ($sumOfBookings as $bookingType => $sumOfBooking)
-        <div class="even:border-x-2">
+    @foreach ($sumOfBookings as $bookingType => $timeWindows)
+        <div class="border-r-2 last:border-0 flex-1">
             @php
                 $arguments = [
                     'barber' => $barber->id,
@@ -14,7 +18,8 @@
                     $arguments['cancelled'] = 2;
                 }
             @endphp
-            <a href="{{ route('bookings.index',$arguments) }}" class="flex flex-col items-center hover:text-[#0018d5] transition-all">
+
+            <a href="{{ $context == 'time offs' ? route('admin-time-offs.index',$arguments) : route('bookings.index',$arguments) }}" class="flex flex-col items-center hover:text-[#0018d5] transition-all mb-4">
                 @switch($bookingType)
                     @case('upcoming')
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-20">
@@ -34,15 +39,25 @@
                 @endswitch
                 <h2 class="text-xl font-bold mb-2">{{ ucfirst($bookingType) }}</h2>
             </a>
-            <div class="flex justify-between w-full px-8">
-                <div class="flex-1">
-                    <p>Bookings</p>
-                    <p>Income</p>
-                </div>
-                <div class="text-right">
-                    <p>{{ $sumOfBooking['count'] }}</p>
-                    <p>{{ number_format($sumOfBooking['income'],thousands_separator:' ') }} HUF</p>
-                </div>
+            
+            <div>
+                @foreach ($timeWindows as $timeWindowName => $timeWindowDetails)
+                    <div class="w-full px-[10%] mb-2">
+                        <h3 class="text-base font-bold">{{ ucfirst($timeWindowName) }}</h3>
+                        
+                        <div class="flex justify-between">
+                            <div>
+                                <p>{{ ucfirst($context) }}</p>
+                                <p>{{ $context == 'bookings' ? 'Income' : 'In total' }}</p>
+                            </div>
+
+                            <div class="text-right">
+                                <p>{{ $timeWindowDetails['count'] }}</p>
+                                <p>{{ $context == 'time offs' ? Appointment::formatDuration($timeWindowDetails['value']) : number_format($timeWindowDetails['value'],thousands_separator:' ') }} {{ $context == 'bookings' ? 'HUF' : '' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     @endforeach

@@ -1,6 +1,6 @@
 <a href="{{$link}}" @class([
     'border rounded-md
-    hover:drop-shadow-lg
+    hover:drop-shadow-md
     transition-all font-bold
     py-2 pl-2 pr-3 max-h-fit
     flex gap-1 items-center justify-center
@@ -14,7 +14,7 @@
 
     'bg-red-600 hover:bg-red-800 text-white' => $role === 'destroyMain',
 
-    'bg-green-600 hover:bg-green-800 text-white' => $role === 'timeoffMain',
+    'bg-green-50 hover:bg-green-200 border-green-300 text-green-700' => $role === 'timeoffCreate',
 
     'bg-green-600 hover:bg-green-800 text-white
     disabled:bg-slate-300 disabled:text-slate-500'
@@ -30,6 +30,7 @@
 @switch($role)
         @case('create')
         @case('createMain')
+        @case('timeoffCreate')
         @case('timeoffCreateMain')
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 max-sm:size-4">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />

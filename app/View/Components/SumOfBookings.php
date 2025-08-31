@@ -14,9 +14,10 @@ class SumOfBookings extends Component
      * Create a new component instance.
      */
     public function __construct(
+        public string $context,
         public array $sumOfBookings,
-        public ?Barber $barber,
-        public ?User $user
+        public ?Barber $barber = null,
+        public ?User $user = null
     )
     {
         //

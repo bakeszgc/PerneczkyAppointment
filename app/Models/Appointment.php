@@ -53,7 +53,7 @@ class Appointment extends Model
 
         $daysText = $days != 0 ? ($days . ' ' . Str::plural('day',$days) . ' ') : '';
         $hoursText = $hours != 0 ? ($hours . ' ' . Str::plural('hour',$hours) . ' ') : '';
-        $minutesText = $minutes != 0 ? ($minutes . ' ' . Str::plural('minute',$minutes)) : '';
+        $minutesText = $minutes != 0 || ($hours == 0 && $days == 0) ? ($minutes . ' ' . Str::plural('minute',$minutes)) : '';
 
         return $daysText . $hoursText . $minutesText;
     }

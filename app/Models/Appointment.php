@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Appointment extends Model
 {
@@ -43,6 +44,18 @@ class Appointment extends Model
         $end = Carbon::parse($this->app_end_time);
 
         return $start->diffInMinutes($end);
+    }
+
+    public static function formatDuration(int $duration) {
+        $days = floor($duration / 60 / 24);
+        $hours = floor(($duration % (24 * 60)) / 60);
+        $minutes = $duration % 60;
+
+        $daysText = $days != 0 ? ($days . ' ' . Str::plural('day',$days) . ' ') : '';
+        $hoursText = $hours != 0 ? ($hours . ' ' . Str::plural('hour',$hours) . ' ') : '';
+        $minutesText = $minutes != 0 ? ($minutes . ' ' . Str::plural('minute',$minutes)) : '';
+
+        return $daysText . $hoursText . $minutesText;
     }
 
     public function isDeleted() {

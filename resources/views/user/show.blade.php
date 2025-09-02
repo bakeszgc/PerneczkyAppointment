@@ -135,7 +135,7 @@
 
     @if ($view == 'admin')
         <x-show-card type="bookings" :show="$showBookings" class="mb-4">
-            <x-sum-of-bookings :sumOfBookings="$sumOfBookings" :user="$user" />
+            <x-sum-of-bookings :sumOfBookings="$sumOfBookings" :user="$user" context="bookings" />
 
             <div class="flex gap-2 mt-8">
                 <x-link-button :link="route('bookings.index',['user' => $user->id])" role="ctaMain">All bookings</x-link-button>

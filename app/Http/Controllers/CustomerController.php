@@ -52,20 +52,7 @@ class CustomerController extends Controller
         $showRestore = $request->showRestore ?? true;
         $showBookings = $request->showBookings ?? false;
 
-        $sumOfBookings = [
-            'previous' => [
-                'count' => Appointment::userFilter($customer)->previous()->count(),
-                'income' => Appointment::userFilter($customer)->previous()->sum('price')
-            ],
-            'upcoming' => [
-                'count' => Appointment::userFilter($customer)->upcoming()->count(),
-                'income' => Appointment::userFilter($customer)->upcoming()->sum('price')
-            ],
-            'cancelled' => [
-                'count' => Appointment::onlyTrashed()->userFilter($customer)->count(),
-                'income' => Appointment::onlyTrashed()->userFilter($customer)->sum('price')
-            ]
-        ];
+        $sumOfBookings = Appointment::getSumOfBookings(user: $customer);
 
         return view('user.show',[
             'user' => $customer,

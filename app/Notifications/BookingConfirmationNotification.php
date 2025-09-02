@@ -35,7 +35,7 @@ class BookingConfirmationNotification extends Notification implements ShouldQueu
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $barberName = $this->appointment->barber->display_name ?? $this->appointment->barber->user->first_name;
+        $barberName = $this->appointment->barber->getName();
         
         return (new MailMessage)
                     ->subject('Appointment Booked Succesfully')

@@ -41,7 +41,7 @@ class BookingCancellationNotification extends Notification implements ShouldQueu
     {
         $date = Carbon::parse($this->appointment->app_start_time)->format('G:i') . ' on ' . Carbon::parse($this->appointment->app_start_time)->format('Y. m. d.');
 
-        $notName = $notifiable->barber->display_name ?? $notifiable->first_name;
+        $notName = $notifiable->barber->getName();
 
         if ($this->cancelledBy === 'user') {
             $name = $this->appointment->user->first_name;
@@ -50,7 +50,7 @@ class BookingCancellationNotification extends Notification implements ShouldQueu
             $ctaText = 'Cancelled Bookings';
             $text2 = 'If you have any questions, need to reschedule, or require assistance, feel free to contact us at email or call us at phonenum.';
         } else {
-            $name = $this->appointment->barber->display_name ?? $this->appointment->barber->user->first_name;
+            $name = $this->appointment->barber->getName();
             $url = route('my-appointments.create');
             $text1 = "Don't forget to book another one here:";
             $ctaText = 'Book a New Appointment';

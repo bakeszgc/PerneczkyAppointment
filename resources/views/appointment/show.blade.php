@@ -2,7 +2,7 @@
     $view = $view ?? 'barber';
 @endphp
 
-<x-user-layout title="{{$appointment->user->first_name}}'s Booking" currentView="{{ $view }">
+<x-user-layout title="{{$appointment->user->first_name}}'s Booking" currentView="{{ $view }}">
 
     <x-breadcrumbs :links="$view == 'admin' ? [
             'Admin Dashboard' => route('admin'),
@@ -58,9 +58,9 @@
             <p>Upcoming bookings: {{ $upcoming }}</p>
             <p>Previous bookings: {{ $previous }}</p>
             <p>Cancelled bookings: {{ $cancelled }}</p>
-            <p>Favourite barber: {{ $favBarber->display_name ?? $favBarber->user->first_name }} ({{ $numBarber }})</p>
+            <p>Favourite barber: {{ $favBarber->getName() }} ({{ $numBarber }})</p>
             <p>Favourite service: {{ $favService->name }} ({{ $numService }})</p>
         </div>
     </x-card>
     
-</x-layout>
+</x-user-layout>

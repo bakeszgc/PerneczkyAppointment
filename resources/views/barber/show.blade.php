@@ -82,6 +82,11 @@
                     @enderror
                 </div>
             </div>
+
+            <div class="border-2 border-dashed rounded-md p-4 border-yellow-400 mb-4">
+                <h3 class="text-xl mb-2 font-base">Attention</h3>
+                <p>You're currently viewing {{ $barber->user->first_name }}'s barber page. If you want to edit their details or see their stats as a customer then check his <a href="{{ route('customers.show',$barber->user) }}" class="text-blue-700 hover:underline">customer page!</a></p>
+            </div>
             
             <div class="flex gap-2">
                 <x-button role="ctaMain" :disabled="isset($barber->deleted_at)">Save changes</x-button>

@@ -49,34 +49,27 @@ class BarberController extends Controller
     {
         $request->validate([
             'showProfile' => 'nullable|boolean',
-            'showPicture' => 'nullable|boolean'
+            'showPicture' => 'nullable|boolean',
+            'showBookings' => 'nullable|boolean',
+            'showTimeOffs' => 'nullable|boolean'
         ]);
 
         $showProfile = $request->showProfile ?? true;
         $showPicture = $request->showPicture ?? false;
         $showBookings = $request->showBookings ?? false;
+        $showTimeOffs = $request->showTimeOffs ?? false;
 
-        $sumOfBookings = [
-            'previous' => [
-                'count' => Appointment::barberFilter($barber)->previous()->count(),
-                'income' => Appointment::barberFilter($barber)->previous()->sum('price')
-            ],
-            'upcoming' => [
-                'count' => Appointment::barberFilter($barber)->upcoming()->count(),
-                'income' => Appointment::barberFilter($barber)->upcoming()->sum('price')
-            ],
-            'cancelled' => [
-                'count' => Appointment::onlyTrashed()->barberFilter($barber)->count(),
-                'income' => Appointment::onlyTrashed()->barberFilter($barber)->sum('price')
-            ]
-        ];
+        $sumOfBookings = Appointment::getSumOfBookings($barber);
+        $sumOfTimeOffs = Appointment::getSumOfTimeOffs($barber);
 
         return view('barber.show',[
             'barber' => $barber,
             'sumOfBookings' => $sumOfBookings,
+            'sumOfTimeOffs' => $sumOfTimeOffs,
             'showProfile' => $showProfile,
             'showPicture' => $showPicture,
-            'showBookings' => $showBookings
+            'showBookings' => $showBookings,
+            'showTimeOffs' => $showTimeOffs
         ]);
     }
 

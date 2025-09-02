@@ -1,4 +1,4 @@
-<x-user-layout currentView="admin" :title="$barber->getName() . ' - '">
+<x-user-layout currentView="admin" :title="$barber->getName()">
     <x-breadcrumbs :links="[
         'Admin Dashboard' => route('admin'),
         'Manage Barbers' => route('barbers.index'),
@@ -182,10 +182,30 @@
     </x-modal>
     
     <x-show-card :show="$showBookings" type="bookings" class="mb-4">
-        <x-sum-of-bookings class="mb-8" :sumOfBookings="$sumOfBookings" :barber="$barber" />
+        <x-sum-of-bookings class="mb-8" :sumOfBookings="$sumOfBookings" :barber="$barber" context="bookings" />
 
-        <div>
-            <x-link-button :link="route('bookings.index',['barber' => $barber->id])" :full="true">All bookings</x-link-button>
+        <div class="flex gap-2">
+            <x-link-button :link="route('bookings.index',['barber' => $barber->id])" role="ctaMain">
+                All bookings
+            </x-link-button>
+
+            <x-link-button :link="route('bookings.create')" role="create">
+                New booking
+            </x-link-button>
+        </div>
+    </x-show-card>
+
+    <x-show-card :show="$showTimeOffs" type="timeoff" class="mb-4">
+        <x-sum-of-bookings class="mb-8" :sumOfBookings="$sumOfTimeOffs" :barber="$barber" context="time offs" />
+
+        <div class="flex gap-2">
+            <x-link-button :link="route('admin-time-offs.index',['barber' => $barber->id])" role="timeoffMain">
+                All time offs
+            </x-link-button>
+
+            <x-link-button :link="route('admin-time-offs.create')" role="timeoffCreate">
+                New time off
+            </x-link-button>
         </div>
     </x-show-card>
 </x-user-layout>

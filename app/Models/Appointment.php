@@ -66,6 +66,242 @@ class Appointment extends Model
         return Carbon::parse($this->app_start_time)->format('G') == 10 && $this->getDuration() >= 600;
     }
 
+    public static function getSumOfBookings(?Barber $barber = null, ?User $user = null) {
+        $sumOfBookings = [
+            'previous' => [
+                'all time' => [
+                    'count' => Appointment::withoutTimeOffs()->previous()->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->when(isset($user), function ($q) use ($user) {
+                        return $q->userFilter($user);
+                    })->count(),
+                    'value' => Appointment::withoutTimeOffs()->previous()->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->when(isset($user), function ($q) use ($user) {
+                        return $q->userFilter($user);
+                    })->sum('price')
+                ],
+                'past month' => [
+                    'count' => Appointment::withoutTimeOffs()->previous()->startLaterThan(now()->subMonth())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->when(isset($user), function ($q) use ($user) {
+                        return $q->userFilter($user);
+                    })->count(),
+                    'value' => Appointment::withoutTimeOffs()->previous()->startLaterThan(now()->subMonth())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->when(isset($user), function ($q) use ($user) {
+                        return $q->userFilter($user);
+                    })->sum('price')
+                ],
+                'past week' => [
+                    'count' => Appointment::withoutTimeOffs()->previous()->startLaterThan(now()->subWeek())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->when(isset($user), function ($q) use ($user) {
+                        return $q->userFilter($user);
+                    })->count(),
+                    'value' => Appointment::withoutTimeOffs()->previous()->startLaterThan(now()->subWeek())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->when(isset($user), function ($q) use ($user) {
+                        return $q->userFilter($user);
+                    })->sum('price')
+                ],
+                'past day' => [
+                    'count' => Appointment::withoutTimeOffs()->previous()->startLaterThan(now()->subDay())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->when(isset($user), function ($q) use ($user) {
+                        return $q->userFilter($user);
+                    })->count(),
+                    'value' => Appointment::withoutTimeOffs()->previous()->startLaterThan(now()->subDay())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->when(isset($user), function ($q) use ($user) {
+                        return $q->userFilter($user);
+                    })->sum('price')
+                ]
+            ],
+            'upcoming' => [
+                'all time' => [
+                    'count' => Appointment::withoutTimeOffs()->upcoming()->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->when(isset($user), function ($q) use ($user) {
+                        return $q->userFilter($user);
+                    })->count(),
+                    'value' => Appointment::withoutTimeOffs()->upcoming()->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->when(isset($user), function ($q) use ($user) {
+                        return $q->userFilter($user);
+                    })->sum('price')
+                ],
+                'next month' => [
+                    'count' => Appointment::withoutTimeOffs()->upcoming()->startEarlierThan(now()->addMonth())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->when(isset($user), function ($q) use ($user) {
+                        return $q->userFilter($user);
+                    })->count(),
+                    'value' => Appointment::withoutTimeOffs()->upcoming()->startEarlierThan(now()->addMonth())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->when(isset($user), function ($q) use ($user) {
+                        return $q->userFilter($user);
+                    })->sum('price')
+                ],
+                'next week' => [
+                    'count' => Appointment::withoutTimeOffs()->upcoming()->startEarlierThan(now()->addWeek())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->when(isset($user), function ($q) use ($user) {
+                        return $q->userFilter($user);
+                    })->count(),
+                    'value' => Appointment::withoutTimeOffs()->upcoming()->startEarlierThan(now()->addWeek())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->when(isset($user), function ($q) use ($user) {
+                        return $q->userFilter($user);
+                    })->sum('price')
+                ],
+                'next day' => [
+                    'count' => Appointment::withoutTimeOffs()->upcoming()->startEarlierThan(now()->addDay())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->when(isset($user), function ($q) use ($user) {
+                        return $q->userFilter($user);
+                    })->count(),
+                    'value' => Appointment::withoutTimeOffs()->upcoming()->startEarlierThan(now()->addDay())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->when(isset($user), function ($q) use ($user) {
+                        return $q->userFilter($user);
+                    })->sum('price')
+                ]
+            ],
+            'cancelled' => [
+                'all time' => [
+                    'count' => Appointment::withoutTimeOffs()->onlyTrashed()->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->when(isset($user), function ($q) use ($user) {
+                        return $q->userFilter($user);
+                    })->count(),
+                    'value' => Appointment::withoutTimeOffs()->onlyTrashed()->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->when(isset($user), function ($q) use ($user) {
+                        return $q->userFilter($user);
+                    })->sum('price')
+                ],
+                'previous' => [
+                    'count' => Appointment::withoutTimeOffs()->onlyTrashed()->previous()->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->when(isset($user), function ($q) use ($user) {
+                        return $q->userFilter($user);
+                    })->count(),
+                    'value' => Appointment::withoutTimeOffs()->onlyTrashed()->previous()->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->when(isset($user), function ($q) use ($user) {
+                        return $q->userFilter($user);
+                    })->sum('price')
+                ],
+                'upcoming' => [
+                    'count' => Appointment::withoutTimeOffs()->onlyTrashed()->upcoming()->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->when(isset($user), function ($q) use ($user) {
+                        return $q->userFilter($user);
+                    })->count(),
+                    'value' => Appointment::withoutTimeOffs()->onlyTrashed()->upcoming()->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->when(isset($user), function ($q) use ($user) {
+                        return $q->userFilter($user);
+                    })->sum('price')
+                ]
+            ]
+        ];
+
+        return $sumOfBookings;
+    }
+
+    public static function getSumOfTimeOffs(?Barber $barber = null) {
+        $sumOfTimeOffs = [
+            'previous' => [
+                'all time' => [
+                    'count' => Appointment::onlyTimeOffs()->previous()->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->count(),
+                    'value' => Appointment::onlyTimeOffs()->previous()->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->get()->sum(function ($appointment) {
+                        return $appointment->getDuration();
+                    })
+                ],
+                'past month' => [
+                    'count' => Appointment::onlyTimeOffs()->previous()->startLaterThan(now()->subMonth())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->count(),
+                    'value' => Appointment::onlyTimeOffs()->previous()->startLaterThan(now()->subMonth())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->get()->sum(function ($appointment) {
+                        return $appointment->getDuration();
+                    })
+                ],
+                'past week' => [
+                    'count' => Appointment::onlyTimeOffs()->previous()->startLaterThan(now()->subWeek())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->count(),
+                    'value' => Appointment::onlyTimeOffs()->previous()->startLaterThan(now()->subWeek())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->get()->sum(function ($appointment) {
+                        return $appointment->getDuration();
+                    })
+                ],
+                'past day' => [
+                    'count' => Appointment::onlyTimeOffs()->previous()->startLaterThan(now()->subDay())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->count(),
+                    'value' => Appointment::onlyTimeOffs()->previous()->startLaterThan(now()->subDay())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->get()->sum(function ($appointment) {
+                        return $appointment->getDuration();
+                    })
+                ]
+            ],
+            'upcoming' => [
+                'all time' => [
+                    'count' => Appointment::onlyTimeOffs()->upcoming()->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->count(),
+                    'value' => Appointment::onlyTimeOffs()->upcoming()->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->get()->sum(function ($appointment) {
+                        return $appointment->getDuration();
+                    })
+                ],
+                'next month' => [
+                    'count' => Appointment::onlyTimeOffs()->upcoming()->startEarlierThan(now()->addMonth())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->count(),
+                    'value' => Appointment::onlyTimeOffs()->upcoming()->startEarlierThan(now()->addMonth())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->get()->sum(function ($appointment) {
+                        return $appointment->getDuration();
+                    })
+                ],
+                'next week' => [
+                    'count' => Appointment::onlyTimeOffs()->upcoming()->startEarlierThan(now()->addWeek())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->count(),
+                    'value' => Appointment::onlyTimeOffs()->upcoming()->startEarlierThan(now()->addWeek())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->get()->sum(function ($appointment) {
+                        return $appointment->getDuration();
+                    })
+                ],
+                'next day' => [
+                    'count' => Appointment::onlyTimeOffs()->upcoming()->startEarlierThan(now()->addDay())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->count(),
+                    'value' => Appointment::onlyTimeOffs()->upcoming()->startEarlierThan(now()->addDay())->when(isset($barber), function ($q) use ($barber) {
+                        return $q->barberFilter($barber);
+                    })->get()->sum(function ($appointment) {
+                        return $appointment->getDuration();
+                    })
+                ]
+            ]
+        ];
+
+        return $sumOfTimeOffs;
+    }
+
     // RETRIEVING ALL FREE TIMESLOTS FOR THE NEXT DAYS
     public static function getFreeTimeSlots(Barber $barber, Service $service, int $numberOfDays = 14)  {
         

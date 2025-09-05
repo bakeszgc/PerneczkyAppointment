@@ -72,9 +72,9 @@
                             </a>
                         </p>
                     </div>
-                    <div>
+                    <div class="flex flex-col gap-1">
                         <label for="comment">Wanna leave some comments for this appointment? Share with us below!</label>
-                        <textarea name="comment" id="comment" class="h-20 w-full border rounded-md border-slate-300 resize-none p-4"">{{ old('comment') }}</textarea>
+                        <x-input-field type="textarea" name="comment" id="comment">{{ old('comment') }}</x-input-field>
                     </div>
                 </div>
                 <div class="flex-shrink-0">

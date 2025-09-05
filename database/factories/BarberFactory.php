@@ -17,7 +17,8 @@ class BarberFactory extends Factory
     public function definition(): array
     {
         return [
-            'is_visible' => true
+            'is_visible' => true,
+            'description' => fake()->sentence(6)
         ];
     }
 }

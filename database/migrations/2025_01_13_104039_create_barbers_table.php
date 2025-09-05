@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('barbers', function (Blueprint $table) {
             $table->id();
             $table->string('display_name')->nullable();
+            $table->string('description')->nullable();
             $table->foreignIdFor(User::class);
             $table->boolean('is_visible');
             $table->timestamps();

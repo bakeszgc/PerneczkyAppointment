@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // SUBMIT BUTTON ACTIVATES ON INPUT OR SELECT CHANGE
     const submitButton = document.getElementById('submitButton');
-    const inputs = document.querySelectorAll('input, select');
+    const inputs = document.querySelectorAll('input, select, textarea');
 
     if (submitButton) {
         submitButton.disabled = true;

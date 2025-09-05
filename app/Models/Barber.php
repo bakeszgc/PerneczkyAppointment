@@ -37,6 +37,6 @@ class Barber extends Model
     }
 
     public function isDeleted() {
-        return $this->deleted_at ? '- removed' : '';
+        return $this->deleted_at ? '(deleted)' : '';
     }
 }

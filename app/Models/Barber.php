@@ -14,7 +14,7 @@ class Barber extends Model
     /** @use HasFactory<\Database\Factories\BarberFactory> */
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['display_name','is_visible','user_id'];
+    protected $fillable = ['display_name','is_visible','user_id','description'];
 
     public function user():BelongsTo {
         return $this->belongsTo(User::class)->withTrashed();

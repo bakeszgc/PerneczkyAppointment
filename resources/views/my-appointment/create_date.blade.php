@@ -44,7 +44,7 @@
     }
 @endphp
 
-<x-user-layout title="{{ $view == 'user' ? 'New Appointment - ' : 'New Booking - ' }}" currentView="{{ $view }}">
+<x-user-layout title="{{ $view == 'user' ? 'New Appointment' : 'New Booking' }}" currentView="{{ $view }}">
     <x-breadcrumbs :links="$breadcrumbLinks"/>
 
     <h1 class="font-extrabold text-4xl mb-4">Select your Date</h1>

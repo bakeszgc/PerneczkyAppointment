@@ -1,4 +1,4 @@
-<x-user-layout title="Book an Appointment - Perneczky BarberShop">
+<x-user-layout title="Book an Appointment">
     <x-breadcrumbs :links="[
         'Book an Appointment' => ''
     ]"/>

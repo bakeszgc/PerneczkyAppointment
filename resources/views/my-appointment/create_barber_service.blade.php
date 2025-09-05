@@ -28,7 +28,7 @@
     }
 @endphp
 
-<x-user-layout title="{{ $view == 'user' ? 'New Appointment - ' : 'New Booking - '}}" currentView="{{ $view }}">
+<x-user-layout title="{{ $view == 'user' ? 'New Appointment' : 'New Booking'}}" currentView="{{ $view }}">
 
     <x-breadcrumbs :links="$breadcrumbLinks" />
 

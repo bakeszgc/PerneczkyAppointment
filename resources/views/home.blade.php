@@ -68,12 +68,14 @@
         <div class="grid grid-cols-3 gap-8">
             @forelse ($barbers as $barber)
 
-                <x-card class="shadow-xl p-8 text-center">
-                    <a href="{{ route('my-appointments.create.barber.service',['barber_id' => $barber]) }}">
-                        <x-barber-picture :barber="$barber" />
-                    </a>
+                <x-card class="flex flex-col justify-between shadow-xl p-8 text-center">
+                    <div>
+                        <a href="{{ route('my-appointments.create.barber.service',['barber_id' => $barber]) }}">
+                            <x-barber-picture :barber="$barber" />
+                        </a>
 
-                    <p class=" mt-4">Valami bemutatkozó szöveg</p>
+                        <p class=" mt-4">{{ $barber->description }}</p>
+                    </div>
 
                     <div class="flex justify-center mt-4">
                         <x-link-button role="ctaMain" class="w-fit" :link="route('my-appointments.create.barber.service',['barber_id' => $barber])">
@@ -83,6 +85,10 @@
                 </x-card>
             
             @empty
+
+                <x-empty-card>
+                    <p class="text-lg font-medium">There aren't any barbers yet. Please check back later!</p>
+                </x-empty-card>
                 
             @endforelse
         </div>

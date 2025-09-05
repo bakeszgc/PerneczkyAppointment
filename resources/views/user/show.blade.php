@@ -50,11 +50,19 @@
                         @enderror
                     </div>
 
-                    @if ($user->barber && $view != 'admin')
+                    @if ($user->barber && !isset($user->barber->deleted_at) && $view != 'admin')
                         <div class="flex flex-col col-span-2">
                             <x-label for="display_name">Display name</x-label>
                             <x-input-field name="display_name" id="display_name" value="{{ old('display_name') ??$user->barber->display_name }}" :disabled="isset($user->deleted_at)" />
                             @error('display_name')
+                                <p class=" text-red-500">{{$message}}</p>
+                            @enderror
+                        </div>
+
+                        <div class="flex flex-col col-span-2">
+                            <x-label for="description">Description</x-label>
+                            <x-input-field type="textarea" name="description" id="description" :disabled="isset($user->deleted_at) || isset($user->barber->deleted_at)">{{ old('comment') ?? $user->barber->description }}</x-input-field>
+                            @error('description')
                                 <p class=" text-red-500">{{$message}}</p>
                             @enderror
                         </div>
@@ -147,7 +155,7 @@
         </x-show-card>
     @endif
 
-    @if ($user->barber && $view != 'admin')
+    @if ($user->barber && !isset($user->barber->deleted_at) && $view != 'admin')
         <x-show-card :show="$showPicture" type="picture" class="mb-4">
             <form action="{{ route('upload-cropped',$user) }}" name="pictureForm" method="post" enctype="multipart/form-data">
                 @csrf

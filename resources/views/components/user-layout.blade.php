@@ -80,7 +80,7 @@
                         Welcome, {{auth()->user()->barber->display_name ?? auth()->user()->first_name ?? 'Guest'}}!
                     </li>
 
-                    @if (auth()->user()->barber ?? false)
+                    @if (isset(auth()->user()->barber) && !isset(auth()->user()->barber->deleted_at))
                         <li>
                             @if ($currentView !== 'barber')
                                 <a href="{{ route('appointments.index') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">

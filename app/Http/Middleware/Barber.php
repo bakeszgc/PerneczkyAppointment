@@ -17,7 +17,7 @@ class Barber
     {
         if ($request->user() === null) {
             return redirect()->route('login')->with('error','Please sign in before accessing that page!');
-        } elseif ($request->user()->barber === null && $request->user()->is_admin === 0) {
+        } elseif (!isset($request->user()->barber) || isset($request->user()->barber->deleted_at)) {
             return back()->with('error','You are not authorized to access that page!');
         }
 

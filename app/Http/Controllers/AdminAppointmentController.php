@@ -339,7 +339,7 @@ class AdminAppointmentController extends Controller
         }
 
         $booking->user->notify(
-            new BookingCancellationNotification($booking,'barber')
+            new BookingCancellationNotification($booking,'Admin')
         );
 
         $booking->delete();

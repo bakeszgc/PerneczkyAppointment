@@ -272,10 +272,10 @@ class AppointmentController extends Controller
         }
 
         $appointment->user->notify(
-            new BookingCancellationNotification($appointment,'barber')
+            new BookingCancellationNotification($appointment,Barber::find($appointment->barber_id))
         );
         $appointment->delete();
         return redirect()->route('appointments.index')
-            ->with('success','Appointment cancelled successfully! Be sure to set up a new booking with your client!');
+            ->with('success','Appointment has been cancelled successfully! Be sure to set up a new booking with your client!');
     }
 }

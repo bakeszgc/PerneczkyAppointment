@@ -85,8 +85,11 @@ class AdminTimeOffController extends Controller
 
     public function create()
     {
+        $appointments = Appointment::with('user')->get();
+        $barbers = Barber::all();
         return view('appointment.edit',[
-            'barbers' => Barber::all(),
+            'appointments' => $appointments,
+            'barbers' => $barbers,
             'view' => 'Time Off',
             'action' => 'create',
             'access' => 'admin'

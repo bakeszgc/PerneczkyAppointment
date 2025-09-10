@@ -354,6 +354,52 @@
 
             const calendar = document.getElementById('calendarEventContainer');
 
+            @switch($view)
+                @case('Booking')
+                    const serviceInput = document.getElementById('service');
+                    const priceInput = document.getElementById('price');
+
+                    const services = {!! $services !!};
+
+                    serviceInput.addEventListener('change', function () {
+                        selectedService = services.find(service => service.id == serviceInput.value);
+                        priceInput.value = selectedService.price;
+                        
+                        timeDifference = selectedService.duration;
+                        startDateTime = getDateTime(appStartDate,appStartHour,appStartMinute);
+                        endDateTime = new Date(structuredClone(startDateTime).setMinutes(startDateTime.getMinutes() + timeDifference));
+                        
+                        appEndDate.value = endDateTime.toISOString().split('T')[0];
+                        appEndHour.value = endDateTime.getHours();
+                        appEndMinute.value = endDateTime.getMinutes();
+
+                        renderCurrent (calendar, appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute, getBarberId(barberInput), appointments);
+                    });
+                @break
+
+                @case('Time Off')
+                    const fullDayInput = document.getElementById('fullDayCheckBox');
+
+                    fullDayInput.addEventListener('change', function () {
+                        if (fullDayInput.checked) {
+                            appStartHour.value = 10;
+                            appStartMinute.value = 0;
+                            appEndHour.value = 20;
+                            appEndMinute.value = 0;
+                        } else {
+                            appEndHour.value = parseInt(appStartHour.value) + 1;                            
+                        }
+
+                        appStartHour.toggleAttribute('disabled');
+                        appStartMinute.toggleAttribute('disabled');
+                        appEndHour.toggleAttribute('disabled');
+                        appEndMinute.toggleAttribute('disabled');
+                        
+                        renderCurrent (calendar, appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute, getBarberId(barberInput), appointments);
+                    });
+                @break
+            @endswitch
+
             appStartInputs.forEach(input => {
                 input.addEventListener('change', function () {
                     startDateTime = getDateTime(appStartDate,appStartHour,appStartMinute);
@@ -385,50 +431,6 @@
                     renderCurrent (calendar, appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute, getBarberId(barberInput), appointments);
                 });
             });
-
-            @switch($view)
-                @case('Booking')
-                    const serviceInput = document.getElementById('service');
-                    const priceInput = document.getElementById('price');
-
-                    const services = {!! $services !!};
-
-                    serviceInput.addEventListener('change', function () {
-                        selectedService = services.find(service => service.id == serviceInput.value);
-                        priceInput.value = selectedService.price;
-                        
-                        timeDifference = selectedService.duration;
-                        startDateTime = getDateTime(appStartDate,appStartHour,appStartMinute);
-                        endDateTime = new Date(structuredClone(startDateTime).setMinutes(startDateTime.getMinutes() + timeDifference));
-                        
-                        appEndDate.value = endDateTime.toISOString().split('T')[0];
-                        appEndHour.value = endDateTime.getHours();
-                        appEndMinute.value = endDateTime.getMinutes();
-                    });
-                @break
-
-                @case('Time Off')
-                    const fullDayInput = document.getElementById('fullDayCheckBox');
-
-                    fullDayInput.addEventListener('change', function () {
-                        if (fullDayInput.checked) {
-                            appStartHour.value = 10;
-                            appStartMinute.value = 0;
-                            appEndHour.value = 20;
-                            appEndMinute.value = 0;
-                        } else {
-                            appEndHour.value = parseInt(appStartHour.value) + 1;                            
-                        }
-
-                        appStartHour.toggleAttribute('disabled');
-                        appStartMinute.toggleAttribute('disabled');
-                        appEndHour.toggleAttribute('disabled');
-                        appEndMinute.toggleAttribute('disabled');
-                        
-                        renderCurrent (calendar, appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute, getBarberId(barberInput), appointments);
-                    });
-                @break
-            @endswitch
             
             renderDayNumbers (date, monday, tuesday, wednesday, thursday, friday, saturday, sunday);
             renderExisting(appointments, getBarberId(barberInput), date, calendar);
@@ -592,7 +594,7 @@
                     const link = document.createElement('a');
                     if (divData.state == 'existing') {
                         link.href = ((divData.access == 'admin') ? '/admin' : '') + ((divData.type == 'timeoff') ? "/time-offs/" : "/bookings/") + divData.appId;
-                    }                    
+                    }
 
                     // CREATING THE INNER DIV ELEMENT
                     const innerDiv = document.createElement('div');
@@ -635,7 +637,7 @@
                                 if(start < new Date()) {
                                     spanName.innerHTML = 'IN PAST';
                                 } else {                                
-                                    spanName.innerHTML = (divData.type == 'timeoff') ? 'CURRENT TIME OFF' : divData.customerName;
+                                    spanName.innerHTML = (divData.type == 'timeoff') ? 'CURRENT TIME OFF' : 'CURRENT BOOKING';
                                 }
                             }
                         } else {

@@ -263,20 +263,17 @@ class AdminAppointmentController extends Controller
             return redirect()->route('admin-time-offs.edit',$booking);
         }
 
-        $previousAppointment = Appointment::barberFilter($booking->barber)->endEarlierThan(Carbon::parse($booking->app_start_time))->orderByDesc('app_end_time')->first();
-
-        $nextAppointment = Appointment::barberFilter($booking->barber)->startLaterThan(Carbon::parse($booking->app_end_time))->orderBy('app_start_time')->first();
-
         $services = Service::where('is_visible','=',1)->get();
         $barbers = Barber::all();
+        $appointments = Appointment::with('user')->get();
 
         return view('appointment.edit', [
             'appointment' => $booking,
             'services' => $services,
             'barbers' => $barbers,
-            'previous' => $previousAppointment,
-            'next' => $nextAppointment,
-            'view' => 'admin'
+            'appointments' => $appointments,
+            'access' => 'admin',
+            'view' => 'Booking'
         ]);
     }
 

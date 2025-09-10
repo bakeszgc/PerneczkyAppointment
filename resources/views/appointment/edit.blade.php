@@ -489,8 +489,8 @@
 
                 const divData = {
                     type: (app.service_id == 1) ? 'timeoff' : 'appointment',
+                    access: '{{ $access }}',
                     state: 'existing',
-                    action: '{{ $action }}',
                     appId: app.id,
                     customerName: app.user.first_name
                 };
@@ -590,8 +590,8 @@
 
                     // CREATING THE A ELEMENT FOR EXISTING APPOINTMENTS
                     const link = document.createElement('a');
-                    if (divData.state == 'existing') {                        
-                        link.href = ((divData.type == 'time off') ? "/admin/time-offs/" : "/admin/bookings/") + divData.appId;
+                    if (divData.state == 'existing') {
+                        link.href = ((divData.access == 'admin') ? '/admin' : '') + ((divData.type == 'timeoff') ? "/time-offs/" : "/bookings/") + divData.appId;
                     }                    
 
                     // CREATING THE INNER DIV ELEMENT

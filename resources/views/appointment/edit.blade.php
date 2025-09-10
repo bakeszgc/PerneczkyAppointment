@@ -183,17 +183,7 @@
                                 <option value="{{ $i }}" @selected(isset($appointment) ? $i == Carbon::parse($appointment->app_start_time)->format('i') : $i == 0)>{{ $i == 0 ? '00' : $i}}</option>
                             @endfor
                         </x-select>
-                    </div>
-
-                    @isset ($previous)
-                        <p>
-                            @if ($previous->app_end_time >= Carbon::parse($appointment->app_end_time)->startOfDay())
-                                Your previous booking ends at {{Carbon::parse($previous->app_end_time)->format('G:i')}} on {{Carbon::parse($previous->app_end_time)->format('jS F')}}
-                            @else
-                                You don't have any previous bookings on {{Carbon::parse($appointment->app_end_time)->format('jS F')}}
-                            @endif
-                        </p>
-                    @endisset                   
+                    </div>                 
 
                     @error('app_start_date')
                         <p class=" text-red-500">{{$message}}</p>
@@ -227,17 +217,7 @@
                                 </option>
                             @endfor
                         </x-select>
-                    </div>
-
-                    @isset($next)
-                        <p>
-                            @if ($next->app_start_time <= Carbon::parse($appointment->app_end_time)->addDay()->startOfDay())
-                                Your next booking starts at {{Carbon::parse($next->app_start_time)->format('G:i')}} on {{Carbon::parse($next->app_start_time)->format('jS F')}}
-                            @else
-                                You don't have any upcoming bookings on {{Carbon::parse($appointment->app_start_time)->format('jS F')}}
-                            @endif
-                        </p>
-                    @endisset                    
+                    </div>                  
                     
                     @error('app_end_date')
                         <p class=" text-red-500">{{$message}}</p>
@@ -380,10 +360,21 @@
                     endDateTime = new Date(structuredClone(startDateTime).setMinutes(startDateTime.getMinutes() + timeDifference));
 
                     appEndDate.value = endDateTime.toISOString().split('T')[0];
-                    appEndHour.value = endDateTime.getHours();
                     appEndMinute.value = endDateTime.getMinutes();
 
-                    renderCurrent (calendar, appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute, barberInput.value, appointments);
+                    if (endDateTime.getHours() >= 10 && endDateTime.getHours() <= 21) {
+                        appEndHour.value = endDateTime.getHours();
+                    } else {
+                        if (endDateTime.getHours() < 10) {
+                            appEndHour.value = 21;
+                            appEndDate.value = addDays(endDateTime,-1).toISOString().split('T')[0];
+                        } else {
+                            appEndHour.value = 21;
+                        }
+                        timeDifference = getTimeDifference(appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute);
+                    }                    
+
+                    renderCurrent (calendar, appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute, getBarberId(barberInput), appointments);
                 });
             });
 
@@ -391,7 +382,7 @@
                 input.addEventListener('change', function () {
                     timeDifference = getTimeDifference(appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute);
 
-                    renderCurrent (calendar, appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute, barberInput.value, appointments);
+                    renderCurrent (calendar, appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute, getBarberId(barberInput), appointments);
                 });
             });
 
@@ -434,25 +425,27 @@
                         appEndHour.toggleAttribute('disabled');
                         appEndMinute.toggleAttribute('disabled');
                         
-                        renderCurrent (calendar, appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute, barberInput.value, appointments);
+                        renderCurrent (calendar, appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute, getBarberId(barberInput), appointments);
                     });
                 @break
             @endswitch
             
             renderDayNumbers (date, monday, tuesday, wednesday, thursday, friday, saturday, sunday);
-            renderExisting(appointments, barberInput.value, date, calendar);
-            renderCurrent (calendar, appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute, barberInput.value, appointments);
+            renderExisting(appointments, getBarberId(barberInput), date, calendar);
+            renderCurrent (calendar, appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute, getBarberId(barberInput), appointments);
 
             appStartDate.addEventListener('change', function () {
                 date = new Date(appStartDate.value);
                 renderDayNumbers(date, monday, tuesday, wednesday, thursday, friday, saturday, sunday);
-                renderExisting(appointments, barberInput.value, date, calendar);
+                renderExisting(appointments, getBarberId(barberInput), date, calendar);
             });
 
-            barberInput.addEventListener('change', function () {
-                renderExisting(appointments, barberInput.value, date, calendar);
-                renderCurrent (calendar, appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute, barberInput.value, appointments);
-            });
+            if (barberInput) {
+                barberInput.addEventListener('change', function () {
+                    renderExisting(appointments, getBarberId(barberInput), date, calendar);
+                    renderCurrent (calendar, appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute, getBarberId(barberInput), appointments);
+                });
+            }
         });
 
         function renderDayNumbers (date, ...dayElements) {
@@ -481,7 +474,8 @@
                 return (
                     app.barber_id == barberId &&
                     appStart >= weekStart &&
-                    appStart < weekEnd
+                    appStart < weekEnd &&
+                    app.id != {{ isset($appointment) ? $appointment->id : 0 }}
                 );
             });
 
@@ -496,6 +490,7 @@
                 const divData = {
                     type: (app.service_id == 1) ? 'timeoff' : 'appointment',
                     state: 'existing',
+                    action: '{{ $action }}',
                     appId: app.id,
                     customerName: app.user.first_name
                 };
@@ -514,7 +509,8 @@
             // RENDERING CURRENT DIV ELEMENT
             const divData = {
                 state: 'current',
-                type: '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}'                
+                action: '{{ $action }}',
+                type: '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}'
             }
             renderDivs(appStartTime, appEndTime, calendar, appointments, barberId, divData);
         }
@@ -548,7 +544,8 @@
                                 return (
                                     app.barber_id == barberId &&
                                     appStart >= start &&
-                                    appStart < end
+                                    appStart < end &&
+                                    app.id != {{ isset($appointment) ? $appointment->id : 0 }}
                                 );
                             });
 
@@ -557,7 +554,8 @@
                                 return (
                                     app.barber_id == barberId &&
                                     appEnd > start &&
-                                    appEnd <= end
+                                    appEnd <= end &&
+                                    app.id != {{ isset($appointment) ? $appointment->id : 0 }}
                                 );
                             });
 
@@ -567,7 +565,8 @@
                                 return (
                                     app.barber_id == barberId &&
                                     appStart < start &&
-                                    appEnd > end
+                                    appEnd > end &&
+                                    app.id != {{ isset($appointment) ? $appointment->id : 0 }}
                                 );
                             });
 
@@ -686,6 +685,14 @@
             startDateTime = getDateTime(appStartDate,appStartHour,appStartMinute);
             endDateTime = getDateTime(appEndDate,appEndHour,appEndMinute);
             return (endDateTime - startDateTime) / 1000 / 60;
+        }
+
+        function getBarberId(barberInput) {
+            if (barberInput) {
+                return barberInput.value;
+            } else {
+                return {{ isset($appointment) ? $appointment->barber_id : null }};
+            }
         }
     </script>
 </x-user-layout>

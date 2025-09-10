@@ -87,6 +87,7 @@ class AdminTimeOffController extends Controller
     {
         $appointments = Appointment::with('user')->get();
         $barbers = Barber::all();
+
         return view('appointment.edit',[
             'appointments' => $appointments,
             'barbers' => $barbers,
@@ -180,17 +181,14 @@ class AdminTimeOffController extends Controller
             return redirect()->route('bookings.edit',$time_off);
         }
 
-        // PREVIOUS AND UPCOMING APPOINTMENTS
-        $previousAppointment = Appointment::barberFilter($time_off->barber)->endEarlierThan(Carbon::parse($time_off->app_start_time))->orderByDesc('app_end_time')->first();
-
-        $nextAppointment = Appointment::barberFilter($time_off->barber)->startLaterThan(Carbon::parse($time_off->app_end_time))->orderBy('app_start_time')->first();
+        $appointments = Appointment::with('user')->get();
 
         return view('appointment.edit',[
+            'appointments' => $appointments,
             'appointment' => $time_off,
-            'previous' => $previousAppointment,
-            'next' => $nextAppointment,
             'view' => 'Time Off',
-            'access' => 'admin'
+            'access' => 'admin',
+            'action' => 'edit'
         ]);
     }
 

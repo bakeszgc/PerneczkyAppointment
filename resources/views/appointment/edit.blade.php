@@ -512,7 +512,8 @@
             const divData = {
                 state: 'current',
                 action: '{{ $action }}',
-                type: '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}'
+                type: '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}',
+                customerName: '{{ isset($appointment) ? $appointment->user->first_name : '' }}'
             }
             renderDivs(appStartTime, appEndTime, calendar, appointments, barberId, divData);
         }
@@ -598,27 +599,32 @@
 
                     // CREATING THE INNER DIV ELEMENT
                     const innerDiv = document.createElement('div');
-                    innerDiv.classList.add('border','transition-all','h-full','px-1','max-sm:px-0.5','rounded-md','max-lg:translate-y-6','overflow-hidden','max-sm:text-xs');
+                    innerDiv.classList.add('transition-all','h-full','px-1','max-sm:px-0.5','rounded-md','max-lg:translate-y-6','overflow-hidden','max-sm:text-xs');
 
                     if (divData.state == 'current') {
-                        innerDiv.classList.add('border-dashed');
+                        innerDiv.classList.add('pl-2');
+
                         if (clashCount != 0 || start < new Date()) {
-                            innerDiv.classList.add('bg-red-100','hover:bg-red-200','border-red-400','text-red-600');
+                            innerDiv.classList.add('bg-red-700','hover:bg-red-800','border-red-800','text-red-50');
+                        } else {
+                            if (divData.type == 'timeoff') {
+                                innerDiv.classList.add('bg-green-700','hover:bg-green-800','border-green-800','text-green-100');
+                            } else {
+                                innerDiv.classList.add('bg-blue-700','hover:bg-blue-800','border-blue-800','text-blue-50');
+                            }
                         }
                     } else {
-                        innerDiv.classList.add('border-l-4');
-                    }
+                        innerDiv.classList.add('border','border-l-4');
 
-                    if (start >= new Date()) {
-                        if (divData.type == 'timeoff') {
-                            innerDiv.classList.add('bg-green-100','hover:bg-green-200','border-green-400','text-green-600');
+                        if (start >= new Date()) {
+                            if (divData.type == 'timeoff') {
+                                innerDiv.classList.add('bg-green-100','hover:bg-green-200','border-green-400','text-green-600');
+                            } else {
+                                innerDiv.classList.add('bg-blue-100','hover:bg-blue-200','border-blue-300','text-blue-600');
+                            }
                         } else {
-                            innerDiv.classList.add('bg-blue-100','hover:bg-blue-200','border-blue-300','text-blue-600');
+                            innerDiv.classList.add('bg-slate-100','hover:bg-slate-200','text-slate-600','border-slate-300');
                         }
-                    }
-
-                    if (start < new Date() && divData.state == 'existing') {
-                        innerDiv.classList.add('bg-slate-100','hover:bg-slate-200','text-slate-600','border-slate-300');
                     }
 
                     // CREATING SOME SPAN ELEMENTS
@@ -637,7 +643,7 @@
                                 if(start < new Date()) {
                                     spanName.innerHTML = 'IN PAST';
                                 } else {                                
-                                    spanName.innerHTML = (divData.type == 'timeoff') ? 'CURRENT TIME OFF' : 'CURRENT BOOKING';
+                                    spanName.innerHTML = (divData.type == 'timeoff') ? 'TIME OFF' : divData.customerName;
                                 }
                             }
                         } else {

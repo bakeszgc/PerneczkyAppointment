@@ -306,11 +306,11 @@ class AdminAppointmentController extends Controller
         $barber = Barber::find($request->barber);
 
         if ($app_start_time >= $app_end_time) {
-            return redirect()->route('appointments.edit',$booking)->with('error',"The booking's ending time has to be later than its starting time");
+            return redirect()->route('bookings.edit',$booking)->with('error',"The booking's ending time has to be later than its starting time");
         }
 
         if (!Appointment::checkAppointmentClashes($app_start_time,$app_end_time,$barber,$booking)) {
-            return redirect()->route('appointments.edit',$booking)->with('error','You have another bookings clashing with the selected timeslot. Please choose another one!');
+            return redirect()->route('bookings.edit',$booking)->with('error','You have another bookings clashing with the selected timeslot. Please choose another one!');
         }
 
         $booking->update([

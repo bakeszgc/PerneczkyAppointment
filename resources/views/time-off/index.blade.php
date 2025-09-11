@@ -19,7 +19,9 @@
     </div>
 
     @if ($type === 'All')
-        <x-calendar :calAppointments="$calAppointments" class="mb-4"></x-calendar>
+        <x-card class="mb-4">        
+            <x-appointment-calendar :calAppointments="$calAppointments" />
+        </x-card>
     @endif
 
     @forelse ($timeoffs as $timeoff)

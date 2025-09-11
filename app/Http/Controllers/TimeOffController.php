@@ -16,7 +16,7 @@ class TimeOffController extends Controller
         ->paginate(10);
 
         $calAppointments = Appointment::barberFilter(auth()->user()->barber)
-        ->whereBetween('app_start_time',[date("Y-m-d", strtotime('monday this week')),date("Y-m-d", strtotime('monday next week'))])->get();
+        ->with('user')->get();
 
         return view('time-off.index',[
             'timeoffs' => $timeoffs,

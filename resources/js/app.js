@@ -1,4 +1,5 @@
 import './bootstrap';
+import './calendar.js';
 
 // RELLAX BG
 import Rellax from 'rellax';

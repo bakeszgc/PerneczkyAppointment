@@ -74,6 +74,16 @@ export function renderDivs(appStartTime, appEndTime, calendar, appointments, bar
             const link = document.createElement('a');
             if (divData.state == 'existing') {
                 link.href = ((divData.access == 'admin') ? '/admin' : '') + ((divData.type == 'timeoff') ? "/time-offs/" : "/bookings/") + divData.appId;
+
+                if (divData.access == 'admin') {
+                    link.href = '/admin';
+                    if (divData.type == 'timeoff') link.href = link.href + '/time-offs/';
+                    if (divData.type == 'appointment') link.href = link.href + '/bookings/';
+                } else {
+                    if (divData.type == 'timeoff') link.href = '/time-offs/';
+                    if (divData.type == 'appointment') link.href = '/appointments/';                    
+                }
+                link.href = link.href + divData.appId;
             }
 
             // CREATING THE INNER DIV ELEMENT
@@ -145,7 +155,7 @@ export function renderDivs(appStartTime, appEndTime, calendar, appointments, bar
     }
 }
 
-window.renderExisting = function (appointments, barberId, appId, date, calendar) {
+window.renderExisting = function (appointments, barberId, appId, access, date, calendar) {
     const weekStart = getFirstDayOfWeek(date);
     const weekEnd = addDays(weekStart,7);
     const filtered = appointments.filter(app => {
@@ -159,13 +169,14 @@ window.renderExisting = function (appointments, barberId, appId, date, calendar)
     });            
     // REMOVING EXISTING APPOINTMENT DIV ELEMENT
     document.querySelectorAll('.existingApp').forEach(el => el.remove());
+
     // RENDERING EXISTING APPOINTMENT DIV ELEMENTS
     filtered.forEach(app => {
         const appStartTime = new Date(app.app_start_time);
         const appEndTime = new Date(app.app_end_time);
         const divData = {
             type: (app.service_id == 1) ? 'timeoff' : 'appointment',
-            access: '{{ $access }}',
+            access: access,
             state: 'existing',
             appId: app.id,
             customerName: app.user.first_name

@@ -198,17 +198,13 @@ class AppointmentController extends Controller
             return redirect()->route('time-offs.edit',$appointment);
         }
 
-        $previousAppointment = Appointment::barberFilter(auth()->user()->barber)->endEarlierThan(Carbon::parse($appointment->app_start_time))->orderByDesc('app_end_time')->first();
-
-        $nextAppointment = Appointment::barberFilter(auth()->user()->barber)->startLaterThan(Carbon::parse($appointment->app_end_time))->orderBy('app_start_time')->first();
-
+        $appointments = Appointment::barberFilter(auth()->user()->barber)->with('user')->get();
         $services = Service::where('is_visible','=',1)->get();
 
         return view('appointment.edit', [
             'appointment' => $appointment,
             'services' => $services,
-            'previous' => $previousAppointment,
-            'next' => $nextAppointment
+            'appointments' => $appointments
         ]);
     }
     

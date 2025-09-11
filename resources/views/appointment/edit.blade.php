@@ -469,7 +469,7 @@
 
         function renderExisting (appointments, barberId, date, calendar) {
             const weekStart = getFirstDayOfWeek(date);
-            const weekEnd = addDays(weekStart,7);            
+            const weekEnd = addDays(weekStart,7);
 
             const filtered = appointments.filter(app => {
                 const appStart = new Date(app.app_start_time);
@@ -479,7 +479,7 @@
                     appStart < weekEnd &&
                     app.id != {{ isset($appointment) ? $appointment->id : 0 }}
                 );
-            });
+            });            
 
             // REMOVING EXISTING APPOINTMENT DIV ELEMENT
             document.querySelectorAll('.existingApp').forEach(el => el.remove());
@@ -699,7 +699,7 @@
             if (barberInput) {
                 return barberInput.value;
             } else {
-                return {{ isset($appointment) ? $appointment->barber_id : null }};
+                return {{ isset($appointment) ? $appointment->barber_id : auth()->user()->barber->id }};
             }
         }
     </script>

@@ -45,9 +45,12 @@ class TimeOffController extends Controller
 
     public function create()
     {
+        $appointments = Appointment::barberFilter(auth()->user()->barber)->with('user')->get();
+
         return view('appointment.edit',[
             'view' => 'Time Off',
-            'action' => 'create'
+            'action' => 'create',
+            'appointments' => $appointments
         ]);
     }
 
@@ -137,16 +140,12 @@ class TimeOffController extends Controller
             return redirect()->route('appointments.edit',$time_off);
         }
 
-        // PREVIOUS AND UPCOMING APPOINTMENTS
-        $previousAppointment = Appointment::barberFilter(auth()->user()->barber)->endEarlierThan(Carbon::parse($time_off->app_start_time))->orderByDesc('app_end_time')->first();
-
-        $nextAppointment = Appointment::barberFilter(auth()->user()->barber)->startLaterThan(Carbon::parse($time_off->app_end_time))->orderBy('app_start_time')->first();
+        $appointments = Appointment::barberFilter(auth()->user()->barber)->with('user')->get();
 
         return view('appointment.edit',[
             'appointment' => $time_off,
-            'previous' => $previousAppointment,
-            'next' => $nextAppointment,
-            'view' => 'Time Off'
+            'view' => 'Time Off',
+            'appointments' => $appointments
         ]);
     }
 

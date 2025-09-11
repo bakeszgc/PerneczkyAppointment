@@ -67,8 +67,8 @@ class TimeOffController extends Controller
         $app_start_time = Carbon::parse($request->app_start_date . " " . ($request->app_start_hour ?? 10) . ":" . ($request->app_start_minute ?? 00));
         $app_end_time = Carbon::parse($request->app_end_date . " " . ($request->app_end_hour ?? 20) . ":" . ($request->app_end_minute ?? 00));
 
-        // app start time nagyobb mint az app end time
-        if ($app_start_time > $app_end_time) {
+        // APP START TIME IS LATER OR EQUAL THAN APP END TIME
+        if ($app_start_time >= $app_end_time) {
             return redirect()->route('time-offs.create')->with('error',"The ending time of your time off has to be later than its starting time");
         }
 
@@ -99,14 +99,16 @@ class TimeOffController extends Controller
                 $timeOffEnd = $app_start_time->clone()->startOfDay()->addHours(20)->addDays($i);
             }
 
-            $time_off = Appointment::create([
-                'user_id' => $barber->user_id,
-                'barber_id' => $barber->id,
-                'service_id' => 1,
-                'app_start_time' => $timeOffStart,
-                'app_end_time' => $timeOffEnd,
-                'price' => 0
-            ]);
+            if ($timeOffStart != $timeOffEnd) {
+                $time_off = Appointment::create([
+                    'user_id' => $barber->user_id,
+                    'barber_id' => $barber->id,
+                    'service_id' => 1,
+                    'app_start_time' => $timeOffStart,
+                    'app_end_time' => $timeOffEnd,
+                    'price' => 0
+                ]);
+            }
         }
 
         return redirect()->route('time-offs.show',$time_off)->with('success', 'Time off created successfully! Enjoy your well deserved rest!');
@@ -174,8 +176,8 @@ class TimeOffController extends Controller
         $app_start_time = Carbon::parse($request->app_start_date . " " . ($request->app_start_hour ?? 10) . ":" . ($request->app_start_minute ?? 00));
         $app_end_time = Carbon::parse($request->app_end_date . " " . ($request->app_end_hour ?? 20) . ":" . ($request->app_end_minute ?? 00));
 
-        // handling when app start time is later than app end time
-        if ($app_start_time > $app_end_time) {
+        // APP START TIME IS LATER OR EQUAL THAN APP END TIME
+        if ($app_start_time >= $app_end_time) {
             return redirect()->route('time-offs.edit',$time_off)->with('error',"The ending time of your time off has to be later than its starting time");
         }
 
@@ -203,15 +205,17 @@ class TimeOffController extends Controller
                 if ($i != $numOfDays-1) {
                     $timeOffEnd = $app_start_time->clone()->startOfDay()->addHours(20)->addDays($i);
                 }
-
-                Appointment::create([
-                    'user_id' => $barber->user_id,
-                    'barber_id' => $barber->id,
-                    'service_id' => 1,
-                    'app_start_time' => $timeOffStart,
-                    'app_end_time' => $timeOffEnd,
-                    'price' => 0
-                ]);
+                
+                if ($timeOffStart != $timeOffEnd) {
+                    Appointment::create([
+                        'user_id' => $barber->user_id,
+                        'barber_id' => $barber->id,
+                        'service_id' => 1,
+                        'app_start_time' => $timeOffStart,
+                        'app_end_time' => $timeOffEnd,
+                        'price' => 0
+                    ]);
+                }
             }
 
             $app_end_time = $app_start_time->clone()->startOfDay()->addHours(20);

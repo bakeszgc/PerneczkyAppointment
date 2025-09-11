@@ -216,13 +216,13 @@ window.renderDayNumbers = function (date, ...dayElements) {
     });
 };
 
-export function getFirstDayOfWeek(date) {
+window.getFirstDayOfWeek = function (date) {
     let mondayDate = new Date(date);
     let day = date.getDay();
     if (day === 0) day = 7;
     mondayDate.setDate(date.getDate() - day + 1);
     return mondayDate;
-}
+};
 
 export function sameDay(d1, d2) {
     return d1.getFullYear() === d2.getFullYear() &&
@@ -230,9 +230,10 @@ export function sameDay(d1, d2) {
            d1.getDate() === d2.getDate();
 }
 
-export function addDays(date, days) {
+window.addDays = function (date, days) {
     return new Date(new Date(date).setDate(date.getDate() + days));
-}
+};
+
 window.getDateTime = function (date, hour, minute) {
     return new Date((date.value).concat(" ",hour.value,":",minute.value));
 }
@@ -241,4 +242,9 @@ window.getTimeDifference = function (appStartDate, appStartHour, appStartMinute,
     const startDateTime = getDateTime(appStartDate,appStartHour,appStartMinute);
     const endDateTime = getDateTime(appEndDate,appEndHour,appEndMinute);
     return (endDateTime - startDateTime) / 1000 / 60;
+};
+
+window.renderDates = function(fromDate, toDate, date) {
+    fromDate.innerHTML = getFirstDayOfWeek(date).toISOString().split('T')[0];
+    toDate.innerHTML = addDays(getFirstDayOfWeek(date),6).toISOString().split('T')[0];
 };

@@ -19,7 +19,7 @@ class AppointmentController extends Controller
     {
         $appointments = Appointment::barberFilter(auth()->user()->barber)->withoutTimeOffs()->withTrashed()->latest()->paginate(10);
 
-        $calAppointments = Appointment::barberFilter(auth()->user()->barber)->whereBetween('app_start_time',[date("Y-m-d", strtotime('monday this week')),date("Y-m-d", strtotime('monday next week'))])->get();
+        $calAppointments = Appointment::barberFilter(auth()->user()->barber)->with('user')->get();
      
         return view('appointment.index',[
             'appointments' => $appointments,

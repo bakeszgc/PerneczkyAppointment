@@ -156,7 +156,7 @@ export function renderDivs(appStartTime, appEndTime, calendar, appointments, bar
 }
 
 window.renderExisting = function (appointments, barberId, appId, access, date, calendar) {
-    const weekStart = getFirstDayOfWeek(date);
+    const weekStart = new Date(getFirstDayOfWeek(date).toISOString().split('T')[0] + ' 00:00');
     const weekEnd = addDays(weekStart,7);
     const filtered = appointments.filter(app => {
         const appStart = new Date(app.app_start_time);

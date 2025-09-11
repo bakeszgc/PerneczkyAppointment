@@ -31,7 +31,7 @@
 
     @if ($type === 'All')
         <x-card class="mb-4">        
-            <x-appointment-calendar :calAppointments="$calAppointments" />
+            <x-appointment-calendar :calAppointments="$calAppointments" access="barber" :barber="auth()->user()->barber" />
         </x-card>
     @endif
     

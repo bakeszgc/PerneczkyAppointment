@@ -3,9 +3,10 @@
 namespace App\View\Components;
 
 use Closure;
+use App\Models\Barber;
+use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\View\Component;
 
 class AppointmentCalendar extends Component
 {
@@ -13,7 +14,9 @@ class AppointmentCalendar extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public Collection $calAppointments
+        public Collection $calAppointments,
+        public Barber $barber,
+        public string $access = 'barber'
     ) { }
 
     /**

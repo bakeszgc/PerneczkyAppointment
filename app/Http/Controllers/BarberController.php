@@ -54,18 +54,23 @@ class BarberController extends Controller
             'showTimeOffs' => 'nullable|boolean'
         ]);
 
+        $showCalendar = $request->showCalendar ?? true;
         $showProfile = $request->showProfile ?? true;
         $showPicture = $request->showPicture ?? false;
         $showBookings = $request->showBookings ?? false;
         $showTimeOffs = $request->showTimeOffs ?? false;
+
+        $calAppointments = Appointment::barberFilter($barber)->with('user')->get();
 
         $sumOfBookings = Appointment::getSumOfBookings($barber);
         $sumOfTimeOffs = Appointment::getSumOfTimeOffs($barber);
 
         return view('barber.show',[
             'barber' => $barber,
+            'calAppointments' => $calAppointments,
             'sumOfBookings' => $sumOfBookings,
             'sumOfTimeOffs' => $sumOfTimeOffs,
+            'showCalendar' => $showCalendar,
             'showProfile' => $showProfile,
             'showPicture' => $showPicture,
             'showBookings' => $showBookings,

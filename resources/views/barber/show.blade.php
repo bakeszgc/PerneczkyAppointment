@@ -11,6 +11,10 @@
         </span>
     </x-headline>
 
+    <x-show-card :show="$showCalendar" type="calendar" class="mb-4">
+        <x-appointment-calendar :calAppointments="$calAppointments" :barber="$barber" access="admin"/>
+    </x-show-card>
+
     <x-show-card :show="$showProfile" type="profile" class="mb-4">
         <form action="{{ route('barbers.update',$barber) }}" method="POST">
             @csrf

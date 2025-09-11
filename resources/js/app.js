@@ -12,12 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-const rellax = new Rellax('.rellax-bg', {
-    breakpoints: {
-        576: true, // Disable Rellax below 576px
-    },
-});
-
 // CROPPER.JS
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css'

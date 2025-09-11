@@ -68,7 +68,9 @@
             const saturday = document.getElementById('satNumber');
             const sunday = document.getElementById('sunNumber');
 
+            const calendar = document.getElementById('calendarEventContainer');
             const appointments = @json($calAppointments);
+            const access = '{{ $access }}';
 
             const previousWeekButton = document.getElementById('previousWeekButton');
             const upcomingWeekButton = document.getElementById('upcomingWeekButton');
@@ -77,24 +79,23 @@
             const toDate = document.getElementById('toDate');
 
             let date = new Date();
-            const calendar = document.getElementById('calendarEventContainer');
 
             renderDates(fromDate,toDate,date);
             renderDayNumbers (date, monday, tuesday, wednesday, thursday, friday, saturday, sunday);
-            renderExisting(appointments, {{ auth()->user()->barber->id }}, 0, 'barber', date, calendar);
+            renderExisting(appointments, {{ $barber->id }}, 0, access, date, calendar);
 
             previousWeekButton.addEventListener('click',function () {
                 date = addDays(date,-7);
                 renderDates(fromDate,toDate,date);
                 renderDayNumbers(date, monday, tuesday, wednesday, thursday, friday, saturday, sunday);
-                renderExisting(appointments, {{ auth()->user()->barber->id }}, 0, 'barber', date, calendar);
+                renderExisting(appointments, {{ $barber->id }}, 0, access, date, calendar);
             });
 
             upcomingWeekButton.addEventListener('click',function () {
                 date = addDays(date,7);
                 renderDates(fromDate,toDate,date);
                 renderDayNumbers(date, monday, tuesday, wednesday, thursday, friday, saturday, sunday);
-                renderExisting(appointments, {{ auth()->user()->barber->id }}, 0, 'barber', date, calendar);
+                renderExisting(appointments, {{ $barber->id }}, 0, access, date, calendar);
             });
         });
     </script>

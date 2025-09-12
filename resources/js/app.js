@@ -68,11 +68,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (cropButton) {
         cropButton.addEventListener("click", function() {
-            let canvas = cropper.getCroppedCanvas();
+            let canvas = cropper.getCroppedCanvas({
+                width: 800,
+                height: 800,
+                imageSmoothingQuality: 'high'
+            });
             const title = document.getElementById('currentPfpTitle');
 
             canvas.toBlob(function (blob) {
-                const file = new File([blob], 'croppedImage.png',{type: blob.type});
+                const file = new File([blob], 'croppedImage.jpg',{type: blob.type});
                 const dataTransfer = new DataTransfer();            
                 dataTransfer.items.add(file);
                 

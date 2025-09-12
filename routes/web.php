@@ -98,7 +98,7 @@ Route::middleware(['auth','verified','admin'])->group(function() {
     Route::put('/admin/barbers/{barber}/restore',[BarberController::class,'restore'])->withTrashed()->name('barbers.restore');
 
     // BARBER PROFILE PICTURE
-    Route::post('/upload-cropped/{user}',[PictureController::class,'uploadCropped'])->name('upload-cropped');
+    Route::post('/upload-cropped-admin/{user}',[PictureController::class,'uploadCropped'])->name('upload-cropped-admin');
 
     // ADMIN BOOKINGS
     Route::get('/admin/bookings/createBarberService',[AdminAppointmentController::class,'createBarberService'])->name('bookings.create.barber.service');

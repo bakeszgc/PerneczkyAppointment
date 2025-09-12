@@ -122,7 +122,7 @@
     </x-show-card>
 
     <x-show-card :show="$showPicture" type="picture" class="mb-4">
-        <form action="{{ route('upload-cropped',$barber->user) }}" name="pictureForm" method="post" enctype="multipart/form-data">
+        <form action="{{ route('upload-cropped-admin',$barber->user) }}" name="pictureForm" method="post" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="source" value="admin">
             <input type="file" id="selectedImg" class="form-control" accept="image/*" hidden>

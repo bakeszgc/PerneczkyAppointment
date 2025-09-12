@@ -46,7 +46,7 @@ class PictureController extends Controller
 
         if ($source === 'admin') {
             return redirect()->route('barbers.show',['barber' => $user->barber, 'showPicture' => true])
-                ->with('success','The profile picture has been updated successfully!');
+                ->with('success',$user->barber->getName() . '\'s profile picture has been updated successfully!');
         } else {
             return redirect()->route('users.show',['user' => $user, 'showPicture' => true])
                 ->with('success','Your profile picture has been updated successfully!');

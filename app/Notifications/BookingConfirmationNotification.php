@@ -48,7 +48,7 @@ class BookingConfirmationNotification extends Notification implements ShouldQueu
 
             ->action('View Your Appointment', route('my-appointments.show',$this->appointment->id))
 
-            ->line('Please make sure to arrive at least 5 minutes before your scheduled time to ensure a smooth experience. We accept both credit card and cash at our store.')
+            ->line('Please make sure to arrive at least 5 minutes before your scheduled time to ensure a smooth experience. We accept both credit card and cash at our store. See you soon!')
             ->line('If you have any questions, need to reschedule, or require assistance, feel free to contact us at info@perneczkybarbershop.hu or call us at +36 70 405 6079.');
     }
 

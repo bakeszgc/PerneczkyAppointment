@@ -10,6 +10,8 @@ use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Rules\ValidAppointmentTime;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\BookingUpdateNotification;
 use App\Notifications\BookingCancellationNotification;
 use App\Notifications\BookingConfirmationNotification;
 
@@ -244,6 +246,15 @@ class AppointmentController extends Controller
             return redirect()->route('appointments.edit',$appointment)->with('error','You have another bookings clashing with the selected timeslot. Please choose another one!');
         }
 
+        $oldAppointment = $appointment->only([
+            'barber_id',
+            'service_id',
+            'comment',
+            'price',
+            'app_start_time',
+            'app_end_time'
+        ]);
+
         $appointment->update([
             'service_id' => $request->service,
             'comment' => $request->comment,
@@ -251,6 +262,10 @@ class AppointmentController extends Controller
             'app_start_time' => $app_start_time,
             'app_end_time' => $app_end_time
         ]);
+
+        $appointment->user->notify(
+            new BookingUpdateNotification($oldAppointment,$appointment,$barber)
+        );
 
         return redirect()->route('appointments.show',['appointment' => $appointment])->with('success','Booking has been updated successfully!');
     }

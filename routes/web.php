@@ -124,3 +124,25 @@ Route::get('/',function() {
         'services' => $services
     ]);
 })->name('home');
+
+Route::get('/booking-updated', function () {
+    $newAppointment = Appointment::find(200);
+    $oldAppointment = $newAppointment->only([
+        'barber_id',
+        'service_id',
+        'comment',
+        'price',
+        'app_start_time',
+        'app_end_time'
+    ]);
+
+    $notifiable = $newAppointment->user;
+    $updatedBy = $newAppointment->barber;
+
+    return view('emails.booking_updated',[
+        'oldAppointment' => $oldAppointment,
+        'newAppointment' => $newAppointment,
+        'notifiable' => $notifiable,
+        'updatedBy' => $updatedBy
+    ]);
+});

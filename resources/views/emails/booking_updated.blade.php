@@ -64,7 +64,7 @@
     </table>
 
     <div class="text-center mb-8">
-        <a href="{{ route('my-appointments.show',$newAppointment) }}" id="ctaButton">View Your Appointment</a>
+        <a href="{{ route('my-appointments.show',$newAppointment) }}" id="ctaButton" target="_blank">View Your Appointment</a>
     </div>            
 
     <p class="mb-4">Please make sure to arrive at least 5 minutes before your scheduled time to ensure a smooth experience. We accept both credit card and cash at our store. See you soon!</p>

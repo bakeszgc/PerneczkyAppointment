@@ -155,3 +155,15 @@ Route::get('/booking-stored', function () {
         'notifiable' => $notifiable
     ]);
 });
+
+Route::get('/booking-cancelled', function () {
+    $appointment = Appointment::find(200);
+    $notifiable = $appointment->barber->user;
+    $cancelledBy = $appointment->user;
+
+    return view('emails.booking_cancelled', [
+        'appointment' => $appointment,
+        'notifiable' => $notifiable,
+        'cancelledBy' => $cancelledBy
+    ]);
+});

@@ -146,3 +146,12 @@ Route::get('/booking-updated', function () {
         'updatedBy' => $updatedBy
     ]);
 });
+
+Route::get('/booking-stored', function () {
+    $appointment = Appointment::find(200);
+    $notifiable = $appointment->user;
+    return view('emails.booking_stored', [
+        'appointment' => $appointment,
+        'notifiable' => $notifiable
+    ]);
+});

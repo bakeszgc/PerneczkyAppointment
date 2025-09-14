@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PERNECZKY BarberShop</title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('logo/favicon.ico') }}">
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap');
@@ -119,6 +118,10 @@
         }
         .link:hover{
             text-decoration: underline;
+        }
+
+        .bg-slate-200{
+            background-color: rgb(226 232 240);
         }
 
         @media not all and (min-width: 720px) {

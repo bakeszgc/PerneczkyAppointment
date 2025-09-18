@@ -6,11 +6,10 @@
     <title>PERNECZKY BarberShop</title>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap');
-        *{
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
+
+        body, td, div, p, a {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif;
+            font-weight: 400;
         }
 
         #innerDiv{
@@ -19,7 +18,7 @@
             max-width: 672px;
         }
 
-        header {
+        #header {
             padding-top: 32px;
             padding-bottom: 32px;
             text-align: center;
@@ -66,7 +65,7 @@
             color: white;
             border-width: 1px;
             border-radius: 6px;
-            font-weight: bold;
+            font-weight: 700;
             padding: 8px;
             text-decoration: none;
 
@@ -82,11 +81,12 @@
             color: #64748B;
         }
 
-        footer{
+        #footer{
             color: #64748B;
             font-size: small;
             margin-top: 32px;
             margin-bottom: 32px;
+            text-align: center;
         }
 
         .changed {
@@ -140,19 +140,19 @@
 
 <body>
     <div id="innerDiv">
-        <header>
+        <div id="header">
             <a href="{{ route('home') }}" target="_blank">
                 <img src="{{ asset('logo/perneczky_circle.png') }}" alt="Perneczky BarberShop">
             </a>
-        </header>
+        </div>
 
         <div id="main">
             {{ $slot }}
         </div>
 
-        <footer class="text-center">
+        <div id="footer">
             © {{ date('Y') }} {{ config('app.name') }}. All rights reserved. Looking forward to serving you!
-        </footer>
+        </div>
     </div>
 </body>
 </html>

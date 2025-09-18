@@ -4,10 +4,12 @@ namespace App\Notifications;
 
 use Carbon\Carbon;
 use App\Models\Appointment;
+use DateTime;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Spatie\CalendarLinks\Link;
 
 class BookingConfirmationNotification extends Notification implements ShouldQueue
 {
@@ -35,13 +37,23 @@ class BookingConfirmationNotification extends Notification implements ShouldQueu
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $barberName = $this->appointment->barber->getName();
+        $from = DateTime::createFromFormat('Y-m-d H:i:s',$this->appointment->app_start_time);
+        $to = DateTime::createFromFormat('Y-m-d H:i:s',$this->appointment->app_end_time);
+        $title = 'Appointment at PERNECZKY BarberShop';
+        $description = nl2br("Service: " . $this->appointment->service->name . "\nBarber: " . $this->appointment->barber->getName());
+
+        $link = Link::create($title, $from, $to)
+            ->description($description)
+            ->address('1082 Budapest, Corvin sétány 5.');
+        $icsContent = $link->ics([], ['format' => 'file']);
         
         return (new MailMessage)
             ->subject('Appointment Booked Succesfully')
             ->view('emails.booking_stored',[
                 'appointment' => $this->appointment,
                 'notifiable' => $notifiable
+            ])->attachData($icsContent, 'appointment.ics', [
+                'mime' => 'text/calendar'
             ]);
     }
 

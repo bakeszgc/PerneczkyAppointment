@@ -16,31 +16,30 @@
         #innerDiv{
             margin-left: auto;
             margin-right: auto;
-            max-width: 42rem;
+            max-width: 672px;
         }
 
         header {
-            padding-top: 2rem;
-            padding-bottom: 2rem;
+            padding-top: 32px;
+            padding-bottom: 32px;
             text-align: center;
         }
 
         img {
             margin-left: auto;
             margin-right: auto;
-            height: 5rem;
+            height: 80px;
         }
 
-        main{
-            background-color: rgb(248 250 252);
-            color: rgb(30 41 59);
-            padding: 2rem;
+        #main{
+            background-color: #F8FAFC;
+            color: #1E293B;
+            padding: 32px;
         }
 
         h1{
             font-weight: 700;
-            font-size: 1.5rem;
-            line-height: 2rem;
+            font-size: 24px;
         }
 
         table{
@@ -49,7 +48,7 @@
         }
 
         thead{
-            background-color: rgb(226 232 240);
+            background-color: #E2E8F0;
         }
 
         tbody{
@@ -66,31 +65,28 @@
             background-color: #0018d5;
             color: white;
             border-width: 1px;
-            border-radius: 0.375rem;
+            border-radius: 6px;
             font-weight: bold;
-            max-height: fit-content;
-            padding: 0.5rem;
+            padding: 8px;
             text-decoration: none;
 
             transition-property: all;
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
             transition-duration: 150ms;
         }
 
         #ctaButton:hover{
             background-color: #0f0f0f;
-            filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07));
         }
 
         #linkTrouble{
-            color: rgb(100 116 139);
+            color: #64748B;
         }
 
         footer{
-            color: rgb(100 116 139);
+            color: #64748B;
             font-size: small;
-            margin-top: 2rem;
-            margin-bottom: 2rem;
+            margin-top: 32px;
+            margin-bottom: 32px;
         }
 
         .changed {
@@ -102,11 +98,11 @@
         }
 
         .mb-4{
-            margin-bottom: 1rem
+            margin-bottom: 16px
         }
 
         .mb-8{
-            margin-bottom: 2rem;
+            margin-bottom: 32px;
         }
 
         .text-center {
@@ -114,14 +110,19 @@
         }
 
         .link{
-            color: rgb(29 78 216);
+            color: #1D4ED8;
+            text-decoration: none;
         }
         .link:hover{
             text-decoration: underline;
         }
 
+        .word-break{
+            word-break: break-all;
+        }
+
         .bg-slate-200{
-            background-color: rgb(226 232 240);
+            background-color: #E2E8F0;
         }
 
         @media not all and (min-width: 720px) {
@@ -129,9 +130,9 @@
                 font-size: small;
             }
 
-            main{
-                padding-left: 1rem;
-                padding-right: 1rem;
+            #main{
+                padding-left: 16px;
+                padding-right: 16px;
             }
         }
     </style>
@@ -145,9 +146,9 @@
             </a>
         </header>
 
-        <main>
+        <div id="main">
             {{ $slot }}
-        </main>
+        </div>
 
         <footer class="text-center">
             © {{ date('Y') }} {{ config('app.name') }}. All rights reserved. Looking forward to serving you!

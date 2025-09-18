@@ -12,6 +12,6 @@
     <hr class="mb-8" />
 
     <p id="linkTrouble">
-        If you're having trouble clicking the "Verify Email Address" button, copy and paste the URL below into your web browser: <a href="{{ $url }}" class="link">{{ $url }}</a>
+        If you're having trouble clicking the "Verify Email Address" button, copy and paste the URL below into your web browser: <a href="{{ $url }}" class="link word-break">{{ $url }}</a>
     </p>
 </x-email-layout>

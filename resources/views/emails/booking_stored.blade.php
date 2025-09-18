@@ -61,6 +61,6 @@
     <hr class="mb-8" />
 
     <p id="linkTrouble">
-        If you're having trouble clicking the "View Your Appointment" button, copy and paste the URL below into your web browser: <a href="{{ route('my-appointments.show',$appointment) }}" class="link">{{ route('my-appointments.show',$appointment) }}</a>
+        If you're having trouble clicking the "View Your Appointment" button, copy and paste the URL below into your web browser: <a href="{{ route('my-appointments.show',$appointment) }}" class="link word-break">{{ route('my-appointments.show',$appointment) }}</a>
     </p>
 </x-email-layout>

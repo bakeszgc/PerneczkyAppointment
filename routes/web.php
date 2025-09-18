@@ -1,22 +1,23 @@
 <?php
 
-use App\Http\Controllers\AdminAppointmentController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AdminTimeOffController;
-use App\Http\Controllers\BarberController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\ServiceController;
-use App\Models\Appointment;
+use App\Models\User;
 use App\Models\Barber;
 use App\Models\Service;
+use App\Models\Appointment;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BarberController;
 use App\Http\Controllers\PictureController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TimeOffController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\AdminTimeOffController;
 use App\Http\Controllers\MyAppointmentController;
+use App\Http\Controllers\AdminAppointmentController;
 
 // AUTH
 Route::get('login', [AuthController::class, 'create'])->name('login');
@@ -165,5 +166,14 @@ Route::get('/booking-cancelled', function () {
         'appointment' => $appointment,
         'notifiable' => $notifiable,
         'cancelledBy' => $cancelledBy
+    ]);
+});
+
+Route::get('/email-verification',function () {
+    $url = 'google.com';
+    $notifiable = User::find(50);
+    return view('emails.email_verification', [
+        'notifiable' => $notifiable,
+        'url' => $url
     ]);
 });

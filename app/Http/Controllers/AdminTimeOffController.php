@@ -110,55 +110,15 @@ class AdminTimeOffController extends Controller
             'full_day' => 'nullable'
         ]);
 
-        // SETTING START AND END TIMES TO 10 AND 20 IF THEY ARE NOT SENT THROUGH REQUEST
-        $app_start_time = Carbon::parse($request->app_start_date . " " . ($request->app_start_hour ?? 10) . ":" . ($request->app_start_minute ?? 00));
-        $app_end_time = Carbon::parse($request->app_end_date . " " . ($request->app_end_hour ?? 20) . ":" . ($request->app_end_minute ?? 00));
-
-        // APP START TIME IS LATER OR EQUAL THAN APP END TIME
-        if ($app_start_time >= $app_end_time) {
-            return redirect()->route('admin-time-offs.create')->with('error',"The ending time of your time off has to be later than its starting time");
-        }
-
-        // APP START TIME OR APP END TIME IN THE PAST
-        if ($app_start_time < now()) {
-            return redirect()->route('admin-time-offs.create')->with('error',"The starting time of your time off cannot be in the past!");
-        } elseif ($app_end_time < now()) {
-            return redirect()->route('admin-time-offs.create')->with('error',"The ending time of your time off cannot be in the past!");
-        }
-
         $barber = Barber::find($request->barber);
 
-        if (!Appointment::checkAppointmentClashes($app_start_time,$app_end_time,$barber)) {
-            return redirect()->route('admin-time-offs.create')->with('error','You have bookings clashing with the selected timeframe.');
+        $time_off = Appointment::createTimeOff($request->only('app_start_date','app_start_hour','app_start_minute','app_end_date','app_end_hour','app_end_minute'),$barber);
+
+        if (get_class($time_off) != "App\Models\Appointment") {
+            return $time_off;
+        } else {
+            return redirect()->route('admin-time-offs.show',$time_off)->with('success', 'Time off for ' . $barber->getName() . ' has been created successfully!');
         }
-
-        // CREATING A TIME OFF FOR EACH DAY
-        $numOfDays = $app_start_time->clone()->startOfDay()->diffInDays($app_end_time->clone()->startOfDay())+1;
-        for ($i=0; $i < $numOfDays; $i++) { 
-
-            $timeOffStart = $app_start_time;
-            $timeOffEnd = $app_end_time;
-            
-            if ($i != 0) {
-                $timeOffStart = $app_start_time->clone()->startOfDay()->addHours(10)->addDays($i);
-            }
-            if ($i != $numOfDays-1) {
-                $timeOffEnd = $app_start_time->clone()->startOfDay()->addHours(20)->addDays($i);
-            }
-
-            if ($timeOffStart != $timeOffEnd) {
-                $time_off = Appointment::create([
-                    'user_id' => $barber->user_id,
-                    'barber_id' => $barber->id,
-                    'service_id' => 1,
-                    'app_start_time' => $timeOffStart,
-                    'app_end_time' => $timeOffEnd,
-                    'price' => 0
-                ]);
-            }
-        }
-
-        return redirect()->route('admin-time-offs.show',$time_off)->with('success', 'Time off for ' . $barber->getName() . ' has been created successfully!');
     }
 
     public function show(Appointment $time_off)
@@ -206,75 +166,19 @@ class AdminTimeOffController extends Controller
             'full_day' => 'nullable'
         ]);
 
-        if ($time_off->deleted_at) {
-            return redirect()->route('admin-time-offs.show',$time_off)->with('error',"You can't edit cancelled time offs!");
-        } elseif ($time_off->app_start_time <= now()) {
-            return redirect()->route('admin-time-offs.show',$time_off)->with('error',"You can't edit time offs from the past!");
-        } elseif ($time_off->service_id !== 1) {
-            return redirect()->route('bookings.show',$time_off);
-        }
-
-        // setting start and end times, if hour and minute are not sent through then considering as a full day
-        $app_start_time = Carbon::parse($request->app_start_date . " " . ($request->app_start_hour ?? 10) . ":" . ($request->app_start_minute ?? 00));
-        $app_end_time = Carbon::parse($request->app_end_date . " " . ($request->app_end_hour ?? 20) . ":" . ($request->app_end_minute ?? 00));
-
-        // handling when app start time is later than app end time
-        if ($app_start_time >= $app_end_time) {
-            return redirect()->route('admin-time-offs.edit',$time_off)->with('error',"The ending time of the time off has to be later than its starting time");
-        }
-
-        // handling when app start time or app end time is in the past
-        if ($app_start_time < now()) {
-            return redirect()->route('admin-time-offs.edit',$time_off)->with('error',"The starting time of your time off cannot be in the past!");
-        } elseif ($app_end_time < now()) {
-            return redirect()->route('admin-time-offs.edit',$time_off)->with('error',"The ending time of your time off cannot be in the past!");
-        }
-
         $barber = $time_off->barber;
 
-        if (!Appointment::checkAppointmentClashes($app_start_time,$app_end_time,$barber,$time_off)) {
-            return redirect()->route('admin-time-offs.edit',$time_off)->with('error','You have bookings clashing with the selected timeframe.');
-        }
+        $time_off = Appointment::createTimeOff($request->only('app_start_date','app_start_hour','app_start_minute','app_end_date','app_end_hour','app_end_minute'),$barber,$time_off);
 
-        // handling when time off takes more than one day
-        $numOfDays = $app_start_time->clone()->startOfDay()->diffInDays($app_end_time->clone()->startOfDay())+1;
-
-        if ($numOfDays > 1) {
-            for ($i=1; $i < $numOfDays; $i++) { 
-                $timeOffStart = $app_start_time->clone()->startOfDay()->addHours(10)->addDays($i);
-                $timeOffEnd = $app_end_time;
-
-                if ($i != $numOfDays-1) {
-                    $timeOffEnd = $app_start_time->clone()->startOfDay()->addHours(20)->addDays($i);
-                }
-
-                if ($timeOffStart != $timeOffEnd) {
-                    Appointment::create([
-                        'user_id' => $barber->user_id,
-                        'barber_id' => $barber->id,
-                        'service_id' => 1,
-                        'app_start_time' => $timeOffStart,
-                        'app_end_time' => $timeOffEnd,
-                        'price' => 0
-                    ]);
-                }                
-            }
-
-            $app_end_time = $app_start_time->clone()->startOfDay()->addHours(20);
-        }
-
-        // UPDATING OR DESTROYING TIMEOFF
-
-        if ($app_start_time != $app_end_time) {
-            $time_off->update([
-                'app_start_time' => $app_start_time,
-                'app_end_time' => $app_end_time
-            ]);
-            return redirect()->route('admin-time-offs.show',$time_off)->with('success',$time_off->barber->getName() . '\'s time off has been updated successfully!');
+        if (get_class($time_off) != "App\Models\Appointment") {
+            return $time_off;
         } else {
-            $time_off->delete();
-            return redirect()->route('admin-time-offs.index',$time_off)->with('success',$time_off->barber->getName() . '\'s time off has been cancelled successfully!');
-        }  
+            if (!isset($time_off->deleted_at)) {
+                return redirect()->route('admin-time-offs.show',$time_off)->with('success',$time_off->barber->getName() . '\'s time off has been updated successfully!');
+            } else {
+                return redirect()->route('admin-time-offs.index',$time_off)->with('success',$time_off->barber->getName() . '\'s time off has been cancelled successfully!');
+            }
+        }
     }
 
     public function destroy(Appointment $time_off)

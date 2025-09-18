@@ -399,6 +399,83 @@ class Appointment extends Model
         }
     }
 
+    // CREATING TIMEOFF
+    public static function createTimeOff($request, Barber $barber, ?Appointment $time_off = null) {
+
+        // SETTING START AND END TIMES, IF HOUR AND MINUTES NOT SENT THROUGH -> FULL DAY
+        $appStartTime = Carbon::parse($request['app_start_date'] . " " . ($request['app_start_hour'] ?? 10) . ":" . ($request['app_start_minute'] ?? 00));
+        $appEndTime = Carbon::parse($request['app_end_date'] . " " . ($request['app_end_hour'] ?? 20) . ":" . ($request['app_end_minute'] ?? 00));
+
+        // APP START TIME IS LATER OR EQUAL THAN APP END TIME
+        if ($appStartTime >= $appEndTime) {
+            return redirect()->back()->with('error',"The ending time of your time off has to be later than its starting time");
+        }
+
+        // HANDLING WHEN APPSTARTTIME OR APPENDTIME IS IN THE PAST
+        if ($appStartTime < now()) {
+            return redirect()->back()->with('error',"The starting time of your time off cannot be in the past!");
+        } elseif ($appEndTime < now()) {
+            return redirect()->back()->with('error',"The ending time of your time off cannot be in the past!");
+        }
+
+        // COUNTING THE APPOINTMENTS THAT ARE CLASHING WITH THE SELECTED TIMEFRAME
+        // IF THERE ARE NONE -> LETS THE CODE RUN FORWARD
+        if (!Appointment::checkAppointmentClashes($appStartTime,$appEndTime,$barber,$time_off)) {
+            return redirect()->back()->with('error','You have bookings clashing with the selected timeframe.');
+        }
+
+        // HANDLING TIME OFFS THAT ARE LONGER THAN ONE DAY
+        $numOfDays = $appStartTime->clone()->startOfDay()->diffInDays($appEndTime->clone()->startOfDay())+1;
+
+        if ($numOfDays > 1) {
+            for ($i=1; $i < $numOfDays; $i++) { 
+                $timeOffStart = $appStartTime->clone()->startOfDay()->addHours(10)->addDays($i);
+                $timeOffEnd = $appEndTime;
+
+                if ($i != $numOfDays-1) {
+                    $timeOffEnd = $appStartTime->clone()->startOfDay()->addHours(20)->addDays($i);
+                }
+                
+                if ($timeOffStart != $timeOffEnd) {
+                    Appointment::create([
+                        'user_id' => $barber->user_id,
+                        'barber_id' => $barber->id,
+                        'service_id' => 1,
+                        'app_start_time' => $timeOffStart,
+                        'app_end_time' => $timeOffEnd,
+                        'price' => 0
+                    ]);
+                }
+            }
+
+            $appEndTime = $appStartTime->clone()->startOfDay()->addHours(20);
+        }
+
+        if ($time_off != null) {
+            if ($appStartTime != $appEndTime) {
+                $time_off->update([
+                    'app_start_time' => $appStartTime,
+                    'app_end_time' => $appEndTime
+                ]);
+            } else {
+                $time_off->delete();
+            }
+        } else {
+            if ($appStartTime != $appEndTime) {
+                $time_off = Appointment::create([
+                    'user_id' => $barber->user_id,
+                    'barber_id' => $barber->id,
+                    'service_id' => 1,
+                    'app_start_time' => $appStartTime,
+                    'app_end_time' => $appEndTime,
+                    'price' => 0
+                ]);
+            }
+        }
+
+        return $time_off;
+    }
+
     // SCOPES
 
     // LATER & EARLIER APPOINTMENTS

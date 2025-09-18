@@ -456,7 +456,7 @@
             if (barberInput) {
                 return barberInput.value;
             } else {
-                return {{ isset($appointment) ? $appointment->barber_id : auth()->user()->barber->id }};
+                return {{ isset($appointment) ? $appointment->barber_id : (auth()->user()->barber->id ?? null) }};
             }
         }
     </script>

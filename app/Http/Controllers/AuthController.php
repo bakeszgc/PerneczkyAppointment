@@ -33,7 +33,6 @@ class AuthController extends Controller
     
         $credentials = $request->only('email','password');
         $remember = $request->filled('remember');
-        dd($remember);
     
         if(Auth::attempt($credentials, $remember)) {
             return redirect()->intended(route('my-appointments.index'));

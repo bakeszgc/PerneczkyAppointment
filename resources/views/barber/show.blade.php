@@ -101,7 +101,7 @@
             </div>
             
             <div class="flex gap-2">
-                <x-button role="ctaMain" :disabled="isset($barber->deleted_at)">Save changes</x-button>
+                <x-button role="ctaMain" :disabled="isset($barber->deleted_at)" id="submitButton">Save changes</x-button>
                 </form>
 
                 @if ($barber->deleted_at)
@@ -228,13 +228,12 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // CHARACTER COUNTER
             const charCount = document.getElementById('charCount');
             const description = document.getElementById('description');
-            charCount.innerHTML = description.value.length;
-
-            description.addEventListener('input', function() {
-                charCount.innerHTML = description.value.length;
-            });
+            if (description && charCount) {
+                countCharacters(charCount, description);
+            }
         });
     </script>
 </x-user-layout>

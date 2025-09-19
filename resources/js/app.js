@@ -4,23 +4,24 @@ import './calendar.js';
 // RELLAX BG
 import Rellax from 'rellax';
 
-document.addEventListener('DOMContentLoaded', () => {
-    new Rellax('.rellax-bg', {
-        speed: -3,    // Adjust the speed as needed
-        center: true, // Keeps the background centered
-        round: true,  // Better performance with rounded values
-    });
-});
-
 // CROPPER.JS
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css'
 
 let cropper;
+
 document.addEventListener('DOMContentLoaded', () => {
 
+    // RELLAX BG
+    new Rellax('.rellax-bg', {
+        speed: -3,    // Adjust the speed as needed
+        center: true, // Keeps the background centered
+        round: true,  // Better performance with rounded values
+    });
+
+    // CROPPER.JS
     const imageInput = document.getElementById('selectedImg');
-    const submitButton = document.getElementById('submit');
+    const cropperSubmitButton = document.getElementById('submit');
     const cropButton = document.getElementById('crop');
     const resetButton = document.getElementById('reset');
     const cropModal = document.getElementById('cropModal');
@@ -28,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (imageInput) {
         imageInput.addEventListener('change', () => {
-            submitButton.setAttribute("disabled","");
+            cropperSubmitButton.setAttribute("disabled","");
 
             if (typeof cropper != 'undefined') {
                 console.log("Destroy previous cropper");
@@ -52,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         minCropBoxHeight: 100,
                         rotatable: false,
                         crop(event) {
-                            submitButton.setAttribute("disabled","");
+                            cropperSubmitButton.setAttribute("disabled","");
                         },
                         preview: '.preview'
                     });
@@ -82,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 const croppedImageInput = document.querySelector("input[name='croppedImg']");
                 croppedImageInput.files = dataTransfer.files;
-                submitButton.removeAttribute("disabled","");
+                cropperSubmitButton.removeAttribute("disabled","");
                 submitDiv.removeAttribute("hidden","");
             });
             
@@ -96,35 +97,16 @@ document.addEventListener('DOMContentLoaded', () => {
             cropper.reset();
         });
     }
-});
-
-
-
-document.addEventListener('DOMContentLoaded', () => {
 
     // MODAL OPEN & CLOSE
-    // const openButton = document.getElementById('openModal');
     const closeButton = document.getElementById('closeModal');
-    const cropModal = document.getElementById('cropModal');
-
-    // openButton.addEventListener('click', () => { toggleElement(cropModal); });
     if (closeButton) {
         closeButton.addEventListener('click', () => { toggleElement(cropModal); });
     }
 
-    // SUBMIT BUTTON ACTIVATES ON INPUT OR SELECT CHANGE
+    // ENABLING SUBMIT BUTTON AFTER FORM INPUT EVENT
     const submitButton = document.getElementById('submitButton');
-    const inputs = document.querySelectorAll('input, select, textarea');
-
-    if (submitButton) {
-        submitButton.disabled = true;
-
-        inputs.forEach(input => {
-            input.addEventListener('change', function() {
-                submitButton.disabled = false;
-            })
-        });
-    }
+    if (submitButton) enableButton(submitButton,null);
 });
 
 function toggleElement(element) {
@@ -134,4 +116,35 @@ function toggleElement(element) {
     } else {
         console.error('Element not found or undefined.');
     }
+}
+
+// ENABLES BUTTON AFTER 
+window.enableButton = function(button, inputs) {
+    if (inputs == null || inputs.length == 0) {
+        inputs = document.querySelectorAll('input, select, textarea');
+    }
+
+    if (button == null) {
+        button = document.getElementById('submitButton');
+    }    
+
+    if (button) {
+        button.disabled = true;
+
+        inputs.forEach(input => {            
+            input.addEventListener('input', function () {
+               button.disabled = false; 
+            });
+        });
+    }
+    
+};
+
+// COUNTS CHARACTERS OF THE DESCRIPTION TEXTAREA
+window.countCharacters = function (charCount, description) {
+    charCount.innerHTML = description.value.length;
+
+    description.addEventListener('input', function() {
+        charCount.innerHTML = description.value.length;
+    });
 }

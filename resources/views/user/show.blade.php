@@ -36,7 +36,7 @@
                 <div class=" grid grid-cols-2 gap-2">
                     <div class="flex flex-col">
                         <x-label for="first_name">First name</x-label>
-                        <x-input-field name="first_name" id="first_name" value="{{ old('first_name') ??$user->first_name }}" :disabled="isset($user->deleted_at)" />
+                        <x-input-field name="first_name" id="first_name" value="{{ old('first_name') ??$user->first_name }}" :disabled="isset($user->deleted_at)" class="profileInput" />
                         @error('first_name')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
@@ -44,7 +44,7 @@
 
                     <div class="flex flex-col">
                         <x-label for="last_name">Last name</x-label>
-                        <x-input-field name="last_name" id="last_name" value="{{ old('last_name') ??$user->last_name }}" :disabled="isset($user->deleted_at)" />
+                        <x-input-field name="last_name" id="last_name" value="{{ old('last_name') ??$user->last_name }}" :disabled="isset($user->deleted_at)" class="profileInput" />
                         @error('last_name')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
@@ -53,7 +53,7 @@
                     @if ($user->barber && !isset($user->barber->deleted_at) && $view != 'admin')
                         <div class="flex flex-col col-span-2">
                             <x-label for="display_name">Display name</x-label>
-                            <x-input-field name="display_name" id="display_name" value="{{ old('display_name') ??$user->barber->display_name }}" :disabled="isset($user->deleted_at)" />
+                            <x-input-field name="display_name" id="display_name" value="{{ old('display_name') ??$user->barber->display_name }}" :disabled="isset($user->deleted_at)" class="profileInput" />
                             @error('display_name')
                                 <p class=" text-red-500">{{$message}}</p>
                             @enderror
@@ -61,7 +61,7 @@
 
                         <div class="flex flex-col col-span-2">
                             <x-label for="description">Description (<span id="charCount">xxx</span>/500)</x-label>
-                            <x-input-field type="textarea" name="description" id="description" :disabled="isset($user->deleted_at) || isset($user->barber->deleted_at)">{{ old('comment') ?? $user->barber->description }}</x-input-field>
+                            <x-input-field type="textarea" name="description" id="description" :disabled="isset($user->deleted_at) || isset($user->barber->deleted_at)" class="profileInput">{{ old('comment') ?? $user->barber->description }}</x-input-field>
                             @error('description')
                                 <p class=" text-red-500">{{$message}}</p>
                             @enderror
@@ -83,7 +83,7 @@
                             
                         </div>
                         
-                        <x-input-field type="email" name="email" id="email" value="{{ old('email') ?? $user->email }}" :disabled="isset($user->deleted_at)" />
+                        <x-input-field type="email" name="email" id="email" value="{{ old('email') ?? $user->email }}" :disabled="isset($user->deleted_at)" class="profileInput" />
                         @error('email')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
@@ -91,7 +91,7 @@
 
                     <div class="flex flex-col">
                         <x-label for="date_of_birth">Date of birth</x-label>
-                        <x-input-field type="date" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth') ?? $user->date_of_birth }}" :disabled="isset($user->deleted_at)" />
+                        <x-input-field type="date" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth') ?? $user->date_of_birth }}" :disabled="isset($user->deleted_at)" class="profileInput" />
                         @error('date_of_birth')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
@@ -99,7 +99,7 @@
 
                     <div class="flex flex-col">
                         <x-label for="telephone_number">Telephone number</x-label>
-                        <x-input-field type="tel" name="telephone_number" id="telephone_number" value="{{ old('telephone_number') ?? $user->tel_number }}" :disabled="isset($user->deleted_at)" />
+                        <x-input-field type="tel" name="telephone_number" id="telephone_number" value="{{ old('telephone_number') ?? $user->tel_number }}" :disabled="isset($user->deleted_at)" class="profileInput" />
                         @error('telephone_number')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
@@ -136,7 +136,7 @@
             @endif
 
             <div>
-                <x-button role="ctaMain" :full="true" :disabled="true" id="submitButton">Save Changes</x-button>
+                <x-button role="ctaMain" :full="true" :disabled="true" id="profileButton">Save Changes</x-button>
             </div>
         </form>
     </x-show-card>
@@ -311,23 +311,53 @@
                         Fields marked with * are <span class="font-semibold">required</span>
                     </div>
                 </div>
-                <x-button role="ctaMain" :full="true">Change Password</x-button>
+                <x-button role="ctaMain" :full="true" id="passButton" :disabled="true">Change Password</x-button>
             </form>
         </x-show-card>
     @endif
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+
+            // COUNTS CHARLENGTH OF THE DESCRIPTION TEXTAREA
             const charCount = document.getElementById('charCount');
             const description = document.getElementById('description');
 
             if (description && charCount) {
-                charCount.innerHTML = description.value.length;
-
-                description.addEventListener('input', function() {
-                    charCount.innerHTML = description.value.length;
-                });
+                countCharacters(charCount, description);
             }
+
+            // PASSWORD CHANGE
+            const passInput = document.getElementById('password');
+            const newPassInput = document.getElementById('new_password');
+            const newPassConfInput = document.getElementById('new_password_confirmation');
+            const passButton = document.getElementById('passButton');
+            const passInputs = new Array(passInput, newPassInput, newPassConfInput);
+
+            if (passButton) {
+                checkPassword(passButton, passInput, newPassInput, newPassConfInput);
+
+                passInputs.forEach(input => {
+                    input.addEventListener('input', function () {
+                        checkPassword(passButton, passInput, newPassInput, newPassConfInput);
+                    });
+                });
+            }            
+
+            // PROFILE BUTTON RE-ENABLE
+            const profileButton = document.getElementById('profileButton');
+            const profileInputs = document.querySelectorAll('.profileInput');
+
+            enableButton(profileButton, profileInputs);
         });
+
+        function checkPassword(passButton, passInput, newPassInput, newPassConfInput) {
+            const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+            passButton.disabled = true;
+            
+            if (passInput.value != '' && newPassInput.value == newPassConfInput.value && passRegex.tes(newPassInput.value)) {
+                passButton.disabled = false;
+            }
+        }
     </script>
 </x-user-layout>

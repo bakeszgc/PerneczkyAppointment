@@ -14,14 +14,14 @@
                 <div class=" mb-4 grid grid-cols-2 gap-4">
                     <div>
                         <x-label for="first_name">First name *</x-label>
-                        <x-input-field name="first_name" id="first_name" value="{{old('first_name')}}" placeholder="John" class="w-full"/>
+                        <x-input-field name="first_name" id="first_name" value="{{old('first_name')}}" placeholder="John" class="w-full regInput"/>
                         @error('first_name')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
                     </div>
                     <div>
                         <x-label for="last_name">Last name *</x-label>
-                        <x-input-field name="last_name" id="last_name" value="{{old('last_name')}}" placeholder="Example" class="w-full"/>
+                        <x-input-field name="last_name" id="last_name" value="{{old('last_name')}}" placeholder="Example" class="w-full regInput"/>
                         @error('last_name')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
@@ -32,14 +32,14 @@
                 <div class="mb-4 grid grid-cols-2 gap-4">
                     <div>
                         <x-label for="date_of_birth">Date of birth *</x-label>
-                        <x-input-field type="date" name="date_of_birth" id="date_of_birth" value="{{old('date_of_birth')}}" class="w-full"/>
+                        <x-input-field type="date" name="date_of_birth" id="date_of_birth" value="{{old('date_of_birth')}}" class="w-full regInput"/>
                         @error('date_of_birth')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
                     </div>
                     <div>
                         <x-label for="telephone_number">Telephone number *</x-label>
-                        <x-input-field type="tel" name="telephone_number" id="telephone_number" value="{{old('telephone_number')}}" placeholder="+36123456789" class="w-full"/>
+                        <x-input-field type="tel" name="telephone_number" id="telephone_number" value="{{old('telephone_number')}}" placeholder="+36123456789" class="w-full regInput"/>
                         @error('telephone_number')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
@@ -48,7 +48,7 @@
 
                 <div class="mb-4">
                     <x-label for="email">Email *</x-label>
-                    <x-input-field type="email" name="email" id="email" value="{{old('email')}}" placeholder="john@example.com" class="w-full"/>
+                    <x-input-field type="email" name="email" id="email" value="{{old('email')}}" placeholder="john@example.com" class="w-full regInput"/>
                     @error('email')
                         <p class=" text-red-500">{{$message}}</p>
                     @enderror
@@ -58,7 +58,7 @@
                     <div class="flex-grow">
                         <div class="mb-4">
                             <x-label for="password">Password *</x-label>
-                            <x-input-field type="password" name="password" id="password" class="w-full"/>
+                            <x-input-field type="password" name="password" id="password" class="w-full regInput"/>
                             @error('password')
                                 <p class=" text-red-500">{{$message}}</p>
                             @enderror
@@ -66,7 +66,7 @@
 
                         <div>
                             <x-label for="password_confirmation">Confirm password *</x-label>
-                            <x-input-field type="password" name="password_confirmation" id="password_confirmation" class="w-full"/>
+                            <x-input-field type="password" name="password_confirmation" id="password_confirmation" class="w-full regInput"/>
                             @error('password_confirmation')
                                 <p class=" text-red-500">{{$message}}</p>
                             @enderror
@@ -92,7 +92,7 @@
                     </div>
                 </div>
 
-                <x-button role="ctaMain" :full="true" :disabled="true" id="submitButton">Register</x-button>
+                <x-button role="ctaMain" :full="true" :disabled="true" id="regButton">Register</x-button>
             </form>
 
             <p class="text-center font-semibold mt-2">
@@ -104,4 +104,41 @@
         </div>
         
     </x-card>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const regButton = document.getElementById('regButton');
+            const regInputs = document.querySelectorAll('.regInput');
+            const passInput = document.getElementById('password');
+            const passConfInput = document.getElementById('password_confirmation');
+            
+            regButton.disabled = true;
+
+            regInputs.forEach(input => {
+                input.addEventListener('input', function () {
+                    let filled = 0;                    
+
+                    regInputs.forEach(i => {
+                        if (i.value != '') filled++;
+                    });
+
+                    console.log(filled + '/' + regInputs.length);
+                    
+
+                    const passwordChecked = checkPassword(passInput, passConfInput);
+
+                    if (filled == regInputs.length && passwordChecked) {
+                        regButton.disabled = false;
+                    }
+                });
+            });
+        });
+
+        function checkPassword(passInput, passConfInput) {
+            const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+            return passInput.value != '' &&
+                passInput.value == passConfInput.value &&
+                passRegex.test(passInput.value);
+        }
+    </script>
 </x-user-layout>

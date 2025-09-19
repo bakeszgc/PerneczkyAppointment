@@ -27,7 +27,7 @@
 
                 <div class="mb-4 flex justify-between items-center">
                     <div class="flex items-center gap-2">
-                        <x-input-field id="remember" name="remember" type="checkbox" />
+                        <x-input-field id="remember" name="remember" type="checkbox" value="remember" />
                         <x-label for="remember">Remember me</x-label>
                     </div>
                     <div>

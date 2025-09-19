@@ -60,7 +60,7 @@
                         </div>
 
                         <div class="flex flex-col col-span-2">
-                            <x-label for="description">Description</x-label>
+                            <x-label for="description">Description (<span id="charCount">xxx</span>/500)</x-label>
                             <x-input-field type="textarea" name="description" id="description" :disabled="isset($user->deleted_at) || isset($user->barber->deleted_at)">{{ old('comment') ?? $user->barber->description }}</x-input-field>
                             @error('description')
                                 <p class=" text-red-500">{{$message}}</p>
@@ -315,4 +315,19 @@
             </form>
         </x-show-card>
     @endif
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const charCount = document.getElementById('charCount');
+            const description = document.getElementById('description');
+
+            if (description && charCount) {
+                charCount.innerHTML = description.value.length;
+
+                description.addEventListener('input', function() {
+                    charCount.innerHTML = description.value.length;
+                });
+            }
+        });
+    </script>
 </x-user-layout>

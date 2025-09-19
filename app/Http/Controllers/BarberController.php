@@ -86,7 +86,7 @@ class BarberController extends Controller
             'first_name' => ['required','string','max:255'],
             'last_name' => ['required','string','max:255'],
             'display_name' => ['nullable','string','max:255',Rule::unique('barbers','display_name')->ignore($barber->id)],
-            'description' => ['nullable','string'],
+            'description' => ['nullable','string','max:500'],
             'email' => ['required','email',Rule::unique('users','email')->ignore($user->id)],
             'date_of_birth' => ['required','date','before_or_equal:today'],
             'telephone_number' => ['required','starts_with:+,0','numeric',Rule::unique('users','tel_number')->ignore($user->id)]

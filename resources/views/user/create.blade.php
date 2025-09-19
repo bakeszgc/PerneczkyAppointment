@@ -116,18 +116,10 @@
 
             regInputs.forEach(input => {
                 input.addEventListener('input', function () {
-                    let filled = 0;                    
-
-                    regInputs.forEach(i => {
-                        if (i.value != '') filled++;
-                    });
-
-                    console.log(filled + '/' + regInputs.length);
-                    
-
                     const passwordChecked = checkPassword(passInput, passConfInput);
+                    const allFilled = allInputsFilled(regInputs);
 
-                    if (filled == regInputs.length && passwordChecked) {
+                    if (allFilled && passwordChecked) {
                         regButton.disabled = false;
                     }
                 });

@@ -118,7 +118,7 @@ function toggleElement(element) {
     }
 }
 
-// ENABLES BUTTON AFTER 
+// ENABLES BUTTON AFTER AN INPUT HAS CHANGED
 window.enableButton = function(button, inputs) {
     if (inputs == null || inputs.length == 0) {
         inputs = document.querySelectorAll('input, select, textarea');
@@ -140,6 +140,17 @@ window.enableButton = function(button, inputs) {
     
 };
 
+// RETURNS TRUE IF ALL INPUTS ARE FILLED
+window.allInputsFilled = function (inputs) {
+    let filled = 0;
+
+    inputs.forEach(i => {
+        if (i.value !== '') filled++;
+    });
+
+    return filled === inputs.length;
+}
+
 // COUNTS CHARACTERS OF THE DESCRIPTION TEXTAREA
 window.countCharacters = function (charCount, description) {
     charCount.innerHTML = description.value.length;
@@ -147,4 +158,4 @@ window.countCharacters = function (charCount, description) {
     description.addEventListener('input', function() {
         charCount.innerHTML = description.value.length;
     });
-}
+};

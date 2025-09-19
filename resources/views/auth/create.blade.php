@@ -11,7 +11,7 @@
                 @csrf
                 <div class="mb-4">
                     <x-label for="email">Email</x-label>
-                    <x-input-field type="email" name="email" id="email" value="{{old('email')}}" class="w-full"/>
+                    <x-input-field type="email" name="email" id="email" value="{{old('email')}}" class="w-full loginInput"/>
                     @error('email')
                         <p class=" text-red-500">{{$message}}</p>
                     @enderror
@@ -19,7 +19,7 @@
                 
                 <div class="mb-4">
                     <x-label for="password">Password</x-label>
-                    <x-input-field type="password" name="password" id="password" class="w-full"/>
+                    <x-input-field type="password" name="password" id="password" class="w-full loginInput"/>
                     @error('password')
                         <p class=" text-red-500">{{$message}}</p>
                     @enderror
@@ -35,7 +35,7 @@
                     </div>
                 </div>
 
-                <x-button role="ctaMain" :full="true" id="submitButton" :disabled="true">Sign in</x-button>
+                <x-button role="ctaMain" :full="true" id="loginButton" :disabled="true">Sign in</x-button>
             </form>
 
             <p class="text-center font-semibold mt-2">
@@ -47,4 +47,18 @@
         </div>
         
     </x-card>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const loginInputs = document.querySelectorAll('.loginInput');
+            const loginButton = document.getElementById('loginButton');
+
+            loginButton.disabled = true;
+            loginInputs.forEach(input => {
+                input.addEventListener('input', function () {
+                    if (allInputsFilled(loginInputs)) loginButton.disabled = false;
+                });
+            });
+        });
+    </script>
 </x-user-layout>

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Appointment;
 use Carbon\Carbon;
+use App\Models\Appointment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class TimeOffController extends Controller
 {
@@ -77,9 +78,12 @@ class TimeOffController extends Controller
 
     public function show(Appointment $time_off)
     {
-        if ($time_off->barber_id !== auth()->user()->barber->id) {
-            return redirect()->route('time-offs.index')->with('error',"You can't view other barbers' time offs.");
-        } elseif ($time_off->service_id !== 1) {
+        $response = Gate::inspect('view', $time_off);
+        if ($response->denied()) {
+            return redirect()->route('time-offs.index')->with('error',$response->message());
+        }
+        
+        if (Gate::denies('isTimeOff',$time_off)) {
             return redirect()->route('appointments.show',$time_off);
         }
 
@@ -88,13 +92,12 @@ class TimeOffController extends Controller
 
     public function edit(Appointment $time_off)
     {
-        if ($time_off->barber_id !== auth()->user()->barber->id) {
-            return redirect()->route('time-offs.index')->with('error',"You can't edit other barbers' time offs!");
-        } elseif ($time_off->deleted_at) {
-            return redirect()->route('time-offs.show',$time_off)->with('error',"You can't edit cancelled time offs!");
-        } elseif ($time_off->app_start_time <= now()) {
-            return redirect()->route('time-offs.show',$time_off)->with('error',"You can't edit time offs from the past!");
-        } elseif ($time_off->service_id !== 1) {
+        $response = Gate::inspect('update',$time_off);
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
+        }
+
+        if (Gate::denies('isTimeOff',$time_off)) {
             return redirect()->route('appointments.edit',$time_off);
         }
 
@@ -109,6 +112,15 @@ class TimeOffController extends Controller
 
     public function update(Request $request, Appointment $time_off)
     {
+        $response = Gate::inspect('update',$time_off);
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
+        }
+
+        if (Gate::denies('isTimeOff',$time_off)) {
+            return redirect()->route('appointments.edit',$time_off);
+        }
+
         $request->validate([
             'app_start_date' => ['required','date','after_or_equal:today'],
             'app_start_hour' => ['nullable','integer','between:10,19'],
@@ -118,14 +130,6 @@ class TimeOffController extends Controller
             'app_end_minute' => 'nullable|integer|multiple_of:15',
             'full_day' => 'nullable'
         ]);
-
-        if ($time_off->barber_id !== auth()->user()->barber->id) {
-            return redirect()->route('time-offs.index')->with('error',"You can't edit other barbers' time offs!");
-        } elseif ($time_off->deleted_at) {
-            return redirect()->route('time-offs.show',$time_off)->with('error',"You can't edit cancelled time offs!");
-        } elseif ($time_off->service_id !== 1) {
-            return redirect()->route('appointments.show',$time_off);
-        }
 
         $time_off = Appointment::createTimeOff($request->only('app_start_date','app_start_hour','app_start_minute','app_end_date','app_end_hour','app_end_minute'),auth()->user()->barber,$time_off);
 
@@ -138,14 +142,13 @@ class TimeOffController extends Controller
 
     public function destroy(Appointment $time_off)
     {
-        if ($time_off->app_start_time < now()) {
-            return redirect()->back()->with('error',"You can't cancel a previous time off!");
-        } elseif ($time_off->barber_id != auth()->user()->barber->id) {
-            return redirect()->back()->with('error',"You can't cancel other barbers' time offs!");
-        } elseif (isset($time_off->deleted_at)) {
-            return redirect()->back()->with('error',"You can't cancel an already cancelled time off!");
-        } elseif ($time_off->service_id !== 1) {
-            return redirect()->route('appointments.show',$time_off)->with('error', "You can't cancel a booking as a time off. Please try again here!");
+        $response = Gate::inspect('update',$time_off);
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
+        }
+
+        if (Gate::denies('isTimeOff',$time_off)) {
+            return redirect()->route('appointments.show',$time_off);
         }
 
         $time_off->delete();

@@ -9,22 +9,22 @@ use Illuminate\Support\Facades\Redirect;
 
 class AppointmentPolicy
 {
-    // APPOINTMENTS FOR BARBERS - APPOINTMENT CONTROLLER
+    // FOR BARBERS - APPOINTMENT & TIMEOFF CONTROLLER
     public function view(User $user, Appointment $appointment): Response
     {
         return $appointment->barber_id === $user->barber->id
             ? Response::allow()
-            : Response::deny("You can't view other barbers' bookings.");
+            : Response::deny("You can't view other barbers' " . $appointment->getType() . "s.");
     }
 
     public function update(User $user, Appointment $appointment): Response
     {
         if ($appointment->barber_id != $user->barber->id) {
-            return Response::deny("You can't edit other barbers' bookings.");
+            return Response::deny("You can't edit other barbers' " . $appointment->getType() . "s.");
         } elseif ($appointment->app_start_time <= now()) {
-            return Response::deny("You can't edit bookings from the past.");
+            return Response::deny("You can't edit " . $appointment->getType() . "s from the past.");
         } elseif ($appointment->deleted_at) {
-            return Response::deny("You can't edit cancelled bookings.");
+            return Response::deny("You can't edit cancelled " . $appointment->getType() . "s.");
         } else {
             return Response::allow();
         }
@@ -33,11 +33,11 @@ class AppointmentPolicy
     public function delete(User $user, Appointment $appointment): Response
     {
         if ($appointment->barber_id != $user->barber->id) {
-            return Response::deny("You can't cancel other barbers' bookings.");
+            return Response::deny("You can't cancel other barbers' " . $appointment->getType() . "s.");
         } elseif ($appointment->app_start_time <= now()) {
-            return Response::deny("You can't cancel bookings from the past.");
+            return Response::deny("You can't cancel " . $appointment->getType() . "s from the past.");
         } elseif ($appointment->deleted_at) {
-            return Response::deny("You can't cancel already cancelled bookings.");
+            return Response::deny("You can't cancel already cancelled " . $appointment->getType() . "s.");
         } else {
             return Response::allow();
         }

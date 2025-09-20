@@ -302,6 +302,12 @@ class Appointment extends Model
         return $sumOfTimeOffs;
     }
 
+    public function getType () {
+        return $this->service_id == 1
+            ? 'time off'
+            : 'booking';
+    }
+
     // RETRIEVING ALL FREE TIMESLOTS FOR THE NEXT DAYS
     public static function getFreeTimeSlots(Barber $barber, Service $service, int $numberOfDays = 14)  {
         

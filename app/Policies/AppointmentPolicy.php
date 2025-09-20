@@ -64,6 +64,29 @@ class AppointmentPolicy
         }
     }
 
+    // FOR ADMINS - ADMIN APPOINTMENT CONTROLLER
+    public function adminUpdate(User $user, Appointment $appointment): Response
+    {
+        if ($appointment->app_start_time <= now()) {
+            return Response::deny("You can't edit " . $appointment->getType() . "s from the past.");
+        } elseif ($appointment->deleted_at) {
+            return Response::deny("You can't edit cancelled " . $appointment->getType() . "s.");
+        } else {
+            return Response::allow();
+        }
+    }
+
+    public function adminDelete(User $user, Appointment $appointment): Response
+    {
+        if ($appointment->app_start_time <= now()) {
+            return Response::deny("You can't cancel " . $appointment->getType() . "s from the past.");
+        } elseif ($appointment->deleted_at) {
+            return Response::deny("You can't cancel already cancelled " . $appointment->getType() . "s.");
+        } else {
+            return Response::allow();
+        }
+    }
+
     // UTILITY
     public function isTimeOff(User $user, Appointment $appointment): bool
     {

@@ -10,6 +10,7 @@ use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Rules\ValidAppointmentTime;
+use Illuminate\Support\Facades\Gate;
 use App\Notifications\BookingUpdateNotification;
 use App\Notifications\BookingCancellationNotification;
 use App\Notifications\BookingConfirmationNotification;
@@ -223,7 +224,7 @@ class AdminAppointmentController extends Controller
 
     public function show(Appointment $booking)
     {
-        if ($booking->service_id == 1) {
+        if (Gate::allows('isTimeOff',$booking)) {
             return redirect()->route('admin-time-offs.show',$booking);
         }
 
@@ -256,11 +257,12 @@ class AdminAppointmentController extends Controller
 
     public function edit(Appointment $booking)
     {
-        if ($booking->app_start_time <= now()) {
-            return redirect()->route('bookings.show',$booking)->with('error',"You can't edit bookings from the past.");
-        } elseif ($booking->deleted_at) {
-            return redirect()->route('bookings.show',$booking)->with('error',"You can't edit cancelled bookings.");
-        } elseif ($booking->service_id == 1) {
+        $response = Gate::inspect('adminUpdate',$booking);
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
+        }
+
+        if (Gate::allows('isTimeOff',$booking)) {
             return redirect()->route('admin-time-offs.edit',$booking);
         }
 
@@ -280,6 +282,15 @@ class AdminAppointmentController extends Controller
 
     public function update(Request $request, Appointment $booking)
     {
+        $response = Gate::inspect('adminUpdate',$booking);
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
+        }
+
+        if (Gate::allows('isTimeOff',$booking)) {
+            return redirect()->route('admin-time-offs.edit',$booking)->with('error',"You can't edit a time off as a booking. Please try again here!");
+        }
+
         $request->validate([
             'service' => 'required|integer|exists:services,id',
             'barber' => 'required|integer|exists:barbers,id',
@@ -292,14 +303,6 @@ class AdminAppointmentController extends Controller
             'app_end_minute' => 'required|integer|multiple_of:15',
             'comment' => 'nullable|max:255',
         ]);
-
-        if ($booking->app_start_time <= now()) {
-            return redirect()->route('bookings.show',$booking)->with('error',"You can't edit bookings from the past!");
-        } elseif ($booking->deleted_at) {
-            return redirect()->route('bookings.show',$booking)->with('error',"You can't edit cancelled bookings!");
-        } elseif ($booking->service_id == 1) {
-            return redirect()->route('admin-time-offs.edit',$booking)->with('error',"You can't edit a time off as a booking. Please try again here!");
-        }
 
         $app_start_time = Carbon::parse($request->app_start_date . " " . $request->app_start_hour . ":" . $request->app_start_minute);
         $app_end_time = Carbon::parse($request->app_end_date . " " . $request->app_end_hour . ":" . $request->app_end_minute);
@@ -341,13 +344,14 @@ class AdminAppointmentController extends Controller
 
     public function destroy(Appointment $booking)
     {
-        if ($booking->app_start_time < now()) {
-            return redirect()->back()->with('error',"You can't cancel a previous booking!");
-        } elseif ($booking->deleted_at) {
-            return redirect()->route('bookings.show',$booking)->with('error',"You can't cancel an already cancelled booking!");
-        } elseif ($booking->service_id == 1) {
-            return redirect()->route('admin-time-offs.show',$booking)->with('error',"You can't cancel a time off as a booking. Please try again here!");
+        $response = Gate::inspect('adminUpdate',$booking);
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
         }
+
+        if (Gate::allows('isTimeOff',$booking)) {
+            return redirect()->route('admin-time-offs.show',$booking)->with('error',"You can't cancel a time off as a booking. Please try again here!");
+        }        
 
         $booking->user->notify(
             new BookingCancellationNotification($booking,'Admin')

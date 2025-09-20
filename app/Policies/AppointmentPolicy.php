@@ -43,6 +43,28 @@ class AppointmentPolicy
         }
     }
 
+    // FOR USERS - MY APPOINTMENT CONTROLLER
+    public function userView(User $user, Appointment $appointment): Response
+    {
+        return $appointment->user_id === $user->id
+            ? Response::allow()
+            : Response::deny("You can't view other users' appointments.");
+    }
+
+    public function userDelete(User $user, Appointment $appointment): Response
+    {
+        if ($appointment->user_id != $user->id) {
+            return Response::deny("You can't cancel other users' appointments.");
+        } elseif ($appointment->app_start_time <= now()) {
+            return Response::deny("You can't cancel appointments from the past.");
+        } elseif ($appointment->deleted_at) {
+            return Response::deny("You can't cancel already cancelled appointments.");
+        } else {
+            return Response::allow();
+        }
+    }
+
+    // UTILITY
     public function isTimeOff(User $user, Appointment $appointment): bool
     {
         return $appointment->service_id == 1;

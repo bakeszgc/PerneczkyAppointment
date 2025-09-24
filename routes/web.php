@@ -73,7 +73,7 @@ Route::middleware(['auth','verified','barber'])->group(function() {
     Route::get('appointments/createService',[AppointmentController::class,'createService'])->name('appointments.create.service');
     Route::get('appointments/createDate',[AppointmentController::class,'createDate'])->name('appointments.create.date');
 
-    Route::resource('appointments',AppointmentController::class);
+    Route::resource('appointments',AppointmentController::class)->withTrashed(['show']);
 
     // BARBER TIME OFF
     Route::get('time-offs/upcoming', [TimeOffController::class,'indexUpcoming'])->name('time-offs.upcoming');

@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use Hash;
+use Validator;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Validation\Rules\Password;
-use Validator;
 
 class UserController extends Controller
 {
@@ -47,8 +48,10 @@ class UserController extends Controller
 
     public function show(Request $request, User $user)
     {
-        if (auth()->user()->id != $user->id) {
-            return redirect()->route('users.show',auth()->user())->with('error','Sorry! You are not authorized to access that page.');
+        $response = Gate::inspect('view',$user);
+
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
         }
 
         $request->validate([
@@ -74,6 +77,12 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
+        $response = Gate::inspect('update',$user);
+
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
+        }
+
         $request->validate([
             'first_name' => 'required|string|min:2|max:255',
             'last_name' => 'required|string|min:2|max:255',
@@ -115,6 +124,12 @@ class UserController extends Controller
 
     public function updatePassword(Request $request, User $user)
     {
+        $response = Gate::inspect('updatePassword',$user);
+
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
+        }
+
         $validator = Validator::make($request->all(), [
             'password' => 'required|current_password:web',
             'new_password' => ['required',Password::min(8)->mixedCase()->numbers()],

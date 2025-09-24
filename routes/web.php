@@ -19,18 +19,23 @@ use App\Http\Controllers\AdminTimeOffController;
 use App\Http\Controllers\MyAppointmentController;
 use App\Http\Controllers\AdminAppointmentController;
 
-// AUTH
-Route::get('login', [AuthController::class, 'create'])->name('login');
-Route::resource('auth', AuthController::class)->only(['store']);
-
-Route::get('register',[UserController::class,'create'])->name('register');
-Route::resource('user',UserController::class)->only('store');
-
 // PASSWORD RESET
 Route::get('/forgot-password',[AuthController::class, 'forgotPassword'])->name('password.request');
 Route::post('/forgot-password',[AuthController::class,'sendPasswordResetEmail'])->name('password.email');
 Route::get('/reset-password/{token}',[AuthController::class,'resetPassword'])->name('password.reset');
 Route::post('/reset-password',[AuthController::class,'updatePassword'])->name('password.update');
+
+// GUEST ROUTES
+Route::middleware('guest')->group(function() {
+
+    // AUTH
+    Route::get('login', [AuthController::class, 'create'])->name('login');
+    Route::resource('auth', AuthController::class)->only(['store']);
+
+    Route::get('register',[UserController::class,'create'])->name('register');
+    Route::resource('user',UserController::class)->only('store');
+    
+});
 
 // AUTH REQUIRED ROUTES
 Route::middleware('auth')->group(function(){

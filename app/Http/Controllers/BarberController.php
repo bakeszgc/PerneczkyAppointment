@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Appointment;
-use App\Models\Barber;
 use App\Models\User;
+use App\Models\Barber;
+use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Gate;
 
 class BarberController extends Controller
 {
@@ -80,6 +81,12 @@ class BarberController extends Controller
 
     public function update(Request $request, Barber $barber)
     {
+        $response = Gate::inspect('update',$barber);
+
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
+        }
+
         $user = $barber->user;
 
         $request->validate([
@@ -111,6 +118,12 @@ class BarberController extends Controller
 
     public function destroy(Barber $barber)
     {
+        $response = Gate::inspect('delete',$barber);
+
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
+        }
+
         // sets barber visibility to false
         $barber->update([
             'is_visible' => false
@@ -128,6 +141,12 @@ class BarberController extends Controller
 
     public function restore(Barber $barber)
     {
+        $response = Gate::inspect('restore',$barber);
+
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
+        }
+
         $barber->restore();
         return redirect()->route('barbers.show',$barber)->with('success',$barber->getName() . "'s barber access has been restored successfully!");
     }

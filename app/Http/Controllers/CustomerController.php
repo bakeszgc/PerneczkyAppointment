@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Barber;
 use App\Models\User;
+use App\Models\Barber;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Gate;
 
 class CustomerController extends Controller
 {
@@ -67,8 +68,14 @@ class CustomerController extends Controller
         ]);
     }
 
-public function update(Request $request, User $customer)
+    public function update(Request $request, User $customer)
     {
+        $response = Gate::inspect('adminUpdate',$customer);
+
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
+        }
+
         $request->validate([
             'first_name' => 'required|string|min:2|max:255',
             'last_name' => 'required|string|min:2|max:255',
@@ -127,8 +134,10 @@ public function update(Request $request, User $customer)
 
     public function destroy(User $customer)
     {
-        if ($customer->deleted_at) {
-            return redirect()->back()->with('error',$customer->first_name . "'s account has been already deleted!");
+        $response = Gate::inspect('adminDelete',$customer);
+
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
         }
 
         // deletes upcoming appointments of the user
@@ -160,8 +169,10 @@ public function update(Request $request, User $customer)
     }
 
     public function restore(User $customer) {
-        if (!isset($customer->deleted_at)) {
-            return redirect()->back()->with('error',$customer->first_name . "'s account has not been deleted yet!");
+        $response = Gate::inspect('adminRestore',$customer);
+
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
         }
 
         $customer->restore();

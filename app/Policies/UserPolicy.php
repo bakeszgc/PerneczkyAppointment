@@ -35,4 +35,32 @@ class UserPolicy
             return Response::allow();
         }
     }
+
+    // FOR ADMINS - CUSTOMER CONTROLLER
+    public function adminUpdate(User $user, User $model): Response
+    {
+        if ($model->deleted_at) {
+            return Response::deny("You can't update deleted users' profile.");
+        } else {
+            return Response::allow();
+        }
+    }
+
+    public function adminDelete(User $user, User $model): Response
+    {
+        if ($model->deleted_at) {
+            return Response::deny($model->first_name . "'s account has been already deleted!");
+        } else {
+            return Response::allow();
+        }
+    }
+
+    public function adminRestore(User $user, User $model): Response
+    {
+        if (!isset($model->deleted_at)) {
+            return Response::deny($model->first_name . "'s account has not been deleted yet!");
+        } else {
+            return Response::allow();
+        }
+    }
 }

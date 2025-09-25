@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\Service;
+use App\Notifications\BookingCancellationNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -99,12 +100,21 @@ class ServiceController extends Controller
             return redirect()->back()->with('error',$response->message());
         }
 
-        $name = $service->name;
+        $upcomingBookings = Appointment::where('service_id','=',$service->id)->upcoming()->get();
+
+        foreach ($upcomingBookings as $booking) {
+            $booking->user->notify(
+                new BookingCancellationNotification($booking,'admin')
+            );
+            $booking->delete();
+        }
+
         $service->update([
             'is_visible' => 0
         ]);
+
         $service->delete();
-        return redirect()->route('services.show',$service)->with('success', $name . " has been deleted successfully!");
+        return redirect()->route('services.show',$service)->with('success', $service->name . " has been deleted successfully!");
     }
 
     public function restore(Service $service)

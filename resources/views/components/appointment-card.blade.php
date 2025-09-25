@@ -36,7 +36,7 @@
             <h3 class="font-medium text-lg max-sm:text-sm mb-1">
                 {{$appointment->service->name}} {{ $appointment->service->isDeleted() }}
                 •
-                {{number_format($appointment->price,thousands_separator:' ')}} Ft
+                {{number_format($appointment->price,thousands_separator:' ')}} HUF
             </h3>
 
             <p class="font-medium text-base max-sm:text-sm text-slate-500">

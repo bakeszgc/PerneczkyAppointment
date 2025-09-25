@@ -49,7 +49,7 @@
                     <div class="rounded-md border-2 border-[#0018d5] p-4 h-full hover:bg-[#0018d5] hover:text-white hover:shadow-2xl transition-all">
                         <div class="flex justify-between items-start mb-2">
                             <h2 class="font-black text-lg">{{ $service->name }}</h2>
-                            <p class="text-lg min-w-24 w-fit text-right">{{ number_format($service->price,thousands_separator: ' ') }}&nbsp;Ft</p>
+                            <p class="text-lg min-w-24 w-fit text-right">{{ number_format($service->price,thousands_separator: ' ') }}&nbsp;HUF</p>
                         </div>
                         <p class="text-base">Estimated duration: {{ $service->duration }} minutes</p>
                     </div>

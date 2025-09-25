@@ -65,7 +65,7 @@
                             {{ $service->name }}
                         </h2>
                         <p class="text-lg min-w-24 w-fit text-right">
-                            {{number_format($service->price,thousands_separator:' ')}}&nbsp;Ft
+                            {{number_format($service->price,thousands_separator:' ')}}&nbsp;HUF
                         </p>
                     </div>
 

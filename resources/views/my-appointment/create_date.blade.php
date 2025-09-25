@@ -63,7 +63,7 @@
                                 •
                                 {{$service->duration}} minutes
                                 •
-                                {{number_format($service->price,thousands_separator:' ')}} Ft
+                                {{number_format($service->price,thousands_separator:' ')}} HUF
                             </a>
                         </h3>
                         <p class="font-medium text-base text-slate-500">

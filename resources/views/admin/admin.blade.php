@@ -75,7 +75,7 @@
                         'text-slate-500' => $service->deleted_at
                         ])>
                         <td>{{ $service->name }}</td>
-                        <td class="text-center">{{ number_format($service->price,thousands_separator:' ') }} Ft</td>
+                        <td class="text-center">{{ number_format($service->price,thousands_separator:' ') }} HUF</td>
                         <td class="text-center">{{ $service->duration }} minutes</td>
                         <td class="text-center">
                             {{ number_format($service->appointments_count,thousands_separator:' ') }}

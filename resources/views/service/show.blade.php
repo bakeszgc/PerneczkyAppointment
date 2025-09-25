@@ -78,7 +78,7 @@
         <h2 class="text-xl font-bold mb-4">Statistics about this service</h2>
         <ul class="*:mb-2">
             <li>Service booked: {{ $number }} times</li>
-            <li>Revenue generated from this service: {{ number_format($revenue,thousands_separator:' ') }} Ft</li>
+            <li>Revenue generated from this service: {{ number_format($revenue,thousands_separator:' ') }} HUF</li>
             <li>jöhet ide még valami info</li>
         </ul>
     </x-card>

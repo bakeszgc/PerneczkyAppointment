@@ -25,7 +25,7 @@
                         ])>
                         <td>{{ $service->id }}</td>
                         <td>{{ $service->name }} {{ $service->isDeleted() }}</td>
-                        <td>{{ number_format($service->price,thousands_separator:" ") }} Ft</td>
+                        <td>{{ number_format($service->price,thousands_separator:" ") }} HUF</td>
                         <td>{{ $service->duration }}&nbsp;minutes</td>
                         <td>{{ $service->created_at }}</td>
                         <td class="text-center">

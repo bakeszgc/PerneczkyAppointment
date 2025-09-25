@@ -6,15 +6,15 @@
 
     <x-headline class="mb-4">Manage Services</x-headline>
 
-    <x-card>
+    <x-card class="mb-4">
         <div class=" overflow-x-auto mb-4">
             <table class="w-full">
                 <tr class="*:font-bold *:p-2 bg-slate-300">
                     <td>ID</td>
-                    <td>Service&nbsp;name</td>
-                    <td>Current&nbsp;price</td>
-                    <td>Duration</td>
-                    <td>Time&nbsp;of&nbsp;creation</td>
+                    <td>Name</td>
+                    <td class="text-center">Price</td>
+                    <td class="text-center">Duration</td>
+                    <td class="text-center">Bookings</td>
                     <td>Visible</td>
                     <td></td>
                 </tr>
@@ -25,9 +25,9 @@
                         ])>
                         <td>{{ $service->id }}</td>
                         <td>{{ $service->name }} {{ $service->isDeleted() }}</td>
-                        <td>{{ number_format($service->price,thousands_separator:" ") }} HUF</td>
-                        <td>{{ $service->duration }}&nbsp;minutes</td>
-                        <td>{{ $service->created_at }}</td>
+                        <td class="text-center">{{ number_format($service->price,thousands_separator:" ") }} HUF</td>
+                        <td class="text-center">{{ $service->duration }}&nbsp;minutes</td>
+                        <td class="text-center">{{ number_format($service->appointments_count,thousands_separator:" ") }}</td>
                         <td class="text-center">
                             <x-input-field type="checkbox" name="is_visible" id="is_visible" :checked="$service->is_visible" value="is_visible"></x-input-field>
                         </td>
@@ -52,8 +52,8 @@
         </div>
 
         <div>
-            <x-link-button :link="route('services.create')" role="ctaMain">
-                Add New Service
+            <x-link-button :link="route('services.create')" role="createMain">
+                Add new service
             </x-link-button>
         </div>
     </x-card>

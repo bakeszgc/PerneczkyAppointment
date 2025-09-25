@@ -4,15 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\Service;
-use App\Rules\MultipleOf;
 use Illuminate\Http\Request;
-use function PHPUnit\Framework\returnArgument;
 
 class ServiceController extends Controller
 {
     public function index()
     {
-        $services = Service::withTrashed()->get();
+        $services = Service::withTrashed()->where('id','!=',1)->withCount('appointments')->get();
         return view('service.index',['services' => $services]);
     }
 
@@ -41,6 +39,7 @@ class ServiceController extends Controller
 
     public function show(Service $service)
     {
+        // ne lehessen megnézni a timeoffot
         $appointments = Appointment::where('service_id','=',$service->id);
         $revenue = $appointments->clone()->sum('price');
         $numberOfBookings = $appointments->clone()->count();

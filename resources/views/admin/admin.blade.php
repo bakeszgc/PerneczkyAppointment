@@ -59,17 +59,47 @@
     </x-show-card>
 
     <x-show-card :show="true" type="services" class="mb-6">
-        <div class="grid grid-cols-2 gap-4 mb-6">
-            @forelse ($services as $service)
-                <x-link-button link="{{ route('services.show',$service) }}" :full="true">
-                    {{ $service->name }}
-                </x-link-button>
-            @empty
-                <x-empty-card class="col-span-3">
-                    <p class="text-lg font-medium">You don't have any services!</p>
-                    <a href="{{ route('services.create') }}" class=" text-blue-700 hover:underline">Add a new one here!</a>
-                </x-empty-card>
-            @endforelse
+        <div class="overflow-x-auto mb-4">
+            <table class="w-full">
+                <tr class="*:font-bold *:p-2 bg-slate-300">
+                    <td>Name</td>
+                    <td>Price</td>
+                    <td>Duration</td>
+                    <td>Bookings</td>
+                    <td>Visible</td>
+                    <td></td>
+                </tr>
+                @forelse ($services as $service)
+                    <tr @class([
+                        'odd:bg-slate-100 hover:bg-slate-200 *:p-2',
+                        'text-slate-500' => $service->deleted_at
+                        ])>
+                        <td>{{ $service->name }}</td>
+                        <td>{{ number_format($service->price,thousands_separator:' ') }} Ft</td>
+                        <td>{{ $service->duration }} minutes</td>
+                        <td class="text-center">
+                            {{ $service->appointments_count }}
+                        </td>
+                        <td class="text-center">
+                            <x-input-field type="checkbox" name="is_visible" id="{{ 'is_visible_'.$service->id }}" :checked="$service->is_visible" value="is_visible" />
+                        </td>
+                        <td>
+                            <x-link-button :link="route('services.show',$service)" role="show">
+                                Details
+                            </x-link-button>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="7">
+                            <x-empty-card class="mt-4">
+                                <p>You don't have any services yet!</p>
+                            </x-empty-card>
+                        </td>
+                    </tr>
+
+                @endforelse
+            </table>
         </div>
 
         <div class="flex gap-2">
@@ -84,7 +114,7 @@
     </x-show-card>
 
     <x-show-card :show="true" type="customers" class="mb-6">
-            <div class=" overflow-x-auto mb-4">
+        <div class=" overflow-x-auto mb-4">
             <table class="w-full">
                 <tr class="*:font-bold *:p-2 bg-slate-300">
                     <td>Name</td>

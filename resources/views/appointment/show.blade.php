@@ -43,13 +43,13 @@
 
             <h3 class="font-bold text-xl mb-2 mt-4">Account</h3>
             <p>
-                Date of birth: {{ \Carbon\Carbon::parse($appointment->user->date_of_birth)->format('Y.m.d.') }} ({{ floor(\Carbon\Carbon::parse($appointment->user->date_of_birth)->diffInYears(now())) }} years old)
+                Date of birth: {{ \Carbon\Carbon::parse($appointment->user->date_of_birth)->format('Y-m-d') }} ({{ floor(\Carbon\Carbon::parse($appointment->user->date_of_birth)->diffInYears(now())) }} years old)
             </p>
             <p>
-                Account created: {{ \Carbon\Carbon::parse($appointment->user->created_at)->format('Y.m.d. G:i') ?? 'Not created yet' }}
+                Account created: {{ \Carbon\Carbon::parse($appointment->user->created_at)->format('Y-m-d G:i') ?? 'Not created yet' }}
             </p>
             <p>
-                Email verified: {{ \Carbon\Carbon::parse($appointment->user->email_verified_at)->format('Y.m.d. G:i') ?? 'Not verified yet' }}
+                Email verified: {{ \Carbon\Carbon::parse($appointment->user->email_verified_at)->format('Y-m-d G:i') ?? 'Not verified yet' }}
             </p>
         </div>
         <div class="border-l border-slate-300 max-md:border-0"></div>

@@ -47,7 +47,7 @@
                 @elseif (Carbon::parse($appointment->app_start_time)->isYesterday())
                     Yesterday
                 @else
-                    {{ Carbon::parse($appointment->app_start_time)->format('Y.m.d.') }}
+                    {{ Carbon::parse($appointment->app_start_time)->format('Y-m-d') }}
                 @endif
             </h2>
             <h3 class="font-medium text-lg max-sm:text-sm">

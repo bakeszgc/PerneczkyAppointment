@@ -63,10 +63,10 @@
             <table class="w-full">
                 <tr class="*:font-bold *:p-2 bg-slate-300">
                     <td>Name</td>
-                    <td>Price</td>
-                    <td>Duration</td>
-                    <td>Bookings</td>
-                    <td>Visible</td>
+                    <td class="text-center">Price</td>
+                    <td class="text-center">Duration</td>
+                    <td class="text-center">Bookings</td>
+                    <td class="text-center">Visible</td>
                     <td></td>
                 </tr>
                 @forelse ($services as $service)
@@ -75,15 +75,15 @@
                         'text-slate-500' => $service->deleted_at
                         ])>
                         <td>{{ $service->name }}</td>
-                        <td>{{ number_format($service->price,thousands_separator:' ') }} Ft</td>
-                        <td>{{ $service->duration }} minutes</td>
+                        <td class="text-center">{{ number_format($service->price,thousands_separator:' ') }} Ft</td>
+                        <td class="text-center">{{ $service->duration }} minutes</td>
                         <td class="text-center">
-                            {{ $service->appointments_count }}
+                            {{ number_format($service->appointments_count,thousands_separator:' ') }}
                         </td>
                         <td class="text-center">
                             <x-input-field type="checkbox" name="is_visible" id="{{ 'is_visible_'.$service->id }}" :checked="$service->is_visible" value="is_visible" />
                         </td>
-                        <td>
+                        <td class="text-center">
                             <x-link-button :link="route('services.show',$service)" role="show">
                                 Details
                             </x-link-button>
@@ -119,9 +119,9 @@
                 <tr class="*:font-bold *:p-2 bg-slate-300">
                     <td>Name</td>
                     <td>Email</td>
-                    <td>Bookings</td>
-                    <td>Barber</td>
-                    <td>Admin</td>
+                    <td class="text-center">Bookings</td>
+                    <td class="text-center">Barber</td>
+                    <td class="text-center">Admin</td>
                     <td></td>
                 </tr>
                 @forelse ($users as $user)
@@ -132,7 +132,7 @@
                         <td>{{ $user->first_name . " " . $user->last_name }}</td>
                         <td>{{ $user->email }}</td>
                         <td class="text-center">
-                            {{ $user->appointments_count }}
+                            {{ number_format($user->appointments_count,thousands_separator:' ') }}
                         </td>
                         <td class="text-center">
                             <x-input-field type="checkbox" name="is_barber" id="{{ 'is_barber_'.$user->id }}" :checked="isset($user->barber) && $user->barber->deleted_at == null" value="is_barber" />
@@ -140,7 +140,7 @@
                         <td class="text-center">
                             <x-input-field type="checkbox" name="is_admin" id="{{ 'is_admin_'.$user->id }}" :checked="$user->is_admin" value="is_admin" />
                         </td>
-                        <td>
+                        <td class="text-center">
                             <x-link-button :link="route('customers.show',$user)" role="show">
                                 Details
                             </x-link-button>

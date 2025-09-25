@@ -5,7 +5,11 @@
         $service->name => ''
     ]"/>
 
-    <x-headline class="mb-4">{{ $service->name }} {{ $service->isDeleted() }}</x-headline>
+    <x-headline class="mb-4">
+        <span @class(['text-slate-500' => isset($service->deleted_at)])>
+            {{ $service->name . ' ' . $service->isDeleted() }}
+        </span>
+    </x-headline>
 
     <x-card class="mb-6">
         <form action="{{ route('services.update',$service) }}" method="POST">
@@ -76,7 +80,7 @@
 
     <h2 class="font-bold text-2xl mb-4">Details about this service</h2>
 
-    <x-card>
+    <x-card class="mb-4">
         <div class="mb-4">
             <h3 class="text-xl font-bold mb-4">General details</h3>
             <ul class="*:mb-2">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ServiceController extends Controller
 {
@@ -39,7 +40,12 @@ class ServiceController extends Controller
 
     public function show(Service $service)
     {
-        // ne lehessen megnézni a timeoffot
+        $response = Gate::inspect('view',$service);
+
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
+        }
+
         $appointments = Appointment::serviceFilter($service);
 
         $previousStats = [
@@ -63,8 +69,10 @@ class ServiceController extends Controller
 
     public function update(Request $request, Service $service)
     {
-        if (isset($service->deleted_at)) {
-            return redirect()->route('services.show',$service)->with('error','You cannot edit deleted services. If you wish to proceed please restore ' . $service->name . ' first!');
+        $response = Gate::inspect('update',$service);
+        
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
         }
 
         $request->validate([
@@ -85,6 +93,12 @@ class ServiceController extends Controller
 
     public function destroy(Service $service)
     {
+        $response = Gate::inspect('delete',$service);
+        
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
+        }
+
         $name = $service->name;
         $service->update([
             'is_visible' => 0
@@ -95,6 +109,12 @@ class ServiceController extends Controller
 
     public function restore(Service $service)
     {
+        $response = Gate::inspect('restore',$service);
+        
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
+        }
+
         $service->restore();
         return redirect()->route('services.show',$service)->with('success',$service->name . " has been restored successfully!");
     }

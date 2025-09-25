@@ -40,14 +40,24 @@ class ServiceController extends Controller
     public function show(Service $service)
     {
         // ne lehessen megnézni a timeoffot
-        $appointments = Appointment::where('service_id','=',$service->id);
-        $revenue = $appointments->clone()->sum('price');
-        $numberOfBookings = $appointments->clone()->count();
+        $appointments = Appointment::serviceFilter($service);
+
+        $previousStats = [
+            'numBookings' => $appointments->clone()->previous()->count(),
+            'sumPrice' => $appointments->clone()->previous()->sum('price'),
+            'avgPrice' => $appointments->clone()->previous()->avg('price')
+        ];
+
+        $upcomingStats = [
+            'numBookings' => $appointments->clone()->upcoming()->count(),
+            'sumPrice' => $appointments->clone()->upcoming()->sum('price'),
+            'avgPrice' => $appointments->clone()->upcoming()->avg('price')
+        ];
 
         return view('service.show',[
             'service' => $service,
-            'revenue' => $revenue,
-            'number' => $numberOfBookings
+            'previousStats' => $previousStats,
+            'upcomingStats' => $upcomingStats
         ]);
     }
 

@@ -54,32 +54,57 @@
             </div>
 
             <div class="flex gap-2">
-                <x-button role="ctaMain" :disabled="isset($service->deleted_at)">Save Changes</x-button>
+                <x-button role="ctaMain" :disabled="isset($service->deleted_at)">Save changes</x-button>
                 </form>
 
                 @if ($service->deleted_at)
                     <form action="{{ route('services.restore',$service) }}" method="POST">
                         @method('PUT')
                         @csrf
-                        <x-button role="restore">Restore Service</x-button>
+                        <x-button role="restore">Restore service</x-button>
                     </form>
                 @else
                     <form action="{{ route('services.destroy',$service) }}" method="POST">
                         @method('DELETE')
                         @csrf
-                        <x-button role="destroy">Delete Service</x-button>
+                        <x-button role="destroy">Delete service</x-button>
                     </form>
                 @endif
             </div>
         
     </x-card>
 
+    <h2 class="font-bold text-2xl mb-4">Details about this service</h2>
+
     <x-card>
-        <h2 class="text-xl font-bold mb-4">Statistics about this service</h2>
-        <ul class="*:mb-2">
-            <li>Service booked: {{ $number }} times</li>
-            <li>Revenue generated from this service: {{ number_format($revenue,thousands_separator:' ') }} HUF</li>
-            <li>jöhet ide még valami info</li>
-        </ul>
+        <div class="mb-4">
+            <h3 class="text-xl font-bold mb-4">General details</h3>
+            <ul class="*:mb-2">
+                <li>Created at: {{ $service->created_at }}</li>
+                <li>Updated at: {{ $service->updated_at }}</li>
+            </ul>
+        </div>
+
+        <hr class="mb-4">
+        
+        <div class="flex justify-between gap-4">
+            <div class="flex-1">
+                <h3 class="text-xl font-bold mb-4">Statistics from the past</h3>
+                <ul class="*:mb-2">
+                    <li>Booked: {{ number_format($previousStats['numBookings'],thousands_separator:' ') }} times - <a href="{{ route('bookings.index',['service' => $service->id, 'time_window' => 'previous']) }}" class="text-blue-700 hover:underline font-bold">Show bookings</a></li>
+                    <li>Average price: {{ number_format($previousStats['avgPrice'],$previousStats['avgPrice'] != floor($previousStats['avgPrice']) ? 2 : 0, thousands_separator:' ') }} HUF</li>
+                    <li>Revenue generated from this service: {{ number_format($previousStats['sumPrice'], $previousStats['sumPrice'] != floor($previousStats['sumPrice']) ? 2 : 0,thousands_separator:' ') }} HUF</li>
+                </ul>
+            </div>
+            <div class="border-l"></div>
+            <div class="flex-1">
+                <h3 class="text-xl font-bold mb-4">Statistics from the future</h3>
+                <ul class="*:mb-2">
+                    <li>Booked: {{ number_format($upcomingStats['numBookings'],thousands_separator:' ') }} times - <a href="{{ route('bookings.index',['service' => $service->id, 'time_window' => 'upcoming']) }}" class="text-blue-700 hover:underline font-bold">Show bookings</a></li>
+                    <li>Average price: {{ number_format($upcomingStats['avgPrice'],$upcomingStats['avgPrice'] != floor($upcomingStats['avgPrice']) ? 2 : 0, thousands_separator:' ') }} HUF</li>
+                    <li>Revenue estimated from this service: {{ number_format($upcomingStats['sumPrice'],  $upcomingStats['sumPrice'] != floor($upcomingStats['sumPrice']) ? 2 : 0,thousands_separator:' ') }} HUF</li>
+                </ul>
+            </div>
+        </div>
     </x-card>
 </x-user-layout>

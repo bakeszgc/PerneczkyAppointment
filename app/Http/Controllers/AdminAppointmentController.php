@@ -53,8 +53,8 @@ class AdminAppointmentController extends Controller
 
 
         $appointments = Appointment::withoutTimeOffs()
-            ->when($request->cancelled, function ($q) use ($request) {
-                switch ($request->cancelled) {
+            ->when(true, function ($q) use ($request) {
+                switch ($request->cancelled ?? 1) {
                     case 1:
                         $q->withTrashed();
                         break;

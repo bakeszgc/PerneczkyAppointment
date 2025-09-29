@@ -95,18 +95,30 @@
             <div class="flex-1">
                 <h3 class="text-xl font-bold mb-4">Statistics from the past</h3>
                 <ul class="*:mb-2">
-                    <li>Booked: {{ number_format($previousStats['numBookings'],thousands_separator:' ') }} times - <a href="{{ route('bookings.index',['service' => $service->id, 'time_window' => 'previous']) }}" class="text-blue-700 hover:underline font-bold">Show bookings</a></li>
-                    <li>Average price: {{ number_format($previousStats['avgPrice'],$previousStats['avgPrice'] != floor($previousStats['avgPrice']) ? 2 : 0, thousands_separator:' ') }} HUF</li>
-                    <li>Revenue generated from this service: {{ number_format($previousStats['sumPrice'], $previousStats['sumPrice'] != floor($previousStats['sumPrice']) ? 2 : 0,thousands_separator:' ') }} HUF</li>
+                    <li>
+                        Booked: {{ number_format($previousStats['numBookings'],thousands_separator:' ') }} times - <a href="{{ route('bookings.index',['service' => $service->id, 'time_window' => 'previous', 'cancelled' => 1]) }}" class="text-blue-700 hover:underline font-bold">Show bookings</a>
+                    </li>
+                    <li>
+                        Average price: {{ number_format($previousStats['avgPrice'],$previousStats['avgPrice'] != floor($previousStats['avgPrice']) ? 2 : 0, thousands_separator:' ') }} HUF
+                    </li>
+                    <li>
+                        Revenue generated from this service: {{ number_format($previousStats['sumPrice'], $previousStats['sumPrice'] != floor($previousStats['sumPrice']) ? 2 : 0,thousands_separator:' ') }} HUF
+                    </li>
                 </ul>
             </div>
             <div class="border-l"></div>
             <div class="flex-1">
                 <h3 class="text-xl font-bold mb-4">Statistics from the future</h3>
                 <ul class="*:mb-2">
-                    <li>Booked: {{ number_format($upcomingStats['numBookings'],thousands_separator:' ') }} times - <a href="{{ route('bookings.index',['service' => $service->id, 'time_window' => 'upcoming']) }}" class="text-blue-700 hover:underline font-bold">Show bookings</a></li>
-                    <li>Average price: {{ number_format($upcomingStats['avgPrice'],$upcomingStats['avgPrice'] != floor($upcomingStats['avgPrice']) ? 2 : 0, thousands_separator:' ') }} HUF</li>
-                    <li>Revenue estimated from this service: {{ number_format($upcomingStats['sumPrice'],  $upcomingStats['sumPrice'] != floor($upcomingStats['sumPrice']) ? 2 : 0,thousands_separator:' ') }} HUF</li>
+                    <li>
+                        Booked: {{ number_format($upcomingStats['numBookings'],thousands_separator:' ') }} times - <a href="{{ route('bookings.index',['service' => $service->id, 'time_window' => 'upcoming', 'cancelled' => 1]) }}" class="text-blue-700 hover:underline font-bold">Show bookings</a>
+                    </li>
+                    <li>
+                        Average price: {{ number_format($upcomingStats['avgPrice'],$upcomingStats['avgPrice'] != floor($upcomingStats['avgPrice']) ? 2 : 0, thousands_separator:' ') }} HUF
+                    </li>
+                    <li>
+                        Revenue estimated from this service: {{ number_format($upcomingStats['sumPrice'],  $upcomingStats['sumPrice'] != floor($upcomingStats['sumPrice']) ? 2 : 0,thousands_separator:' ') }} HUF
+                    </li>
                 </ul>
             </div>
         </div>

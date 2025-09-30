@@ -19,6 +19,7 @@
     </div>
 
     <x-container class="flex max-md:flex-col gap-8">
+        <div id="about" class="-translate-y-12"></div>
         <div class="*:text-justify">
             <h2 class="font-black text-2xl mb-6">
                 Hi! We are very glad you're here with us!
@@ -39,6 +40,7 @@
     </x-container>
 
     <x-header :bgImage="asset('pictures/services.jpeg')">
+        <div id="services" class="-translate-y-14"></div>
         Services
     </x-header>
 
@@ -61,6 +63,7 @@
     </x-container>
 
     <x-header :bgImage="asset('pictures/barbers.jpg')">
+        <div id="barbers" class="-translate-y-14"></div>
         Barbers
     </x-header>
 
@@ -95,6 +98,7 @@
     </x-container>
 
     <x-header :bgImage="asset('pictures/location.jpg')">
+        <div id="location" class="-translate-y-14"></div>
         Location
     </x-header>
 
@@ -120,6 +124,8 @@
     </x-container>
 
     <footer class=" py-12 bg-[#0f0f0f] text-white">
+        <div id="contact" class="-translate-y-14"></div>
+        <div id="opening-hours" class="-translate-y-14"></div>
         <div class="max-w-6xl mx-auto px-8 flex justify-between">
             <div>
                 <h2 class="text-2xl font-black mb-4">Contact</h2>

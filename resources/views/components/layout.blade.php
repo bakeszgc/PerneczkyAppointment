@@ -61,34 +61,63 @@
                 <span class="bar"></span>
             </div>
 
-            <div class="flex justify-between items-center gap-4 max-lg:flex-col max-lg:translate-y-2 max-lg:bg-[#0f0f0f] max-lg:pt-12 max-lg:pb-6 max-lg:-translate-x-full nav-menu" id="nav-menu">
-                <ul class="flex items-center gap-2 max-lg:flex-col">
-                    <li>
-                        Welcome, {{auth()->user()->barber->display_name ?? auth()->user()->first_name ?? 'Guest'}}!
-                    </li>
+            <div class="flex justify-between items-center gap-4 max-lg:flex-col max-lg:translate-y-1 max-lg:bg-[#0f0f0f] max-lg:pt-16 max-lg:pb-6 max-lg:-translate-x-full nav-menu" id="nav-menu">
 
-                    @if (auth()->user()->barber ?? false)
+                @auth                    
+                    <ul class="flex items-center gap-2 max-lg:flex-col">
                         <li>
-                            @if ($currentView !== 'barber')
-                                <a href="{{ route('appointments.index') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
-                                Barber View
-                                </a>
-                            @else
-                                <a href="{{ route('my-appointments.index') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
-                                Customer View
-                                </a>
-                            @endif
+                            Welcome, {{auth()->user()->barber->display_name ?? auth()->user()->first_name ?? 'Guest'}}!
                         </li>
-                    @endif
 
-                    @if (auth()->user()->is_admin ?? false)
+                        @if (auth()->user()->barber ?? false)
+                            <li>
+                                @if ($currentView !== 'barber')
+                                    <a href="{{ route('appointments.index') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
+                                    Barber View
+                                    </a>
+                                @else
+                                    <a href="{{ route('my-appointments.index') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
+                                    Customer View
+                                    </a>
+                                @endif
+                            </li>
+                        @endif
+
+                        @if (auth()->user()->is_admin ?? false)
+                            <li>
+                                <a href="{{ route('admin') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
+                                    Admin Dashboard
+                                </a>
+                            </li>
+                        @endif
+                    </ul>
+                @else
+                    <ul>
+                    
+                    </ul>
+
+                    <ul class="flex items-center gap-4 max-lg:flex-col lg:translate-x-[54px]">
                         <li>
-                            <a href="{{ route('admin') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
-                                Admin Dashboard
-                            </a>
+                            <a href="#about" class="hover:text-blue-400 transition-all">About us</a>
                         </li>
-                    @endif
-                </ul>
+                        <li>
+                            <a href="#services" class="hover:text-blue-400 transition-all">Services</a>
+                        </li>
+                        <li>
+                            <a href="#barbers" class="hover:text-blue-400 transition-all">Barbers</a>
+                        </li>
+                        <li class="w-18 max-lg:hidden"></li>
+                        <li>
+                            <a href="#location" class="hover:text-blue-400 transition-all">Location</a>
+                        </li>
+                        <li>
+                            <a href="#contact" class="hover:text-blue-400 transition-all">Contact</a>
+                        </li>
+                        <li>
+                            <a href="#opening-hours" class="hover:text-blue-400 transition-all">Opening hours</a>
+                        </li>
+                    </ul>
+                @endauth
 
                 <ul class="flex items-center gap-4 max-lg:flex-col">
                     @auth
@@ -130,6 +159,7 @@
                     @endauth
                 </ul>
             </div>
+            
         </nav>
 
         <div class="z-10">

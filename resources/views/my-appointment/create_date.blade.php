@@ -138,7 +138,7 @@
         </x-card>
 
         <div class="mb-8">
-            <x-button role="ctaMain" :full="true" id="submitBtnForRadioBtns" :disabled="true">Book Appointment</x-button>
+            <x-button role="ctaMain" :full="true" id="submitBtnForRadioBtns" :disabled="true">Book appointment</x-button>
         </div>
     </form>
 

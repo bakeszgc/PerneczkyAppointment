@@ -136,7 +136,7 @@
             @endif
 
             <div>
-                <x-button role="ctaMain" :full="true" :disabled="true" id="profileButton">Save Changes</x-button>
+                <x-button role="ctaMain" :full="true" :disabled="true" id="profileButton">Save changes</x-button>
             </div>
         </form>
     </x-show-card>
@@ -208,7 +208,7 @@
                             </li>
                         </ul>
                         <div id="submitDiv" hidden>
-                            <x-button id="submit" role="ctaMain">Save Changes</x-button>
+                            <x-button id="submit" role="ctaMain">Save changes</x-button>
                         </div>
                     </div>
                 </div>
@@ -311,7 +311,7 @@
                         Fields marked with * are <span class="font-semibold">required</span>
                     </div>
                 </div>
-                <x-button role="ctaMain" :full="true" id="passButton" :disabled="true">Change Password</x-button>
+                <x-button role="ctaMain" :full="true" id="passButton" :disabled="true">Change password</x-button>
             </form>
         </x-show-card>
     @endif

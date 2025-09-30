@@ -37,7 +37,7 @@
                         <td>
                             <x-link-button role="show" link="{{ route('barbers.show',$barber) }}">
                                 Details
-                            </x-button>
+                            </x-link-button>
                         </td>
                     </tr>
                 @empty

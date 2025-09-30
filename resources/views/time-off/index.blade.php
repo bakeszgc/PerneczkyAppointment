@@ -9,7 +9,7 @@
             Your {{ $type !== 'All' ? $type : '' }} Time Offs
         </x-headline>
         
-        <x-link-button :link="route('time-offs.create')" role="timeoffMain">New&nbsp;Time&nbsp;Off</x-link-button>
+        <x-link-button :link="route('time-offs.create')" role="timeoffMain">New&nbsp;time&nbsp;off</x-link-button>
     </div>
 
     <div class="grid grid-cols-3 gap-2 mb-4 p-2 rounded-md bg-slate-300 text-center text-lg font-bold">

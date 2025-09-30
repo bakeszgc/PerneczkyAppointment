@@ -15,7 +15,7 @@
 
     <div class="flex justify-between items-end mb-4">
         <x-headline>{{$appointment->user->first_name}}'s Booking</x-headline>
-        <x-link-button :link="$view == 'admin' ? route('bookings.create') : route('appointments.create')"  role="createMain">New&nbsp;Booking</x-link-button>
+        <x-link-button :link="$view == 'admin' ? route('bookings.create') : route('appointments.create')"  role="createMain">New&nbsp;booking</x-link-button>
     </div>
 
     <x-appointment-card :appointment="$appointment" access="{{ $view }}" class="mb-8">

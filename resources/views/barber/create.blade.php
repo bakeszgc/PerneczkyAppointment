@@ -46,14 +46,14 @@
 
                         @if ($user->barber)
                             <div class="flex flex-col gap-1 items-end">
-                                <x-button role="ctaMain" disabled>Already a Barber</x-button>
+                                <x-button role="ctaMain" disabled>Already a barber</x-button>
 
                                 <a href="{{ route('barbers.show',$user->barber) }}" class="text-sm text-[#0018d5] hover:underline">
                                     View {{ $user->barber->getName() }}'s profile
                                 </a>
                             </div>
                         @else
-                            <x-button role="ctaMain">Promote to Barber</x-button>
+                            <x-button role="ctaMain">Promote to barber</x-button>
                         @endif
                     </li>
                 </form>

@@ -28,7 +28,7 @@
 
     <div class="flex justify-between items-end mb-4">
         <x-headline>{{$title}}</x-headline>
-        <x-link-button :link="$createRoute" role="timeoffCreateMain">New&nbsp;Time&nbsp;Off</x-link-button>
+        <x-link-button :link="$createRoute" role="timeoffCreateMain">New&nbsp;time&nbsp;off</x-link-button>
     </div>
 
     <x-time-off-card :appointment="$appointment" :access="$access" class="mb-4" />

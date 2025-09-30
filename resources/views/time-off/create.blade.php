@@ -104,7 +104,7 @@
             </div>
 
             <x-button role="timeoffMain" :full="true">
-                Set Time Off
+                Set time off
             </x-button>
 
         </form>

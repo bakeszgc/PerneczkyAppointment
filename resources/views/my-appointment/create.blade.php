@@ -7,9 +7,9 @@
         <div class="text-center mb-4">
             <h2 class="font-bold text-xl mb-4">Are you a returning customer?</h2>
             <div class="flex items-center gap-2 justify-center">
-                <x-link-button role="ctaMain" link="{{ route('login') }}">Log In</x-link-button>
+                <x-link-button role="ctaMain" link="{{ route('login') }}">Log in</x-link-button>
                 <p>or</p>
-                <x-link-button role="active" link="{{ route('register') }}">Create an Account</x-link-button>
+                <x-link-button role="active" link="{{ route('register') }}">Create an account</x-link-button>
             </div>
             
         </div>

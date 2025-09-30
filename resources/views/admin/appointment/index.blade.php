@@ -29,7 +29,7 @@
             All {{ $view }}s
         </x-headline>
         
-        <x-link-button :link="$createRoute" role="{{ $view == 'Time Off' ? 'timeoffCreateMain' : 'createMain' }}">New&nbsp;{{ $view }}</x-link-button>
+        <x-link-button :link="$createRoute" role="{{ $view == 'Time Off' ? 'timeoffCreateMain' : 'createMain' }}">New&nbsp;{{ strtolower($view) }}</x-link-button>
     </div>
 
     <x-card class="mb-8">

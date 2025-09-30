@@ -47,7 +47,7 @@
                 {{$slot}}
             </div>
         </div>
-        <div class="text-right">
+        <div class="text-right min-w-max">
             <h2 class="font-bold text-2xl max-sm:text-lg mb-1">
                 @if (Carbon::parse($appointment->app_start_time)->isToday())
                     Today

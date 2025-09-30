@@ -29,7 +29,7 @@
 
             @if ($access == 'admin')
                 <p class="font-medium text-lg max-sm:text-sm">
-                    Barber: {{$appointment->barber->getName() }} {{ $appointment->barber->isDeleted() }}
+                    Barber: <a href="{{ route('barbers.show',$appointment->barber) }}" class="text-green-700 hover:underline">{{$appointment->barber->getName() }} {{ $appointment->barber->isDeleted() }} </a>
                 </p>
             @endif
             

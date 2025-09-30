@@ -34,13 +34,28 @@
             </h2>
 
             <h3 class="font-medium text-lg max-sm:text-sm mb-1">
-                {{$appointment->service->name}} {{ $appointment->service->isDeleted() }}
+                @if ($access == 'admin')
+                    <a href="{{ route('services.show',$appointment->service) }}" class="text-blue-700 hover:underline">
+                @endif
+                    {{$appointment->service->name}} {{ $appointment->service->isDeleted() }}
+                @if ($access == 'admin')
+                    </a>
+                @endif
                 •
                 {{number_format($appointment->price,thousands_separator:' ')}} HUF
             </h3>
 
             <p class="font-medium text-base max-sm:text-sm text-slate-500">
-                Barber: {{$appointment->barber->getName() }} {{ $appointment->barber->isDeleted() }}
+                Barber: 
+                @if ($access == 'admin')
+                    <a href="{{ route('barbers.show',$appointment->barber) }}" class="text-blue-700 hover:underline">
+                @endif
+
+                {{$appointment->barber->getName() }} {{ $appointment->barber->isDeleted() }}
+
+                @if ($access == 'admin')
+                    </a>
+                @endif
             </p>
             
             <div>

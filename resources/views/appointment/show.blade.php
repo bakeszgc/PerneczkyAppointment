@@ -34,32 +34,55 @@
     <x-card class="flex max-md:flex-col gap-4 mb-4">
         <div class="text-base flex-1">
             <h3 class="font-bold text-xl mb-2">Contact</h3>
-            <p>
-                Telephone number: <a href="tel:{{ $appointment->user->tel_number }}" class="text-blue-700 hover:underline">{{ $appointment->user->tel_number }}</a>
-            </p>
-            <p>
-                Email address: <a href="mailto:{{ $appointment->user->email }}" class="text-blue-700 hover:underline">{{ $appointment->user->email }}</a>
-            </p>
+            <ul>
+                <li>
+                    Telephone number: <a href="tel:{{ $appointment->user->tel_number }}" class="text-blue-700 hover:underline">{{ $appointment->user->tel_number }}</a>
+                </li>
+                <li>
+                    Email address: <a href="mailto:{{ $appointment->user->email }}" class="text-blue-700 hover:underline">{{ $appointment->user->email }}</a>
+                </li>                
+            </ul>
 
             <h3 class="font-bold text-xl mb-2 mt-4">Account</h3>
-            <p>
-                Date of birth: {{ \Carbon\Carbon::parse($appointment->user->date_of_birth)->format('Y-m-d') }} ({{ floor(\Carbon\Carbon::parse($appointment->user->date_of_birth)->diffInYears(now())) }} years old)
-            </p>
-            <p>
-                Account created: {{ \Carbon\Carbon::parse($appointment->user->created_at)->format('Y-m-d G:i') ?? 'Not created yet' }}
-            </p>
-            <p>
-                Email verified: {{ \Carbon\Carbon::parse($appointment->user->email_verified_at)->format('Y-m-d G:i') ?? 'Not verified yet' }}
-            </p>
+            <ul>                
+                <li>
+                    Date of birth: {{ \Carbon\Carbon::parse($appointment->user->date_of_birth)->format('Y-m-d') }} ({{ floor(\Carbon\Carbon::parse($appointment->user->date_of_birth)->diffInYears(now())) }} years old)
+                </li>
+                <li>
+                    Account created: {{ \Carbon\Carbon::parse($appointment->user->created_at)->format('Y-m-d G:i') ?? 'Not created yet' }}
+                </li>
+                <li>
+                    Email verified: {{ \Carbon\Carbon::parse($appointment->user->email_verified_at)->format('Y-m-d G:i') ?? 'Not verified yet' }}
+                </li>
+                
+                @if ($view == 'admin')
+                <li class="mt-2">
+                    <a href="{{ route('customers.show',$appointment->user) }}" class="text-blue-700 hover:underline font-bold">
+                        View {{ $appointment->user->first_name }}'s profile
+                    </a>
+                </li>
+                @endif
+            </ul>            
         </div>
         <div class="border-l border-slate-300 max-md:border-0"></div>
         <div class="text-base flex-1">
             <h3 class="font-bold text-xl mb-2">Bookings</h3>
-            <p>Upcoming bookings: {{ $upcoming }}</p>
-            <p>Previous bookings: {{ $previous }}</p>
-            <p>Cancelled bookings: {{ $cancelled }}</p>
-            <p>Favourite barber: {{ $favBarber->getName() }} ({{ $numBarber }})</p>
-            <p>Favourite service: {{ $favService->name }} ({{ $numService }})</p>
+
+            <ul>
+                <li>Upcoming bookings: {{ $upcoming }}</li>
+                <li>Previous bookings: {{ $previous }}</li>
+                <li>Cancelled bookings: {{ $cancelled }}</li>
+                <li>Favourite barber: {{ $favBarber->getName() }} ({{ $numBarber }})</li>
+                <li>Favourite service: {{ $favService->name }} ({{ $numService }})</li>
+
+                @if ($view == 'admin')
+                <li class="mt-2">
+                    <a href="{{ route('bookings.index',['user' => $appointment->user]) }}" class="text-blue-700 hover:underline font-bold">
+                        View {{ $appointment->user->first_name }}'s bookings
+                    </a>
+                </li>
+                @endif
+            </ul>
         </div>
     </x-card>
     

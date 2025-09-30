@@ -33,6 +33,36 @@
                 width: 12.5%;
             }
 
+            .scroll {
+                filter: drop-shadow(0px 0px 30px black);
+                animation: down 1.5s infinite;
+                -webkit-animation: down 1.5s infinite;
+            }
+
+            @keyframes down {
+                0% {
+                    transform: translate(0);
+                }
+                20% {
+                    transform: translateY(15px);
+                }
+                40% {
+                    transform: translate(0);
+                }
+            }
+
+            @-webkit-keyframes down {
+                0% {
+                    transform: translate(0);
+                }
+                20% {
+                    transform: translateY(15px);
+                }
+                40% {
+                    transform: translate(0);
+                }
+            }
+
             @media not all and (min-width: 1024px) {
                 .hamburger{
                     display: block;

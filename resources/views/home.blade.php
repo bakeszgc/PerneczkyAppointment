@@ -13,8 +13,10 @@
                 <h2 class="font-black text-xl">+36 70 405 6079</h2>
             </a>
         </div>
-        <div>
-            <img src="{{ asset('design/scroll_icon.svg') }}" alt="Scroll icon" class="h-12 mb-4">
+        <div class="scroll">
+            <a href="#about">
+                <img src="{{ asset('design/scroll_icon.svg') }}" alt="Scroll icon" class="h-12 mb-6">
+            </a>
         </div>
     </div>
 

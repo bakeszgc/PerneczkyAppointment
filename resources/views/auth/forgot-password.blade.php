@@ -1,12 +1,12 @@
 <x-user-layout title="Forgot Password">
     <x-breadcrumbs :links="[
-        'Sign In' => route('login'),
-        'Forgot Password' => ''
+        'Sign in' => route('login'),
+        'Forgot password' => ''
     ]" />
 
-    <x-headline class="mb-4">Forgot Password</x-headline>
+    <x-headline class="mb-4">Forgot password</x-headline>
 
-    <x-card class="mb-8 p-8">
+    <x-card class="mb-8 p-8 max-md:p-4">
         <form action="{{ route('password.email') }}" method="POST">
             @csrf
 
@@ -18,7 +18,7 @@
                 @enderror
             </div>
 
-            <p class="mb-4 text-justify">
+            <p class="mb-4 text-justify text-sm">
                 Enter your email address that you have used for your account and we will send you a link to change your password. If you still need help please <a href="{{ route('home') }}#contact" class="text-[#0018d5] hover:underline">contact us</a>.
             </p>
 

@@ -90,8 +90,6 @@
     }
 @endphp
 
-@vite(['resources/js/calendar.js'])
-
 <x-user-layout :title="$title" currentView="{{ $access }}">
 
     <x-breadcrumbs :links="$breadcrumbLinks"/>

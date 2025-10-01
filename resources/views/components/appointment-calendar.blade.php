@@ -1,5 +1,3 @@
-@vite(['resources/js/calendar.js'])
-
 <div>
     <div class="relative">        
         <div id="calendarEventContainer" class="relative w-full h-0 left-0 top-0 max-lg:-translate-y-3"></div>

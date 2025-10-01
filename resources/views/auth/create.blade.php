@@ -1,12 +1,11 @@
 <x-user-layout title="Sign In">
     <x-breadcrumbs :links="[
-        'Sign In' => ''
+        'Sign in' => ''
     ]" />
 
-    <x-headline class="mb-4">Sign in to Your Account</x-headline>
+    <x-headline class="mb-4">Sign in to your account</x-headline>
 
-    <x-card class="mb-8">
-        <div class="m-4">
+    <x-card class="mb-8 p-8 max-md:p-4">
             <form action="{{route('auth.store')}}" method="POST">
                 @csrf
                 <div class="mb-4">
@@ -30,22 +29,20 @@
                         <x-input-field id="remember" name="remember" type="checkbox" value="remember" />
                         <x-label for="remember">Remember me</x-label>
                     </div>
-                    <div>
-                        <a href="{{ route('password.request') }}" class="text-[#0018d5] hover:underline">Forgot your password?</a>
+                    <div class="text-right">
+                        <a href="{{ route('password.request') }}" class="text-[#0018d5] hover:underline max-md:text-sm">Forgot your password?</a>
                     </div>
                 </div>
 
                 <x-button role="ctaMain" :full="true" id="loginButton" :disabled="true">Sign in</x-button>
             </form>
 
-            <p class="text-center font-semibold mt-2">
+            <p class="text-center mt-2 max-md:text-xs">
                 Don't have an account yet?
                 <a href="{{ route('register') }}" class=" text-blue-700 hover:underline">
                     Create one here!
                 </a>
-            </p>
-        </div>
-        
+            </p>        
     </x-card>
 
     <script>

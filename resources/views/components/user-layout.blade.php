@@ -41,6 +41,14 @@
                 width: 12.5%;
             }
 
+            #logo{
+                position: absolute;
+                top: 10px;
+                left: 50%;
+                transform:translateX(-50%);
+                z-index: 40;
+            }
+
             @media not all and (min-width: 1024px) {
                 .rellax-bg {
                     display: none;
@@ -58,23 +66,23 @@
                     transform: translateY(-8px) rotate(-45deg);
                 }
             }
-            
-
         </style>
     </head>
 
     <body class="bg-slate-50 text-slate-800">
         <nav class="h-12 bg-black py-2 px-4 max-lg:px-0 text-white font-extrabold w-full fixed z-40 drop-shadow-lg  id="navbar">
 
-            <img src="{{ asset('logo/perneczky_circle.png') }}" alt="Perneczky BarberShop" id="logo" class="absolute left-1/2 h-20 -translate-x-5 top-2 z-50">
+            <a href="#home">
+                <img src="{{ asset('logo/perneczky_circle.png') }}" alt="Perneczky BarberShop" id="logo" class="h-20">
+            </a>
 
-            <div class="hamburger hidden cursor-pointer max-lg:block w-fit ml-4 mt-1">
+            <div class="hamburger hidden cursor-pointer max-lg:absolute w-fit top-2 left-4 z-40">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
             </div>
 
-            <div class="flex justify-between items-center gap-4 max-lg:flex-col max-lg:translate-y-2 max-lg:bg-slate-950 max-lg:pt-12 max-lg:pb-6 max-lg:-translate-x-full nav-menu" id="nav-menu">
+            <div class="flex justify-between items-center gap-4 max-lg:flex-col max-lg:translate-y-5 max-lg:bg-[#0f0f0f] max-lg:pt-12 max-lg:pb-6 max-lg:-translate-x-full nav-menu" id="nav-menu">
                 <ul class="flex items-center gap-2 max-lg:gap-4 max-lg:flex-col">
                     <li>
                         Welcome, {{auth()->user()->barber->display_name ?? auth()->user()->first_name ?? 'Guest'}}!
@@ -84,11 +92,11 @@
                         <li>
                             @if ($currentView !== 'barber')
                                 <a href="{{ route('appointments.index') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
-                                Barber View
+                                Barber view
                                 </a>
                             @else
                                 <a href="{{ route('my-appointments.index') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
-                                Customer View
+                                Customer view
                                 </a>
                             @endif
                         </li>
@@ -98,11 +106,11 @@
                         <li>
                             @if ($currentView !== 'admin')
                                 <a href="{{ route('admin') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
-                                    Admin Dashboard
+                                    Admin dashboard
                                 </a>
                             @else
                                 <a href="{{ route('my-appointments.index') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
-                                    Customer View
+                                    Customer view
                                 </a>
                             @endif
                             
@@ -119,7 +127,7 @@
                                         Bookings
                                     </a>
                                     <a href="{{ route('time-offs.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
-                                        Time Offs
+                                        Time offs
                                     </a>
                                 </li>
                                 @break
@@ -127,7 +135,7 @@
                             @case('admin')
                                 <li>
                                     <a href="{{ route('admin') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
-                                        Admin Dashboard
+                                        Admin dashboard
                                     </a>
                                 </li>
                             @break
@@ -135,28 +143,28 @@
                             @default
                                 <li>
                                     <a href="{{ route('my-appointments.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
-                                        My Appointments
+                                        My appointments
                                     </a>
                                 </li>
                                 
                         @endswitch
                         <li>
                             <a href="{{ route('users.show',auth()->user()) }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
-                                Account Settings
+                                Account settings
                             </a>
                         </li>
                         <li>
                             <form action="{{route('logout')}}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button class="bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all max-lg:mt-2">Sign Out</button>
+                                <button class="bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all max-lg:mt-2">Sign out</button>
                             </form>
                         </li>
                     @else
                         <a href="{{ route('register') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
                             Sign Up
                         </a>
-                        <a href="{{route('login')}}" class="bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">Sign In</a>
+                        <a href="{{route('login')}}" class="bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">Sign in</a>
                     @endauth
                 </ul>
             </div>
@@ -165,8 +173,9 @@
         <div class="rellax-bg" style="background-image: url('{{ asset('design/blades.png') }}'); opacity: 0.5;" data-rellax-speed="4"></div>
         <div class="rellax-bg" style="background-image: url('{{ asset('design/combs.png') }}'); opacity: 0.3;" data-rellax-speed="2"></div>
         <div class="rellax-bg" style="background-image: url('{{ asset('design/scissors.png') }}'); opacity: 0.2;" data-rellax-speed="1"></div>
-        
-        <div class=" max-w-4xl mx-auto px-4 relative z-10 pt-24" x-data="{ showAlert: true }">
+
+        <div id="home"></div>        
+        <div class=" max-w-4xl mx-auto px-4 relative z-10 pt-24 max-md:text-sm max-lg:text-base" x-data="{ showAlert: true }">
 
             @if (session('success'))
                 <div role="alert" class="mb-8 rounded-md border-l-4 border-green-300 bg-green-100 p-4 text-green-700 oppacity-75 flex justify-between" x-show="showAlert">

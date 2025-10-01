@@ -10,9 +10,9 @@
             $storeLink = route('my-appointments.store',['barber_id' => $barber->id, 'service_id' => $service->id]);
 
             $breadcrumbLinks = [
-                'Book an Appointment' => route('my-appointments.create'),
-                'Select a Barber and a Service' => $serviceLink,
-                'Select a Date' => ''
+                'Book an appointment' => route('my-appointments.create'),
+                'Select a barber and a service' => $serviceLink,
+                'Select a date' => ''
             ];
             
             break;
@@ -23,9 +23,9 @@
 
             $breadcrumbLinks = [
                 'Bookings' => route('appointments.index'),
-                'New Booking' => route('appointments.create'),
-                'Select a Service' => $serviceLink,
-                'Select a Date' => ''
+                'New booking' => route('appointments.create'),
+                'Select a service' => $serviceLink,
+                'Select a date' => ''
             ];
             
             break;
@@ -35,29 +35,30 @@
             $storeLink = route('bookings.store',['service_id' => $service->id, 'user_id' => $user->id, 'barber_id' => $barber->id]);
 
             $breadcrumbLinks = [
-                'Admin Dashboard' => route('admin'),
+                'Admin dashboard' => route('admin'),
                 'Bookings' => route('bookings.index'),
-                'Select a Barber and a Service' => $serviceLink,
-                'Select a Date' => ''
+                'Select a barber and a service' => $serviceLink,
+                'Select a date' => ''
             ];
             break;
     }
 @endphp
 
-<x-user-layout title="{{ $view == 'user' ? 'New Appointment' : 'New Booking' }}" currentView="{{ $view }}">
+<x-user-layout title="New {{ $view == 'user' ? 'appointment' : 'booking' }}" currentView="{{ $view }}">
     <x-breadcrumbs :links="$breadcrumbLinks"/>
 
-    <h1 class="font-extrabold text-4xl mb-4">Select your Date</h1>
+    <x-headline class="mb-4">Select your date</x-headline>
 
     <form action="{{$storeLink}}" method="POST">
         @csrf
 
         <x-card class="mb-4">
             <div class="flex justify-between gap-4">
-                <div class="flex flex-col justify-between">
-                    <div>
-                        <h2 class="font-bold text-2xl mb-2">{{ $view == 'user' ? 'Your' : ($user->first_name . "'s")}} Appointment</h2>
-                        <h3 class="font-medium text-lg">
+                <div class="flex flex-1 flex-col justify-between">
+                    <div class="mb-4">
+                        <h2 class="font-bold text-2xl max-md:text-lg mb-2">{{ $view == 'user' ? 'Your' : ($user->first_name . "'s")}} Appointment</h2>
+
+                        <h3 class="font-medium text-lg max-md:text-base">
                             <a href="{{ $serviceLink }}">
                                 {{$service->name}}
                                 •
@@ -74,17 +75,17 @@
                     </div>
                     <div class="flex flex-col gap-1">
                         <label for="comment">Wanna leave some comments for this appointment? Share with us below!</label>
-                        <x-input-field type="textarea" name="comment" id="comment">{{ old('comment') }}</x-input-field>
+                        <x-input-field type="textarea" name="comment" id="comment" class="w-full">{{ old('comment') }}</x-input-field>
                     </div>
                 </div>
-                <div class="flex-shrink-0">
+                <div class="flex-shrink-0 max-md:hidden">
                     <img src="{{ $barber->getPicture() }}" alt="BarberPic" class=" rounded-md h-52 w-auto">
                 </div>
             </div>
         </x-card>
 
         <x-card class="mb-4">
-            <div x-data="appointmentCalendar()" x-init="init()" class="grid grid-cols-2 gap-8">
+            <div x-data="appointmentCalendar()" x-init="init()" class="grid grid-cols-2 max-md:grid-cols-1 gap-8">
                 @php
                     //$startOfCurrentMonth = (new Carbon('2025-06-20'))->startOfMonth();
                     $startOfCurrentMonth = now()->startOfMonth();
@@ -115,12 +116,12 @@
                 <div>
                     <template x-if="selectedDate">
                         <div>
-                            <h2 class="w-full text-center mb-4 text-xl font-bold">
+                            <h2 class="w-full text-center mb-4 text-xl max-md:text-lg font-bold">
                                 Free timeslots on <span x-text="selectedDate"></span>
                             </h2>
                             
                             <template x-if="slotsByDate[selectedDate]?.length">
-                                <div class="grid grid-cols-6 gap-2 text-center">
+                                <div class="grid grid-cols-6 max-md:grid-cols-5 max-sm:grid-cols-4 gap-2 text-center">
                                     <template x-for="(time, index) in slotsByDate[selectedDate]" :key="`${selectedDate}_${time}`">
                                         <label :for="`date_${selectedDate}_${time}`" class="font-semibold border-2 border-[#0018d5] text-[#0018d5] rounded-md p-2 cursor-pointer hover:bg-[#0018d5] hover:text-white has-[input:checked]:bg-[#0018d5] has[input:checked]:shadow-2xl has-[input:checked]:text-white transition-all">
 

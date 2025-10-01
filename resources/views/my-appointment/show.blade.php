@@ -1,15 +1,15 @@
-<x-user-layout>
+<x-user-layout title="My appointment">
     <x-breadcrumbs :links="[
-        'My Appointments' => route('my-appointments.index'),
+        'My appointments' => $appointment->app_start_time <= now() ? route('my-appointments.index.previous') : route('my-appointments.index'),
         'Appointment #' . $appointment->id  => ''
     ]"/>
 
-    <h1 class="font-extrabold text-4xl mb-4">
-        My {{ $appointment->app_start_time <= now() ? 'Previous' : 'Upcoming'}} Appointment
-    </h1>
+    <x-headline class="mb-4">
+        My {{ $appointment->app_start_time <= now() ? 'previous' : 'upcoming'}} appointment
+    </x-headline>
 
     <x-appointment-card :appointment="$appointment" access="user" class="mb-4">
-        <div class="text-base text-slate-500">
+        <div class="text-base max-md:text-sm text-slate-500 mt-1">
             Comment:
             @if (!$appointment->comment)
                 <span class="italic">No comments from {{ $appointment->user->first_name }}.</span>

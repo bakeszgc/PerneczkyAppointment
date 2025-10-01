@@ -23,7 +23,7 @@
 @endphp
 
 <x-card {{$attributes->merge(['class' => ' transition-all'])}}>
-    <div @class(['flex justify-between' => true, 'text-slate-500' => $appointment->deleted_at || $appointment->app_start_time < now()])>
+    <div @class(['flex justify-between mb-2 md:mb-4' => true, 'text-slate-500' => $appointment->deleted_at || $appointment->app_start_time < now()])>
         <div>
             <h2 @class(['font-bold text-2xl max-sm:text-lg mb-1 flex items-center gap-2' => true, 'text-blue-600 hover:text-blue-800' => $appointment->app_start_time >= now() && !$appointment->deleted_at ])>
                 <a href="{{ $detailsLink }}"
@@ -65,6 +65,7 @@
                 {{$slot}}
             </div>
         </div>
+
         <div class="text-right min-w-max">
             <h2 class="font-bold text-2xl max-sm:text-lg mb-1">
                 @if (Carbon::parse($appointment->app_start_time)->isToday())
@@ -86,7 +87,7 @@
         </div>
     </div>
 
-    <div class="flex gap-2 mt-4">
+    <div class="flex gap-2">
         
         @if($showDetails)
             <x-link-button :link="$detailsLink" role="show">

@@ -3,7 +3,7 @@
 
     <div class="w-full h-1/2 absolute bottom-0 left-0 z-10" style="background: linear-gradient(0deg,rgba(0, 0, 0, 1) 0%, rgba(255, 255, 255, 0) 100%);"></div>
 
-    <h2 class="font-black text-xl absolute bottom-4 left-4 text-white z-20">
+    <h2 class="font-black text-xl max-md:text-base absolute bottom-4 max-md:bottom-2 left-4 max-md:left-2 text-white z-20">
         {{ $barber->getName() }}
     </h2>
 </div>

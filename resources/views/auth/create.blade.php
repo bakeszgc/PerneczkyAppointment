@@ -37,12 +37,12 @@
                 <x-button role="ctaMain" :full="true" id="loginButton" :disabled="true">Sign in</x-button>
             </form>
 
-            <p class="text-center mt-2 max-md:text-xs">
+            <p class="text-center mt-2 max-sm:text-xs">
                 Don't have an account yet?
                 <a href="{{ route('register') }}" class=" text-blue-700 hover:underline">
                     Create one here!
                 </a>
-            </p>        
+            </p>
     </x-card>
 
     <script>

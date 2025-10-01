@@ -1,10 +1,11 @@
 <x-layout>
+    <div id="home"></div>
     <div class="h-screen w-full text-white flex flex-col justify-between items-center text-center bg-cover bg-center bg-fixed bg-no-repeat" style="background-image: url('{{ asset('pictures/interior.jpeg') }}');">
-        <div class="h-24"></div>
-        <div class="flex flex-col items-center gap-8">
-            <img src="{{ asset('logo/perneczky_barbershop_corvin.svg') }}" alt="PERNECZKY BarberShop Corvin" class="h-36 drop-shadow-2xl">
+        <div class="h-12"></div>
+        <div class="flex flex-col items-center md:gap-4">
+            <img src="{{ asset('logo/perneczky_barbershop_corvin.svg') }}" alt="PERNECZKY BarberShop Corvin" class="h-36 max-w-[80%] drop-shadow-2xl">
 
-            <a href="{{ route('my-appointments.create') }}" class="text-3xl font-bold p-4 rounded-lg bg-[#0018d5] hover:bg-[#0f0f0f] transition-all shadow-2xl">BOOK YOUR APPOINTMENT</a>
+            <a href="{{ route('my-appointments.create') }}" class="text-3xl max-lg:text-2xl max-md:text-lg font-bold p-4 rounded-lg bg-[#0018d5] hover:bg-[#0f0f0f] transition-all shadow-2xl max-lg:mb-2">BOOK YOUR APPOINTMENT</a>
 
             <a href="tel:+36704056079" class="flex gap-2 items-center hover:text-blue-500 drop-shadow-2xl transition-all">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
@@ -29,7 +30,7 @@
             <p class="mb-2">
                 At Perneczky Brothers, we don't just cut the most precise hair, but we create experiences that give you the confidence and freshness to conquer the world.
             </p>
-            <p>
+            <p class="mb-2">
                 Come into our cozy sanctuary and let Budapest's coolest team work their magic. Whether it's a classic cut or a new look, we're here to help with everything.
             </p>
             <p>
@@ -47,19 +48,21 @@
     </x-header>
 
     <x-container>
-        <div class="grid grid-cols-2 max-md:grid-cols-1 gap-6">
+        <div class="grid grid-cols-2 max-md:grid-cols-1 gap-6 max-lg:gap-4">
             @forelse ($services as $service)
                 <a href="{{ route('my-appointments.create.barber.service',['service_id' => $service->id]) }}">
                     <div class="rounded-md border-2 border-[#0018d5] p-4 h-full hover:bg-[#0018d5] hover:text-white hover:shadow-2xl transition-all">
                         <div class="flex justify-between items-start mb-2">
-                            <h2 class="font-black text-lg">{{ $service->name }}</h2>
-                            <p class="text-lg min-w-24 w-fit text-right">{{ number_format($service->price,thousands_separator: ' ') }}&nbsp;HUF</p>
+                            <h2 class="font-black text-lg max-lg:text-base">{{ $service->name }}</h2>
+                            <p class="text-lg max-lg:text-base min-w-24 w-fit text-right">{{ number_format($service->price,thousands_separator: ' ') }}&nbsp;HUF</p>
                         </div>
-                        <p class="text-base">Estimated duration: {{ $service->duration }} minutes</p>
+                        <p class="text-base max-lg:text-sm">Estimated duration: {{ $service->duration }} minutes</p>
                     </div>
                 </a>
             @empty
-                
+                <x-empty-card>
+                    <p>There aren't any services yet.</p>
+                </x-empty-card>
             @endforelse
         </div>
     </x-container>
@@ -70,7 +73,7 @@
     </x-header>
 
     <x-container>
-        <div class="grid grid-cols-3 gap-8">
+        <div class="grid grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 gap-8">
             @forelse ($barbers as $barber)
 
                 <x-card class="flex flex-col justify-between shadow-xl p-8 text-center">
@@ -107,56 +110,57 @@
     <x-container class="grid grid-cols-2 max-md:grid-cols-1 gap-8">
         
         <div>
-            <div class="border-2 border-[#0018d5] p-4 mb-8">
+            <div class="border-2 border-[#0018d5] rounded-md p-4 mb-8">
                 <img src="{{ asset('pictures/corvin.jpeg') }}" alt="PERNECZKY BarberShop - Corvin" class="mb-4">
-                <h2 class="text-2xl font-black mb-2">PERNECZKY Barber Shop - Corvin</h2>
+                <h2 class="text-2xl max-lg:text-lg font-black mb-2">PERNECZKY Barber Shop - Corvin</h2>
                 <p class="mb-1">H-1082 Budapest</p>
                 <p>Corvin sétány 5.</p>
             </div>
             <div class="px-4">
-                <h2 class="text-2xl font-black mb-2">Approaching</h2>
+                <h2 class="text-2xl max-lg:text-lg font-black mb-2">Approaching</h2>
                 <p class="text-justify">Our store is only a 5-minute walk away from the Corvin-negyed or Semmelweis Klinikák stops of the M3 subway, and from the Corvin-negyed stop of trams 4&#8209;6 too!</p>
             </div>
         </div>
 
-        <div class="w-full h-full min-h-[500px] shadow-2xl">
+        <div class="w-full h-full min-h-[500px] max-lg:min-h-[300px] shadow-2xl">
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d168.51367156370375!2d19.076890544242058!3d47.485651873511074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4741ddc6dd76e7b1%3A0x4d5f1e74a8e65127!2sCorvin%20Barber%20Shop!5e0!3m2!1shu!2shu!4v1698797075447!5m2!1shu!2shu" width="100%" height="100%" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
         
     </x-container>
 
-    <footer class=" py-12 bg-[#0f0f0f] text-white">
+    <footer class="py-12 max-md:py-8 bg-[#0f0f0f] text-white">
         <div id="contact" class="-translate-y-14"></div>
         <div id="opening-hours" class="-translate-y-14"></div>
-        <div class="max-w-6xl mx-auto px-8 flex justify-between">
+        <div class="max-w-6xl mx-auto mb-4 px-8 max-lg:px-4 flex max-sm:flex-col justify-between gap-4">
             <div>
-                <h2 class="text-2xl font-black mb-4">Contact</h2>
-                <ul class="*:mb-1 mb-4">
+                <h2 class="text-2xl max-lg:text-lg font-black mb-2">Contact</h2>
+                <ul class="*:mb-1">
                     <li>Tel: <a href="tel:+36704056079" class="hover:text-blue-500 transition-all">+36 70 405 6079</a></li>
                     <li>Email: <a href="mailto:perneczkybarbershop@gmail.com" class="hover:text-blue-500 transition-all">perneczkybarbershop@gmail.com</a></li>
                     <li>Address: 1082 Budapest, Corvin sétány 5.</li>
                 </ul>
-                <div class="flex gap-2 *:*:transition-all *:*:h-10">
-                    <a href="https://www.instagram.com/perneczkybarbershop" target="_blank">
-                        <img src="{{ asset('logo/instagram.png') }}" alt="Instagram" class="hover:scale-110">
-                    </a>
-                    <a href="https://www.facebook.com/perneczkybarbershop" target="_blank">
-                        <img src="{{ asset('logo/facebook.png') }}" alt="Facebook" class="hover:scale-110">
-                    </a>
-                    <a href="https://www.tiktok.com/@perneczkybarbershop" target="_blank">
-                        <img src="{{ asset('logo/tiktok.png') }}" alt="Tiktok" class="hover:scale-110">
-                    </a>
-                </div>
-
             </div>
-            <div class="text-right">
-                <h2 class="text-2xl font-black mb-4">Opening hours</h2>
+            
+            <div class="sm:text-right">
+                <h2 class="text-2xl max-lg:text-lg font-black mb-2">Opening&nbsp;hours</h2>
                 <ul class="*:mb-1">
                     <li>Mo-Sa: 10:00-20:00</li>
                     <li>Su: 10:00-18:00</li>
                     <li><a href="{{ asset('files/perneczky_aszf.pdf') }}" target="_blank" class="hover:text-blue-500 transition-all">T&C</a></li>
                 </ul>
             </div>
+        </div>
+
+        <div class="max-w-6xl mx-auto px-8 max-lg:px-4 flex gap-2 *:*:transition-all *:*:h-10">
+            <a href="https://www.instagram.com/perneczkybarbershop" target="_blank">
+                <img src="{{ asset('logo/instagram.png') }}" alt="Instagram" class="hover:scale-110">
+            </a>
+            <a href="https://www.facebook.com/perneczkybarbershop" target="_blank">
+                <img src="{{ asset('logo/facebook.png') }}" alt="Facebook" class="hover:scale-110">
+            </a>
+            <a href="https://www.tiktok.com/@perneczkybarbershop" target="_blank">
+                <img src="{{ asset('logo/tiktok.png') }}" alt="Tiktok" class="hover:scale-110">
+            </a>
         </div>
     </footer>
 </x-layout>

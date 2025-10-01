@@ -41,7 +41,10 @@
                 @if ($access == 'admin')
                     </a>
                 @endif
-                •
+                
+                <span class="max-md:hidden">•</span>
+                <br class="md:hidden">
+                
                 {{number_format($appointment->price,thousands_separator:' ')}} HUF
             </h3>
 

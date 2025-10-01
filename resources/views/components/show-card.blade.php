@@ -1,6 +1,6 @@
 <x-card {{ $attributes->merge(['class' => '']) }} x-data="{open: {{ $show ? 'true' : 'false' }}}">
     <div class="flex justify-between items-center cursor-pointer transition-all" @click="open = !open">
-        <h2 class="text-xl font-bold flex gap-2 items-center">
+        <h2 class="text-xl max-md:text-lg font-bold flex gap-2 items-center">
             @switch($type)
                 @case('password')
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -87,7 +87,7 @@
         </div>
     </div>
 
-    <div x-show="open" x-transition class="mt-4 px-8 pb-8">
+    <div x-show="open" x-transition class="mt-4 md:px-8 pb-2">
         {{ $slot }}
     </div>
 </x-card>

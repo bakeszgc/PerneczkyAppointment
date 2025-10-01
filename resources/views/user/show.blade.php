@@ -33,8 +33,8 @@
             @method('PUT')
 
             <div class="mb-4">
-                <div class=" grid grid-cols-2 gap-2">
-                    <div class="flex flex-col">
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="flex flex-col max-sm:col-span-2">
                         <x-label for="first_name">First name</x-label>
                         <x-input-field name="first_name" id="first_name" value="{{ old('first_name') ??$user->first_name }}" :disabled="isset($user->deleted_at)" class="profileInput" />
                         @error('first_name')
@@ -42,7 +42,7 @@
                         @enderror
                     </div>
 
-                    <div class="flex flex-col">
+                    <div class="flex flex-col max-sm:col-span-2">
                         <x-label for="last_name">Last name</x-label>
                         <x-input-field name="last_name" id="last_name" value="{{ old('last_name') ??$user->last_name }}" :disabled="isset($user->deleted_at)" class="profileInput" />
                         @error('last_name')
@@ -71,16 +71,17 @@
                     <div class="flex flex-col col-span-2">
                         <div class="flex justify-between items-end">
                             <x-label for="email">Email address</x-label>
-                            @if ($user->email_verified_at === null)
-                                @if ($view == 'admin')
-                                    <p class="text-slate-500 text-sm">Not verified yet</p>
+                            <div class="text-right">
+                                @if ($user->email_verified_at === null)
+                                    @if ($view == 'admin')
+                                        <p class="text-slate-500 text-sm">Not verified yet</p>
+                                    @else
+                                        <a href="{{ route('verification.notice') }}"class="font-bold text-base max-md:text-sm text-blue-500 hover:underline">Verify your email here</a>
+                                    @endif
                                 @else
-                                    <a href="{{ route('verification.notice') }}"class="font-bold text-base text-blue-500 hover:underline">Verify your email here</a>
+                                    <p class="text-slate-500 text-sm">Verified on {{ date_format($user->email_verified_at,'d M Y')  }}</p>
                                 @endif
-                            @else
-                                <p class="text-slate-500 text-sm">Verified on {{ date_format($user->email_verified_at,'d M Y')  }}</p>
-                            @endif
-                            
+                            </div>
                         </div>
                         
                         <x-input-field type="email" name="email" id="email" value="{{ old('email') ?? $user->email }}" :disabled="isset($user->deleted_at)" class="profileInput" />
@@ -89,7 +90,7 @@
                         @enderror
                     </div>
 
-                    <div class="flex flex-col">
+                    <div class="flex flex-col max-sm:col-span-2">
                         <x-label for="date_of_birth">Date of birth</x-label>
                         <x-input-field type="date" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth') ?? $user->date_of_birth }}" :disabled="isset($user->deleted_at)" class="profileInput" />
                         @error('date_of_birth')
@@ -97,7 +98,7 @@
                         @enderror
                     </div>
 
-                    <div class="flex flex-col">
+                    <div class="flex flex-col max-sm:col-span-2">
                         <x-label for="telephone_number">Telephone number</x-label>
                         <x-input-field type="tel" name="telephone_number" id="telephone_number" value="{{ old('telephone_number') ?? $user->tel_number }}" :disabled="isset($user->deleted_at)" class="profileInput" />
                         @error('telephone_number')
@@ -267,7 +268,7 @@
             <form action="{{ route('users.update-password',auth()->user()->id) }}" method="POST" >
                 @csrf
                 @method('PUT')
-                <div class="flex gap-4 mb-4">
+                <div class="flex max-md:flex-col gap-4 mb-4">
                     <div class="flex-grow">
                         <div class="flex flex-col mb-2">
                             <x-label for="password">Your current password*</x-label>

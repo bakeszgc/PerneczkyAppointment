@@ -1,12 +1,12 @@
-<x-user-layout title="Manage Customers" currentView="admin">
+<x-user-layout title="Manage customers" currentView="admin">
     <x-breadcrumbs :links="[
-            'Admin Dashboard' => route('admin'),
+            'Admin dashboard' => route('admin'),
             'Customers' => ''
         ]"
     />
 
     <x-headline class="mb-4">
-        Manage Customers
+        Manage customers
     </x-headline>
     
     <x-card class="mb-8">
@@ -15,16 +15,21 @@
             <div class="flex gap-2 mb-2">
                 <x-input-field name="query" placeholder="Search users..." value="{{ old('query') ?? request('query') }}" class="w-full" />
 
-                <x-link-button link="{{ route('customers.index') }}" role="destroy">Clear</x-link-button>
-                <x-button role="search">Search</x-button>
+                <x-link-button link="{{ route('customers.index') }}" role="destroy">
+                    <span class="max-sm:hidden">Clear</span>
+                </x-link-button>
+
+                <x-button role="search">
+                    <span class="max-sm:hidden">Search</span>
+                </x-button>
             </div>
-            <p class="text-slate-500">
+            <p class="text-slate-500 text-justify">
                 You can search here by name, email address and telephone number to find your customer.
             </p>
         </form>        
     </x-card>
 
-    <h2 class="font-bold text-2xl mb-4">Search results</h2>
+    <h2 class="font-bold text-2xl max-md:text-xl mb-4">Search results</h2>
 
     <x-card class="mb-4">
         <ul class="flex flex-col gap-4">

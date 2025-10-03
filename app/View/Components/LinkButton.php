@@ -14,6 +14,7 @@ class LinkButton extends Component
     public function __construct(
         public string $link,
         public string $role = '',
+        public bool $maxHeightFit = false,
         public bool $full = false
     )
     {}

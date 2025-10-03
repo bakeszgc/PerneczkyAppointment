@@ -27,12 +27,10 @@ class CustomerController extends Controller
         })->orderBy('first_name')->paginate(10)->through(function ($user) {
             return [
                 'user' => $user,
-                'previous' => Appointment::userFilter($user)->previous()->orderByDesc('app_start_time')->first(),
-                'upcoming' => Appointment::userFilter($user)->upcoming()->orderBy('app_start_time')->first()
+                'previous' => Appointment::userFilter($user)->previous()->withoutTimeOffs()->orderByDesc('app_start_time')->first(),
+                'upcoming' => Appointment::userFilter($user)->upcoming()->withoutTimeOffs()->orderBy('app_start_time')->first()
             ];
         });
-        
-        //dd($users);
 
         return view('admin.customer.index',['users' => $users]);
     }

@@ -2,7 +2,7 @@
     'border rounded-md
     hover:drop-shadow-md
     transition-all font-bold
-    p-2 max-h-28
+    p-2
     inline-flex gap-1 items-center justify-center
     max-sm:text-xs',
 
@@ -23,8 +23,10 @@
     'bg-slate-50 hover:bg-slate-200 border-slate-300 text-slate-700' => $role === 'show' || $role === 'edit' || $role === '',
 
     'w-full' => $full,
-    'w-fit' => !$full
-    
+    'w-fit' => !$full,
+
+    'max-h-fit' => $maxHeightFit,
+    'max-h-28' => !$maxHeightFit    
 ])>
 
     @switch($role)

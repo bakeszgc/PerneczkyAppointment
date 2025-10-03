@@ -73,16 +73,16 @@
     </x-header>
 
     <x-container>
-        <div class="grid grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 gap-8">
+        <div class="grid grid-cols-3 max-md:grid-cols-2 gap-8 max-lg:gap-4">
             @forelse ($barbers as $barber)
 
-                <x-card class="flex flex-col justify-between shadow-xl p-8 text-center">
+                <x-card class="flex flex-col justify-between shadow-xl p-8 max-sm:p-4 text-center">
                     <div>
                         <a href="{{ route('my-appointments.create.barber.service',['barber_id' => $barber]) }}">
                             <x-barber-picture :barber="$barber" />
                         </a>
 
-                        <p class=" mt-4">{{ $barber->description }}</p>
+                        <p class=" mt-4 max-md:text-xs">{{ $barber->description }}</p>
                     </div>
 
                     <div class="flex justify-center mt-4">

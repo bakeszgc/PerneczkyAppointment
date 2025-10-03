@@ -58,7 +58,7 @@
             </div>
 
             <div class="flex gap-2">
-                <x-button role="ctaMain" :disabled="isset($service->deleted_at)">Save changes</x-button>
+                <x-button role="ctaMain" :disabled="isset($service->deleted_at)" id="submitButton">Save changes</x-button>
                 </form>
 
                 @if ($service->deleted_at)

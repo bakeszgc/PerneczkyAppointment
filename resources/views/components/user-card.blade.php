@@ -12,8 +12,12 @@
                     {{ $user->first_name . ' ' . $user->last_name }}
                 </a>
             </h3>
-            <p class="text-slate-500">Email: {{ $user->email }}</p>
-            <p class="text-slate-500">Tel: {{ $user->tel_number }}</p>
+            <p class="text-slate-500">
+                Email: <a href="mailto:{{ $user->email }}" class="text-blue-700 hover:underline">{{ $user->email }}</a>
+            </p>
+            <p class="text-slate-500">
+                Tel: <a href="tel:{{ $user->tel_number }}" class="text-blue-700 hover:underline">{{ $user->tel_number }}</a>
+            </p>
         </div>
         <x-link-button link="{{ route('customers.show',$user) }}" role="show" :maxHeightFit="true">
             <span class="max-sm:hidden">Details</span>

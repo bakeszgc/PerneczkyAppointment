@@ -45,8 +45,12 @@
                             <h3 class="font-bold text-xl max-md:text-base mb-1">
                                 {{ $user->first_name }} {{ $user->last_name }}
                             </h3>
-                            <p class="text-slate-500">Email: {{ $user->email }}</p>
-                            <p class="text-slate-500">Tel: {{ $user->tel_number }}</p>
+                            <p class="text-slate-500">
+                                Email: <a href="mailto:{{ $user->email }}" class="text-blue-700 hover:underline">{{ $user->email }}</a>
+                            </p>
+                            <p class="text-slate-500">
+                                Tel: <a href="tel:{{ $user->tel_number }}" class="text-blue-700 hover:underline">{{ $user->tel_number }}</a>
+                            </p>
                         </div>
 
                         @if ($user->barber)

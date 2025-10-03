@@ -1,6 +1,6 @@
 <x-layout>
     <div id="home"></div>
-    <div class="h-screen w-full text-white flex flex-col justify-between items-center text-center bg-cover bg-center bg-fixed bg-no-repeat" style="background-image: url('{{ asset('pictures/interior.jpeg') }}');">
+    <div class="h-svh w-full text-white flex flex-col justify-between items-center text-center bg-cover bg-center bg-fixed bg-no-repeat" style="background-image: url('{{ asset('pictures/interior.jpeg') }}');">
         <div class="h-12"></div>
         <div class="flex flex-col items-center md:gap-4">
             <img src="{{ asset('logo/perneczky_barbershop_corvin.svg') }}" alt="PERNECZKY BarberShop Corvin" class="h-36 max-w-[80%] drop-shadow-2xl">

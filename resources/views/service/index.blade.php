@@ -14,26 +14,26 @@
                     <td>Name</td>
                     <td class="text-center">Price</td>
                     <td class="text-center">Duration</td>
-                    <td class="text-center">Bookings</td>
-                    <td>Visible</td>
+                    <td class="text-center max-md:hidden">Bookings</td>
+                    <td class="max-md:hidden">Visible</td>
                     <td></td>
                 </tr>
                 @forelse ($services as $service)
                     <tr @class([
-                        'odd:bg-slate-100 hover:bg-slate-200 *:p-2',
+                        'odd:bg-slate-100 hover:bg-slate-200 max-sm:text-xs *:p-2',
                         'text-slate-500' => $service->deleted_at
                         ])>
                         <td>{{ $service->id }}</td>
                         <td>{{ $service->name }} {{ $service->isDeleted() }}</td>
                         <td class="text-center">{{ number_format($service->price,thousands_separator:" ") }} HUF</td>
                         <td class="text-center">{{ $service->duration }}&nbsp;minutes</td>
-                        <td class="text-center">{{ number_format($service->appointments_count,thousands_separator:" ") }}</td>
-                        <td class="text-center">
-                            <x-input-field type="checkbox" name="is_visible" id="is_visible" :checked="$service->is_visible" value="is_visible"></x-input-field>
+                        <td class="text-center max-md:hidden">{{ number_format($service->appointments_count,thousands_separator:" ") }}</td>
+                        <td class="text-center max-md:hidden">
+                            <x-input-field type="checkbox" name="is_visible" id="is_visible_{{ $service->id }}" :checked="$service->is_visible" value="is_visible"></x-input-field>
                         </td>
                         <td>
                             <x-link-button :link="route('services.show',$service)" role="show">
-                                Details
+                                <span class="max-md:hidden">Details</span>
                             </x-link-button>
                         </td>
                     </tr>

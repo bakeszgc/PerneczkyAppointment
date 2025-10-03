@@ -147,7 +147,11 @@ class AdminAppointmentController extends Controller
         $selectedServiceId = $request->service_id;
         $selectedBarberId = $request->barber_id;
 
-        $barbers = Barber::all();
+        $user = User::find($request->user_id);
+
+        $barbers = Barber::when($user->barber != null, function ($q) use ($user) {
+            $q->where('id','!=',$user->barber->id);
+        })->get();
 
         $services = Service::where('id','!=',1)->get();
 
@@ -171,6 +175,10 @@ class AdminAppointmentController extends Controller
         $barber = Barber::find($request->barber_id);
         $service = Service::find($request->service_id);
         $user = User::find($request->user_id);
+
+        if ($barber->user_id == $user->id) {
+            return redirect()->route('bookings.create.barber.service')->with('error',"You can't choose that barber. Please choose another one from the list!");
+        }
 
         $availableSlotsByDate = Appointment::getFreeTimeSlots($barber,$service);
 

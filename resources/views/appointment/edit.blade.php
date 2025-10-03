@@ -11,24 +11,24 @@
                 case 'Time Off':
                     switch ($action) {
                         case 'edit':
-                            $title = "Editing " . $appointment->barber->getName() . "'s Time Off";
+                            $title = "Editing " . $appointment->barber->getName() . "'s time off";
                             $formRoute = route('admin-time-offs.update',$appointment);
                             $destroyRoute = route('admin-time-offs.destroy',$appointment);
                             $breadcrumbLinks = [
-                                'Admin Dashboard' => route('admin'),
-                                'Time Offs' => route('admin-time-offs.index'),
-                                $appointment->barber->getName() . '\'s Time Off' => route('admin-time-offs.show',$appointment),
+                                'Admin dashboard' => route('admin'),
+                                'Time offs' => route('admin-time-offs.index'),
+                                'Time off #' . $appointment->id => route('admin-time-offs.show',$appointment),
                                 'Edit' => ''
                             ];
                         break;
 
                         case 'create':
-                            $title = "Set A New Time Off";
+                            $title = "Set a new time off";
                             $formRoute = route('admin-time-offs.store');
                             $breadcrumbLinks = [
-                                'Admin Dashboard' => route('admin'),
-                                'Time Offs' => route('admin-time-offs.index'),
-                                'New Time Off' => ''
+                                'Admin dashboard' => route('admin'),
+                                'Time offs' => route('admin-time-offs.index'),
+                                'New time off' => ''
                             ];
                         break;
                     }
@@ -36,13 +36,13 @@
                 break;
 
                 case 'Booking':
-                    $title = "Editing " . $appointment->user->first_name . "'s Booking";
+                    $title = "Editing " . $appointment->user->first_name . "'s booking";
                     $formRoute = route('bookings.update',$appointment);
                     $destroyRoute = route('bookings.destroy',$appointment);
                     $breadcrumbLinks = [
-                        'Admin Dashboard' => route('admin'),
+                        'Admin dashboard' => route('admin'),
                         'Bookings' => route('bookings.index'),
-                        $appointment->user->first_name . '\'s Booking' => route('bookings.show',$appointment),
+                        'Booking #' . $appointment->id => route('bookings.show',$appointment),
                         'Edit' => ''
                     ];
                 break;
@@ -54,34 +54,34 @@
                 case 'Time Off':
                     switch ($action) {
                         case 'edit':
-                            $title = "Editing Your Time Off";
+                            $title = "Editing your time off";
                             $formRoute = route('time-offs.update',$appointment);
                             $destroyRoute = route('time-offs.destroy',$appointment);
                             $breadcrumbLinks = [
-                                'Time Offs' => route('time-offs.index'),
-                                'Your Time Off' => route('time-offs.show',$appointment),
+                                'Time offs' => route('time-offs.index'),
+                                'Time off #' . $appointment->id => route('time-offs.show',$appointment),
                                 'Edit' => ''
                             ];
                         break;
 
                         case 'create':
-                            $title = "Set Your Time Off";
+                            $title = "Set your time off";
                             $formRoute = route('time-offs.store');
                             $breadcrumbLinks = [
-                                'Time Offs' => route('time-offs.index'),
-                                'New Time Off' => ''
+                                'Time offs' => route('time-offs.index'),
+                                'New time off' => ''
                             ];
                         break;
                     }
                 break;
 
                 case 'Booking':
-                    $title = "Editing " . $appointment->user->first_name . "'s Booking";
+                    $title = "Editing " . $appointment->user->first_name . "'s booking";
                     $formRoute = route('appointments.update',$appointment);
                     $destroyRoute = route('appointments.destroy',$appointment);
                     $breadcrumbLinks = [
                         'Bookings' => route('appointments.index'),
-                        $appointment->user->first_name . '\'s Booking' => route('appointments.show',$appointment),
+                        'Booking #' . $appointment->id => route('appointments.show',$appointment),
                         'Edit' => ''
                     ];
                 break;
@@ -290,7 +290,7 @@
             </div>
     </x-card>
 
-    <x-card>
+    <x-card class="mb-4">
         <div class="relative">        
             <div id="calendarEventContainer" class="relative w-full h-0 left-0 top-0 max-lg:-translate-y-3"></div>
 

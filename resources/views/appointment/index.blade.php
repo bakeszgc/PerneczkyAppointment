@@ -1,25 +1,29 @@
-<x-user-layout title="Your {{$type != 'All' ? $type . ' ' : ' ' }}Bookings" currentView="barber">
+<x-user-layout title="Your {{$type != 'All' ? $type . ' ' : ' ' }}bookings" currentView="barber">
 
-    <x-breadcrumbs :links="[
-        'Bookings' => route('appointments.index')
-    ]"/>
+    <div class="flex justify-between items-end align-bottom mb-4">
+        <div>
+            <x-breadcrumbs :links="[
+                'Bookings' => route('appointments.index')
+            ]"/>
+            <x-headline>
+                Your
 
+                @isset($type)
+                    {{$type != 'All' ? strtolower($type) : ''}}
+                @endisset
 
-    <div class="flex justify-between items-end mb-4">
-        <x-headline>
-            Your
+                bookings
+            </x-headline>
+        </div>
 
-            @if (isset($type))
-                {{$type != 'All' ? $type : ''}}
-            @endif
-
-            Bookings
-        </x-headline>
-        
-        <x-link-button :link="route('appointments.create')" role="createMain">New&nbsp;booking</x-link-button>
+        <div>
+            <x-link-button :link="route('appointments.create')" role="createMain">
+                <span class="max-sm:hidden">New&nbsp;booking</span>
+            </x-link-button>
+        </div>
     </div>
 
-    <div class="grid grid-cols-4 max-sm:grid-cols-2 gap-2 mb-4 p-2 rounded-md bg-slate-300 text-center text-lg font-bold">
+    <div class="grid grid-cols-4 max-sm:grid-cols-2 gap-2 mb-4 p-2 max-sm:p-1 rounded-md bg-slate-300 text-center text-lg max-md:text-base font-bold">
         <a href="{{ route('appointments.index') }}" @class(['p-2 rounded-md hover:bg-white transition-all', 'bg-white' => $type == 'All'])>All</a>
 
         <a href="{{ route('appointments.upcoming') }}" @class(['p-2 rounded-md hover:bg-white transition-all', 'bg-white' => $type == 'Upcoming'])>Upcoming</a>

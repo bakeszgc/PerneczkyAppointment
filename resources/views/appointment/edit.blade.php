@@ -233,7 +233,7 @@
 
             @switch($view)
                 @case('Booking')
-                    <div @class(['mb-4','grid grid-cols-2 gap-4' => $access == 'admin'])>
+                    <div @class(['mb-4','grid grid-cols-2 max-md:grid-cols-1 gap-4' => $access == 'admin'])>
                         <div class="flex flex-col">
                             <x-label for="comment">Comment</x-label>
 

@@ -25,7 +25,7 @@
                 @enderror
             </div>
 
-            <div class="grid grid-cols-2 gap-4 mb-4">
+            <div class="grid grid-cols-2 max-md:grid-cols-1 gap-4 mb-4">
                 <div class="flex flex-col">
                     <x-label for="price">
                         Price (in HUF)
@@ -47,7 +47,7 @@
                 </div>
             </div>
 
-            <div class="mb-4 flex gap-2">
+            <div class="mb-4 flex gap-2 items-center">
                 <x-input-field type="checkbox" name="is_visible" id="is_visible" :checked="$service->is_visible" value="is_visible" :disabled="isset($service->deleted_at)"></x-input-field>
                 <label for="is_visible">
                     Visible for everyone
@@ -78,22 +78,20 @@
         
     </x-card>
 
-    <h2 class="font-bold text-2xl mb-4">Details about this service</h2>
+    <h2 class="font-bold text-2xl max-md:text-xl mb-4">Details about this service</h2>
 
     <x-card class="mb-4">
-        <div class="mb-4">
-            <h3 class="text-xl font-bold mb-4">General details</h3>
+        <div class="mb-4 border-b-2 pb-2">
+            <h3 class="text-xl max-md:text-lg font-bold mb-4">General details</h3>
             <ul class="*:mb-2">
                 <li>Created at: {{ $service->created_at }}</li>
                 <li>Updated at: {{ $service->updated_at }}</li>
             </ul>
         </div>
-
-        <hr class="mb-4">
         
-        <div class="flex justify-between gap-4">
+        <div class="flex max-md:flex-col justify-between gap-4">
             <div class="flex-1">
-                <h3 class="text-xl font-bold mb-4">Statistics from the past</h3>
+                <h3 class="text-xl max-md:text-lg font-bold mb-4">Statistics from the past</h3>
                 <ul class="*:mb-2">
                     <li>
                         Booked: {{ number_format($previousStats['numBookings'],thousands_separator:' ') }} times - <a href="{{ route('bookings.index',['service' => $service->id, 'time_window' => 'previous', 'cancelled' => 1]) }}" class="text-blue-700 hover:underline font-bold">Show bookings</a>
@@ -106,9 +104,9 @@
                     </li>
                 </ul>
             </div>
-            <div class="border-l"></div>
+            <div class="md:border-l-2 max-md:border-b-2"></div>
             <div class="flex-1">
-                <h3 class="text-xl font-bold mb-4">Statistics from the future</h3>
+                <h3 class="text-xl max-md:text-lg font-bold mb-4">Statistics from the future</h3>
                 <ul class="*:mb-2">
                     <li>
                         Booked: {{ number_format($upcomingStats['numBookings'],thousands_separator:' ') }} times - <a href="{{ route('bookings.index',['service' => $service->id, 'time_window' => 'upcoming', 'cancelled' => 1]) }}" class="text-blue-700 hover:underline font-bold">Show bookings</a>

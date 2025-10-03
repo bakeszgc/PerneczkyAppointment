@@ -17,7 +17,7 @@
 
         <div>
             @for ($i = 10; $i<=21; $i++)
-                <div class="text-slate-500 border-slate-300 border-t mb-8 max-md:text-xs">
+                <div class="text-slate-500 border-slate-300 border-t mb-8">
                     {{ $i }}:00
                 </div>
             @endfor

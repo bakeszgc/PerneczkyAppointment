@@ -2,7 +2,7 @@
     'border rounded-md
     hover:drop-shadow-lg disabled:hover:drop-shadow-none
     transition-all font-bold
-    p-2 max-h-28
+    p-2
     inline-flex gap-1 items-center justify-center
     max-sm:text-xs',
 
@@ -31,7 +31,10 @@
     => $role === 'show' || $role === 'edit' || $role === '',
 
     'w-full' => $full,
-    'w-fit' => !$full
+    'w-fit' => !$full,
+
+    'max-h-fit' => $maxHeightFit,
+    'max-h-28' => !$maxHeightFit
     
 ]) {!! $value ? 'value="' . $value . '"' : '' !!} {{ $name ? "name=" . $name : '' }} {{ $role === 'reset' ? "type=reset" : '' }} {{ $id ? "id=" . $id  : '' }} {{ $hidden == true ? 'hidden' : '' }} {{ $disabled == true ? 'disabled' : '' }}>
 

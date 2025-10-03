@@ -1,9 +1,9 @@
 <x-user-layout currentView="admin" title="Admin Dashboard">
     <x-breadcrumbs :links="[
-        'Admin Dashboard' => ''
+        'Admin dashboard' => ''
     ]"/>
 
-    <x-headline class="mb-4">Admin Dashboard</x-headline>
+    <x-headline class="mb-4">Admin dashboard</x-headline>
 
     <x-show-card :show="true" type="bookings" class="mb-6">
         <x-sum-of-bookings class="mb-8" :sumOfBookings="$sumOfBookings" context="bookings" />
@@ -20,7 +20,7 @@
     </x-show-card>
 
     <x-show-card :show="true" type="barbers" class="mb-6">
-        <div class="grid grid-cols-3 gap-6 mb-6">
+        <div class="grid grid-cols-3 max-sm:grid-cols-2 gap-6 mb-6">
             @forelse ($barbers as $barber)
                 <a href="{{ route('barbers.show',$barber) }}">
                     <x-barber-picture :barber="$barber" />
@@ -65,27 +65,27 @@
                     <td>Name</td>
                     <td class="text-center">Price</td>
                     <td class="text-center">Duration</td>
-                    <td class="text-center">Bookings</td>
-                    <td class="text-center">Visible</td>
+                    <td class="text-center max-md:hidden">Bookings</td>
+                    <td class="text-center max-md:hidden">Visible</td>
                     <td></td>
                 </tr>
                 @forelse ($services as $service)
                     <tr @class([
-                        'odd:bg-slate-100 hover:bg-slate-200 *:p-2',
+                        'odd:bg-slate-100 hover:bg-slate-200 max-sm:text-xs *:p-2',
                         'text-slate-500' => $service->deleted_at
                         ])>
                         <td>{{ $service->name }}</td>
                         <td class="text-center">{{ number_format($service->price,thousands_separator:' ') }} HUF</td>
                         <td class="text-center">{{ $service->duration }} minutes</td>
-                        <td class="text-center">
+                        <td class="text-center max-md:hidden">
                             {{ number_format($service->appointments_count,thousands_separator:' ') }}
                         </td>
-                        <td class="text-center">
+                        <td class="text-center max-md:hidden">
                             <x-input-field type="checkbox" name="is_visible" id="{{ 'is_visible_'.$service->id }}" :checked="$service->is_visible" value="is_visible" />
                         </td>
                         <td class="text-center">
                             <x-link-button :link="route('services.show',$service)" role="show">
-                                Details
+                                <span class="max-md:hidden">Details</span>
                             </x-link-button>
                         </td>
                     </tr>
@@ -118,31 +118,31 @@
             <table class="w-full">
                 <tr class="*:font-bold *:p-2 bg-slate-300">
                     <td>Name</td>
-                    <td>Email</td>
+                    <td class="max-md:hidden">Email</td>
                     <td class="text-center">Bookings</td>
-                    <td class="text-center">Barber</td>
-                    <td class="text-center">Admin</td>
+                    <td class="text-center max-md:hidden">Barber</td>
+                    <td class="text-center max-md:hidden">Admin</td>
                     <td></td>
                 </tr>
                 @forelse ($users as $user)
                     <tr @class([
-                        'odd:bg-slate-100 hover:bg-slate-200 *:p-2',
+                        'odd:bg-slate-100 hover:bg-slate-200 max-sm:text-xs *:p-2',
                         'text-slate-500' => $user->deleted_at
                         ])>
                         <td>{{ $user->first_name . " " . $user->last_name }}</td>
-                        <td>{{ $user->email }}</td>
+                        <td class="max-md:hidden">{{ $user->email }}</td>
                         <td class="text-center">
                             {{ number_format($user->appointments_count,thousands_separator:' ') }}
                         </td>
-                        <td class="text-center">
+                        <td class="text-center max-md:hidden">
                             <x-input-field type="checkbox" name="is_barber" id="{{ 'is_barber_'.$user->id }}" :checked="isset($user->barber) && $user->barber->deleted_at == null" value="is_barber" />
                         </td>
-                        <td class="text-center">
+                        <td class="text-center max-md:hidden">
                             <x-input-field type="checkbox" name="is_admin" id="{{ 'is_admin_'.$user->id }}" :checked="$user->is_admin" value="is_admin" />
                         </td>
                         <td class="text-center">
                             <x-link-button :link="route('customers.show',$user)" role="show">
-                                Details
+                                <span class="max-md:hidden">Details</span>
                             </x-link-button>
                         </td>
                     </tr>

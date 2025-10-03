@@ -2,10 +2,10 @@
     use App\Models\Appointment;
 @endphp
 
-<div {{ $attributes->merge(['class' => 'flex justify-between']) }}>
+<div {{ $attributes->merge(['class' => 'flex justify-between max-md:flex-col']) }}>
     
     @foreach ($sumOfBookings as $bookingType => $timeWindows)
-        <div class="border-r-2 last:border-0 flex-1">
+        <div class="md:border-r-2 max-md:mb-4 last:mb-0 last:border-0 flex-1">
             @php
                 $arguments = [
                     'barber' => $barber->id,

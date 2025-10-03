@@ -2,8 +2,8 @@
     'border rounded-md
     hover:drop-shadow-md
     transition-all font-bold
-    p-2 max-h-fit
-    flex gap-1 items-center justify-center
+    p-2 max-h-28
+    inline-flex gap-1 items-center justify-center
     max-sm:text-xs',
 
     'bg-blue-50 hover:bg-blue-200 border-blue-300 text-[#0018d5]' => $role === 'create' || $role === 'active',
@@ -27,7 +27,7 @@
     
 ])>
 
-@switch($role)
+    @switch($role)
         @case('create')
         @case('createMain')
         @case('timeoffCreate')

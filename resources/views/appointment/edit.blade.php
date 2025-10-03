@@ -164,7 +164,7 @@
                     </div>
                 @endif
 
-                <div class="flex flex-col">
+                <div class="flex flex-col max-md:col-span-2">
                     <x-label for="startDate">
                         {{ $view == 'Booking' ? 'Booking' : 'Time off' }}'s start time
                     </x-label>
@@ -196,7 +196,7 @@
                     @enderror
                 </div>
 
-                <div class="flex flex-col">
+                <div class="flex flex-col max-md:col-span-2">
                     <x-label for="endDate">
                         {{ $view == 'Booking' ? 'Booking' : 'Time off' }}'s end time
                     </x-label>
@@ -385,10 +385,12 @@
                             appStartHour.value = 10;
                             appStartMinute.value = 0;
                             appEndHour.value = 20;
-                            appEndMinute.value = 0;
+                            appEndMinute.value = 0;                            
                         } else {
                             appEndHour.value = parseInt(appStartHour.value) + 1;                            
                         }
+
+                        timeDifference = getTimeDifference(appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute);
 
                         appStartHour.toggleAttribute('disabled');
                         appStartMinute.toggleAttribute('disabled');

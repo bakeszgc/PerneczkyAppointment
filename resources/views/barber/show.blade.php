@@ -86,7 +86,7 @@
                     </div>
                 </div>
 
-                <div class="mb-4 flex gap-2">
+                <div class="mb-4 flex items-center gap-2">
                     <x-input-field type="checkbox" name="is_visible" id="is_visible" :checked="$barber->is_visible" value="is_visible" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)"></x-input-field>
                     <label for="is_visible">
                         Visible for everyone

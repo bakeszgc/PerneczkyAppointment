@@ -5,7 +5,7 @@
         'New service' => ''
     ]"/>
 
-    <x-headline class="mb-4">Create a New Service</x-headline>
+    <x-headline class="mb-4">Create a new service</x-headline>
 
     <x-card class="mb-6">
         <form action="{{ route('services.store') }}" method="POST">
@@ -20,7 +20,7 @@
                 @enderror
             </div>
 
-            <div class="grid grid-cols-2 gap-4 mb-4">
+            <div class="grid grid-cols-2 max-md:grid-cols-1 gap-4 mb-4">
                 <div class="flex flex-col">
                     <x-label for="price">
                         Price (in HUF)
@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            <div class="mb-4 flex gap-2">
+            <div class="mb-4 flex gap-2 items-center">
                 <x-input-field type="checkbox" name="is_visible" id="is_visible" value="is_visible"></x-input-field>
                 <label for="is_visible">
                     Visible for everyone
@@ -53,7 +53,7 @@
             </div>
 
             <div class="flex gap-2">
-                <x-button role="ctaMain">Create</x-button>
+                <x-button role="createMain">Create</x-button>
             </div>
         </form>
     </x-card>

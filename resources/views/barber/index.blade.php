@@ -1,10 +1,10 @@
-<x-user-layout currentView="admin" title="Manage Barbers">
+<x-user-layout currentView="admin" title="Manage barbers">
     <x-breadcrumbs :links="[
-        'Admin Dashboard' => route('admin'),
-        'Manage Barbers' => ''
+        'Admin dashboard' => route('admin'),
+        'Manage barbers' => ''
     ]"/>
 
-    <x-headline class="mb-4">Manage Barbers</x-headline>
+    <x-headline class="mb-4">Manage barbers</x-headline>
 
     <x-card>
         <div class="overflow-auto">
@@ -14,29 +14,29 @@
                     <td>ID</td>
                     <td>Display name</td>
                     <td>Real name</td>
-                    <td>Barber since</td>
-                    <td>Visible</td>
-                    <td>Admin</td>
+                    <td class="max-md:hidden">Barber since</td>
+                    <td class="max-md:hidden">Visible</td>
+                    <td class="max-md:hidden">Admin</td>
                     <td></td>
                 </tr>
                 @forelse ($barbers as $barber)
                     <tr @class([
-                        'odd:bg-slate-100 hover:bg-slate-200 *:p-2',
+                        'odd:bg-slate-100 hover:bg-slate-200 max-sm:text-xs *:p-2',
                         'text-slate-500' => $barber->deleted_at])>
                         <td class="max-lg:hidden"><img src="{{ $barber->getPicture() }}" alt="{{ $barber->getName() }}" class="h-16 rounded-md"></td>
                         <td class="text-center">{{ $barber->id }}</td>
                         <td>{{ $barber->getName() }} {{ $barber->isDeleted() }}</td>
                         <td>{{ $barber->user->first_name . " " . $barber->user->last_name }}</td>
-                        <td>{{ $barber->created_at }}</td>
-                        <td class="text-center">
+                        <td class="max-md:hidden">{{ $barber->created_at }}</td>
+                        <td class="text-center max-md:hidden">
                             <x-input-field type="checkbox" name="isVisible" id="isVisibleCheckBox" :checked="$barber->is_visible" :readonly="true" />
                         </td>
-                        <td class="text-center">
+                        <td class="text-center max-md:hidden">
                             <x-input-field type="checkbox" name="isAdmin" id="isAdminCheckBox"  :checked="$barber->user->is_admin" :readonly="true" />
                         </td>
                         <td>
                             <x-link-button role="show" link="{{ route('barbers.show',$barber) }}">
-                                Details
+                                <span class="max-md:hidden">Details</span>
                             </x-link-button>
                         </td>
                     </tr>

@@ -5,15 +5,15 @@
         $title = $user->first_name . ' ' . $user->last_name;
         $updateRoute = route('customers.update',$user);
         $breadcrumbLinks = [
-            'Admin Dashboard' => route('admin'),
-            'Manage Customers' => route('customers.index'),
+            'Admin dashboard' => route('admin'),
+            'Customers' => route('customers.index'),
             $title => ''
         ];
     } else {
-        $title = 'Account Settings';
+        $title = 'Account settings';
         $updateRoute = route('users.update',$user);
         $breadcrumbLinks = [
-            'Account Settings' => ''
+            'Account settings' => ''
         ];
     }
 @endphp
@@ -79,7 +79,7 @@
                                         <a href="{{ route('verification.notice') }}"class="font-bold text-base max-md:text-sm text-blue-500 hover:underline">Verify your email here</a>
                                     @endif
                                 @else
-                                    <p class="text-slate-500 text-sm">Verified on {{ date_format($user->email_verified_at,'d M Y')  }}</p>
+                                    <p class="text-slate-500 text-sm max-md:text-xs">Verified on {{ date_format($user->email_verified_at,'d M Y')  }}</p>
                                 @endif
                             </div>
                         </div>

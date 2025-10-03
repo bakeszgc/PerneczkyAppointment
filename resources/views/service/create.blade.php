@@ -1,8 +1,8 @@
-<x-user-layout currentView="admin" title="New Service">
+<x-user-layout currentView="admin" title="New service">
     <x-breadcrumbs :links="[
-        'Admin Dashboard' => route('admin'),
-        'Manage Services' => route('services.index'),
-        'New Service' => ''
+        'Admin dashboard' => route('admin'),
+        'Services' => route('services.index'),
+        'New service' => ''
     ]"/>
 
     <x-headline class="mb-4">Create a New Service</x-headline>

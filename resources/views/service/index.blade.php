@@ -1,10 +1,10 @@
-<x-user-layout currentView="admin" title="Manage Services">
+<x-user-layout currentView="admin" title="Manage services">
     <x-breadcrumbs :links="[
-        'Admin Dashboard' => route('admin'),
-        'Manage Services' => ''
+        'Admin dashboard' => route('admin'),
+        'Services' => ''
     ]"/>
 
-    <x-headline class="mb-4">Manage Services</x-headline>
+    <x-headline class="mb-4">Manage services</x-headline>
 
     <x-card class="mb-4">
         <div class=" overflow-x-auto mb-4">

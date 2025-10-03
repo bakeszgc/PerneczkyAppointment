@@ -1,7 +1,7 @@
 <x-user-layout currentView="admin" title="Manage barbers">
     <x-breadcrumbs :links="[
         'Admin dashboard' => route('admin'),
-        'Manage barbers' => ''
+        'Barbers' => ''
     ]"/>
 
     <x-headline class="mb-4">Manage barbers</x-headline>

@@ -1,7 +1,7 @@
 <x-user-layout currentView="admin" :title="$barber->getName()">
     <x-breadcrumbs :links="[
         'Admin dashboard' => route('admin'),
-        'Manage barbers' => route('barbers.index'),
+        'Barbers' => route('barbers.index'),
         $barber->getName() => ''
     ]"/>
 

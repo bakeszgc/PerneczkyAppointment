@@ -5,36 +5,44 @@
         case 'Time Off':
             $createRoute = route('admin-time-offs.create');
             $breadcrumbLinks = [
-                'Admin Dashboard' => route('admin'),
-                'Time Offs' => route('admin-time-offs.index')
+                'Admin dashboard' => route('admin'),
+                'Time offs' => route('admin-time-offs.index')
             ];
         break;
 
         case 'Booking':
             $createRoute = route('bookings.create');
             $breadcrumbLinks = [
-                'Admin Dashboard' => route('admin'),
+                'Admin dashboard' => route('admin'),
                 'Bookings' => route('bookings.index')
             ];
         break;
     }
 @endphp
 
-<x-user-layout title="All {{ $view }}s" currentView="admin">
-
-    <x-breadcrumbs :links="$breadcrumbLinks"/>
+<x-user-layout title="All {{ strtolower($view) }}s" currentView="admin">
     
-    <div class="flex justify-between items-end mb-4">
-        <x-headline>
-            All {{ $view }}s
-        </x-headline>
-        
-        <x-link-button :link="$createRoute" role="{{ $view == 'Time Off' ? 'timeoffCreateMain' : 'createMain' }}">New&nbsp;{{ strtolower($view) }}</x-link-button>
+    <div class="flex justify-between items-end align-bottom mb-4">
+        <div>
+            <x-breadcrumbs :links="$breadcrumbLinks"/>
+            <x-headline>
+                All {{ strtolower($view) }}s
+            </x-headline>
+        </div>
+        <div>
+            <x-link-button :link="$createRoute" role="{{ $view == 'Time Off' ? 'timeoffCreateMain' : 'createMain' }}">
+                <span class="max-sm:hidden">New&nbsp;{{ strtolower($view) }}</span>
+            </x-link-button>
+        </div>
     </div>
 
     <x-card class="mb-8">
         <form action="" method="GET" id="filterForm">
-            <div class="grid grid-cols-2 gap-4 mb-8">
+            <div @class([
+                'grid grid-cols-2 grid-flow-col max-md:grid-cols-1 gap-4 mb-4',
+                'grid-rows-3 max-md:grid-rows-6' => $view == 'Booking',
+                'grid-rows-2 max-md:grid-rows-4' => $view == 'Time Off'
+            ])>
                 <div class="flex flex-col">
                     <x-label for="barberSelect">Barber</x-label>
                     <x-select name="barber" id="barberSelect">
@@ -48,58 +56,6 @@
                     @error('barber')
                         {{ $message }}
                     @enderror
-                </div>
-
-                <div class=" row-span-2">
-                    <div class="flex flex-col mb-4">
-                        <x-label for="fromDate">From</x-label>
-                        <div class="flex gap-2">
-                            <x-input-field type="date" name="from_app_start_date" id="fromDate" class="flex-1 dateTimeInput" value="{{ request('from_app_start_date') }}" :disabled="request('time_window') == 'previous' || request('time_window') == 'upcoming'" />
-                            
-                            <x-select name="from_app_start_hour" id="fromHour" :disabled="request('time_window') == 'previous' || request('time_window') == 'upcoming'" class="dateTimeInput">
-                                <option value="empty"></option>
-                                @for ($i=10;$i<=20;$i++)
-                                    <option value="{{ $i }}" @selected(request('from_app_start_hour') == $i)>
-                                        {{ $i }}
-                                    </option>
-                                @endfor
-                            </x-select>
-
-                            <x-select name="from_app_start_minute" id="fromMinute" :disabled="request('time_window') == 'previous' || request('time_window') == 'upcoming'" class="dateTimeInput">
-                                <option value="empty"></option>
-                                @for ($i=0;$i<=45;$i+=15)
-                                    <option value="{{ $i }}" @selected(request('from_app_start_minute') === strval($i))>
-                                        {{ $i === 0 ? '00' : $i }}
-                                    </option>
-                                @endfor
-                            </x-select>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col">
-                        <x-label for="toDate">To</x-label>
-                        <div class="flex gap-2">
-                            <x-input-field type="date" name="to_app_start_date" id="toDate" :disabled="request('time_window') == 'previous' || request('time_window') == 'upcoming'" class="flex-1 dateTimeInput" value="{{ request('to_app_start_date') }}" />
-
-                            <x-select name="to_app_start_hour" id="toHour" :disabled="request('time_window') == 'previous' || request('time_window') == 'upcoming'" class="dateTimeInput">
-                                <option value="empty"></option>
-                                @for ($i=10;$i<=20;$i++)
-                                    <option value="{{ $i }}" @selected(request('to_app_start_hour') == $i)>
-                                        {{ $i }}
-                                    </option>
-                                @endfor
-                            </x-select>
-
-                            <x-select name="to_app_start_minute" id="toMinute" :disabled="request('time_window') == 'previous' || request('time_window') == 'upcoming'" class="dateTimeInput">
-                                <option value="empty"></option>
-                                @for ($i=0;$i<=45;$i+=15)
-                                    <option value="{{$i}}" @selected(request('to_app_start_minute') === strval($i))>
-                                        {{ $i === 0 ? '00' : $i }}
-                                    </option>
-                                @endfor
-                            </x-select>
-                        </div>
-                    </div>
                 </div>
 
                 @if ($view == 'Booking')
@@ -147,10 +103,10 @@
                     @endphp
 
                     <x-label for="custom_time_window">Time window</x-label>
-                    <div class="grid grid-cols-3 gap-2 p-2 rounded-md bg-slate-300 text-center text-lg font-bold">
+                    <div class="grid grid-cols-3 gap-2 p-1.5 rounded-md bg-slate-300 text-center text-base max-sm:text-sm font-bold">
                         @foreach ($timeWindowOptions as $timeWindowOption)
 
-                            <label for="{{ $timeWindowOption['id'] }}" class="rounded-md has-[input:checked]:bg-white transition-all hover:bg-white cursor-pointer">
+                            <label for="{{ $timeWindowOption['id'] }}" class="rounded-md py-1 has-[input:checked]:bg-white transition-all hover:bg-white cursor-pointer">
                                 {{ ucfirst($timeWindowOption['name']) }}
 
                                 <input type="radio" name="time_window" id="{{ $timeWindowOption['id'] }}" class="hidden" value="{{ $timeWindowOption['name'] }}" @checked(request('time_window') == $timeWindowOption['name'] || $loop->index == 0)>
@@ -160,32 +116,81 @@
                     </div>
                 </div>
 
-                @if ($view == 'Booking')
-                    <div class="*:mt-2 *:flex *:gap-2 *:items-center">
-                        @php
-                            $cancelledRadioButtons = [
-                                0 => [
-                                    'name' => 'Cancelled excluded'
-                                ],
-                                1 => [
-                                    'name' => 'Cancelled included'
-                                ],
-                                2 => [
-                                    'name' => 'Cancelled only'
-                                ]
-                            ];
-                        @endphp
+                <div class="flex flex-col">
+                    <x-label for="fromDate">From</x-label>
+                    <div class="flex gap-2">
+                        <x-input-field type="date" name="from_app_start_date" id="fromDate" class="flex-1 dateTimeInput" value="{{ request('from_app_start_date') }}" :disabled="request('time_window') == 'previous' || request('time_window') == 'upcoming'" />
+                        
+                        <x-select name="from_app_start_hour" id="fromHour" :disabled="request('time_window') == 'previous' || request('time_window') == 'upcoming'" class="dateTimeInput">
+                            <option value="empty"></option>
+                            @for ($i=10;$i<=20;$i++)
+                                <option value="{{ $i }}" @selected(request('from_app_start_hour') == $i)>
+                                    {{ $i }}
+                                </option>
+                            @endfor
+                        </x-select>
 
-                        @foreach ($cancelledRadioButtons as $cancelledRadioButton => $details)
-                            <label for="cancelled_{{ $cancelledRadioButton }}">
-                                <x-input-field type="radio" name="cancelled" :value="$cancelledRadioButton" id="cancelled_{{ $cancelledRadioButton }}" :checked="$cancelledRadioButton == (request('cancelled') ?? 1)" />
-                                <p>{{ $details['name'] }}</p>
-                            </label>
-                        @endforeach
+                        <x-select name="from_app_start_minute" id="fromMinute" :disabled="request('time_window') == 'previous' || request('time_window') == 'upcoming'" class="dateTimeInput">
+                            <option value="empty"></option>
+                            @for ($i=0;$i<=45;$i+=15)
+                                <option value="{{ $i }}" @selected(request('from_app_start_minute') === strval($i))>
+                                    {{ $i === 0 ? '00' : $i }}
+                                </option>
+                            @endfor
+                        </x-select>
                     </div>
-                @endif
-                
+                </div>
+
+                <div class="flex flex-col">
+                    <x-label for="toDate">To</x-label>
+                    <div class="flex gap-2">
+                        <x-input-field type="date" name="to_app_start_date" id="toDate" :disabled="request('time_window') == 'previous' || request('time_window') == 'upcoming'" class="flex-1 dateTimeInput" value="{{ request('to_app_start_date') }}" />
+
+                        <x-select name="to_app_start_hour" id="toHour" :disabled="request('time_window') == 'previous' || request('time_window') == 'upcoming'" class="dateTimeInput">
+                            <option value="empty"></option>
+                            @for ($i=10;$i<=20;$i++)
+                                <option value="{{ $i }}" @selected(request('to_app_start_hour') == $i)>
+                                    {{ $i }}
+                                </option>
+                            @endfor
+                        </x-select>
+
+                        <x-select name="to_app_start_minute" id="toMinute" :disabled="request('time_window') == 'previous' || request('time_window') == 'upcoming'" class="dateTimeInput">
+                            <option value="empty"></option>
+                            @for ($i=0;$i<=45;$i+=15)
+                                <option value="{{$i}}" @selected(request('to_app_start_minute') === strval($i))>
+                                    {{ $i === 0 ? '00' : $i }}
+                                </option>
+                            @endfor
+                        </x-select>
+                    </div>
+                </div>                   
             </div>
+
+            @if ($view == 'Booking')
+                <div class="*:mt-2 *:flex *:gap-2 *:items-center mb-4">
+                    @php
+                        $cancelledRadioButtons = [
+                            0 => [
+                                'name' => 'Cancelled excluded'
+                            ],
+                            1 => [
+                                'name' => 'Cancelled included'
+                            ],
+                            2 => [
+                                'name' => 'Cancelled only'
+                            ]
+                        ];
+                    @endphp
+
+                    @foreach ($cancelledRadioButtons as $cancelledRadioButton => $details)
+                        <label for="cancelled_{{ $cancelledRadioButton }}">
+                            <x-input-field type="radio" name="cancelled" :value="$cancelledRadioButton" id="cancelled_{{ $cancelledRadioButton }}" :checked="$cancelledRadioButton == (request('cancelled') ?? 1)" />
+                            <p>{{ $details['name'] }}</p>
+                        </label>
+                    @endforeach
+                </div>
+            @endif
 
             <div>
                 <x-button role="ctaMain" :full="true" id="submitButton" :disabled="true">Search</x-button>
@@ -205,7 +210,7 @@
         @endif        
     @empty
         <x-empty-card>
-            <p class="text-lg font-medium">No bookings were found for the applied filters!</p>
+            <p class="text-lg max-md:text-base font-medium">No bookings were found for the applied filters!</p>
             <a href="{{ route('bookings.create') }}" class=" text-blue-700 hover:underline">Add a new booking here for one of your clients!</a>
         </x-empty-card>
     @endforelse

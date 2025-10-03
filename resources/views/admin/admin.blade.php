@@ -1,4 +1,4 @@
-<x-user-layout currentView="admin" title="Admin Dashboard">
+<x-user-layout currentView="admin" title="Admin dashboard">
     <x-breadcrumbs :links="[
         'Admin dashboard' => ''
     ]"/>

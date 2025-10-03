@@ -253,7 +253,11 @@
             </x-show-card>
         @else
             <x-show-card :show="$showDestroy" type="destroy" class="mb-4">
-                <p class="mb-4">Deleting this account will prevent {{ $user->first_name }} from logging in, viewing their appointments, or creating new ones. Their upcoming appointments will be cancelled and their admin or barber roles will be revoked. The account can only be restored by an administrator. Are you sure you want to proceed?</p>
+                <p class="mb-2 text-justify">Deleting this account will prevent {{ $user->first_name }} from logging in, viewing their appointments, or creating new ones.</p>
+
+                <p class="mb-2 text-justify">Their upcoming appointments will be cancelled and their admin or barber roles will be revoked. The account can only be restored by an administrator.</p>
+
+                <p class="mb-4 text-justify">Are you sure you want to proceed?</p>
 
                 <form action="{{ route('customers.destroy',$user) }}" method="post">
                     @method('DELETE')

@@ -4,10 +4,10 @@
     switch ($access) {
         case 'barber':
             $createRoute = route('time-offs.create');
-            $title = "Your Time Off";
+            $title = "Your time off";
             $breadcrumbLinks = [
-                'Time Offs' => route('time-offs.index'),
-                'Your Time Off' => ''
+                'Time offs' => route('time-offs.index'),
+                'Time off #' . $appointment->id => ''
             ];
         break;
 
@@ -15,20 +15,27 @@
             $createRoute = route('admin-time-offs.create');
             $title = $appointment->barber->getName() . '\'s Time Off';
             $breadcrumbLinks = [
-                'Admin Dashboard' => route('admin'),
-                'Time Offs' => route('admin-time-offs.index'),
-                $title => ''
+                'Admin dashboard' => route('admin'),
+                'Time offs' => route('admin-time-offs.index'),
+                'Time off #' . $appointment->id => ''
             ];
         break;
     }
 @endphp
 
 <x-user-layout :title="$title" currentView="{{ $access }}">
-    <x-breadcrumbs :links="$breadcrumbLinks"/>
 
-    <div class="flex justify-between items-end mb-4">
-        <x-headline>{{$title}}</x-headline>
-        <x-link-button :link="$createRoute" role="timeoffCreateMain">New&nbsp;time&nbsp;off</x-link-button>
+    <div class="flex justify-between items-end align-bottom mb-4">
+        <div>
+            <x-breadcrumbs :links="$breadcrumbLinks"/>
+            <x-headline>{{$title}}</x-headline>
+        </div>
+
+        <div>
+            <x-link-button :link="$createRoute" role="timeoffCreateMain">
+                <span class="max-sm:hidden">New&nbsp;time&nbsp;off</span>
+            </x-link-button>
+        </div>
     </div>
 
     <x-time-off-card :appointment="$appointment" :access="$access" class="mb-4" />

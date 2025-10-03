@@ -17,7 +17,7 @@
 
         <div>
             @for ($i = 10; $i<=21; $i++)
-                <div class="text-slate-500 border-slate-300 border-t mb-8">
+                <div class="text-slate-500 border-slate-300 border-t mb-8 max-md:text-xs">
                     {{ $i }}:00
                 </div>
             @endfor
@@ -41,7 +41,7 @@
         </div>
         
 
-        <div class="flex-1 text-sm text-slate-500 text-center">
+        <div class="flex-1 text-sm max-md:text-xs text-slate-500 text-center">
             <p>Displayed week</p>
             <p>From <span id="fromDate"></span> to <span id="toDate"></span></p>
         </div>

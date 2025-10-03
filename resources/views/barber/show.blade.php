@@ -1,7 +1,7 @@
 <x-user-layout currentView="admin" :title="$barber->getName()">
     <x-breadcrumbs :links="[
-        'Admin Dashboard' => route('admin'),
-        'Manage Barbers' => route('barbers.index'),
+        'Admin dashboard' => route('admin'),
+        'Manage barbers' => route('barbers.index'),
         $barber->getName() => ''
     ]"/>
 
@@ -21,14 +21,14 @@
             @method('PUT')
             <div class="mb-4">
                 <div class="grid grid-cols-2 gap-2 mb-4">
-                    <div class="flex flex-col">
+                    <div class="flex flex-col max-sm:col-span-2">
                         <x-label for="first_name">First name</x-label>
                         <x-input-field name="first_name" id="first_name" value="{{ old('first_name') ??$barber->user->first_name }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" />
                         @error('first_name')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
                     </div>
-                    <div class="flex flex-col">
+                    <div class="flex flex-col max-sm:col-span-2">
                         <x-label for="last_name">Last name</x-label>
                         <x-input-field name="last_name" id="last_name" value="{{ old('last_name') ??$barber->user->last_name }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" />
                         @error('last_name')
@@ -68,14 +68,16 @@
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
                     </div>
-                    <div class="flex flex-col">
+
+                    <div class="flex flex-col max-sm:col-span-2">
                         <x-label for="date_of_birth">Date of birth</x-label>
                         <x-input-field type="date" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth') ?? $barber->user->date_of_birth }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" />
                         @error('date_of_birth')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
                     </div>
-                    <div class="flex flex-col">
+
+                    <div class="flex flex-col max-sm:col-span-2">
                         <x-label for="telephone_number">Telephone number</x-label>
                         <x-input-field type="tel" name="telephone_number" id="telephone_number" value="{{ old('telephone_number') ?? $barber->user->tel_number }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" />
                         @error('telephone_number')
@@ -96,8 +98,8 @@
             </div>
 
             <div class="border-2 border-dashed rounded-md p-4 border-yellow-400 mb-4">
-                <h3 class="text-xl mb-2 font-base">Attention</h3>
-                <p>You're currently viewing {{ $barber->user->first_name }}'s barber page. If you want to edit their details or see their stats as a customer then check his <a href="{{ route('customers.show',$barber->user) }}" class="text-blue-700 hover:underline">customer page!</a></p>
+                <h3 class="text-xl max-md:text-lg mb-2">Attention</h3>
+                <p class="max-sm:text-xs">You're currently viewing {{ $barber->user->first_name }}'s barber page. If you want to edit their details or see their stats as a customer then check his <a href="{{ route('customers.show',$barber->user) }}" class="text-blue-700 hover:underline">customer page!</a></p>
             </div>
             
             <div class="flex gap-2">
@@ -153,8 +155,8 @@
 
                 <div>
                     <h3 class="font-bold text-lg mb-2">Guidelines</h3>
-                    <p class="mb-2">This picture will appear on the homepage and during the appointment booking process. Please take into account the followings before modifying your image:</p>
-                    <ul class="list-disc *:ml-6 *:mb-1 mb-4">
+                    <p class="mb-2 text-justify">By clicking on the image above, you can update your profile picture. This picture will appear on the homepage and during the appointment booking process. Please take into account the followings before modifying your image:</p>
+                    <ul class="list-disc *:ml-6 *:mb-1">
                         <li>
                             The picture of the barber needs to be a clear and high quality image
                         </li>
@@ -174,7 +176,7 @@
                             The uploaded file cannot exceed 4 MB
                         </li>
                     </ul>
-                    <div id="submitDiv" hidden>
+                    <div id="submitDiv" class="mt-4" hidden>
                         <x-button id="submit" role="ctaMain">Save changes</x-button>
                     </div>
                 </div>
@@ -183,15 +185,19 @@
     </x-show-card>
 
     <x-modal id="cropModal">
-        <div class="flex justify-between items-center mb-4">
-            <h1 class="text-xl font-bold">Crop your photo</h1>
+        <div class="flex justify-between items-center w-full mb-4">
+            <h1 class="text-xl max-md:text-lg font-bold">Crop your photo</h1>
             <div id="closeModal" class="hover:bg-blue-100 transition-all rounded-full p-2 cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                 </svg>
             </div>
         </div>
-        <img src="" alt="" id="image" class="max-w-xl max-h-[50vh]">
+
+        <div class=" w-full max-w-full h-auto max-h-[80vh] overflow-hidden">
+            <img src="" alt="" id="image" class="w-[90%] max-h-[60vh]">
+        </div>
+        
         <div class="flex gap-2 mt-4">
             <x-button id="crop" :hidden="true" role="ctaMain">Crop</x-button>
             <x-button id="reset" :hidden="true">Reset</x-button>

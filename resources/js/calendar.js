@@ -88,7 +88,7 @@ export function renderDivs(appStartTime, appEndTime, calendar, appointments, bar
 
             // CREATING THE INNER DIV ELEMENT
             const innerDiv = document.createElement('div');
-            innerDiv.classList.add('transition-all','h-full','px-1','max-sm:px-0.5','rounded-md','max-lg:translate-y-6','overflow-hidden','max-sm:text-xs');
+            innerDiv.classList.add('transition-all','h-full','px-1','max-sm:px-0.5','rounded-md','max-lg:translate-y-6','overflow-hidden','text-xs');
 
             if (divData.state == 'current') {
                 innerDiv.classList.add('pl-2');
@@ -123,7 +123,7 @@ export function renderDivs(appStartTime, appEndTime, calendar, appointments, bar
                 spanTime.innerHTML = startHour + ':' + startMinute + ' ';
 
                 const spanName = document.createElement('span');
-                spanName.classList.add('font-normal');
+                spanName.classList.add('font-normal','max-sm:hidden');
 
                 if (divData.state == 'current') {
                     if (clashCount != 0) {

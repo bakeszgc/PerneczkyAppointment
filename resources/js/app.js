@@ -48,10 +48,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     cropper = new Cropper(image, {
                         aspectRatio: 1,
+                        autoCropArea: 1,
                         viewMode: 2,
-                        minCropBoxWidth: 100,
-                        minCropBoxHeight: 100,
+                        responsive: true,
+                        minCropBoxWidth: 25,
+                        minCropBoxHeight: 25,
                         rotatable: false,
+                        dragMode: 'move',
                         crop(event) {
                             cropperSubmitButton.setAttribute("disabled","");
                         },

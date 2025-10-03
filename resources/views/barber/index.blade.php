@@ -6,7 +6,7 @@
 
     <x-headline class="mb-4">Manage barbers</x-headline>
 
-    <x-card>
+    <x-card class="mb-4">
         <div class="overflow-auto">
             <table class="mb-4 w-full">
                 <tr class="*:font-bold *:p-2 bg-slate-300">
@@ -29,10 +29,10 @@
                         <td>{{ $barber->user->first_name . " " . $barber->user->last_name }}</td>
                         <td class="max-md:hidden">{{ $barber->created_at }}</td>
                         <td class="text-center max-md:hidden">
-                            <x-input-field type="checkbox" name="isVisible" id="isVisibleCheckBox" :checked="$barber->is_visible" :readonly="true" />
+                            <x-input-field type="checkbox" name="isVisible" id="isVisibleCheckBox_{{ $barber->id }}" :checked="$barber->is_visible" :readonly="true" />
                         </td>
                         <td class="text-center max-md:hidden">
-                            <x-input-field type="checkbox" name="isAdmin" id="isAdminCheckBox"  :checked="$barber->user->is_admin" :readonly="true" />
+                            <x-input-field type="checkbox" name="isAdmin" id="isAdminCheckBox_{{ $barber->id }}"  :checked="$barber->user->is_admin" :readonly="true" />
                         </td>
                         <td>
                             <x-link-button role="show" link="{{ route('barbers.show',$barber) }}">

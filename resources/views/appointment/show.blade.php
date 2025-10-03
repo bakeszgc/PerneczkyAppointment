@@ -2,20 +2,28 @@
     $view = $view ?? 'barber';
 @endphp
 
-<x-user-layout title="{{$appointment->user->first_name}}'s Booking" currentView="{{ $view }}">
+<x-user-layout title="{{$appointment->user->first_name}}'s booking" currentView="{{ $view }}">
 
-    <x-breadcrumbs :links="$view == 'admin' ? [
-            'Admin Dashboard' => route('admin'),
-            'Bookings' => route('bookings.index'),
-            $appointment->user->first_name . '\'s Booking' => ''
-        ] : [
-        'Bookings' => route('appointments.index'),
-        $appointment->user->first_name . '\'s Booking' => ''
-    ]"/>
+    
 
-    <div class="flex justify-between items-end mb-4">
-        <x-headline>{{$appointment->user->first_name}}'s Booking</x-headline>
-        <x-link-button :link="$view == 'admin' ? route('bookings.create') : route('appointments.create')"  role="createMain">New&nbsp;booking</x-link-button>
+    <div class="flex justify-between items-end align-bottom mb-4">
+        <div>
+            <x-breadcrumbs :links="$view == 'admin' ? [
+                'Admin dashboard' => route('admin'),
+                'Bookings' => route('bookings.index'),
+                'Booking #' . $appointment->id => ''
+                ] : [
+                'Bookings' => route('appointments.index'),
+                'Booking #' . $appointment->id => ''
+            ]"/>
+            <x-headline>{{$appointment->user->first_name}}'s booking</x-headline>
+        </div>
+        <div>
+            <x-link-button :link="$view == 'admin' ? route('bookings.create') : route('appointments.create')"  role="createMain">
+                <span class="max-sm:hidden">New&nbsp;booking</span>
+            </x-link-button>
+        </div>
+        
     </div>
 
     <x-appointment-card :appointment="$appointment" access="{{ $view }}" class="mb-8">
@@ -29,44 +37,50 @@
         </div>
     </x-appointment-card>
 
-    <h2 class="font-bold text-2xl mb-4">{{$appointment->user->first_name}}'s Details</h2>
+    <h2 class="font-bold text-2xl max-md:text-xl mb-4">{{$appointment->user->first_name}}'s details</h2>
 
     <x-card class="flex max-md:flex-col gap-4 mb-4">
-        <div class="text-base flex-1">
-            <h3 class="font-bold text-xl mb-2">Contact</h3>
-            <ul>
-                <li>
-                    Telephone number: <a href="tel:{{ $appointment->user->tel_number }}" class="text-blue-700 hover:underline">{{ $appointment->user->tel_number }}</a>
-                </li>
-                <li>
-                    Email address: <a href="mailto:{{ $appointment->user->email }}" class="text-blue-700 hover:underline">{{ $appointment->user->email }}</a>
-                </li>                
-            </ul>
+        <div class="text-base max-md:text-sm flex-1">
+            <div class="mb-4 pb-4 border-b-2">
+                <h3 class="font-bold text-xl max-md:text-lg mb-2">Contact</h3>
+                <ul>
+                    <li>
+                        Telephone number: <a href="tel:{{ $appointment->user->tel_number }}" class="text-blue-700 hover:underline">{{ $appointment->user->tel_number }}</a>
+                    </li>
+                    <li>
+                        Email address: <a href="mailto:{{ $appointment->user->email }}" class="text-blue-700 hover:underline">{{ $appointment->user->email }}</a>
+                    </li>                
+                </ul>
+            </div>
 
-            <h3 class="font-bold text-xl mb-2 mt-4">Account</h3>
-            <ul>                
-                <li>
-                    Date of birth: {{ \Carbon\Carbon::parse($appointment->user->date_of_birth)->format('Y-m-d') }} ({{ floor(\Carbon\Carbon::parse($appointment->user->date_of_birth)->diffInYears(now())) }} years old)
-                </li>
-                <li>
-                    Account created: {{ \Carbon\Carbon::parse($appointment->user->created_at)->format('Y-m-d G:i') ?? 'Not created yet' }}
-                </li>
-                <li>
-                    Email verified: {{ \Carbon\Carbon::parse($appointment->user->email_verified_at)->format('Y-m-d G:i') ?? 'Not verified yet' }}
-                </li>
-                
-                @if ($view == 'admin')
-                <li class="mt-2">
-                    <a href="{{ route('customers.show',$appointment->user) }}" class="text-blue-700 hover:underline font-bold">
-                        View {{ $appointment->user->first_name }}'s profile
-                    </a>
-                </li>
-                @endif
-            </ul>            
+            <div>
+                <h3 class="font-bold text-xl max-md:text-lg mb-2">Account</h3>
+                <ul>                
+                    <li>
+                        Date of birth: {{ \Carbon\Carbon::parse($appointment->user->date_of_birth)->format('Y-m-d') }} ({{ floor(\Carbon\Carbon::parse($appointment->user->date_of_birth)->diffInYears(now())) }} years old)
+                    </li>
+                    <li>
+                        Account created: {{ \Carbon\Carbon::parse($appointment->user->created_at)->format('Y-m-d G:i') ?? 'Not created yet' }}
+                    </li>
+                    <li>
+                        Email verified: {{ \Carbon\Carbon::parse($appointment->user->email_verified_at)->format('Y-m-d G:i') ?? 'Not verified yet' }}
+                    </li>
+                    
+                    @if ($view == 'admin')
+                    <li class="mt-2">
+                        <a href="{{ route('customers.show',$appointment->user) }}" class="text-blue-700 hover:underline font-bold">
+                            View {{ $appointment->user->first_name }}'s profile
+                        </a>
+                    </li>
+                    @endif
+                </ul>
+            </div>  
         </div>
-        <div class="border-l border-slate-300 max-md:border-0"></div>
-        <div class="text-base flex-1">
-            <h3 class="font-bold text-xl mb-2">Bookings</h3>
+
+        <div class="border-l-2 max-md:border-l-0 max-md:border-b-2"></div>
+
+        <div class="text-base max-md:text-sm flex-1">
+            <h3 class="font-bold text-xl max-md:text-lg mb-2">Bookings</h3>
 
             <ul>
                 <li>Upcoming bookings: {{ $upcoming }}</li>

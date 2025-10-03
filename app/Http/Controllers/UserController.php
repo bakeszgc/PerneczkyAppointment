@@ -37,7 +37,8 @@ class UserController extends Controller
             'date_of_birth' => $request->date_of_birth,
             'tel_number' => $request->telephone_number,
             'email' => $request->email,
-            'password' => bcrypt($request->password)
+            'password' => bcrypt($request->password),
+            'is_admin' => false
         ]);
 
         event(new Registered($user));

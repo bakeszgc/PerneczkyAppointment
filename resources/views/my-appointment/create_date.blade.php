@@ -61,7 +61,10 @@
                         <h3 class="font-medium text-lg max-md:text-base">
                             <a href="{{ $serviceLink }}">
                                 {{$service->name}}
-                                •
+                                
+                                <span class="max-sm:hidden">•</span>
+                                <br class="sm:hidden">
+                                
                                 {{$service->duration}} minutes
                                 •
                                 {{number_format($service->price,thousands_separator:' ')}} HUF

@@ -52,7 +52,7 @@ class BookingUpdateNotification extends Notification implements ShouldQueue
         $icsContent = $link->ics([], ['format' => 'file']);
         
         return (new MailMessage)
-            ->subject('Your Appointment Has Been Modified')
+            ->subject('Your appointment has been modified')
             ->view('emails.booking_updated',[
                 'oldAppointment' => $this->oldAppointment,
                 'newAppointment' => $this->newAppointment,

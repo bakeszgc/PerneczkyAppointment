@@ -51,7 +51,7 @@
     </table>
 
     <div class="text-center mb-8">
-        <a href="{{ route('my-appointments.show',$appointment) }}" id="ctaButton" target="_blank">View Your Appointment</a>
+        <a href="{{ route('my-appointments.show',$appointment) }}" id="ctaButton" target="_blank">View your appointment</a>
     </div>
 
     <p class="mb-4">Please make sure to arrive at least 5 minutes before your scheduled time to ensure a smooth experience. We accept both credit card and cash at our store. See you soon!</p>
@@ -61,6 +61,6 @@
     <hr class="mb-8" />
 
     <p id="linkTrouble">
-        If you're having trouble clicking the "View Your Appointment" button, copy and paste the URL below into your web browser: <a href="{{ route('my-appointments.show',$appointment) }}" class="link word-break">{{ route('my-appointments.show',$appointment) }}</a>
+        If you're having trouble clicking the "View your appointment" button, copy and paste the URL below into your web browser: <a href="{{ route('my-appointments.show',$appointment) }}" class="link word-break">{{ route('my-appointments.show',$appointment) }}</a>
     </p>
 </x-email-layout>

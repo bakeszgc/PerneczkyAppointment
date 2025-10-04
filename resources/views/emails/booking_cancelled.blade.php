@@ -10,7 +10,7 @@
                 $notifiableName = $notifiable->barber->getName();
                 $cancelledByName = $cancelledBy->first_name;
 
-                $ctaText = "View Cancelled Booking";
+                $ctaText = "View cancelled booking";
                 $url = route('appointments.show',$appointment);
             break;
 
@@ -19,7 +19,7 @@
                 $notifiableName = $notifiable->first_name;
                 $cancelledByName = is_string($cancelledBy) ? 'an admin' : $cancelledBy->getName();
 
-                $ctaText = 'Book a New Appointment';
+                $ctaText = 'Book a new appointment';
                 $url = route('my-appointments.create.barber.service',[
                     'barber_id' => $appointment->barber_id,
                     'service_id' => $appointment->service_id

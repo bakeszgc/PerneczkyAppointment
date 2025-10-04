@@ -55,7 +55,7 @@ class BookingCancellationNotification extends Notification implements ShouldQueu
         }
 
         return (new MailMessage)
-            ->subject('Your ' . ucfirst($appointmentType) . ' Has Been Cancelled')
+            ->subject('Your ' . strtolower($appointmentType) . ' has been cancelled')
             ->view('emails.booking_cancelled',[
                 'appointment' => $this->appointment,
                 'cancelledBy' => $this->cancelledBy,

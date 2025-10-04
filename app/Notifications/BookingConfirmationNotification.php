@@ -48,7 +48,7 @@ class BookingConfirmationNotification extends Notification implements ShouldQueu
         $icsContent = $link->ics([], ['format' => 'file']);
         
         return (new MailMessage)
-            ->subject('Appointment Booked Succesfully')
+            ->subject('Appointment booked succesfully')
             ->view('emails.booking_stored',[
                 'appointment' => $this->appointment,
                 'notifiable' => $notifiable

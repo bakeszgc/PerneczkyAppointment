@@ -12,6 +12,10 @@
             font-weight: 400;
         }
 
+        body{
+            margin: 0;
+        }
+
         #innerDiv{
             margin-left: auto;
             margin-right: auto;
@@ -39,6 +43,10 @@
         h1{
             font-weight: 700;
             font-size: 24px;
+        }
+
+        h4{
+            line-height: 0;
         }
 
         table{
@@ -90,7 +98,7 @@
         }
 
         .changed {
-            font-weight: bold;
+            font-weight: 700;
         }
 
         .italic{

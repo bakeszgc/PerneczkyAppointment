@@ -21,42 +21,74 @@
             </tr>
         </thead>
         <tbody>
-            <tr @class(['changed' => $oldStartTime->format('Y-m-d') != $newStartTime->format('Y-m-d')])>
-                <td>Date</td>
-                <td>{{ $oldStartTime->format('Y-m-d') }}</td>
-                <td>{{ $newStartTime->format('Y-m-d') }}</td>
+            <tr>
+                <td @class(['changed' => $oldStartTime->format('Y-m-d') != $newStartTime->format('Y-m-d')])>
+                    Date
+                </td>
+                <td @class(['changed' => $oldStartTime->format('Y-m-d') != $newStartTime->format('Y-m-d')])>
+                    {{ $oldStartTime->format('Y-m-d') }}
+                </td>
+                <td @class(['changed' => $oldStartTime->format('Y-m-d') != $newStartTime->format('Y-m-d')])>
+                    {{ $newStartTime->format('Y-m-d') }}
+                </td>
             </tr>
 
-            <tr @class(['changed' => $oldStartTime->format('G:i') != $newStartTime->format('G:i') || $oldEndTime->format('G:i') != $newEndTime->format('G:i')])>
-                <td>Time</td>
-                <td>{{ $oldStartTime->format('G:i') }} - {{ $oldEndTime->format('G:i') }}</td>
-                <td>{{ $newStartTime->format('G:i') }} - {{ $newEndTime->format('G:i') }}</td>
+            <tr>
+                <td @class(['changed' => $oldStartTime->format('G:i') != $newStartTime->format('G:i') || $oldEndTime->format('G:i') != $newEndTime->format('G:i')])>
+                    Time
+                </td>
+                <td @class(['changed' => $oldStartTime->format('G:i') != $newStartTime->format('G:i') || $oldEndTime->format('G:i') != $newEndTime->format('G:i')])>
+                    {{ $oldStartTime->format('G:i') }} - {{ $oldEndTime->format('G:i') }}
+                </td>
+                <td @class(['changed' => $oldStartTime->format('G:i') != $newStartTime->format('G:i') || $oldEndTime->format('G:i') != $newEndTime->format('G:i')])>
+                    {{ $newStartTime->format('G:i') }} - {{ $newEndTime->format('G:i') }}
+                </td>
             </tr>
 
-            <tr @class(['changed' => $oldAppointment['service_id'] != $newAppointment->service_id])>
-                <td>Service</td>
-                <td>{{ App\Models\Service::find($oldAppointment['service_id'])->name }}</td>
-                <td>{{ $newAppointment->service->name }}</td>
+            <tr>
+                <td @class(['changed' => $oldAppointment['service_id'] != $newAppointment->service_id])>
+                    Service
+                </td>
+                <td @class(['changed' => $oldAppointment['service_id'] != $newAppointment->service_id])>
+                    {{ App\Models\Service::find($oldAppointment['service_id'])->name }}
+                </td>
+                <td @class(['changed' => $oldAppointment['service_id'] != $newAppointment->service_id])>
+                    {{ $newAppointment->service->name }}
+                </td>
             </tr>
 
-            <tr @class(['changed' => $oldAppointment['price'] != $newAppointment->price])>
-                <td>Price</td>
-                <td>{{ number_format($oldAppointment['price'],thousands_separator:' ') }} HUF</td>
-                <td>{{ number_format($newAppointment->price,thousands_separator:' ') }} HUF</td>
+            <tr>
+                <td @class(['changed' => $oldAppointment['price'] != $newAppointment->price])>
+                    Price
+                </td>
+                <td @class(['changed' => $oldAppointment['price'] != $newAppointment->price])>
+                    {{ number_format($oldAppointment['price'],thousands_separator:' ') }} HUF
+                </td>
+                <td @class(['changed' => $oldAppointment['price'] != $newAppointment->price])>
+                    {{ number_format($newAppointment->price,thousands_separator:' ') }} HUF
+                </td>
+            </tr>
+            
+            <tr>
+                <td @class(['changed' => $oldAppointment['barber_id'] != $newAppointment->barber_id])>
+                    Barber
+                </td>
+                <td @class(['changed' => $oldAppointment['barber_id'] != $newAppointment->barber_id])>
+                    {{ App\Models\Barber::find($oldAppointment['barber_id'])->getName() }}
+                </td>
+                <td @class(['changed' => $oldAppointment['barber_id'] != $newAppointment->barber_id])>
+                    {{ $newAppointment->barber->getName() }}
+                </td>
             </tr>
 
-            <tr @class(['changed' => $oldAppointment['barber_id'] != $newAppointment->barber_id])>
-                <td>Barber</td>
-                <td>{{ App\Models\Barber::find($oldAppointment['barber_id'])->getName() }}</td>
-                <td>{{ $newAppointment->barber->getName() }}</td>
-            </tr>
-
-            <tr @class(['changed' => $oldAppointment['comment'] != $newAppointment->comment])>
-                <td>Comment</td>
-                <td @class(['italic' => $oldAppointment['comment'] == ''])>
+            <tr>
+                <td @class(['changed' => $oldAppointment['comment'] != $newAppointment->comment])>
+                    Comment
+                </td>
+                <td @class(['italic' => $oldAppointment['comment'] == '', 'changed' => $oldAppointment['comment'] != $newAppointment->comment])>
                     {{ $oldAppointment['comment'] == '' ? ('No comments from ' . $notifiable->first_name . '.') : $oldAppointment['comment']}}
                 </td>
-                <td @class(['italic' => $newAppointment->comment == ''])>
+                <td @class(['italic' => $newAppointment->comment == '', 'changed' => $oldAppointment['comment'] != $newAppointment->comment])>
                     {{ $newAppointment->comment == '' ? ('No comments from ' . $notifiable->first_name . '.') : $newAppointment->comment}}
                 </td>
             </tr>

@@ -130,3 +130,23 @@ Route::get('/',function() {
         'services' => $services
     ]);
 })->name('home');
+
+// changed
+Route::get('/email-updated', function() {
+    $oldAppointment = [
+        'barber_id' => 3,
+        'service_id' => 5,
+        'comment' => '',
+        'price' => 5000,
+        'app_start_time' => '2025-10-05 16:00:00',
+        'app_end_time' => '2025-10-05 17:30:00'
+    ];
+    $newAppointment = Appointment::find(140);
+
+    return view('emails.booking_updated',[
+        'oldAppointment' => $oldAppointment,
+        'newAppointment' => $newAppointment,
+        'updatedBy' => 'admin',
+        'notifiable' => $newAppointment->user
+    ]);
+});

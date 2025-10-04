@@ -103,7 +103,7 @@
             <div class="flex justify-between items-center gap-4 max-lg:flex-col max-lg:translate-y-5 max-lg:bg-[#0f0f0f] max-lg:pt-12 max-lg:pb-6 max-lg:-translate-x-full nav-menu" id="nav-menu">
 
                 @auth                    
-                    <ul class="flex items-center gap-2 max-lg:flex-col">
+                    <ul class="flex items-center gap-2 max-lg:flex-col max-lg:gap-4">
                         <li>
                             Welcome, {{auth()->user()->barber->display_name ?? auth()->user()->first_name ?? 'Guest'}}!
                         </li>

@@ -28,7 +28,7 @@ class SendAppointmentReminders extends Command
      */
     public function handle()
     {
-        $appointments = Appointment::with('user')->whereBetween('app_start_time',[today(),today()->addDay()])->get();
+        $appointments = Appointment::with('user')->withoutTimeOffs()->whereBetween('app_start_time',[today(),today()->addDay()])->get();
         $appCount = $appointments->count();
         $appLabel = Str::plural('appointment',$appCount);
         $this->info("Found {$appCount} {$appLabel}");

@@ -150,3 +150,11 @@ Route::get('/email-updated', function() {
         'notifiable' => $newAppointment->user
     ]);
 });
+
+//reminder
+Route::get('/email-reminder', function() {
+    return view('emails.booking_reminder',[
+        'appointment' => Appointment::find(140),
+        'notifiable' => Appointment::find(140)->user
+    ]);
+});

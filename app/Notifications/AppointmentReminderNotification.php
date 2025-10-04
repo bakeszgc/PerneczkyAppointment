@@ -2,12 +2,14 @@
 
 namespace App\Notifications;
 
-use App\Models\Appointment;
+use DateTime;
 use Carbon\Carbon;
+use App\Models\Appointment;
 use Illuminate\Bus\Queueable;
+use Spatie\CalendarLinks\Link;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 
 class AppointmentReminderNotification extends Notification implements ShouldQueue
 {
@@ -35,12 +37,24 @@ class AppointmentReminderNotification extends Notification implements ShouldQueu
      */
     public function toMail(object $notifiable): MailMessage
     {
+        $from = DateTime::createFromFormat('Y-m-d H:i:s',$this->appointment->app_start_time);
+        $to = DateTime::createFromFormat('Y-m-d H:i:s',$this->appointment->app_end_time);
+        $title = 'Appointment at PERNECZKY BarberShop';
+        $description = nl2br("Service: " . $this->appointment->service->name . "\nBarber: " . $this->appointment->barber->getName());
+
+        $link = Link::create($title, $from, $to)
+            ->description($description)
+            ->address('1082 Budapest, Corvin sétány 5.');
+        $icsContent = $link->ics([], ['format' => 'file']);
+        
         return (new MailMessage)
-                    ->subject('Ready for a fresh cut?')
-                    ->greeting('Hey '. $this->appointment->user->first_name . '!')
-                    ->line('Reminder: You have an upcoming appointment today!')
-                    ->action('View Appointment', route('my-appointments.show',$this->appointment->id))
-                    ->line("See you at " . Carbon::parse($this->appointment->app_start_time)->format('G:i') . "!");
+            ->subject('Ready for a fresh cut?')
+            ->view('emails.booking_reminder',[
+                'appointment' => $this->appointment,
+                'notifiable' => $notifiable
+            ])->attachData($icsContent, 'appointment.ics', [
+                'mime' => 'text/calendar'
+            ]);
     }
 
     /**

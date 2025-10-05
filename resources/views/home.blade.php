@@ -5,7 +5,7 @@
         <div class="flex flex-col items-center md:gap-4">
             <img src="{{ asset('logo/perneczky_barbershop_corvin.svg') }}" alt="PERNECZKY BarberShop Corvin" class="h-36 max-w-[80%] drop-shadow-2xl">
 
-            <a href="{{ route('my-appointments.create') }}" class="text-3xl max-lg:text-2xl max-md:text-lg font-bold p-4 rounded-lg bg-[#0018d5] hover:bg-[#0f0f0f] transition-all shadow-2xl max-lg:mb-2">BOOK YOUR APPOINTMENT</a>
+            <a href="{{ route('my-appointments.create') }}" class="text-2xl max-lg:text-xl max-md:text-lg font-bold p-4 max-lg:p-3 max-md:p-2 rounded-lg bg-[#0018d5] hover:bg-[#0f0f0f] transition-all shadow-2xl max-lg:mb-2">BOOK YOUR APPOINTMENT</a>
 
             <a href="tel:+36704056079" class="flex gap-2 items-center hover:text-blue-500 drop-shadow-2xl transition-all">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">

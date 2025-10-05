@@ -19,7 +19,7 @@
         </div>
     </x-appointment-card>
 
-    <div class="text-center">
+    <div class="text-center mb-4">
         <p>Need a fresh cut{{ $appointment->app_start_time >= now('Europe/Budapest') ? ' earlier' : ''}}?</p>
         <a href="{{ route('my-appointments.create') }}" class="text-blue-700 hover:underline">Book an appointment here!</a>
     </div>

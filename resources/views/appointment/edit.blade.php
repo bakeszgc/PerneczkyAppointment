@@ -114,7 +114,7 @@
             <div class="mb-4 grid grid-cols-2 max-sm:grid-cols-1 gap-4">
 
                 @if ($view == 'Booking')
-                    <div>
+                    <div class="max-sm:col-span-2">
                         <x-label for="service">
                             Service
                         </x-label>
@@ -132,7 +132,7 @@
                         @enderror
                     </div>
 
-                    <div>
+                    <div class="max-sm:col-span-2">
                         <x-label for="price">
                             Price (in HUF)
                         </x-label>

@@ -1,6 +1,6 @@
 <x-layout>
     <div id="home"></div>
-    <div class="h-svh w-full text-white flex flex-col justify-between items-center text-center bg-cover bg-center bg-fixed bg-no-repeat" style="background-image: url('{{ asset('pictures/interior.jpeg') }}');">
+    <div class="h-svh w-full text-white flex flex-col justify-between items-center text-center bg-home parallax">
         <div class="h-12"></div>
         <div class="flex flex-col items-center md:gap-4">
             <img src="{{ asset('logo/perneczky_barbershop_corvin.svg') }}" alt="PERNECZKY BarberShop Corvin" class="h-36 max-w-[80%] drop-shadow-2xl">
@@ -42,7 +42,7 @@
         </div>
     </x-container>
 
-    <x-header :bgImage="asset('pictures/services.jpeg')">
+    <x-header class="bg-service">
         <div id="services" class="-translate-y-14"></div>
         Services
     </x-header>
@@ -67,7 +67,7 @@
         </div>
     </x-container>
 
-    <x-header :bgImage="asset('pictures/barbers.jpg')">
+    <x-header class="bg-barber">
         <div id="barbers" class="-translate-y-14"></div>
         Barbers
     </x-header>
@@ -102,7 +102,7 @@
         </div>
     </x-container>
 
-    <x-header :bgImage="asset('pictures/location.jpg')">
+    <x-header class="bg-location">
         <div id="location" class="-translate-y-14"></div>
         Location
     </x-header>

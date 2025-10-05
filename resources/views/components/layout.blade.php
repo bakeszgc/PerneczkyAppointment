@@ -39,14 +39,6 @@
                 -webkit-animation: down 1.5s infinite;
             }
 
-            #logo{
-                position: absolute;
-                top: 10px;
-                left: 50%;
-                transform:translateX(-50%);
-                z-index: 40;
-            }
-
             @keyframes down {
                 0% {
                     transform: translate(0);
@@ -68,6 +60,63 @@
                 }
                 40% {
                     transform: translate(0);
+                }
+            }
+
+            #logo{
+                position: absolute;
+                top: 10px;
+                left: 50%;
+                transform:translateX(-50%);
+                z-index: 40;
+            }
+
+            .parallax {
+                text-shadow: 0 4px 10px rgba(0,0,0,0.6);
+                overflow: hidden;
+                position: relative;
+            }
+
+            .parallax::before {
+                position: absolute;
+                content: "";
+                left: 0;
+                width: 100%;
+                background-size: cover;
+                background-position: center center;
+                transform: translateZ(0);
+                will-change: transform;
+                z-index: -1;
+            }
+
+            .bg-home::before {
+                background-image: url('{{ asset('pictures/interior.jpeg') }}');
+                top: 5%;
+                height: 120%;
+            }
+
+            .bg-barber::before {
+                background-image: url({{ asset('pictures/barbers.jpg') }});
+                top: -80%;
+                height: 200%;
+            }
+
+            .bg-service::before {
+                background-image: url({{ asset('pictures/services.jpeg') }});
+                top: -75%;
+                height: 200%;
+            }
+
+            .bg-location::before {
+                background-image: url({{ asset('pictures/location.jpg') }});
+                top: -75%;
+                height: 200%;
+            }
+
+            @media (prefers-reduced-motion: no-preference) {
+                .parallax::before {
+                    transform: translateY(var(--scroll, 0));
+                    transition: transform 0.1s linear;
                 }
             }
 
@@ -201,7 +250,7 @@
             
         </nav>
 
-        <div class="z-10 max-md:text-sm max-lg:text-base">
+        <div class="z-10 max-md:text-sm max-lg:text-base relative">
 
             {{$slot}}
             
@@ -221,6 +270,14 @@
                     link.addEventListener('click', function() {
                         closeNavMenu(navMenu, hamburger);
                     });
+                });
+            });
+
+            document.addEventListener("scroll", () => {
+                document.querySelectorAll(".parallax").forEach(el => {
+                    const speed = -0.2; // smaller = slower parallax
+                    const offset = window.scrollY - el.offsetTop;
+                    el.style.setProperty("--scroll", `${offset * speed}px`);
                 });
             });
 

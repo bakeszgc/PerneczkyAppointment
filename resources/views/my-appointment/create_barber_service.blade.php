@@ -4,8 +4,8 @@
     switch($view) {
         case 'user':
             $breadcrumbLinks = [
-                'Book an appointment' => route('my-appointments.create'),
-                'Select a barber and a service' => ''
+                'New appointment' => route('my-appointments.create'),
+                'Barber & service' => ''
             ];
             $createDateLink = route('my-appointments.create.date');
             break;
@@ -13,7 +13,7 @@
             $breadcrumbLinks = [
                 'Bookings' => route('appointments.index'),
                 'New booking' => route('appointments.create'),
-                'Select a service' => ''    
+                'Service' => ''    
             ];
             $createDateLink = route('appointments.create.date');
             break;
@@ -21,7 +21,8 @@
             $breadcrumbLinks = [
                 'Admin dashboard' => route('admin'),
                 'Bookings' => route('bookings.index'),
-                'Select a barber and a service' => ''
+                'New booking' => route('bookings.create'),
+                'Barber & service' => ''
             ];
             $createDateLink = route('bookings.create.date');
             break;

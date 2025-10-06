@@ -10,9 +10,9 @@
             $storeLink = route('my-appointments.store',['barber_id' => $barber->id, 'service_id' => $service->id]);
 
             $breadcrumbLinks = [
-                'Book an appointment' => route('my-appointments.create'),
-                'Select a barber and a service' => $serviceLink,
-                'Select a date' => ''
+                'New appointment' => route('my-appointments.create'),
+                'Barber & service' => $serviceLink,
+                'Date' => ''
             ];
             
             break;
@@ -24,8 +24,8 @@
             $breadcrumbLinks = [
                 'Bookings' => route('appointments.index'),
                 'New booking' => route('appointments.create'),
-                'Select a service' => $serviceLink,
-                'Select a date' => ''
+                'Service' => $serviceLink,
+                'Date' => ''
             ];
             
             break;
@@ -37,8 +37,9 @@
             $breadcrumbLinks = [
                 'Admin dashboard' => route('admin'),
                 'Bookings' => route('bookings.index'),
-                'Select a barber and a service' => $serviceLink,
-                'Select a date' => ''
+                'New booking' => route('bookings.create'),
+                'Barber & service' => $serviceLink,
+                'Date' => ''
             ];
             break;
     }

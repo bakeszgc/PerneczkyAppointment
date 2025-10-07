@@ -143,13 +143,13 @@
                 <img src="{{ asset('logo/perneczky_circle.png') }}" alt="Perneczky BarberShop" id="logo" class="h-20">
             </a>
 
-            <div class="hamburger hidden cursor-pointer max-lg:absolute w-fit top-2 left-4 z-40">
+            <div class="hamburger hidden cursor-pointer w-fit ml-4 z-40">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
             </div>
 
-            <div class="flex justify-between items-center gap-4 max-lg:flex-col max-lg:translate-y-5 max-lg:bg-[#0f0f0f] max-lg:pt-12 max-lg:pb-6 max-lg:-translate-x-full nav-menu" id="nav-menu">
+            <div class="flex justify-between items-center gap-4 max-lg:flex-col max-lg:translate-y-1 max-lg:bg-[#0f0f0f] max-lg:pt-16 max-lg:pb-6 max-lg:-translate-x-full nav-menu" id="nav-menu">
 
                 @auth                    
                     <ul class="flex items-center gap-2 max-lg:flex-col max-lg:gap-4">

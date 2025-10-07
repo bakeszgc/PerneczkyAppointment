@@ -360,7 +360,7 @@
             const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
             passButton.disabled = true;
             
-            if (passInput.value != '' && newPassInput.value == newPassConfInput.value && passRegex.tes(newPassInput.value)) {
+            if (passInput.value != '' && newPassInput.value == newPassConfInput.value && passRegex.test(newPassInput.value)) {
                 passButton.disabled = false;
             }
         }

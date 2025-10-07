@@ -40,7 +40,7 @@
 
     <x-time-off-card :appointment="$appointment" :access="$access" class="mb-4" />
 
-    <div class="text-center">
+    <div class="text-center mb-4">
         Need a break{{ $appointment->app_start_time >= now('Europe/Budapest') ? ' earlier' : ''}}? <a href="{{ $createRoute }}" class="text-blue-700 hover:underline">Set a time off here!</a>
     </div>
 

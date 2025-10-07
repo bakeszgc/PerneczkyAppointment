@@ -98,6 +98,8 @@
         {{ $title }}
     </x-headline>
 
+    <p id="debug">debug</p>
+
     <x-card class="mb-4">
         @if ($action == 'edit')
             <h1 class="font-bold text-2xl max-sm:text-lg mb-4">

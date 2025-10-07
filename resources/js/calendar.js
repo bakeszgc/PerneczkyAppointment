@@ -1,18 +1,25 @@
 export function renderDivs(appStartTime, appEndTime, calendar, appointments, barberId, divData) {
     // CHECKING THE DAY DIFFERENCE OF THE SELECTED TIME OFF
-    const startDateString = appStartTime.toISOString().split('T')[0];
-    const endDateString = appEndTime.toISOString().split('T')[0];
+    const startDateString = appStartTime.toLocaleDateString('en-CA');
+    const endDateString = appEndTime.toLocaleDateString('en-CA');    
 
-    const dayDifference = (new Date(endDateString) - new Date(startDateString)) / 1000 / 60 / 60 / 24;            
+    const dayDifference = (new Date(endDateString) - new Date(startDateString)) / 1000 / 60 / 60 / 24;
     for (let index = 0; index < dayDifference + 1; index++) {
 
         // DECLARING VARIABLES FOR EACH DIV ELEMENTS
-        const start = (index == 0) ? appStartTime : addDays(new Date(startDateString + ' 10:00'),index);
-        const end = (index == dayDifference) ? appEndTime : addDays(new Date(startDateString + ' 20:00'),index);
+        const startBase = new Date(appStartTime).setHours(10,0);
+        const start = (index == 0)
+            ? appStartTime
+            : addDays(new Date(startBase),index);
+        
+        const endBase = new Date(appStartTime).setHours(20,0);
+        const end = (index == dayDifference)
+            ? appEndTime
+            : addDays(new Date(endBase),index);
         const duration = (end - start) / 1000 / 60;
         const startHour = start.getHours();
         const startMinute = (start.getMinutes() == 0) ? '00' : start.getMinutes();
-        let clashCount = 0;
+        let clashCount = 0;        
 
         // ONLY RENDER DIV ELEMENTS IF THEY'RE ON THE DISPLAYED WEEK
         if (start >= getFirstDayOfWeek(appStartTime) && start < addDays(getFirstDayOfWeek(appStartTime),7)) {
@@ -22,7 +29,7 @@ export function renderDivs(appStartTime, appEndTime, calendar, appointments, bar
 
                 if (barberId != 'empty') {
                     let startingDuring = appointments.filter(app => {
-                        const appStart = new Date(app.app_start_time);
+                        const appStart = new Date(app.app_start_time.replace(' ', 'T'));
                         return (
                             app.barber_id == barberId &&
                             appStart >= start &&
@@ -32,7 +39,7 @@ export function renderDivs(appStartTime, appEndTime, calendar, appointments, bar
                     });
 
                     let endingDuring = appointments.filter(app => {
-                        const appEnd = new Date(app.app_end_time);
+                        const appEnd = new Date(app.app_end_time.replace(' ', 'T'));
                         return (
                             app.barber_id == barberId &&
                             appEnd > start &&
@@ -42,8 +49,8 @@ export function renderDivs(appStartTime, appEndTime, calendar, appointments, bar
                     });
 
                     let startingBeforeEndingAfter = appointments.filter(app => {
-                        const appStart = new Date(app.app_start_time);
-                        const appEnd = new Date(app.app_end_time);
+                        const appStart = new Date(app.app_start_time.replace(' ', 'T'));
+                        const appEnd = new Date(app.app_end_time.replace(' ', 'T'));
                         return (
                             app.barber_id == barberId &&
                             appStart < start &&
@@ -156,24 +163,27 @@ export function renderDivs(appStartTime, appEndTime, calendar, appointments, bar
 }
 
 window.renderExisting = function (appointments, barberId, appId, access, date, calendar) {
-    const weekStart = new Date(getFirstDayOfWeek(date).toISOString().split('T')[0] + ' 00:00');
+    const ws = new Date(getFirstDayOfWeek(date).toLocaleDateString('en-CA'));
+    const weekStart = new Date(ws.setHours(0,0));
+    
     const weekEnd = addDays(weekStart,7);
     const filtered = appointments.filter(app => {
-        const appStart = new Date(app.app_start_time);
+        const appStart = new Date(app.app_start_time.replace(' ', 'T'));
         return (
             app.barber_id == barberId &&
             appStart >= weekStart &&
             appStart < weekEnd &&
             app.id != appId
         );
-    });            
+    });
+    
     // REMOVING EXISTING APPOINTMENT DIV ELEMENT
     document.querySelectorAll('.existingApp').forEach(el => el.remove());
 
     // RENDERING EXISTING APPOINTMENT DIV ELEMENTS
     filtered.forEach(app => {
-        const appStartTime = new Date(app.app_start_time);
-        const appEndTime = new Date(app.app_end_time);
+        const appStartTime = new Date(app.app_start_time.replace(' ', 'T'));
+        const appEndTime = new Date(app.app_end_time.replace(' ', 'T'));
         const divData = {
             type: (app.service_id == 1) ? 'timeoff' : 'appointment',
             access: access,
@@ -235,7 +245,9 @@ window.addDays = function (date, days) {
 };
 
 window.getDateTime = function (date, hour, minute) {
-    return new Date((date.value).concat(" ",hour.value,":",minute.value));
+    const d = new Date(date.value);
+    d.setHours(hour.value,minute.value);
+    return d;
 }
 
 window.getTimeDifference = function (appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute) {
@@ -245,6 +257,6 @@ window.getTimeDifference = function (appStartDate, appStartHour, appStartMinute,
 };
 
 window.renderDates = function(fromDate, toDate, date) {
-    fromDate.innerHTML = getFirstDayOfWeek(date).toISOString().split('T')[0];
-    toDate.innerHTML = addDays(getFirstDayOfWeek(date),6).toISOString().split('T')[0];
+    fromDate.innerHTML = getFirstDayOfWeek(date).toLocaleDateString('en-CA');
+    toDate.innerHTML = addDays(getFirstDayOfWeek(date),6).toLocaleDateString('en-CA');
 };

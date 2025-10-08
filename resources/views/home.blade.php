@@ -43,7 +43,7 @@
     </x-container>
 
     <x-header class="bg-service">
-        <div id="services" class="-translate-y-14"></div>
+        <div id="services" class="-translate-y-20"></div>
         Services
     </x-header>
 
@@ -68,7 +68,7 @@
     </x-container>
 
     <x-header class="bg-barber">
-        <div id="barbers" class="-translate-y-14"></div>
+        <div id="barbers" class="-translate-y-20"></div>
         Barbers
     </x-header>
 
@@ -103,7 +103,7 @@
     </x-container>
 
     <x-header class="bg-location">
-        <div id="location" class="-translate-y-14"></div>
+        <div id="location" class="-translate-y-20"></div>
         Location
     </x-header>
 
@@ -129,8 +129,8 @@
     </x-container>
 
     <footer class="py-12 max-md:py-8 bg-[#0f0f0f] text-white">
-        <div id="contact" class="-translate-y-14"></div>
-        <div id="opening-hours" class="-translate-y-14"></div>
+        <div id="contact" class="-translate-y-20"></div>
+        <div id="opening-hours" class="-translate-y-20"></div>
         <div class="max-w-6xl mx-auto mb-4 px-8 max-lg:px-4 flex max-sm:flex-col justify-between gap-4">
             <div>
                 <h2 class="text-2xl max-lg:text-lg font-black mb-2">Contact</h2>

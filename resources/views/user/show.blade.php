@@ -248,7 +248,7 @@
                 <form action="{{ route('customers.restore',$user) }}" method="post">
                     @method('PUT')
                     @csrf
-                    <x-button role="ctaMain">Restore account</x-button>
+                    <x-button role="restoreMain">Restore account</x-button>
                 </form>
             </x-show-card>
         @else

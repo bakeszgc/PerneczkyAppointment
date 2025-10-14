@@ -50,6 +50,8 @@ class UserPolicy
     {
         if ($model->deleted_at) {
             return Response::deny($model->first_name . "'s account has been already deleted!");
+        } elseif ($model->id == $user->id) {
+            return Response::deny("You can't delete your own account!");
         } else {
             return Response::allow();
         }

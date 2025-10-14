@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Barber;
 use App\Models\Appointment;
+use App\Notifications\BookingCancellationNotification;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Gate;
@@ -141,6 +142,9 @@ class CustomerController extends Controller
         // deletes upcoming appointments of the user
         $upcomingAppointments = Appointment::userFilter($customer)->upcoming()->get();
         foreach ($upcomingAppointments as $appointment) {
+            $appointment->barber->user->notify(
+                new BookingCancellationNotification($appointment,'admin')
+            );
             $appointment->delete();
         }
 

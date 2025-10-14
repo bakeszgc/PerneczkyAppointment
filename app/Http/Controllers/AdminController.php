@@ -18,7 +18,7 @@ class AdminController extends Controller
         }])->orderByDesc('appointments_count')->limit(5)->get();
 
         $users = User::withCount(['appointments as appointments_count' => function ($q) {
-            $q->where('service_id','!=',1)->withoutTrashed();
+            $q->withoutTimeOffs()->withoutTrashed();
         }])->orderByDesc('appointments_count')->limit(5)->get();
 
         $sumOfBookings = Appointment::getSumOfBookings();

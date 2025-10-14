@@ -11,7 +11,7 @@ class TimeOffController extends Controller
 {
     public function index()
     {
-        $timeoffs = Appointment::where('service_id','=',1)
+        $timeoffs = Appointment::onlyTimeOffs()
             ->barberFilter(auth()->user()->barber)
             ->latest()
         ->paginate(10);
@@ -27,7 +27,7 @@ class TimeOffController extends Controller
 
     public function indexUpcoming()
     {
-        $timeoffs = Appointment::where('service_id','=',1)
+        $timeoffs = Appointment::onlyTimeOffs()
             ->barberFilter(auth()->user()->barber)
             ->upcoming()
         ->paginate(10);
@@ -36,7 +36,7 @@ class TimeOffController extends Controller
     }
 
     public function indexPrevious() {
-        $timeoffs = Appointment::where('service_id','=',1)
+        $timeoffs = Appointment::onlyTimeOffs()
             ->barberFilter(auth()->user()->barber)
             ->previous()
         ->paginate(10);

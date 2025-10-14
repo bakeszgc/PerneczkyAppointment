@@ -63,4 +63,8 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     public function barber():HasOne {
         return $this->hasOne(Barber::class)->withTrashed();
     }
+
+    public function isDeleted() {
+        return $this->deleted_at ? ' (deleted)' : '';
+    }
 }

@@ -25,7 +25,7 @@ class CustomerController extends Controller
             ->orWhere('last_name','like',"%$query%")
             ->orWhere('email','like',"%$query%")
             ->orWhere('tel_number','like',"%$query%");
-        })->orderBy('first_name')->paginate(10)->through(function ($user) {
+        })->orderBy('first_name')->withTrashed()->paginate(10)->through(function ($user) {
             return [
                 'user' => $user,
                 'previous' => Appointment::userFilter($user)->previous()->withoutTimeOffs()->orderByDesc('app_start_time')->first(),

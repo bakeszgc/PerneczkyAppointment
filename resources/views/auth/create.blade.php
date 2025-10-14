@@ -10,7 +10,7 @@
                 @csrf
                 <div class="mb-4">
                     <x-label for="email">Email</x-label>
-                    <x-input-field type="email" name="email" id="email" value="{{old('email')}}" class="w-full loginInput"/>
+                    <x-input-field type="email" name="email" id="email" value="{{old('email')}}" class="w-full loginInput reqInput"/>
                     @error('email')
                         <p class=" text-red-500">{{$message}}</p>
                     @enderror
@@ -18,7 +18,7 @@
                 
                 <div class="mb-4">
                     <x-label for="password">Password</x-label>
-                    <x-input-field type="password" name="password" id="password" class="w-full loginInput"/>
+                    <x-input-field type="password" name="password" id="password" class="w-full loginInput reqInput"/>
                     @error('password')
                         <p class=" text-red-500">{{$message}}</p>
                     @enderror
@@ -26,7 +26,7 @@
 
                 <div class="mb-4 flex justify-between items-center">
                     <div class="flex items-center gap-2">
-                        <x-input-field id="remember" name="remember" type="checkbox" value="remember" />
+                        <x-input-field id="remember" name="remember" type="checkbox" value="remember" class="loginInput" />
                         <x-label for="remember">Remember me</x-label>
                     </div>
                     <div class="text-right">
@@ -49,13 +49,9 @@
         document.addEventListener('DOMContentLoaded', function () {
             const loginInputs = document.querySelectorAll('.loginInput');
             const loginButton = document.getElementById('loginButton');
+            const reqInputs = document.querySelectorAll('.reqInput');
 
-            loginButton.disabled = true;
-            loginInputs.forEach(input => {
-                input.addEventListener('input', function () {
-                    if (allInputsFilled(loginInputs)) loginButton.disabled = false;
-                });
-            });
+            enableButtonIfInputsFilled(loginButton,loginInputs,reqInputs);
         });
     </script>
 </x-user-layout>

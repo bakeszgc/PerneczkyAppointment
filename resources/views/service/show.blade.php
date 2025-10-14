@@ -1,15 +1,26 @@
 <x-user-layout currentView="admin" :title="$service->name">
-    <x-breadcrumbs :links="[
-        'Admin dashboard' => route('admin'),
-        'Services' => route('services.index'),
-        $service->name => ''
-    ]"/>
 
-    <x-headline class="mb-4">
-        <span @class(['text-slate-500' => isset($service->deleted_at)])>
-            {{ $service->name . ' ' . $service->isDeleted() }}
-        </span>
-    </x-headline>
+    <div class="flex justify-between items-end align-bottom mb-4">
+        <div>
+            <x-breadcrumbs :links="[
+                'Admin dashboard' => route('admin'),
+                'Services' => route('services.index'),
+                $service->name => ''
+            ]"/>
+
+            <x-headline>
+                <span @class(['text-slate-500' => isset($service->deleted_at)])>
+                    {{ $service->name . ' ' . $service->isDeleted() }}
+                </span>
+            </x-headline>
+        </div>
+        <div>
+            <x-link-button :link="route('services.create')" role="createMain">
+                <span class="max-sm:hidden">New&nbsp;service</span>
+            </x-link-button>
+        </div>
+    </div>
+    
 
     <x-card class="mb-6">
         <form action="{{ route('services.update',$service) }}" method="POST">

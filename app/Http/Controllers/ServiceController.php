@@ -12,7 +12,7 @@ class ServiceController extends Controller
 {
     public function index()
     {
-        $services = Service::withTrashed()->where('id','!=',1)->withCount('appointments')->get();
+        $services = Service::withTrashed()->withoutTimeoff()->withCount('appointments')->get();
         return view('service.index',['services' => $services]);
     }
 

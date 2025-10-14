@@ -139,8 +139,23 @@ window.enableButton = function(button, inputs) {
                button.disabled = false; 
             });
         });
-    }
-    
+    }    
+};
+
+// ENABLES BUTTON AFTER INPUTS ARE FILLED
+window.enableButtonIfInputsFilled = function(button, inputs, reqInputs) {    
+    button.disabled = true;
+
+    inputs.forEach(input => {
+        input.addEventListener('input', function () {
+            const allFilled = allInputsFilled(reqInputs);
+            if (allFilled) {
+                button.disabled = false;
+            } else {
+                button.disabled = true;
+            }
+        });
+    });
 };
 
 // RETURNS TRUE IF ALL INPUTS ARE FILLED

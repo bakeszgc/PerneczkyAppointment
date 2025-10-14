@@ -12,9 +12,9 @@
             @csrf
             <div class="flex flex-col mb-4">
                 <x-label for="name">
-                    Name
+                    Name*
                 </x-label>
-                <x-input-field id="name" name="name" :value="old('name') ?? ''"></x-input-field>
+                <x-input-field id="name" name="name" :value="old('name') ?? ''" class="createInput reqInput"></x-input-field>
                 @error('name')
                     <p class=" text-red-500">{{$message}}</p>
                 @enderror
@@ -23,9 +23,9 @@
             <div class="grid grid-cols-2 max-md:grid-cols-1 gap-4 mb-4">
                 <div class="flex flex-col">
                     <x-label for="price">
-                        Price (in HUF)
+                        Price (in HUF)*
                     </x-label>
-                    <x-input-field type="number" id="price" name="price" :value="old('price') ?? ''"></x-input-field>
+                    <x-input-field type="number" id="price" name="price" :value="old('price') ?? ''" class="createInput reqInput"></x-input-field>
                     @error('price')
                         <p class=" text-red-500">{{$message}}</p>
                     @enderror
@@ -33,28 +33,44 @@
 
                 <div class="flex flex-col">
                     <x-label for="duration">
-                        Duration (in minutes)
+                        Duration (in minutes)*
                     </x-label>
-                    <x-input-field type="number" id="duration" name="duration" :value="old('duration') ?? ''"></x-input-field>
+                    <x-input-field type="number" id="duration" name="duration" :value="old('duration') ?? ''" class="createInput reqInput"></x-input-field>
                     @error('duration')
                         <p class=" text-red-500">{{$message}}</p>
                     @enderror
                 </div>
             </div>
 
-            <div class="mb-4 flex gap-2 items-center">
-                <x-input-field type="checkbox" name="is_visible" id="is_visible" value="is_visible"></x-input-field>
-                <label for="is_visible">
-                    Visible for everyone
-                </label>
-                @error('is_visible')
-                    <p class=" text-red-500">{{$message}}</p>
-                @enderror
+            <div class="mb-4 flex justify-between items-center">
+                <div class="flex gap-2 items-center">
+                    <x-input-field type="checkbox" name="is_visible" id="is_visible" value="is_visible" class="createInput"></x-input-field>
+                    <label for="is_visible">
+                        Visible for everyone
+                    </label>
+                    @error('is_visible')
+                        <p class=" text-red-500">{{$message}}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <p>* Required fields</p>
+                </div>
             </div>
 
             <div class="flex gap-2">
-                <x-button role="createMain">Create</x-button>
+                <x-button role="createMain" id="createButton">Create</x-button>
             </div>
         </form>
     </x-card>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const createButton = document.getElementById('createButton');
+            const inputs = document.querySelectorAll('.createInput');
+            const reqInputs = document.querySelectorAll('.reqInput');
+            
+            enableButtonIfInputsFilled(createButton,inputs,reqInputs);
+        });
+    </script>
 </x-user-layout>

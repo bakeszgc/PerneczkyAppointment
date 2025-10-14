@@ -67,9 +67,11 @@ class AdminTimeOffController extends Controller
                             
                             $q->startEarlierThan($toAppStartTime);
                         }
+
+                        $q->latest();
                 }
                 
-            })->orderBy('app_start_time')->paginate(10);
+            })->paginate(10);
 
         $barbers = Barber::withTrashed()->get();
         $services = Service::withTrashed()->get();

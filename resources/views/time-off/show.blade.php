@@ -13,7 +13,7 @@
 
         case 'admin':
             $createRoute = route('admin-time-offs.create');
-            $title = $appointment->barber->getName() . '\'s Time Off';
+            $title = $appointment->barber->getName() . '\'s time off';
             $breadcrumbLinks = [
                 'Admin dashboard' => route('admin'),
                 'Time offs' => route('admin-time-offs.index'),

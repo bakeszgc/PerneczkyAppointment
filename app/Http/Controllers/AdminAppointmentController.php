@@ -153,7 +153,7 @@ class AdminAppointmentController extends Controller
             $q->where('id','!=',$user->barber->id);
         })->get();
 
-        $services = Service::where('id','!=',1)->get();
+        $services = Service::withoutTimeoff()->get();
 
         return view('my-appointment.create_barber_service',[
             'barbers' => $barbers,
@@ -168,7 +168,7 @@ class AdminAppointmentController extends Controller
     {
         $request->validate([
             'user_id' => 'required|integer|exists:users,id',
-            'service_id' => 'required|integer|gt:1|exists:services,id',
+            'service_id' => 'required|integer|gt:1|exists:services,id|gt:1',
             'barber_id' => 'required|integer|exists:barbers,id'
         ]);
 
@@ -196,7 +196,7 @@ class AdminAppointmentController extends Controller
         $request->validate([
             'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
             'user_id' => ['required','integer','exists:users,id'],
-            'service_id' => ['required','integer','gt:1','exists:services,id'],
+            'service_id' => ['required','integer','gt:1','exists:services,id','gt:1'],
             'barber_id' => ['required','integer','exists:barbers,id'],
             'comment' => ['nullable','string']
         ]);
@@ -274,7 +274,7 @@ class AdminAppointmentController extends Controller
             return redirect()->route('admin-time-offs.edit',$booking);
         }
 
-        $services = Service::where('is_visible','=',1)->get();
+        $services = Service::withoutTimeoff()->get();
         $barbers = Barber::all();
         $appointments = Appointment::with('user')->get();
 
@@ -300,7 +300,7 @@ class AdminAppointmentController extends Controller
         }
 
         $request->validate([
-            'service' => 'required|integer|exists:services,id',
+            'service' => 'required|integer|exists:services,id|gt:1',
             'barber' => 'required|integer|exists:barbers,id',
             'price' => 'required|integer|min:0',
             'app_start_date' => ['required','date','after_or_equal:today'],

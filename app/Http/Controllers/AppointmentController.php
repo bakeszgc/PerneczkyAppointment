@@ -11,7 +11,6 @@ use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Rules\ValidAppointmentTime;
-use Illuminate\Support\Facades\Notification;
 use App\Notifications\BookingUpdateNotification;
 use App\Notifications\BookingCancellationNotification;
 use App\Notifications\BookingConfirmationNotification;
@@ -87,7 +86,7 @@ class AppointmentController extends Controller
             return redirect()->route('appointments.create')->with('error','Please select a valid user from the list!');
         }
 
-        $services = Service::where('is_visible','=',1)->get();
+        $services = Service::withoutTimeoff()->get();
         return view('my-appointment.create_barber_service',[
             'services' => $services,
             'view' => 'barber'
@@ -125,7 +124,7 @@ class AppointmentController extends Controller
         $request->validate([
             'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
             'user_id' => ['required','exists:users,id'],
-            'service_id' => ['required','exists:services,id'],
+            'service_id' => ['required','exists:services,id','gt:1'],
             'comment' => ['nullable','string']
         ]);
 
@@ -204,7 +203,7 @@ class AppointmentController extends Controller
         }
 
         $appointments = Appointment::barberFilter(auth()->user()->barber)->with('user')->get();
-        $services = Service::where('is_visible','=',1)->get();
+        $services = Service::withoutTimeoff()->get();
 
         return view('appointment.edit', [
             'appointment' => $appointment,
@@ -225,7 +224,7 @@ class AppointmentController extends Controller
         }
 
         $request->validate([
-            'service' => 'required|integer|exists:services,id',
+            'service' => 'required|integer|exists:services,id|gt:1',
             'price' => 'required|integer|min:0',
             'app_start_date' => ['required','date','after_or_equal:today'],
             'app_start_hour' => ['required','integer','between:10,19'],

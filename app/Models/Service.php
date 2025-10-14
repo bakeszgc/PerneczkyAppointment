@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -20,5 +21,9 @@ class Service extends Model
 
     public function isDeleted() {
         return $this->deleted_at ? '(deleted)' : '';
+    }
+
+    public function scopeWithoutTimeoff(Builder $query) {
+        $query->where('id','!=',1);
     }
 }

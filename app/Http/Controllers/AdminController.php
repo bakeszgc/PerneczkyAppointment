@@ -12,9 +12,13 @@ class AdminController extends Controller
 {
     public function index() {
         $barbers = Barber::limit(6)->get();
-        $services = Service::where('is_visible','=',1)->withCount('appointments')->orderByDesc('appointments_count')->limit(5)->get();
+
+        $services = Service::where('is_visible','=',1)->withCount(['appointments as appointments_count' => function ($q) {
+            $q->withoutTrashed();
+        }])->orderByDesc('appointments_count')->limit(5)->get();
+
         $users = User::withCount(['appointments as appointments_count' => function ($q) {
-            $q->where('service_id','!=',1);
+            $q->where('service_id','!=',1)->withoutTrashed();
         }])->orderByDesc('appointments_count')->limit(5)->get();
 
         $sumOfBookings = Appointment::getSumOfBookings();

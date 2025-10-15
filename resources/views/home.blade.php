@@ -21,8 +21,9 @@
         </div>
     </div>
 
+    <div id="about" class="-translate-y-6"></div>
     <x-container class="flex max-md:flex-col gap-8">
-        <div id="about" class="-translate-y-12"></div>
+        
         <div class="*:text-justify">
             <h2 class="font-black text-2xl mb-6">
                 Hi! We are very glad you're here with us!
@@ -42,8 +43,8 @@
         </div>
     </x-container>
 
-    <x-header class="bg-service">
-        <div id="services" class="-translate-y-20"></div>
+    <div id="services" class="-translate-y-6"></div>
+    <x-header class="bg-service">        
         Services
     </x-header>
 
@@ -67,8 +68,8 @@
         </div>
     </x-container>
 
+    <div id="barbers" class="-translate-y-6"></div>
     <x-header class="bg-barber">
-        <div id="barbers" class="-translate-y-20"></div>
         Barbers
     </x-header>
 
@@ -102,8 +103,8 @@
         </div>
     </x-container>
 
+    <div id="location" class="-translate-y-6"></div>
     <x-header class="bg-location">
-        <div id="location" class="-translate-y-20"></div>
         Location
     </x-header>
 
@@ -128,9 +129,9 @@
         
     </x-container>
 
-    <footer class="py-12 max-md:py-8 bg-[#0f0f0f] text-white">
-        <div id="contact" class="-translate-y-20"></div>
-        <div id="opening-hours" class="-translate-y-20"></div>
+    <div id="contact" class="-translate-y-6"></div>
+    <div id="opening-hours" class="-translate-y-6"></div>
+    <footer class="py-12 max-md:py-8 bg-[#0f0f0f] text-white">        
         <div class="max-w-6xl mx-auto mb-4 px-8 max-lg:px-4 flex max-sm:flex-col justify-between gap-4">
             <div>
                 <h2 class="text-2xl max-lg:text-lg font-black mb-2">Contact</h2>

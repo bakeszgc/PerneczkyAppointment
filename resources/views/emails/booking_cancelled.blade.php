@@ -5,25 +5,25 @@
 
         $cancelledByClass = is_string($cancelledBy) ? 'Admin' : get_class($cancelledBy);
 
-        switch ($cancelledByClass) {
-            case 'App\Models\User':
-                $notifiableName = $notifiable->barber->getName();
-                $cancelledByName = $cancelledBy->first_name;
+        $isNotifiableBarber = $appointment->barber_id === $notifiable?->barber?->id;
 
+        switch ($isNotifiableBarber) {
+            case true:
+                $notifiableName = $notifiable->barber->getName();
+                $cancelledByName = $cancelledBy == 'admin' ? 'an admin' : $cancelledBy->first_name;
                 $ctaText = "View cancelled booking";
                 $url = route('appointments.show',$appointment);
             break;
 
-            case 'App\Models\Barber':
-            case 'Admin':
+            case false:
                 $notifiableName = $notifiable->first_name;
                 $cancelledByName = is_string($cancelledBy) ? 'an admin' : $cancelledBy->getName();
-
                 $ctaText = 'Book a new appointment';
                 $url = route('my-appointments.create.barber.service',[
                     'barber_id' => $appointment->barber_id,
                     'service_id' => $appointment->service_id
                 ]);
+            break;
         }
     @endphp
 
@@ -61,7 +61,7 @@
 
             
             <tr>
-                @if ($cancelledByClass != 'App\Models\User')
+                @if (!$isNotifiableBarber)
                     <td>Barber</td>
                     <td>{{ $appointment->barber->getName() }}</td>
                 @else
@@ -73,7 +73,7 @@
             <tr>
                 <td>Comment</td>
                 <td @class(['italic' => $appointment->comment == ''])>
-                    {{ $appointment->comment == '' ? ('No comments from ' . $notifiable->first_name . '.') : $appointment->comment}}
+                    {{ $appointment->comment == '' ? ('No comments from ' . $appointment->user->first_name . '.') : $appointment->comment}}
                 </td>
             </tr>
         </tbody>
@@ -83,7 +83,7 @@
         <a href="{{ $url }}" id="ctaButton" target="_blank">{{ $ctaText }}</a>
     </div>
 
-    @if ($cancelledByClass != 'App\Models\User')
+    @if (!$isNotifiableBarber)
         <p class="mb-8">Don't forget to book another one by clicking on the button above. If you have any questions, need to reschedule, or require assistance, feel free to contact us at <a href="mailto:info@perneczkybarbershop.hu" class="link">info@perneczkybarbershop.hu</a> or call us at <a href="tel:+36704056079" class="link">+36 70 405 6079</a>.</p>
     @else
         <p class="mb-8">You can view {{ $cancelledByName }}'s booking by clicking on the button above. Try contacting your client about rescheduling their appointment.</p>

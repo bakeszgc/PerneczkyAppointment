@@ -38,7 +38,7 @@
         @if ($view != 'barber' && isset($barbers))
             <x-headline class="mb-4">Select your barber</x-headline>
 
-            <div class="grid grid-cols-3 max-md:grid-cols-2 gap-4 mb-8">
+            <div class="grid grid-cols-3 max-md:grid-cols-2 gap-4 mb-16">
                 @forelse ($barbers as $barber)
 
                     <label for="barber_{{ $barber->id }}" class="border-2 border-[#0018d5] rounded-md p-4 max-md:p-2 cursor-pointer hover:bg-[#0018d5] hover:text-white has-[input:checked]:bg-[#0018d5] has-[input:checked]:shadow-2xl transition-all">
@@ -54,8 +54,10 @@
                     </x-empty-card>
                 @endforelse
             </div>
-        @endif
 
+            <div id="service"></div>
+        @endif
+        
         <x-headline class="mb-4">Select your service</x-headline>
 
         <div class="grid grid-cols-2 max-md:grid-cols-1 gap-4 mb-8">
@@ -97,9 +99,24 @@
             
             const barberRadioButtons = document.querySelectorAll('input[name="barber_id"]');
             const serviceRadioButtons = document.querySelectorAll('input[name="service_id"]');
+            const serviceAnchor = document.getElementById('service');
             const submitButton = document.getElementById('submitBtnForRadioBtns');
 
             if (submitButton) submitButton.disabled = true;
+
+            if (barberRadioButtons.length > 0) {
+                barberRadioButtons.forEach(radio => {
+                    radio.addEventListener('change', function () {
+                        jumpTo(serviceAnchor);
+                    });
+                });
+            }
+
+            serviceRadioButtons.forEach(radio => {
+                radio.addEventListener('change', function () {
+                    jumpTo(submitButton);
+                });
+            });
 
             if (serviceRadioButtons.length > 0) {
 
@@ -132,6 +149,13 @@
             const isAnyServicesChecked = Array.from(serviceRadioButtons).some(radio => radio.checked);
 
             if (submitButton) submitButton.disabled = !isAnyBarbersChecked || !isAnyServicesChecked;
+        }
+
+        function jumpTo (anchor) {
+            setTimeout(() => {
+                const top = anchor.offsetTop - 100;
+                window.scrollTo(0,top);
+            }, 300);
         }
     </script>
 </x-user-layout>

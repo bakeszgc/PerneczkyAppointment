@@ -57,7 +57,7 @@
             <div class="flex justify-between gap-4">
                 <div class="flex flex-1 flex-col justify-between">
                     <div class="mb-4">
-                        <h2 class="font-bold text-2xl max-md:text-lg mb-2">{{ $view == 'user' ? 'Your' : ($user->first_name . "'s")}} Appointment</h2>
+                        <h2 class="font-bold text-2xl max-md:text-lg mb-2">{{ $view == 'user' ? 'Your' : ($user->first_name . "'s")}} appointment</h2>
 
                         <h3 class="font-medium text-lg max-md:text-base">
                             <a href="{{ $serviceLink }}">

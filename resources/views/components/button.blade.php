@@ -6,7 +6,7 @@
     inline-flex gap-1 items-center justify-center
     max-sm:text-xs',
 
-    'bg-blue-50 hover:bg-blue-200 border-blue-300 text-[#0018d5]
+    'bg-blue-50 hover:bg-blue-200 border-blue-300 text-blue-700
     disabled:bg-slate-100 border-slate-300 disabled:text-slate-400'
     => $role === 'create' || $role === 'search' || $role === 'restore',
 

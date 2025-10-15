@@ -6,7 +6,7 @@
     inline-flex gap-1 items-center justify-center
     max-sm:text-xs',
 
-    'bg-blue-50 hover:bg-blue-200 border-blue-300 text-[#0018d5]' => $role === 'create' || $role === 'active',
+    'bg-blue-50 hover:bg-blue-200 border-blue-300 text-blue-700' => $role === 'create' || $role === 'active' || $role === 'restore',
 
     'bg-[#0018d5] hover:bg-[#0f0f0f] text-white' => $role == 'createMain' || $role === 'ctaMain',
 
@@ -59,7 +59,14 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
             </svg>
         @break
-        @default            
+        
+        @case('restore')
+        @case('restoreMain')
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+            </svg>
+        @break
+        @default
     @endswitch
 
     {{$slot}}

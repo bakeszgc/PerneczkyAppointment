@@ -10,15 +10,18 @@
             $detailsLink = route('bookings.show',['booking' => $appointment]);
             $editLink = route('bookings.edit',['booking' => $appointment]);
             $cancelLink = route('bookings.destroy',['booking' => $appointment]);
+            $rebookLink = route('bookings.create.date',['user_id' => $appointment->user_id, 'service_id' => $appointment->service_id, 'barber_id' => $appointment->barber_id]);
             break;
         case 'barber':
             $detailsLink = route('appointments.show',['appointment' =>$appointment]);
             $editLink = route('appointments.edit',['appointment' => $appointment]);
             $cancelLink = route('appointments.destroy',['appointment' => $appointment]);
+            $rebookLink = route('appointments.create.date',['user_id' => $appointment->user_id, 'service_id' => $appointment->service_id]);
             break;
         default:
             $detailsLink = route('my-appointments.show',['my_appointment' => $appointment]);
             $cancelLink = route('my-appointments.destroy',['my_appointment' => $appointment]);
+            $rebookLink = route('my-appointments.create.date',['service_id' => $appointment->service_id, 'barber_id' => $appointment->barber_id]);
     }
 @endphp
 
@@ -91,14 +94,14 @@
         
         @if($showDetails)
             <x-link-button :link="$detailsLink" role="show">
-                Details
+                <span class="max-sm:hidden">Details</span>
             </x-link-button>
         @endif
         
         @if ($appointment->app_start_time >= now('Europe/Budapest') && !$appointment->deleted_at)
             @if ($access === 'barber' || $access === 'admin')
                 <x-link-button :link="$editLink" role="edit">
-                    Edit
+                    <span class="max-sm:hidden">Edit</span>
                 </x-link-button>
             @endif
 
@@ -106,10 +109,14 @@
                 @csrf
                 @method('DELETE')
                 <x-button role="destroy">
-                    Cancel
+                    <span class="max-sm:hidden">Cancel</span>
                 </x-button>
             </form>
         @endif
+
+        <x-link-button :link="$rebookLink" role="restore">
+            <span class="max-sm:hidden">Rebook</span>
+        </x-link-button>
         
     </div>
 </x-card>

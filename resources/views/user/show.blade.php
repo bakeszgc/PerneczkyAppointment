@@ -276,21 +276,21 @@
                     <div class="flex-grow">
                         <div class="flex flex-col mb-2">
                             <x-label for="password">Your current password*</x-label>
-                            <x-input-field type="password" name="password" id="password"/>
+                            <x-input-field type="password" name="password" id="password" class="w-full"/>
                             @error('password')
                                 <p class=" text-red-500">{{$message}}</p>
                             @enderror
                         </div>
                         <div class="flex flex-col mb-2">
                             <x-label for="new_password">Your new password*</x-label>
-                            <x-input-field type="password" name="new_password" id="new_password"/>
+                            <x-input-field type="password" name="new_password" id="new_password" autoComplete="off" class="w-full"/>
                             @error('new_password')
                                 <p class=" text-red-500">{{$message}}</p>
                             @enderror
                         </div>
                         <div class="flex flex-col">
                             <x-label for="new_password_confirmation">Your new password again*</x-label>
-                            <x-input-field type="password" name="new_password_confirmation" id="new_password_confirmation"/>
+                            <x-input-field type="password" name="new_password_confirmation" id="new_password_confirmation" autoComplete="off" class="w-full"/>
                             @error('new_password_confirmation')
                                 <p class=" text-red-500">{{$message}}</p>
                             @enderror

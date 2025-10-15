@@ -119,7 +119,7 @@
                 <div class="flex flex-col">
                     <x-label for="fromDate">From</x-label>
                     <div class="flex gap-2">
-                        <x-input-field type="date" name="from_app_start_date" id="fromDate" class="flex-1 dateTimeInput" value="{{ request('from_app_start_date') }}" :disabled="request('time_window') == 'previous' || request('time_window') == 'upcoming'" />
+                        <x-input-field type="date" name="from_app_start_date" id="fromDate" class="flex-1 w-full dateTimeInput" value="{{ request('from_app_start_date') }}" :disabled="request('time_window') == 'previous' || request('time_window') == 'upcoming'" />
                         
                         <x-select name="from_app_start_hour" id="fromHour" :disabled="request('time_window') == 'previous' || request('time_window') == 'upcoming'" class="dateTimeInput">
                             <option value="empty"></option>

@@ -12,7 +12,7 @@
 
             <div class="flex flex-col mb-2">
                 <x-label for="email">Your email address</x-label>
-                <x-input-field type="email" name="email" id="email"></x-input-field>
+                <x-input-field type="email" name="email" id="email" class="w-full"></x-input-field>
                 @error('email')
                     <p class="text-red-500">{{$message}}</p>
                 @enderror

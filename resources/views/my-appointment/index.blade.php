@@ -9,7 +9,7 @@
         </div>
         <div>
             <x-link-button :link="route('my-appointments.create')" role="createMain">
-                <span class="max-sm:hidden">Book&nbsp;now</span>
+                <span class="max-sm:hidden">New&nbsp;appointment</span>
             </x-link-button>
         </div>
     </div>

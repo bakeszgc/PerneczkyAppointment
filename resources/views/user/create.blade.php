@@ -13,14 +13,14 @@
             <div class=" mb-4 grid grid-cols-2 max-md:grid-cols-1 gap-4">
                 <div>
                     <x-label for="first_name">First name *</x-label>
-                    <x-input-field name="first_name" id="first_name" value="{{old('first_name')}}" placeholder="John" class="w-full regInput"/>
+                    <x-input-field name="first_name" id="first_name" value="{{old('first_name')}}" placeholder="John" autoComplete="on" class="w-full regInput"/>
                     @error('first_name')
                         <p class=" text-red-500">{{$message}}</p>
                     @enderror
                 </div>
                 <div>
                     <x-label for="last_name">Last name *</x-label>
-                    <x-input-field name="last_name" id="last_name" value="{{old('last_name')}}" placeholder="Example" class="w-full regInput"/>
+                    <x-input-field name="last_name" id="last_name" autoComplete="on" value="{{old('last_name')}}" placeholder="Example" class="w-full regInput"/>
                     @error('last_name')
                         <p class=" text-red-500">{{$message}}</p>
                     @enderror
@@ -31,14 +31,14 @@
             <div class="mb-4 grid grid-cols-2  max-md:grid-cols-1 gap-4">
                 <div>
                     <x-label for="date_of_birth">Date of birth *</x-label>
-                    <x-input-field type="date" name="date_of_birth" id="date_of_birth" value="{{old('date_of_birth')}}" class="w-full regInput"/>
+                    <x-input-field type="date" name="date_of_birth" id="date_of_birth" value="{{old('date_of_birth')}}" autoComplete="bday" class="w-full regInput"/>
                     @error('date_of_birth')
                         <p class=" text-red-500">{{$message}}</p>
                     @enderror
                 </div>
                 <div>
                     <x-label for="telephone_number">Telephone number *</x-label>
-                    <x-input-field type="tel" name="telephone_number" id="telephone_number" value="{{old('telephone_number')}}" placeholder="+36123456789" class="w-full regInput"/>
+                    <x-input-field type="tel" name="telephone_number" id="telephone_number" value="{{old('telephone_number')}}" placeholder="+36123456789" autoComplete="on" class="w-full regInput"/>
                     @error('telephone_number')
                         <p class=" text-red-500">{{$message}}</p>
                     @enderror
@@ -47,7 +47,7 @@
 
             <div class="mb-4">
                 <x-label for="email">Email *</x-label>
-                <x-input-field type="email" name="email" id="email" value="{{old('email')}}" placeholder="john@example.com" class="w-full regInput"/>
+                <x-input-field type="email" name="email" id="email" :autoComplete="true" value="{{old('email')}}" placeholder="john@example.com" class="w-full regInput"/>
                 @error('email')
                     <p class=" text-red-500">{{$message}}</p>
                 @enderror

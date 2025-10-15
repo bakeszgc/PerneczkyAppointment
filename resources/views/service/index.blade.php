@@ -1,13 +1,22 @@
 <x-user-layout currentView="admin" title="Manage services">
-    <x-breadcrumbs :links="[
-        'Admin dashboard' => route('admin'),
-        'Services' => ''
-    ]"/>
 
-    <x-headline class="mb-4">Manage services</x-headline>
-
+    <div class="flex justify-between items-end align-bottom mb-4">
+        <div>
+            <x-breadcrumbs :links="[
+                'Admin dashboard' => route('admin'),
+                'Services' => ''
+            ]"/>
+            <x-headline>Manage services</x-headline>
+        </div>
+        <div>
+            <x-link-button :link="route('services.create')" role="createMain">
+                <span class="max-sm:hidden">New service</span>
+            </x-link-button>
+        </div>
+    </div>
+    
     <x-card class="mb-4">
-        <div class=" overflow-x-auto mb-4">
+        <div class=" overflow-x-auto">
             <table class="w-full">
                 <tr class="*:font-bold *:p-2 bg-slate-300">
                     <td>ID</td>
@@ -49,12 +58,6 @@
 
                 @endforelse
             </table>
-        </div>
-
-        <div>
-            <x-link-button :link="route('services.create')" role="createMain">
-                Add new service
-            </x-link-button>
         </div>
     </x-card>
 </x-user-layout>

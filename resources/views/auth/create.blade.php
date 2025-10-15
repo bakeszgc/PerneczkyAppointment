@@ -1,4 +1,4 @@
-<x-user-layout title="Sign In">
+<x-user-layout title="Sign in">
     <x-breadcrumbs :links="[
         'Sign in' => ''
     ]" />
@@ -10,7 +10,7 @@
                 @csrf
                 <div class="mb-4">
                     <x-label for="email">Email</x-label>
-                    <x-input-field type="email" name="email" id="email" value="{{old('email')}}" class="w-full loginInput reqInput"/>
+                    <x-input-field type="email" name="email" id="email" value="{{old('email')}}" autoComplete="on" class="w-full loginInput reqInput"/>
                     @error('email')
                         <p class=" text-red-500">{{$message}}</p>
                     @enderror
@@ -18,7 +18,7 @@
                 
                 <div class="mb-4">
                     <x-label for="password">Password</x-label>
-                    <x-input-field type="password" name="password" id="password" class="w-full loginInput reqInput"/>
+                    <x-input-field type="password" name="password" id="password" autoComplete="on" class="w-full loginInput reqInput"/>
                     @error('password')
                         <p class=" text-red-500">{{$message}}</p>
                     @enderror

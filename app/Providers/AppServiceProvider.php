@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
     {
         VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
             return (new MailMessage)
-                ->subject('Verify Your Email Address')
+                ->subject('Verify your email address')
                 ->view('emails.email_verification', [
                     'notifiable' => $notifiable,
                     'url' => $url

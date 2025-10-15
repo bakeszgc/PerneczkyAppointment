@@ -1,10 +1,19 @@
 <x-user-layout currentView="admin" title="Manage barbers">
-    <x-breadcrumbs :links="[
-        'Admin dashboard' => route('admin'),
-        'Barbers' => ''
-    ]"/>
 
-    <x-headline class="mb-4">Manage barbers</x-headline>
+    <div class="flex justify-between items-end align-bottom mb-4">
+        <div>
+            <x-breadcrumbs :links="[
+                'Admin dashboard' => route('admin'),
+                'Barbers' => ''
+            ]"/>
+            <x-headline>Manage barbers</x-headline>
+        </div>
+        <div>
+            <x-link-button :link="route('barbers.create')" role="createMain">
+                <span class="max-sm:hidden">New barber</span>
+            </x-link-button>
+        </div>
+    </div>
 
     <x-card class="mb-4">
         <div class="overflow-auto">

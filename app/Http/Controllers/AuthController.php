@@ -16,7 +16,7 @@ class AuthController extends Controller
 {
     public function create()
     {
-        //ha be van jelentkezve akkor irányítsa máshova
+        // REDIRECTS IF THE USER IS LOGGED IN ALREADY
         if (auth()->user()) {
             return redirect()->route('my-appointments.index');
         }
@@ -27,7 +27,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|string',
             'remember' => 'nullable'
         ]);
     
@@ -37,7 +37,17 @@ class AuthController extends Controller
         if(Auth::attempt($credentials, $remember)) {
             return redirect()->intended(route('my-appointments.index'));
         } else {
-            return redirect()->back()->with('error','Your email or password is invalid.');
+            $userQuery = User::withTrashed()->where('email','=',$request->email)->get();
+            $error = 'Your email or password is invalid.';
+
+            if ($userQuery->count() > 0) {
+                $user = $userQuery->first();
+                if ($user->deleted_at) {
+                    $error = 'The account using this email address has been removed. If you think it was done by mistake please contact us!';
+                }
+            }
+
+            return redirect()->back()->with('error',$error);
         }
     }
 

@@ -22,14 +22,14 @@
             <div class="mb-4">
                 <div class="grid grid-cols-2 gap-2 mb-4">
                     <div class="flex flex-col max-sm:col-span-2">
-                        <x-label for="first_name">First name</x-label>
+                        <x-label for="first_name">First name*</x-label>
                         <x-input-field name="first_name" id="first_name" value="{{ old('first_name') ??$barber->user->first_name }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" />
                         @error('first_name')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
                     </div>
                     <div class="flex flex-col max-sm:col-span-2">
-                        <x-label for="last_name">Last name</x-label>
+                        <x-label for="last_name">Last name*</x-label>
                         <x-input-field name="last_name" id="last_name" value="{{ old('last_name') ??$barber->user->last_name }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" />
                         @error('last_name')
                             <p class=" text-red-500">{{$message}}</p>
@@ -54,7 +54,7 @@
 
                     <div class="flex flex-col col-span-2">
                         <div class="flex justify-between items-end">
-                            <x-label for="email">Email address</x-label>
+                            <x-label for="email">Email address*</x-label>
                             @if ($barber->user->email_verified_at === null)
                                 <p class="text-slate-500 text-sm">Not verified yet</p>
                             @else
@@ -70,7 +70,7 @@
                     </div>
 
                     <div class="flex flex-col max-sm:col-span-2">
-                        <x-label for="date_of_birth">Date of birth</x-label>
+                        <x-label for="date_of_birth">Date of birth*</x-label>
                         <x-input-field type="date" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth') ?? $barber->user->date_of_birth }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" />
                         @error('date_of_birth')
                             <p class=" text-red-500">{{$message}}</p>
@@ -78,7 +78,7 @@
                     </div>
 
                     <div class="flex flex-col max-sm:col-span-2">
-                        <x-label for="telephone_number">Telephone number</x-label>
+                        <x-label for="telephone_number">Telephone number*</x-label>
                         <x-input-field type="tel" name="telephone_number" id="telephone_number" value="{{ old('telephone_number') ?? $barber->user->tel_number }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" />
                         @error('telephone_number')
                             <p class=" text-red-500">{{$message}}</p>
@@ -86,14 +86,20 @@
                     </div>
                 </div>
 
-                <div class="mb-4 flex items-center gap-2">
-                    <x-input-field type="checkbox" name="is_visible" id="is_visible" :checked="$barber->is_visible" value="is_visible" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)"></x-input-field>
-                    <label for="is_visible">
-                        Visible for everyone
-                    </label>
-                    @error('is_visible')
-                        <p class=" text-red-500">{{$message}}</p>
-                    @enderror
+                <div class="flex justify-between items-center mb-4">
+                    <div class="flex items-center gap-2">
+                        <x-input-field type="checkbox" name="is_visible" id="is_visible" :checked="$barber->is_visible" value="is_visible" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)"></x-input-field>
+                        <label for="is_visible">
+                            Visible for everyone
+                        </label>
+                        @error('is_visible')
+                            <p class=" text-red-500">{{$message}}</p>
+                        @enderror
+                    </div>
+
+                    <div class="text-right">
+                        * Required fields
+                    </div>
                 </div>
             </div>
 
@@ -155,7 +161,7 @@
 
                 <div>
                     <h3 class="font-bold text-lg mb-2">Guidelines</h3>
-                    <p class="mb-2 text-justify">By clicking on the image above, you can update your profile picture. This picture will appear on the homepage and during the appointment booking process. Please take into account the followings before modifying your image:</p>
+                    <p class="mb-2 text-justify">By clicking on the image <span class="sm:hidden">above</span><span class="max-sm:hidden">on the left</span>, you can update your profile picture. This picture will appear on the homepage and during the appointment booking process. Please take into account the followings before modifying your image:</p>
                     <ul class="list-disc *:ml-6 *:mb-1">
                         <li>
                             The picture of the barber needs to be a clear and high quality image

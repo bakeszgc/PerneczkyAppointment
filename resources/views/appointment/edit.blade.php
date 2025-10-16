@@ -116,7 +116,7 @@
                 @if ($view == 'Booking')
                     <div class="max-sm:col-span-2">
                         <x-label for="service">
-                            Service
+                            Service*
                         </x-label>
 
                         <x-select name="service" id="service" class="w-full">
@@ -134,7 +134,7 @@
 
                     <div class="max-sm:col-span-2">
                         <x-label for="price">
-                            Price (in HUF)
+                            Price (in HUF)*
                         </x-label>
 
                         <x-input-field type="number" name="price" id="price" :value="$appointment->price" class="w-full h-fit"/>
@@ -147,7 +147,7 @@
 
                 @if ($access == 'admin' && $view == 'Time Off' && $action == 'create')
                     <div class=" col-span-2">
-                        <x-label for="barber">Barber</x-label>
+                        <x-label for="barber">Barber*</x-label>
                         
                         <x-select name="barber" id="barber" class="w-full">
                             <option value="empty"></option>
@@ -166,7 +166,7 @@
 
                 <div class="flex flex-col max-md:col-span-2">
                     <x-label for="startDate">
-                        {{ $view == 'Booking' ? 'Booking' : 'Time off' }}'s start time
+                        {{ $view == 'Booking' ? 'Booking' : 'Time off' }}'s start time*
                     </x-label>
 
                     <div class="flex items-center gap-1">
@@ -198,7 +198,7 @@
 
                 <div class="flex flex-col max-md:col-span-2">
                     <x-label for="endDate">
-                        {{ $view == 'Booking' ? 'Booking' : 'Time off' }}'s end time
+                        {{ $view == 'Booking' ? 'Booking' : 'Time off' }}'s end time*
                     </x-label>
 
                     <div class="flex items-center gap-1">
@@ -233,7 +233,7 @@
 
             @switch($view)
                 @case('Booking')
-                    <div @class(['mb-4','grid grid-cols-2 max-md:grid-cols-1 gap-4' => $access == 'admin'])>
+                    <div @class(['mb-4','grid grid-cols-2 max-md:grid-cols-1 gap-4  mb-4' => $access == 'admin'])>
                         <div class="flex flex-col">
                             <x-label for="comment">Comment</x-label>
 
@@ -246,7 +246,7 @@
 
                         @if ($access == 'admin')
                             <div>
-                                <x-label for="barber">Barber</x-label>
+                                <x-label for="barber">Barber*</x-label>
                                 
                                 <x-select name="barber" id="barber" class="w-full">
                                     @foreach ($barbers as $barber)
@@ -259,33 +259,48 @@
                                 @error('barber')
                                     <p class=" text-red-500">{{$message}}</p>
                                 @enderror
+
+                                <div class="text-right mt-4 max-md:hidden">* Required fields</div>
                             </div>
                         @endif
                     </div>
                 @break
 
                 @case('Time Off')
-                    <div class="flex gap-2 items-center mb-4">
-                        <x-input-field type="checkbox" id="fullDayCheckBox" name="full_day" :checked="isset($appointment) ? $appointment->isFullDay() : false"  />
-                        <x-label for="fullDayCheckBox">Full day off</x-label>
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex gap-2 items-center">
+                            <x-input-field type="checkbox" id="fullDayCheckBox" name="full_day" :checked="isset($appointment) ? $appointment->isFullDay() : false"  />
+                            <x-label for="fullDayCheckBox">Full day off</x-label>
+                        </div>
+                        <div class="text-right">* Required fields</div>
                     </div>
                 @break                    
             @endswitch
 
-            <div class="flex gap-2">
-                <x-button role="{{ $view == 'Time Off' ? ($action == 'edit' ? 'timeoffMain' : 'timeoffCreateMain') : 'ctaMain' }}" id="submitButton">
-                    {{ $action == 'edit' ? 'Update' : 'Create' }}
-                </x-button>
-                </form>
-
-                @if ($action == 'edit')
-                    <form action="{{ $destroyRoute }}" method="post">
-                        @csrf
-                        @method('DELETE')
-                            <x-button role="destroy">
-                                Cancel
-                            </x-button>
+            <div class="flex justify-between">
+                <div class="flex gap-2">
+                    <x-button role="{{ $view == 'Time Off' ? ($action == 'edit' ? 'timeoffMain' : 'timeoffCreateMain') : 'ctaMain' }}" id="submitButton">
+                        {{ $action == 'edit' ? 'Update' : 'Create' }}
+                    </x-button>
                     </form>
+
+                    @if ($action == 'edit')
+                        <form action="{{ $destroyRoute }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                                <x-button role="destroy">
+                                    Cancel
+                                </x-button>
+                        </form>
+                    @endif
+                </div>
+
+                @if ($action == 'edit' && $view == 'Booking')
+                    @if ($access == 'barber')
+                        <div class="text-right">* Required fields</div>
+                    @else
+                        <div class="text-right md:hidden">* Required fields</div>
+                    @endif
                 @endif
             </div>
     </x-card>

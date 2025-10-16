@@ -3,7 +3,7 @@
     <div class="h-svh w-full text-white flex flex-col justify-between items-center text-center bg-home parallax">
         <div class="h-12"></div>
         <div class="flex flex-col items-center md:gap-4">
-            <img src="{{ asset('logo/perneczky_barbershop_corvin.svg') }}" alt="PERNECZKY BarberShop Corvin" class="h-36 max-w-[80%] drop-shadow-2xl">
+            <img src="{{ asset('logo/perneczky_barbershop_corvin.svg') }}" alt="PERNECZKY BarberShop Corvin" class="h-36 max-h-[20vh] max-w-[80%] drop-shadow-2xl">
 
             <a href="{{ route('my-appointments.create') }}" class="text-2xl max-lg:text-xl max-md:text-lg font-bold p-4 max-lg:p-3 max-md:p-2 rounded-lg bg-[#0018d5] hover:bg-[#0f0f0f] transition-all shadow-2xl max-lg:mb-2">BOOK YOUR APPOINTMENT</a>
 
@@ -16,7 +16,7 @@
         </div>
         <div class="scroll">
             <a href="#about">
-                <img src="{{ asset('design/scroll_icon.svg') }}" alt="Scroll icon" class="h-12 mb-6">
+                <img src="{{ asset('design/scroll_icon.svg') }}" alt="Scroll icon" class="h-12 max-h-[8vh] mb-6">
             </a>
         </div>
     </div>

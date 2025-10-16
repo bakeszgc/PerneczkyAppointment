@@ -233,7 +233,11 @@
                     </svg>
                 </div>
             </div>
-            <img src="" alt="" id="image" class="max-w-xl max-h-[50vh]">
+
+            <div class="overflow-hidden">
+                <img src="" alt="" id="image" class="max-w-xl max-h-[60vh]">
+            </div>
+
             <div class="flex gap-2 mt-4">
                 <x-button id="crop" :hidden="true" role="ctaMain">Crop</x-button>
                 <x-button id="reset" :hidden="true">Reset</x-button>

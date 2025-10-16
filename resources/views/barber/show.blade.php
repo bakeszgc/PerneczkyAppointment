@@ -200,8 +200,8 @@
             </div>
         </div>
 
-        <div class=" w-full max-w-full h-auto max-h-[80vh] overflow-hidden">
-            <img src="" alt="" id="image" class="w-[90%] max-h-[60vh]">
+        <div class="overflow-hidden">
+            <img src="" alt="" id="image" class="max-w-xl max-h-[60vh]">
         </div>
         
         <div class="flex gap-2 mt-4">

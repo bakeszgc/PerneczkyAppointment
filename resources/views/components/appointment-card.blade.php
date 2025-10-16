@@ -114,9 +114,12 @@
             </form>
         @endif
 
-        <x-link-button :link="$rebookLink" role="restore">
-            <span class="max-sm:hidden">Rebook</span>
-        </x-link-button>
+        @if (!$appointment->user->deleted_at && !$appointment->service->deleted_at && !$appointment->barber->deleted_at)
+            <x-link-button :link="$rebookLink" role="restore">
+                <span class="max-sm:hidden">Rebook</span>
+            </x-link-button>
+        @endif
+        
         
     </div>
 </x-card>

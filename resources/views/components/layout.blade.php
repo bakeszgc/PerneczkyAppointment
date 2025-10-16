@@ -8,7 +8,6 @@
         
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js" defer></script>
-        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap');
@@ -31,6 +30,10 @@
 
             .w-1\/8{
                 width: 12.5%;
+            }
+
+            .w-18{
+                width: 4.5rem;
             }
 
             .scroll {
@@ -69,6 +72,10 @@
                 left: 50%;
                 transform:translateX(-50%);
                 z-index: 40;
+            }
+
+            #navLinks{
+                transform: translateX(108px);
             }
 
             .parallax {
@@ -133,6 +140,9 @@
                 .hamburger.active .bar:nth-child(3){
                     transform: translateY(-8px) rotate(-45deg);
                 }
+                #navLinks{
+                    transform: translateX(0px);
+                }
             }
         </style>
     </head>
@@ -184,7 +194,7 @@
                     
                     </ul>
 
-                    <ul class="flex items-center gap-4 max-lg:gap-2 max-lg:flex-col lg:translate-x-[54px]">
+                    <ul class="flex items-center gap-4 max-lg:gap-2 max-lg:flex-col" id="navLinks">
                         <li>
                             <a href="#about" class="hover:text-blue-400 transition-all navLink">About us</a>
                         </li>

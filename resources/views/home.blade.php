@@ -96,7 +96,7 @@
             @empty
 
                 <x-empty-card>
-                    <p class="text-lg font-medium">There aren't any barbers yet. Please check back later!</p>
+                    <p class="text-lg max-md:text-base font-medium">There aren't any barbers yet. Please check back later!</p>
                 </x-empty-card>
                 
             @endforelse

@@ -33,7 +33,7 @@
         <x-time-off-card :appointment="$timeoff" :showDetails="true" class="mb-4"/>
     @empty
         <x-empty-card>
-            <p class="text-lg font-medium">You don't have any {{ $type != "All" ? lcfirst($type) : '' }} time offs!</p>
+            <p class="text-lg max-md:text-base font-medium">You don't have any {{ $type != "All" ? lcfirst($type) : '' }} time offs!</p>
             <a href="{{ route('time-offs.create') }}" class=" text-green-700 hover:underline">Set yourself one here!</a>
         </x-empty-card>
     @endforelse

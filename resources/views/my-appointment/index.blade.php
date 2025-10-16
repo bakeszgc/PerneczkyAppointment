@@ -23,7 +23,7 @@
         <x-appointment-card :appointment="$appointment" :showDetails="true" access="user" class="mb-4"/>
     @empty
         <x-empty-card>
-            <p class="text-lg font-medium">You don't have any {{ lcfirst($type) }} appointments!</p>
+            <p class="text-lg max-md:text-base font-medium">You don't have any {{ lcfirst($type) }} appointments!</p>
             <a href="{{ route('my-appointments.create') }}" class=" text-blue-700 hover:underline">Why not booking one right now?</a>
         </x-empty-card>
     @endforelse

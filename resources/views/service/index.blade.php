@@ -50,7 +50,7 @@
                     <tr>
                         <td colspan="7">
                             <x-empty-card class="mt-4">
-                                <p class="text-lg font-medium">You don't have any services yet!</p>
+                                <p class="text-lg max-md:text-base font-medium">You don't have any services yet!</p>
                                 <a href="{{ route('services.create') }}" class=" text-blue-700 hover:underline">Add a new one here!</a>
                             </x-empty-card>
                         </td>

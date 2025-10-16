@@ -78,7 +78,7 @@ class AdminAppointmentController extends Controller
                 $user = User::withTrashed()->find($request->user);
                 $q->userFilter($user);
             })
-            ->when($request->from_app_start_date || $request->to_app_start_date || $request->time_window, function ($q) use ($request, $fromAppStartTime, $toAppStartTime) {
+            ->when($request->from_app_start_date || $request->to_app_start_date || ($request->time_window ?? 'custom'), function ($q) use ($request, $fromAppStartTime, $toAppStartTime) {
                 switch ($request->time_window) {
                     case 'upcoming':
                         $q->upcoming();
@@ -98,13 +98,15 @@ class AdminAppointmentController extends Controller
                             
                             $q->startEarlierThan($toAppStartTime);
                         }
+
+                        $q->orderByDesc('id');
                 }
                 
             })
             ->orderBy('app_start_time')->paginate(10);
 
         $barbers = Barber::withTrashed()->get();
-        $services = Service::withTrashed()->get();
+        $services = Service::withTrashed()->withoutTimeoff()->get();
         $users = User::withTrashed()->orderBy('first_name')->get();
      
         return view('admin.appointment.index',[

@@ -13,7 +13,7 @@ class TimeOffController extends Controller
     {
         $timeoffs = Appointment::onlyTimeOffs()
             ->barberFilter(auth()->user()->barber)
-            ->latest()
+            ->orderByDesc('id')
         ->paginate(10);
 
         $calAppointments = Appointment::barberFilter(auth()->user()->barber)

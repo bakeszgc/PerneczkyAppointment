@@ -171,12 +171,12 @@ class AppointmentController extends Controller
 
         $barber = Appointment::select('barber_id',DB::raw('COUNT(barber_id) as selection_count'))->userFilter($appointment->user)->groupBy('barber_id')->orderByDesc('selection_count')->first();
 
-        $favBarber = Barber::find($barber->barber_id);
+        $favBarber = Barber::withTrashed()->find($barber->barber_id);
         $numBarber = $barber->selection_count;
 
         $service = Appointment::select('service_id',DB::raw('COUNT(service_id) as selection_count'))->userFilter($appointment->user)->groupBy('service_id')->orderByDesc('selection_count')->first();
 
-        $favService = Service::find($service->service_id);
+        $favService = Service::withTrashed()->find($service->service_id);
         $numService = $service->selection_count;
 
         return view('appointment.show',[

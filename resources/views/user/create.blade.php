@@ -47,7 +47,7 @@
 
             <div class="mb-4">
                 <x-label for="email">Email*</x-label>
-                <x-input-field type="email" name="email" id="email" :autoComplete="true" value="{{old('email')}}" placeholder="john@example.com" class="w-full regInput"/>
+                <x-input-field type="email" name="email" id="email" autoComplete="on" value="{{old('email')}}" placeholder="john@example.com" class="w-full regInput"/>
                 @error('email')
                     <p class=" text-red-500">{{$message}}</p>
                 @enderror
@@ -71,24 +71,8 @@
                         @enderror
                     </div>
                 </div>
-                <div class="flex-grow-0">
-                    <span class="font-semibold text-base max-md:text-sm">Your password must contain</span>
-                    <ul class="list-disc *:ml-6 mb-4 max-md:text-sm">
-                        <li>
-                            at least one <span class="font-semibold">undercase letter</span>
-                        </li>
-                        <li>
-                            at least one <span class="font-semibold">uppercase letter</span>
-                        </li>
-                        <li>
-                            at least one <span class="font-semibold">number</span>
-                        </li>
-                        <li>
-                            and be at least <span class="font-semibold">8 characters long</span>
-                        </li>
-                    </ul>
-                    Fields marked with * are <span class="font-semibold">required</span>
-                </div>
+
+                <x-password-checklist class="flex-grow-0" />
             </div>
 
             <x-button role="ctaMain" :full="true" :disabled="true" id="regButton">Register</x-button>
@@ -104,6 +88,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+
+            // SUBMIT BUTTON ENABLER
             const regButton = document.getElementById('regButton');
             const regInputs = document.querySelectorAll('.regInput');
             const passInput = document.getElementById('password');
@@ -121,6 +107,8 @@
                     }
                 });
             });
+
+            
         });
 
         function checkPassword(passInput, passConfInput) {

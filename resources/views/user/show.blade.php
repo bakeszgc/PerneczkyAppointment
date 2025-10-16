@@ -305,24 +305,7 @@
                         </div>
                     </div>
                     
-                    <div class="flex-grow-0">
-                        <span class="font-semibold text-base">Your password must contain</span>
-                        <ul class="list-disc *:ml-6 mb-4">
-                            <li>
-                                at least one <span class="font-semibold">undercase letter</span>
-                            </li>
-                            <li>
-                                at least one <span class="font-semibold">uppercase letter</span>
-                            </li>
-                            <li>
-                                at least one <span class="font-semibold">number</span>
-                            </li>
-                            <li>
-                                and be at least <span class="font-semibold">8 characters long</span>
-                            </li>
-                        </ul>
-                        Fields marked with * are <span class="font-semibold">required</span>
-                    </div>
+                    <x-password-checklist class="flex-grow-0" passwordInput="new_password" passwordConfInput="new_password_confirmation" />
                 </div>
                 <x-button role="ctaMain" :full="true" id="passButton" :disabled="true">Change password</x-button>
             </form>

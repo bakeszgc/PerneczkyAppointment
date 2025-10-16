@@ -62,18 +62,18 @@
     <div class="flex gap-2">
         @if ($showDetails)
             <x-link-button :link="$showRoute" role="show">
-                Details
+                <span class="max-sm:hidden">Details</span>
             </x-link-button>
         @endif
         @if ($appointment->app_start_time >= now('Europe/Budapest') && !$appointment->deleted_at)
             <x-link-button :link="$editRoute" role="edit">
-                Edit
+                <span class="max-sm:hidden">Edit</span>
             </x-link-button>
             <form action="{{ $destroyRoute }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <x-button role="destroy">
-                    Cancel
+                    <span class="max-sm:hidden">Cancel</span>
                 </x-button>
             </form>
         @endif

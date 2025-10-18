@@ -11,6 +11,7 @@ use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Whitecube\LaravelCookieConsent\Facades\Cookies;
 
 class AuthController extends Controller
 {
@@ -32,7 +33,7 @@ class AuthController extends Controller
         ]);
     
         $credentials = $request->only('email','password');
-        $remember = $request->filled('remember');
+        $remember = Cookies::hasConsentFor('remember_web') ? $request->filled('remember') : false;
     
         if(Auth::attempt($credentials, $remember)) {
             return redirect()->intended(route('my-appointments.index'));

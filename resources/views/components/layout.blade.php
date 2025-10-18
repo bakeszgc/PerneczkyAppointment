@@ -7,6 +7,7 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('logo/favicon.ico') }}">
         
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @cookieconsentscripts
         <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js" defer></script>
 
         <style>
@@ -265,6 +266,8 @@
             {{$slot}}
             
         </div>
+
+        @cookieconsentview
         
         <script>
             document.addEventListener('DOMContentLoaded', function () {

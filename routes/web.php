@@ -131,6 +131,10 @@ Route::get('/',function() {
     ]);
 })->name('home');
 
+Route::get('/cookies', function() {
+    return view('cookies');
+});
+
 // 404
 Route::fallback(function() {
     return view('404');

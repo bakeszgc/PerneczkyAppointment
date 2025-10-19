@@ -133,7 +133,7 @@ Route::get('/',function() {
 
 Route::get('/cookies', function() {
     return view('cookies');
-});
+})->name('cookies');
 
 // 404
 Route::fallback(function() {

@@ -132,14 +132,26 @@
     <div id="contact" class="-translate-y-6"></div>
     <div id="opening-hours" class="-translate-y-6"></div>
     <footer class="py-12 max-md:py-8 bg-[#0f0f0f] text-white">        
-        <div class="max-w-6xl mx-auto mb-4 px-8 max-lg:px-4 flex max-sm:flex-col justify-between gap-4">
+        <div class="max-w-6xl mx-auto mb-4 px-8 max-lg:px-4 flex max-sm:flex-col justify-between gap-8">
             <div>
                 <h2 class="text-2xl max-lg:text-lg font-black mb-2">Contact</h2>
-                <ul class="*:mb-1">
+                <ul class="*:mb-1 mb-4">
                     <li>Tel: <a href="tel:+36704056079" class="hover:text-blue-500 transition-all">+36 70 405 6079</a></li>
                     <li>Email: <a href="mailto:perneczkybarbershop@gmail.com" class="hover:text-blue-500 transition-all">perneczkybarbershop@gmail.com</a></li>
                     <li>Address: 1082 Budapest, Corvin sétány 5.</li>
                 </ul>
+
+                <div class="flex gap-2 *:*:transition-all *:*:h-10">
+                    <a href="https://www.instagram.com/perneczkybarbershop" target="_blank">
+                        <img src="{{ asset('logo/instagram.png') }}" alt="Instagram" class="hover:scale-110">
+                    </a>
+                    <a href="https://www.facebook.com/perneczkybarbershop" target="_blank">
+                        <img src="{{ asset('logo/facebook.png') }}" alt="Facebook" class="hover:scale-110">
+                    </a>
+                    <a href="https://www.tiktok.com/@perneczkybarbershop" target="_blank">
+                        <img src="{{ asset('logo/tiktok.png') }}" alt="Tiktok" class="hover:scale-110">
+                    </a>
+                </div>
             </div>
             
             <div class="sm:text-right">
@@ -147,21 +159,12 @@
                 <ul class="*:mb-1">
                     <li>Mo-Sa: 10:00-20:00</li>
                     <li>Su: 10:00-18:00</li>
+                    <li><a href="{{ route('cookies') }}" class="hover:text-blue-500 transition-all">Cookie policy</a></li>
                     <li><a href="{{ asset('files/perneczky_aszf.pdf') }}" target="_blank" class="hover:text-blue-500 transition-all">T&C</a></li>
                 </ul>
             </div>
         </div>
 
-        <div class="max-w-6xl mx-auto px-8 max-lg:px-4 flex gap-2 *:*:transition-all *:*:h-10">
-            <a href="https://www.instagram.com/perneczkybarbershop" target="_blank">
-                <img src="{{ asset('logo/instagram.png') }}" alt="Instagram" class="hover:scale-110">
-            </a>
-            <a href="https://www.facebook.com/perneczkybarbershop" target="_blank">
-                <img src="{{ asset('logo/facebook.png') }}" alt="Facebook" class="hover:scale-110">
-            </a>
-            <a href="https://www.tiktok.com/@perneczkybarbershop" target="_blank">
-                <img src="{{ asset('logo/tiktok.png') }}" alt="Tiktok" class="hover:scale-110">
-            </a>
-        </div>
+        
     </footer>
 </x-layout>

@@ -45,30 +45,33 @@
 
     <h2 class="font-bold text-2xl max-md:text-xl mb-4">Search results</h2>
 
-    <x-card class="mb-4">
-        <ul class="flex flex-col gap-4">
-            @forelse ($users as $user)
-                <li class="flex max-sm:flex-col gap-2 justify-between {{ !$loop->last ? 'border-b-2 pb-4' : '' }}">
-                    <div>
-                        <h3 class="font-bold text-xl max-md:text-base mb-1">
-                            {{ $user->first_name }} {{ $user->last_name }}
-                        </h3>
-                        <p class="text-slate-500">
-                            Email: <a href="mailto:{{ $user->email }}" class="text-blue-700 hover:underline">{{ $user->email }}</a>
-                        </p>
-                        <p class="text-slate-500">
-                            Tel: <a href="tel:{{ $user->tel_number }}" class="text-blue-700 hover:underline">{{ $user->tel_number }}</a>
-                        </p>
-                    </div>
-                    <x-link-button link="{{ $view == 'admin' ? route('bookings.create.barber.service',['user_id' => $user->id]) : route('appointments.create.service',['user_id' => $user->id]) }}" role="ctaMain" :maxHeightFit="true">Select customer</x-link-button>
-                </li>
-            @empty
-                <x-empty-card>
-                    There aren't any users with matching properties
-                </x-empty-card>
-            @endforelse
-        </ul>
-    </x-card>
+    @if ($users->count() > 0)
+        <x-card class="mb-4">
+            <ul class="flex flex-col gap-4">
+                @foreach ($users as $user)
+                    <li class="flex max-sm:flex-col gap-2 justify-between {{ !$loop->last ? 'border-b-2 pb-4' : '' }}">
+                        <div>
+                            <h3 class="font-bold text-xl max-md:text-base mb-1">
+                                {{ $user->first_name }} {{ $user->last_name }}
+                            </h3>
+                            <p class="text-slate-500">
+                                Email: <a href="mailto:{{ $user->email }}" class="text-blue-700 hover:underline">{{ $user->email }}</a>
+                            </p>
+                            <p class="text-slate-500">
+                                Tel: <a href="tel:{{ $user->tel_number }}" class="text-blue-700 hover:underline">{{ $user->tel_number }}</a>
+                            </p>
+                        </div>
+                        <x-link-button link="{{ $view == 'admin' ? route('bookings.create.barber.service',['user_id' => $user->id]) : route('appointments.create.service',['user_id' => $user->id]) }}" role="ctaMain" :maxHeightFit="true">Select customer</x-link-button>
+                    </li>
+                @endforeach
+            </ul>
+        </x-card>
+    @else
+        <x-empty-card class="mb-4">
+            There aren't any users with matching properties
+        </x-empty-card>
+    @endif
+    
 
     <div @class(['mb-4' => $users->count() == 10])>
         {{ $users->appends($_GET)->links() }}

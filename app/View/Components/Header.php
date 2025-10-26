@@ -12,7 +12,8 @@ class Header extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public $bgImage = null
+        public $bgImage = null,
+        public string $bgId = ''
     )
     {
         //

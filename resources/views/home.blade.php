@@ -21,7 +21,7 @@
         </div>
     </div>
 
-    <div id="about" class="-translate-y-6"></div>
+    <div id="about" class="-translate-y-12"></div>
     <x-container class="flex max-md:flex-col gap-8">
         
         <div class="*:text-justify">
@@ -43,8 +43,7 @@
         </div>
     </x-container>
 
-    <div id="services" class="-translate-y-6"></div>
-    <x-header class="bg-service">        
+    <x-header class="bg-service" bgId="services">        
         Services
     </x-header>
 
@@ -61,15 +60,14 @@
                     </div>
                 </a>
             @empty
-                <x-empty-card>
-                    <p>There aren't any services yet.</p>
+                <x-empty-card class="col-span-2 max-md:col-span-1">
+                    <p>Sorry, there aren't any services available yet. Please check back later!</p>
                 </x-empty-card>
             @endforelse
         </div>
     </x-container>
 
-    <div id="barbers" class="-translate-y-6"></div>
-    <x-header class="bg-barber">
+    <x-header class="bg-barber" bgId="barbers">
         Barbers
     </x-header>
 
@@ -95,16 +93,16 @@
             
             @empty
 
-                <x-empty-card>
-                    <p class="text-lg max-md:text-base font-medium">There aren't any barbers yet. Please check back later!</p>
+                <x-empty-card class="col-span-3 max-md:col-span-2">
+                    <p>Sorry, there aren't any barbers available yet. Please check back later!</p>
                 </x-empty-card>
                 
             @endforelse
         </div>
     </x-container>
 
-    <div id="location" class="-translate-y-6"></div>
-    <x-header class="bg-location">
+    
+    <x-header class="bg-location" bgId="location">
         Location
     </x-header>
 
@@ -129,8 +127,8 @@
         
     </x-container>
 
-    <div id="contact" class="-translate-y-6"></div>
-    <div id="opening-hours" class="-translate-y-6"></div>
+    <div id="contact" class="-translate-y-12"></div>
+    <div id="opening-hours" class="-translate-y-12"></div>
     <footer class="py-12 max-md:py-8 bg-[#0f0f0f] text-white">        
         <div class="max-w-6xl mx-auto mb-4 px-8 max-lg:px-4 flex max-sm:flex-col justify-between gap-8">
             <div>
@@ -163,8 +161,6 @@
                     <li><a href="{{ asset('files/perneczky_aszf.pdf') }}" target="_blank" class="hover:text-blue-500 transition-all">T&C</a></li>
                 </ul>
             </div>
-        </div>
-
-        
+        </div>        
     </footer>
 </x-layout>

@@ -26,8 +26,8 @@
                     <x-barber-picture :barber="$barber" />
                 </a>
             @empty
-                <x-empty-card class="col-span-3">
-                    <p class="text-lg max-md:text-base font-medium">You don't have any barbers!</p>
+                <x-empty-card class="col-span-3 max-sm:grid-cols-2">
+                    <p class="text-lg max-md:text-base font-medium">You don't have any barbers yet!</p>
                     <a href="{{ route('barbers.create') }}" class=" text-blue-700 hover:underline">Add a new one here!</a>
                 </x-empty-card>
             @endforelse
@@ -93,11 +93,11 @@
                     <tr>
                         <td colspan="7">
                             <x-empty-card class="mt-4">
-                                <p>You don't have any services yet!</p>
+                                <p class="text-lg max-md:text-base font-medium">You don't have any services yet!</p>
+                                <a href="{{ route('services.create') }}" class=" text-blue-700 hover:underline">Add a new one here!</a>
                             </x-empty-card>
                         </td>
                     </tr>
-
                 @endforelse
             </table>
         </div>
@@ -154,7 +154,6 @@
                             </x-empty-card>
                         </td>
                     </tr>
-
                 @endforelse
             </table>
         </div>

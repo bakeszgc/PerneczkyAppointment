@@ -49,8 +49,8 @@
                     </label>
                     
                 @empty
-                    <x-empty-card>
-                        Sorry, there aren't any barbers available!
+                    <x-empty-card class="col-span-3 max-md:col-span-2">
+                        Sorry, there aren't any barbers available yet. Please check back later!
                     </x-empty-card>
                 @endforelse
             </div>
@@ -77,8 +77,8 @@
                     <input type="radio" id="service_{{ $service->id }}" name="service_id" value="{{ $service->id }}" @checked(request('service_id') && request('service_id') == $service->id) class="hidden">
                 </label>
             @empty
-                <x-empty-card>
-                    Sorry, there aren't any services available!
+                <x-empty-card class="col-span-3 max-md:col-span-2">
+                    Sorry, there aren't any services available yet. Please check back later!
                 </x-empty-card>
             @endforelse
         </div>

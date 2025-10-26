@@ -19,7 +19,7 @@ class AppointmentController extends Controller
 {
     public function index()
     {
-        $appointments = Appointment::barberFilter(auth()->user()->barber)->withoutTimeOffs()->withTrashed()->latest()->paginate(10);
+        $appointments = Appointment::barberFilter(auth()->user()->barber)->withoutTimeOffs()->withTrashed()->orderByDesc('id')->paginate(10);
 
         $calAppointments = Appointment::barberFilter(auth()->user()->barber)->with('user')->get();
      

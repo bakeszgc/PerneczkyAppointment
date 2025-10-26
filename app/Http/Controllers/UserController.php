@@ -115,8 +115,10 @@ class UserController extends Controller
             $user->update([
                 'email_verified_at' => null
             ]);
-            return redirect()->route('users.show',$user)->with('success','Account updated successfully! Please verify your new email address!');
 
+            event(new Registered($user));
+
+            return redirect()->route('users.show',$user)->with('success','Account updated successfully! Please verify your new email address!');
         }
 
         return redirect()->route('users.show',$user)->with('success','Account updated successfully!');

@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Barber;
 use App\Models\Appointment;
-use App\Notifications\BookingCancellationNotification;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Auth\Events\Registered;
+use App\Notifications\BookingCancellationNotification;
 
 class CustomerController extends Controller
 {
@@ -124,6 +125,8 @@ class CustomerController extends Controller
             $customer->update([
                 'email_verified_at' => null
             ]);
+
+            event(new Registered($customer));
 
             return redirect()->route('customers.show',$customer)->with('success','Account has been updated successfully! The new email address has to be verified!');
         }

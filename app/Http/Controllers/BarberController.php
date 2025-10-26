@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Barber;
 use App\Models\Appointment;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Gate;
@@ -100,6 +101,8 @@ class BarberController extends Controller
             'telephone_number' => ['required','starts_with:+,0','numeric',Rule::unique('users','tel_number')->ignore($user->id)]
         ]);
 
+        $isEmailDifferent = $barber->user->email !== $request->email;
+
         $barber->update([
             'display_name' => $request->display_name,
             'description' => $request->description,
@@ -113,6 +116,16 @@ class BarberController extends Controller
             'date_of_birth' => $request->date_of_birth,
             'tel_number' => $request->telephone_number
         ]);
+
+        if ($isEmailDifferent) {
+            $user->update([
+                'email_verified_at' => null
+            ]);
+
+            event(new Registered($user));
+
+            return redirect()->route('barbers.show',$barber)->with('success',$barber->getName() . "'s personal details have been updated successfully! The new email address has to be verified!");
+        }
 
         return redirect()->route('barbers.show',['barber' => $barber,'showProfile' => true])->with('success',$barber->getName() . "'s personal details have been updated successfully!");
     }

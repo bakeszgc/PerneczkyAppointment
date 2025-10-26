@@ -1,11 +1,11 @@
 <div>
     <div class="relative">        
-        <div id="calendarEventContainer" class="relative w-full h-0 left-0 top-0 max-lg:-translate-y-3"></div>
+        <div id="calendarEventContainer" class="relative w-full h-0 left-0 top-0 lg:translate-y-6"></div>
 
         <div class="flex text-center mb-4">
             <div class="w-1/8"></div>
             @for ($i = 1; $i<=7; $i++)
-                <div class="flex items-center justify-center gap-1 max-lg:flex-col w-1/8">
+                <div class="flex items-center justify-center gap-1 flex-col w-1/8">
                     <span class="text-slate-500">
                         {{ date('D', strtotime("Sunday + {$i} days")) }}
                     </span>

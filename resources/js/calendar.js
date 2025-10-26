@@ -73,7 +73,7 @@ export function renderDivs(appStartTime, appEndTime, calendar, appointments, bar
                 div.classList.add('existingApp');
             }
             
-            div.style.top = 53/60 * (startHour * 60 + parseInt(startMinute)) - 486 + 'px';
+            div.style.top = 53/60 * ((startHour-10) * 60 + parseInt(startMinute)) + 44 + 'px';
             div.style.left = (start.getDay() == 0 ? 7 : start.getDay()) * 12.5 + '%';
             div.style.height = duration / 60 * 53 + 'px';
 

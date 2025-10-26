@@ -131,6 +131,7 @@ Route::get('/',function() {
     ]);
 })->name('home');
 
+// COOKIE POLICY
 Route::get('/cookies', function() {
     return view('cookies');
 })->name('cookies');

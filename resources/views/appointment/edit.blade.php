@@ -152,7 +152,7 @@
                         <x-select name="barber" id="barber" class="w-full">
                             <option value="empty"></option>
                             @foreach ($barbers as $barber)
-                                <option value="{{ $barber->id }}" @selected(old('barber'))>
+                                <option value="{{ $barber->id }}" @selected($barber->id == (old('barber') ?? request('barber')))>
                                     {{ $barber->getName() }}
                                 </option>
                             @endforeach

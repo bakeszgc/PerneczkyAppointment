@@ -236,7 +236,7 @@
                 All time offs
             </x-link-button>
 
-            <x-link-button :link="route('admin-time-offs.create')" role="timeoffCreate">
+            <x-link-button :link="route('admin-time-offs.create',['barber' => $barber->id])" role="timeoffCreate">
                 New time off
             </x-link-button>
         </div>

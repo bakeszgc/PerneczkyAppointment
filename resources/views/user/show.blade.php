@@ -18,7 +18,7 @@
     }
 @endphp
 
-<x-user-layout title="{{ $title }}">
+<x-user-layout title="{{ $title }}" currentView="{{ $view }}">
     <x-breadcrumbs :links="$breadcrumbLinks" />
 
     <x-headline class="mb-4">
@@ -92,7 +92,7 @@
 
                     <div class="flex flex-col max-sm:col-span-2">
                         <x-label for="date_of_birth">Date of birth*</x-label>
-                        <x-input-field type="date" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth') ?? $user->date_of_birth }}" :disabled="isset($user->deleted_at)" class="profileInput" />
+                        <x-input-field type="date" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth') ?? $user->date_of_birth }}" :disabled="isset($user->deleted_at)" class="profileInput w-full" />
                         @error('date_of_birth')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror

@@ -108,23 +108,27 @@
                 <p class="max-sm:text-xs">You're currently viewing {{ $barber->user->first_name }}'s barber page. If you want to edit their details or see their stats as a customer then check his <a href="{{ route('customers.show',$barber->user) }}" class="text-blue-700 hover:underline">customer page!</a></p>
             </div>
             
-            <div class="flex gap-2">
-                <x-button role="ctaMain" :disabled="isset($barber->deleted_at)" id="submitButton">Save changes</x-button>
-                </form>
+            <div class="flex max-sm:flex-col gap-2">
+                <div class="max-sm:w-full">
+                    <x-button role="ctaMain" :disabled="isset($barber->deleted_at)" :full="true" id="submitButton">Save changes</x-button>
+                    </form>
+                </div>
 
-                @if ($barber->deleted_at)
-                    <form action="{{ route('barbers.restore',$barber) }}" method="POST">
-                        @method('PUT')
-                        @csrf
-                        <x-button role="restore">Restore barber access</x-button>
-                    </form>
-                @else
-                    <form action="{{ route('barbers.destroy',$barber) }}" method="POST">
-                        @method('DELETE')
-                        @csrf
-                        <x-button role="destroy">Remove barber access</x-button>
-                    </form>
-                @endif
+                <div class="max-sm:w-full">
+                    @if ($barber->deleted_at)
+                        <form action="{{ route('barbers.restore',$barber) }}" method="POST">
+                            @method('PUT')
+                            @csrf
+                            <x-button role="restore" :full="true">Restore barber access</x-button>
+                        </form>
+                    @else
+                        <form action="{{ route('barbers.destroy',$barber) }}" method="POST">
+                            @method('DELETE')
+                            @csrf
+                            <x-button role="destroy" :full="true">Remove barber access</x-button>
+                        </form>
+                    @endif
+                </div>
             </div>
         
     </x-show-card>

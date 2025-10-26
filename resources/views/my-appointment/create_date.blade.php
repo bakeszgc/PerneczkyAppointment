@@ -79,7 +79,7 @@
                     </div>
                     <div class="flex flex-col gap-1">
                         <label for="comment">Wanna leave some comments for this appointment? Share with us below!</label>
-                        <x-input-field type="textarea" name="comment" id="comment" class="w-full">{{ old('comment') }}</x-input-field>
+                        <x-input-field type="textarea" name="comment" id="comment" class="w-full">{{ old('comment') ?? request('comment') }}</x-input-field>
                     </div>
                 </div>
                 <div class="flex-shrink-0 max-md:hidden">

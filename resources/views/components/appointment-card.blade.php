@@ -10,18 +10,31 @@
             $detailsLink = route('bookings.show',['booking' => $appointment]);
             $editLink = route('bookings.edit',['booking' => $appointment]);
             $cancelLink = route('bookings.destroy',['booking' => $appointment]);
-            $rebookLink = route('bookings.create.date',['user_id' => $appointment->user_id, 'service_id' => $appointment->service_id, 'barber_id' => $appointment->barber_id]);
+            $rebookLink = route('bookings.create.date',[
+                'user_id' => $appointment->user_id,
+                'service_id' => $appointment->service_id,
+                'barber_id' => $appointment->barber_id,
+                'comment' => $appointment->comment
+            ]);
             break;
         case 'barber':
             $detailsLink = route('appointments.show',['appointment' =>$appointment]);
             $editLink = route('appointments.edit',['appointment' => $appointment]);
             $cancelLink = route('appointments.destroy',['appointment' => $appointment]);
-            $rebookLink = route('appointments.create.date',['user_id' => $appointment->user_id, 'service_id' => $appointment->service_id]);
+            $rebookLink = route('appointments.create.date',[
+                'user_id' => $appointment->user_id,
+                'service_id' => $appointment->service_id,
+                'comment' => $appointment->comment
+            ]);
             break;
         default:
             $detailsLink = route('my-appointments.show',['my_appointment' => $appointment]);
             $cancelLink = route('my-appointments.destroy',['my_appointment' => $appointment]);
-            $rebookLink = route('my-appointments.create.date',['service_id' => $appointment->service_id, 'barber_id' => $appointment->barber_id]);
+            $rebookLink = route('my-appointments.create.date',[
+                'service_id' => $appointment->service_id,
+                'barber_id' => $appointment->barber_id,
+                'comment' => $appointment->comment
+            ]);
     }
 @endphp
 

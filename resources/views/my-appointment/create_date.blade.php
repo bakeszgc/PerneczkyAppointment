@@ -169,13 +169,13 @@
             const previousMonthButton = document.getElementById('previousMonthButton');
 
             nextMonthButton.addEventListener('click', () => {
-                calendarContainter.classList.add('-translate-x-1/4');
+                calendarContainter.classList.add('-translate-x-1/2');
                 nextMonthButton.setAttribute('disabled','');
                 previousMonthButton.removeAttribute('disabled','');
             });
 
             previousMonthButton.addEventListener('click', () => {
-                calendarContainter.classList.remove('-translate-x-1/4');
+                calendarContainter.classList.remove('-translate-x-1/2');
                 previousMonthButton.setAttribute('disabled','');
                 nextMonthButton.removeAttribute('disabled','');
             });
@@ -194,8 +194,6 @@
                     });
                 });
             }
-
-            
         });
 
         function checkDateRadioButtons(submitButton) {

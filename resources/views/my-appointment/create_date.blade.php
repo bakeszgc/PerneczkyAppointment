@@ -7,7 +7,7 @@
         case 'user':
             $serviceLink = route('my-appointments.create.barber.service',['service_id' => $service->id, 'barber_id' => $barber->id]);
 
-            $storeLink = route('my-appointments.store',['barber_id' => $barber->id, 'service_id' => $service->id]);
+            $storeLink = route('my-appointments.create.confirm',['barber_id' => $barber->id, 'service_id' => $service->id]);
 
             $breadcrumbLinks = [
                 'New appointment' => route('my-appointments.create'),
@@ -50,8 +50,14 @@
 
     <x-headline class="mb-4">Select your date</x-headline>
 
-    <form action="{{$storeLink}}" method="POST">
-        @csrf
+    <form action="{{$storeLink}}" method="{{ $view == 'user' ? 'GET' : 'POST' }}">        
+
+        @if ($view == 'user')
+            <input type="hidden" name="barber_id" value="{{ $barber->id }}">
+            <input type="hidden" name="service_id" value="{{ $service->id }}">
+        @else
+            @csrf
+        @endif        
 
         <x-card class="mb-4">
             <div class="flex justify-between gap-4">
@@ -83,7 +89,7 @@
                     </div>
                 </div>
                 <div class="flex-shrink-0 max-md:hidden">
-                    <img src="{{ $barber->getPicture() }}" alt="BarberPic" class=" rounded-md h-52 w-auto">
+                    <img src="{{ $barber->getPicture() }}" alt="{{ $barber->getName() }}" class=" rounded-md h-52 w-auto">
                 </div>
             </div>
         </x-card>

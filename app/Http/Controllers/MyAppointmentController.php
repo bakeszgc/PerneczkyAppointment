@@ -100,12 +100,11 @@ class MyAppointmentController extends Controller
         $request->validate([
             'barber_id' => 'required|integer|exists:barbers,id',
             'service_id' => 'required|integer|gt:1|exists:services,id',
-            'date' => 'required|date|date_format:Y-m-d',
-            'time' => 'required',
+            'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
             'comment' => 'nullable|string'
         ]);
 
-        $startTime = Carbon::parse($request->date . ' ' . substr($request->time,0,2) . ':' . substr($request->time,2,2));
+        $startTime = Carbon::parse($request->date);
 
         $data = [
             'barber' => Barber::find($request->barber_id),
@@ -123,11 +122,17 @@ class MyAppointmentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
+            'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i:s',new ValidAppointmentTime],
             'barber_id' => ['required','exists:barbers,id'],
-            'service_id' => ['required','exists:services,id'],
-            'comment' => ['nullable','string']
+            'service_id' => ['required','gt:1','exists:services,id'],
+            'comment' => ['nullable','string'],
+            'first_name' => ['nullable','string','min:1'],
+            'email' => ['nullable','email','min:1'],
+            'policy_checkbox' => ['required'],
+            'confirmation_checkbox' => ['required']
         ]);
+
+        // kezelni az auth nélküli esetet
 
         $barber = Barber::find($request->barber_id);
 

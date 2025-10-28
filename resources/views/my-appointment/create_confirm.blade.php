@@ -5,8 +5,8 @@
 <x-user-layout>
 
     <x-breadcrumbs :links="[
-        'Barber & service' => '',
-        'Date & time' => '',
+        'Barber & service' => route('my-appointments.create.barber.service',['service_id' => $service->id, 'barber_id' => $barber->id]),
+        'Date & time' => route('my-appointments.create.date',['service_id' => $service->id, 'barber_id' => $barber->id, 'comment' => $comment]),
         'Confirm' => ''
     ]" />
 
@@ -100,8 +100,13 @@
                 @endguest
 
                 <div class="w-full text-left">
-                    <form action="{{ route('my-appointments.store') }}" method="post">
+                    <form action="{{ route('my-appointments.store') }}" method="POST">
                         @csrf
+
+                        <input type="hidden" name="barber_id" value="{{ $barber->id }}">
+                        <input type="hidden" name="service_id" value="{{ $service->id }}">
+                        <input type="hidden" name="date" value="{{ $startTime }}">
+                        <input type="hidden" name="comment" value="{{ $comment }}">
 
                         <div class="mb-4">
                             <x-label for="first_name">First name*</x-label>
@@ -114,13 +119,21 @@
                         </div>
 
                         <div class="flex gap-2 items-center mb-2">
-                            <x-input-field type="checkbox" name="details_checkbox" id="details_checkbox" class="confirmInput"/>
-                            <label for="details_checkbox">Yes, the appointment details match to my expectations.*</label>
+                            <x-input-field type="checkbox" name="confirmation_checkbox" id="confirmation_checkbox" value="1" class="confirmInput"/>
+                            <label for="confirmation_checkbox" class="flex-1">Yes, the appointment details match to my expectations.*</label>
+
+                            @error('confirmation_checkbox')
+                                <p class=" text-red-500 text-right">{{$message}}</p>
+                            @enderror
                         </div>
 
                         <div class="flex gap-2 items-center mb-4">
-                            <x-input-field type="checkbox" name="policy_checkbox" id="policy_checkbox" class="confirmInput"/>
-                            <label for="policy_checkbox">I have read and I accept the Terms & conditions and the Data privacy.*</label>
+                            <x-input-field type="checkbox" name="policy_checkbox" id="policy_checkbox" value="1" class="confirmInput"/>
+                            <label for="policy_checkbox" class="flex-1">I have read and I accept the Terms & conditions and the Data privacy.*</label>
+
+                            @error('policy_checkbox')
+                                <p class=" text-red-500 text-right">{{$message}}</p>
+                            @enderror
                         </div>
 
                         <div>

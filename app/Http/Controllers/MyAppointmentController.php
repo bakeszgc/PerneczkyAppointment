@@ -96,6 +96,30 @@ class MyAppointmentController extends Controller
         ]);
     }
 
+    public function createConfirm(Request $request) {
+        $request->validate([
+            'barber_id' => 'required|integer|exists:barbers,id',
+            'service_id' => 'required|integer|gt:1|exists:services,id',
+            'date' => 'required|date|date_format:Y-m-d',
+            'time' => 'required',
+            'comment' => 'nullable|string'
+        ]);
+
+        $startTime = Carbon::parse($request->date . ' ' . substr($request->time,0,2) . ':' . substr($request->time,2,2));
+
+        $data = [
+            'barber' => Barber::find($request->barber_id),
+            'service' => Service::find($request->service_id),
+            'startTime' => $startTime
+        ];
+
+        if ($request->comment) {
+            $data['comment'] = $request->comment;
+        }
+
+        return view('my-appointment.create_confirm', $data);
+    }
+
     public function store(Request $request)
     {
         $request->validate([

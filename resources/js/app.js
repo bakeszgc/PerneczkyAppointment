@@ -163,7 +163,11 @@ window.allInputsFilled = function (inputs) {
     let filled = 0;
 
     inputs.forEach(i => {
-        if (i.value !== '') filled++;
+        if (i.type == 'checkbox') {
+            if (i.checked) filled++;
+        } else {
+            if (i.value !== '') filled++;
+        }
     });
 
     return filled === inputs.length;

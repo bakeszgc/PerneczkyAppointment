@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Barber;
 use App\Models\Service;
 use App\Models\Appointment;
@@ -40,23 +41,15 @@ class MyAppointmentController extends Controller
     
     public function create()
     {
-        if (auth()->user()) {
-            return redirect()->route('my-appointments.create.barber.service');
-        } else {
-            return view('my-appointment.create');
-        }
+        return redirect()->route('my-appointments.create.barber.service');
     }
 
     public function createBarberService(Request $request)
-    {
-        if (!auth()->user()) {
-           return redirect()->route('login');
-        }
-        
+    {        
         $selectedServiceId = $request->service_id;
         $selectedBarberId = $request->barber_id;
 
-        $barbers = Barber::when(auth()->user()->barber != null, function($q) {
+        $barbers = Barber::when(auth()->user()?->barber != null, function($q) {
             return $q->where('id','!=',auth()->user()->barber->id);
         })->where('is_visible','=',1)->get();
 
@@ -72,11 +65,7 @@ class MyAppointmentController extends Controller
 
     public function createDate(Request $request)
     {
-        if (!auth()->user()) {
-            return redirect()->route('login');
-        }
-
-        if (!Barber::find($request->barber_id) || auth()->user()->barber && $request->barber_id == auth()->user()->barber->id) {
+        if (!Barber::find($request->barber_id) || auth()->user()?->barber && $request->barber_id == auth()->user()?->barber->id) {
             return redirect()->route('my-appointments.create.barber.service',['service_id' => $request->service_id])->with('error','Please select a barber here!');
         }
 
@@ -133,7 +122,29 @@ class MyAppointmentController extends Controller
         ]);
 
         // kezelni az auth nélküli esetet
+        if ($request->has(['first_name','email'])) {
+            $email = $request->email;
+            $firstName = $request->first_name;
 
+            $users = User::where('email','=',$email)->get();
+
+            if ($users->count() == 1) {
+                $user = $users->first();
+                if ($firstName != $user->first_name) {
+                    $user->update([
+                        'first_name' => $firstName
+                    ]);
+                }
+            } else {
+                $user = User::create([
+                    'first_name' => $request->first_name,
+                    'email' => $email,
+                    'is_admin' => false
+                ]);
+            }
+        }
+
+        $user = auth()->user() ?? $user;
         $barber = Barber::find($request->barber_id);
 
         $app_start_time = Carbon::parse($request->date);
@@ -145,7 +156,7 @@ class MyAppointmentController extends Controller
         }
 
         $appointment = Appointment::create([
-            'user_id' => auth()->user()->id,
+            'user_id' => $user->id,
             'barber_id' => $request->barber_id,
             'service_id' => $request->service_id,
             'app_start_time' => $app_start_time,
@@ -158,7 +169,12 @@ class MyAppointmentController extends Controller
             new BookingConfirmationNotification($appointment)
         );
 
-        return redirect()->route('my-appointments.show',['my_appointment' =>  $appointment])->with('success','Appointment booked successfully! See you soon!');
+        if (auth()->user()) {
+            return redirect()->route('my-appointments.show',['my_appointment' =>  $appointment])->with('success','Appointment booked successfully! See you soon!');
+        } else {
+            return redirect()->route('home')->with('success','Appointment booked successfully! See you soon!');
+        }
+        
     }
 
     public function show(Appointment $my_appointment)

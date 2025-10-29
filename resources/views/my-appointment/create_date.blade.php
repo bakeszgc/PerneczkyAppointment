@@ -162,7 +162,7 @@
                 slotsByDate: @json($availableSlotsByDate),
 
                 init() {
-                    this.selectedDate = Object.keys(this.slotsByDate)[0] || null;
+                    this.selectedDate = "{{ substr(request('date'),0,10) }}" || Object.keys(this.slotsByDate)[0] || null;
                 }
             }
         }
@@ -172,12 +172,10 @@
             // NEXT MONTH + PREVIOUS MONTH BUTTONS
             const calendarContainter = document.getElementById('calendarContainter');
             const nextMonthButton = document.getElementById('nextMonthButton');
-            const previousMonthButton = document.getElementById('previousMonthButton');
+            const previousMonthButton = document.getElementById('previousMonthButton');            
 
             nextMonthButton.addEventListener('click', () => {
-                calendarContainter.classList.add('-translate-x-1/2');
-                nextMonthButton.setAttribute('disabled','');
-                previousMonthButton.removeAttribute('disabled','');
+                checkNextMonth(calendarContainter, nextMonthButton, previousMonthButton);
             });
 
             previousMonthButton.addEventListener('click', () => {
@@ -195,6 +193,15 @@
             checkDateRadioButtons(submitButton);
             if (dayRadioButtons) {
                 dayRadioButtons.forEach(dayButton => {
+                    if (dayButton.value == "{{ substr(request('date'),0,10) }}") {
+                        dayButton.checked = true;
+
+                        if (new Date(dayButton.value).getMonth() > new Date().getMonth()) {
+                            checkNextMonth(calendarContainter, nextMonthButton, previousMonthButton);
+                        }
+                        
+                    }
+                    
                     dayButton.addEventListener('change', function () {
                         checkDateRadioButtons(submitButton);
                     });
@@ -207,6 +214,11 @@
 
             if (dateRadioButtons) {
                 dateRadioButtons.forEach(dateButton => {
+                    if (dateButton.value == "{{ request('date') }}") {
+                        dateButton.checked = true;
+                        submitButton.disabled = false;
+                    }
+                    
                     dateButton.addEventListener('change', function () {
                         const isAnyDatesChecked = Array.from(dateRadioButtons).some(radio => radio.checked);
                         if (submitButton) {
@@ -215,6 +227,12 @@
                     });
                 });
             }
+        }
+
+        function checkNextMonth(calendarContainter, nextMonthButton, previousMonthButton) {
+            calendarContainter.classList.add('-translate-x-1/2');
+            nextMonthButton.setAttribute('disabled','');
+            previousMonthButton.removeAttribute('disabled','');
         }
 
     </script>

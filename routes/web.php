@@ -32,10 +32,15 @@ Route::middleware('guest')->group(function() {
     Route::get('login', [AuthController::class, 'create'])->name('login');
     Route::resource('auth', AuthController::class)->only(['store']);
 
-    Route::get('register',[UserController::class,'create'])->name('register');
-    Route::resource('user',UserController::class)->only('store');
-    
+    Route::get('register',[UserController::class,'create'])->name('register');    
 });
+
+// APPOINTMENT BOOKING ROUTES
+Route::get('my-appointments/create/selectBarberService',[MyAppointmentController::class,'createBarberService'])->name('my-appointments.create.barber.service');
+Route::get('my-appointments/create/selectDate',[MyAppointmentController::class,'createDate'])->name('my-appointments.create.date');
+Route::get('my-appointments/create/confirm', [MyAppointmentController::class,'createConfirm'])->name('my-appointments.create.confirm');
+Route::resource('my-appointments',MyAppointmentController::class)->only('create','store');
+
 
 // AUTH REQUIRED ROUTES
 Route::middleware('auth')->group(function(){
@@ -55,16 +60,13 @@ Route::middleware('auth')->group(function(){
 
     // CUSTOMER INDEX APPOINTMENTS
     Route::get('my-appointments/previous',[MyAppointmentController::class,'indexPrevious'])->name('my-appointments.index.previous');
-    Route::resource('my-appointments',MyAppointmentController::class)->except('edit','update');
+    Route::resource('my-appointments',MyAppointmentController::class)->except('edit','update','create','store');
 });
 
 // AUTH + VERIFIED ROUTES
 Route::middleware(['auth','verified'])->group(function() {
 
-    // CUSTOMER CREATE APPOINTMENTS
-    Route::get('my-appointments/create/selectBarberService',[MyAppointmentController::class,'createBarberService'])->name('my-appointments.create.barber.service');
-    Route::get('my-appointments/create/selectDate',[MyAppointmentController::class,'createDate'])->name('my-appointments.create.date');
-    Route::get('my-appointments/create/confirm', [MyAppointmentController::class,'createConfirm'])->name('my-appointments.create.confirm');
+    
 
 });
 

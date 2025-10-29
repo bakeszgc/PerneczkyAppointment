@@ -48,7 +48,7 @@
 
                     <div class="max-[540px]:text-right">
                         <h3 class="font-bold">Date & time</h3>
-                        <a href="{{ route('my-appointments.create.date',['service_id' => $service->id, 'barber_id' => $barber->id, 'comment' => $comment]) }}" class="text-blue-700 hover:underline">
+                        <a href="{{ route('my-appointments.create.date',['service_id' => $service->id, 'barber_id' => $barber->id, 'comment' => $comment, 'date' => $startTime->format('Y-m-d G:i')]) }}" class="text-blue-700 hover:underline">
                             {{ $startTime->format('Y-m-d G:i') }}
                         </a>
                     </div>
@@ -60,7 +60,7 @@
 
                     <div class="max-[540px]:text-right">
                         <h3 class="font-bold">Comment</h3>
-                        <a href="{{ route('my-appointments.create.date',['service_id' => $service->id, 'barber_id' => $barber->id, 'comment' => $comment]) }}" @class(['text-blue-700 hover:underline', 'italic' => $comment == ''])>
+                        <a href="{{ route('my-appointments.create.date',['service_id' => $service->id, 'barber_id' => $barber->id, 'comment' => $comment, 'date' => $startTime->format('Y-m-d G:i')]) }}" @class(['text-blue-700 hover:underline', 'italic' => $comment == ''])>
                             {{ $comment != '' ? $comment : "No comments from you." }}
                         </a>
                     </div>
@@ -110,12 +110,12 @@
 
                         <div class="mb-4">
                             <x-label for="first_name">First name*</x-label>
-                            <x-input-field id="first_name" name="first_name" class="w-full confirmInput" :disabled="auth()->user() != null" autoComplete="on" :value="auth()->user()?->first_name" />
+                            <x-input-field id="first_name" name="first_name" class="w-full confirmInput" :disabled="auth()->user() != null" autoComplete="on" :value="auth()->user()?->first_name ?? ''" />
                         </div>
 
                         <div class="mb-4">
                             <x-label for="email">Email*</x-label>
-                            <x-input-field type="email" id="email" name="email" class="w-full confirmInput" :disabled="auth()->user() != null" autoComplete="on" :value="auth()->user()?->email" />
+                            <x-input-field type="email" id="email" name="email" class="w-full confirmInput" :disabled="auth()->user() != null" autoComplete="on" :value="auth()->user()?->email ?? ''" />
                         </div>
 
                         <div class="flex gap-2 items-center mb-2">

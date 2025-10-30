@@ -76,7 +76,7 @@
                                     @if ($view == 'admin')
                                         <p class="text-slate-500 text-sm">Not verified yet</p>
                                     @else
-                                        <a href="{{ route('verification.notice') }}"class="font-bold text-base max-md:text-xs text-blue-500 hover:underline">Verify your email here</a>
+                                        <a href="{{ route('verification.notice') }}"class="text-base max-md:text-xs text-blue-500 hover:underline">Verify your email here</a>
                                     @endif
                                 @else
                                     <p class="text-slate-500 text-sm max-md:text-xs">Verified on {{ date_format($user->email_verified_at,'d M Y')  }}</p>

@@ -12,7 +12,7 @@
 
     <x-headline class="mb-4">Confirm your appointment</x-headline>
 
-    <div class="grid grid-cols-3 max-sm:grid-cols-1 gap-4">
+    <div class="grid grid-cols-3 max-sm:grid-cols-1 gap-4 mb-4">
         <x-card class="h-fit flex max-[540px]:flex-col sm:flex-col gap-4">
             
             <div class="rounded-md overflow-hidden">
@@ -87,7 +87,7 @@
                     <div class="flex items-center gap-2 justify-center mb-8">
                         <x-link-button role="ctaMain" link="{{ route('login') }}?from=appConfirm">Log in</x-link-button>
                         <p>or</p>
-                        <x-link-button role="active" link="{{ route('register') }}">Create an account</x-link-button>
+                        <x-link-button role="active" link="{{ route('register') }}?from=appConfirm">Create an account</x-link-button>
                     </div>
 
                     <div class=" mx-auto mb-6 flex gap-2 justify-center items-center">

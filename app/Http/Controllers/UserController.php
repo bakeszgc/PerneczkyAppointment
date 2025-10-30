@@ -7,6 +7,7 @@ use Validator;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Rules\ValidAppointmentTime;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Auth\Events\Registered;
@@ -16,7 +17,31 @@ class UserController extends Controller
 {
     public function create()
     {
-        return view('user.create');
+        // REDIRECTS IF THE USER IS LOGGED IN ALREADY
+        if (auth()->user()) {
+            return redirect()->route('my-appointments.index');
+        }
+        
+        // HANDLING POSSIBLE ATTRIBUTES
+        $attributesArray = [];
+        if (request('from') == 'appConfirm') {
+            $attributes = explode('&',explode('?',url()->previous())[1]);
+
+            foreach ($attributes as $attribute) {
+                $key = explode('=',$attribute)[0];
+                $value = explode('=',$attribute)[1];
+
+                if ($key == 'date') {
+                    $value = str_replace('+',' ',$value);
+                    $value = str_replace('%3A',':',$value);
+                    $attributesArray[$key] = $value;
+                } elseif ($key != 'day') {
+                    $attributesArray[$key] = $value;
+                }
+            }
+        }
+
+        return view('user.create',['prevAttributes' => $attributesArray]);
     }
 
     public function store(Request $request)
@@ -28,7 +53,12 @@ class UserController extends Controller
             'telephone_number' => 'required|starts_with:+,0|numeric|unique:users,tel_number',
             'email' => 'required|email|unique:users,email',
             'password' => ['required',Password::min(8)->mixedCase()->numbers()],
-            'password_confirmation' => 'required|same:password'
+            'password_confirmation' => 'required|same:password',
+            'date' => ['nullable','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
+            'barber_id' => ['nullable','exists:barbers,id'],
+            'service_id' => ['nullable','gt:1','exists:services,id'],
+            'comment' => ['nullable'],
+            'from' => ['nullable','string'],
         ]);
 
         $user = User::create([
@@ -44,7 +74,17 @@ class UserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
-        return redirect()->route('my-appointments.index')->with('success','Your account has been created successfully! Please verify your email address before booking an appointment!');
+
+        if ($request->has(['from','date','barber_id','service_id','comment']) && $request->from == 'appConfirm') {
+            return redirect()->route('my-appointments.create.confirm',[
+                'barber_id' => $request->barber_id,
+                'service_id' => $request->service_id,
+                'comment' => $request->comment,
+                'date' => $request->date
+            ])->with('success','Your account has been created successfully!');
+        } else {
+            return redirect()->route('my-appointments.index')->with('success','Your account has been created successfully!');
+        }        
     }
 
     public function show(Request $request, User $user)

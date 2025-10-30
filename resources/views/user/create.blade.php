@@ -75,6 +75,13 @@
                 <x-password-checklist class="flex-grow-0" />
             </div>
 
+            @if (request('from'))
+                @foreach ($prevAttributes as $key => $value)
+                    <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                @endforeach
+                <input type="hidden" name="from" value="{{ request('from') }}">
+            @endif
+
             <x-button role="ctaMain" :full="true" :disabled="true" id="regButton">Register</x-button>
         </form>
 

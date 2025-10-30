@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\FreeEmailAddress;
 use Hash;
 use Validator;
 use App\Models\User;
@@ -51,7 +52,7 @@ class UserController extends Controller
             'last_name' => 'required|string|min:2|max:255',
             'date_of_birth' => 'required|date|before_or_equal:today',
             'telephone_number' => 'required|starts_with:+,0|numeric|unique:users,tel_number',
-            'email' => 'required|email|unique:users,email',
+            'email' => ['required','email',new FreeEmailAddress()],
             'password' => ['required',Password::min(8)->mixedCase()->numbers()],
             'password_confirmation' => 'required|same:password',
             'date' => ['nullable','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
@@ -61,15 +62,30 @@ class UserController extends Controller
             'from' => ['nullable','string'],
         ]);
 
-        $user = User::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'date_of_birth' => $request->date_of_birth,
-            'tel_number' => $request->telephone_number,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'is_admin' => false
-        ]);
+        $usersWithThisEmail = User::whereEmail($request->email)->get();
+        $isEmailAlreadyUsed = $usersWithThisEmail->count() >= 1;
+
+        if ($isEmailAlreadyUsed) {
+            $user = $usersWithThisEmail->first();
+            $user->update([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'date_of_birth' => $request->date_of_birth,
+                'tel_number' => $request->telephone_number,
+                'password' => bcrypt($request->password),
+                'is_admin' => false
+            ]);
+        } else {
+            $user = User::create([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'date_of_birth' => $request->date_of_birth,
+                'tel_number' => $request->telephone_number,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+                'is_admin' => false
+            ]);
+        }
 
         event(new Registered($user));
 

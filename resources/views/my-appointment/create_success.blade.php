@@ -14,12 +14,16 @@
     <div class="grid grid-cols-3 max-md:grid-cols-1 gap-4 mb-6">
         <x-card>
             <h3 class="font-bold text-lg max-md:text-base mb-4">View and manage your appointments</h3>
-            <p>With an account you can log in on our page and check your upcoming and previous appointments at one place. These can even be modified and cancelled there by you.</p>
+            <p class="mb-2">With an account you can log in on our page and check your upcoming and previous appointments at one place. Even those that you have booked with the same email address before your account was created.</p>
+            <p>
+                You can modify or cancel your upcoming bookings here or rebook your previous ones.
+            </p>
         </x-card>
 
         <x-card>
-            <h3 class="font-bold text-lg max-md:text-base mb-4">View and manage your appointments</h3>
-            <p>With an account you can log in on our page and check your upcoming and previous appointments at one place. These can even be modified and cancelled there by you.</p>
+            <h3 class="font-bold text-lg max-md:text-base mb-4">Rebook the usual just by one click</h3>
+            <p class="mb-2">Are you a safe player and choosing the same barber with the same service everytime? We got you!</p>
+            <p>Instead of going through the whole booking process you can hit the 'Rebook' button on your previous appointments, select a date and your next appointment is ready to go!</p>
         </x-card>
 
         <x-card>
@@ -29,7 +33,7 @@
     </div>
 
     <div class="mb-2">
-        <x-link-button :full="true" role="ctaMain" link="{{ route('register') }}?first_name={{ $user->first_name }}&email={{ $user->email }}">Create an account</x-link-button>
+        <x-link-button :full="true" role="ctaMain" link="{{ route('register') }}?first_name={{ $user->first_name }}&email={{ $user->email }}">Sign up now</x-link-button>
     </div>
     <div class="mb-4 text-center">
         <a href="{{ route('home') }}" class="text-blue-700 hover:underline max-md:text-sm">Go back to home</a>

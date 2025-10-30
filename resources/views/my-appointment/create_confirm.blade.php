@@ -2,7 +2,7 @@
     $comment ??= '';
 @endphp
 
-<x-user-layout currentView="New appointment" currentView="user">
+<x-user-layout title="New appointment" currentView="user">
 
     <x-breadcrumbs :links="[
         'Barber & service' => route('my-appointments.create.barber.service',['service_id' => $service->id, 'barber_id' => $barber->id]),

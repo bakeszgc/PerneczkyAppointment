@@ -47,3 +47,26 @@
 @if ($type == 'password')
     </div>
 @endif
+
+@if ($type == 'date')
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dateInput = document.querySelectorAll("input[type='date']");            
+            
+            dateInput.forEach(input => {
+                toggleTextSlate(input);
+                input.addEventListener('input', () => {
+                    toggleTextSlate(input);
+                });                
+            });
+        });
+
+        function toggleTextSlate(input) {
+            if (input.value == '') {
+                input.classList.add('text-slate-300');
+            } else {
+                input.classList.remove('text-slate-300');
+            }
+        }
+    </script>
+@endif

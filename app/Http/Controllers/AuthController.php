@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use Str;
 use Auth;
 use Hash;
+use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Rules\ValidAppointmentTime;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Whitecube\LaravelCookieConsent\Facades\Cookies;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 class AuthController extends Controller
 {
@@ -21,7 +23,27 @@ class AuthController extends Controller
         if (auth()->user()) {
             return redirect()->route('my-appointments.index');
         }
-        return view('auth.create');
+        
+        // HANDLING POSSIBLE ATTRIBUTES
+        $attributesArray = [];
+        if (request('from') == 'appConfirm') {
+            $attributes = explode('&',explode('?',url()->previous())[1]);
+
+            foreach ($attributes as $attribute) {
+                $key = explode('=',$attribute)[0];
+                $value = explode('=',$attribute)[1];
+
+                if ($key == 'date') {
+                    $value = str_replace('+',' ',$value);
+                    $value = str_replace('%3A',':',$value);
+                    $attributesArray[$key] = $value;
+                } elseif ($key != 'day') {
+                    $attributesArray[$key] = $value;
+                }
+            }
+        }
+        
+        return view('auth.create',['prevAttributes' => $attributesArray]);
     }
 
     public function store(Request $request)
@@ -29,14 +51,28 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required|string',
-            'remember' => 'nullable'
+            'remember' => 'nullable',
+            'date' => ['nullable','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
+            'barber_id' => ['nullable','exists:barbers,id'],
+            'service_id' => ['nullable','gt:1','exists:services,id'],
+            'comment' => ['nullable'],
+            'from' => ['nullable','string'],
         ]);
     
         $credentials = $request->only('email','password');
         $remember = Cookies::hasConsentFor('remember_web') ? $request->filled('remember') : false;
     
         if(Auth::attempt($credentials, $remember)) {
-            return redirect()->intended(route('my-appointments.index'));
+            if ($request->has(['from','date','barber_id','service_id','comment']) && $request->from == 'appConfirm') {
+                return redirect()->route('my-appointments.create.confirm',[
+                    'barber_id' => $request->barber_id,
+                    'service_id' => $request->service_id,
+                    'comment' => $request->comment,
+                    'date' => $request->date
+                ]);
+            } else {
+                return redirect()->intended(route('my-appointments.index'));
+            }
         } else {
             $userQuery = User::withTrashed()->where('email','=',$request->email)->get();
             $error = 'Your email or password is invalid.';

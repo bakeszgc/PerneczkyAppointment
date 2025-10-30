@@ -121,7 +121,7 @@ class MyAppointmentController extends Controller
             'confirmation_checkbox' => ['required']
         ]);
 
-        // kezelni az auth nélküli esetet
+        // HANDLING AUTHLESS CASES
         if ($request->has(['first_name','email'])) {
             $email = $request->email;
             $firstName = $request->first_name;

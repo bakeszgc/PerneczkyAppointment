@@ -2,7 +2,7 @@
     $comment ??= '';
 @endphp
 
-<x-user-layout>
+<x-user-layout currentView="New appointment" currentView="user">
 
     <x-breadcrumbs :links="[
         'Barber & service' => route('my-appointments.create.barber.service',['service_id' => $service->id, 'barber_id' => $barber->id]),
@@ -85,7 +85,7 @@
                     <h2 class="font-bold text-lg mb-4">Are you a returning customer?</h2>
 
                     <div class="flex items-center gap-2 justify-center mb-8">
-                        <x-link-button role="ctaMain" link="{{ route('login') }}">Log in</x-link-button>
+                        <x-link-button role="ctaMain" link="{{ route('login') }}?from=appConfirm">Log in</x-link-button>
                         <p>or</p>
                         <x-link-button role="active" link="{{ route('register') }}">Create an account</x-link-button>
                     </div>

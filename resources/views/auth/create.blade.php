@@ -1,4 +1,4 @@
-<x-user-layout title="Sign in">
+<x-user-layout title="Sign in" currentView="user">
     <x-breadcrumbs :links="[
         'Sign in' => ''
     ]" />
@@ -33,6 +33,13 @@
                         <a href="{{ route('password.request') }}" class="text-[#0018d5] hover:underline max-md:text-sm">Forgot your password?</a>
                     </div>
                 </div>
+
+                @if (request('from'))
+                    @foreach ($prevAttributes as $key => $value)
+                        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                    @endforeach
+                    <input type="hidden" name="from" value="{{ request('from') }}">
+                @endif
 
                 <x-button role="ctaMain" :full="true" id="loginButton" :disabled="true">Sign in</x-button>
             </form>

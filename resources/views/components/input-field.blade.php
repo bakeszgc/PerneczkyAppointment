@@ -3,10 +3,10 @@
 @endif
 
     @if ($type == 'textarea')
-        <textarea name="{{ $name }}" id="{{ $id }}" @disabled($disabled) @readonly($readonly) {{ $attributes->merge(['class' => 'max-md:text-sm border border-slate-300 rounded-md p-2 h-20 resize-none hover:border-blue-500 hover:drop-shadow transition-all disabled:bg-slate-100 disabled:text-slate-400 disabled:hover:border-slate-300 disabled:hover:drop-shadow-none']) }}>{{ $slot }}</textarea>
+        <textarea name="{{ $name }}" id="{{ $id }}" @disabled($disabled) @readonly($readonly) {{ $attributes->merge(['class' => 'max-md:text-sm border border-slate-300 rounded-md p-2 h-20 resize-none hover:border-blue-500 hover:drop-shadow transition-all disabled:bg-slate-100 disabled:text-slate-400 disabled:hover:border-slate-300 disabled:hover:drop-shadow-none placeholder:text-slate-300']) }}>{{ $slot }}</textarea>
     @else
         <input type="{{$type}}" placeholder="{{$placeholder}}" name="{{$name}}" value="{{ $value }}" id="{{ $id }}" @checked($checked) @disabled($disabled) @readonly($readonly) autocomplete="{{ $autoComplete }}"
-        {{ $attributes->merge(['class' => 'max-md:text-sm border border-slate-300 p-2 hover:border-blue-500 hover:drop-shadow transition-all disabled:bg-slate-100 disabled:text-slate-400 disabled:hover:border-slate-300 disabled:hover:drop-shadow-none' . ($type == 'radio' ? ' rounded-full' : ' rounded-md')]) }}>
+        {{ $attributes->merge(['class' => 'max-md:text-sm border border-slate-300 p-2 hover:border-blue-500 hover:drop-shadow transition-all disabled:bg-slate-100 disabled:text-slate-400 disabled:hover:border-slate-300 disabled:hover:drop-shadow-none placeholder:text-slate-300' . ($type == 'radio' ? ' rounded-full' : ' rounded-md')]) }}>
             @if ($type == 'password')
                 <div id="{{ $id }}_show_button" class="absolute right-2.5 top-2.5 max-md:top-2 max-md:right-2 cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">

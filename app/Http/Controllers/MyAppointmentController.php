@@ -172,9 +172,18 @@ class MyAppointmentController extends Controller
         if (auth()->user()) {
             return redirect()->route('my-appointments.show',['my_appointment' =>  $appointment])->with('success','Appointment booked successfully! See you soon!');
         } else {
-            return redirect()->route('home')->with('success','Appointment booked successfully! See you soon!');
+            return redirect()->route('my-appointments.create.success')->with('user',$user->id);
         }
-        
+    }
+
+    public function createSuccess() {
+        if (!session('user')) {
+            return redirect()->route('home');
+        }
+
+        $user = User::find(session('user'));
+
+        return view('my-appointment.create_success',['user' => $user]);
     }
 
     public function show(Appointment $my_appointment)

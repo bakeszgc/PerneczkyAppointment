@@ -13,7 +13,7 @@
             <div class=" mb-4 grid grid-cols-2 max-md:grid-cols-1 gap-4">
                 <div>
                     <x-label for="first_name">First name*</x-label>
-                    <x-input-field name="first_name" id="first_name" value="{{old('first_name')}}" placeholder="John" autoComplete="on" class="w-full regInput"/>
+                    <x-input-field name="first_name" id="first_name" value="{{old('first_name') ?? request('first_name')}}" placeholder="John" autoComplete="on" class="w-full regInput"/>
                     @error('first_name')
                         <p class=" text-red-500">{{$message}}</p>
                     @enderror
@@ -47,7 +47,7 @@
 
             <div class="mb-4">
                 <x-label for="email">Email*</x-label>
-                <x-input-field type="email" name="email" id="email" autoComplete="on" value="{{old('email')}}" placeholder="john@example.com" class="w-full regInput"/>
+                <x-input-field type="email" name="email" id="email" autoComplete="on" value="{{old('email') ?? request('email')}}" placeholder="john@example.com" class="w-full regInput"/>
                 @error('email')
                     <p class=" text-red-500">{{$message}}</p>
                 @enderror

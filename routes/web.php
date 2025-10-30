@@ -32,7 +32,11 @@ Route::middleware('guest')->group(function() {
     Route::get('login', [AuthController::class, 'create'])->name('login');
     Route::resource('auth', AuthController::class)->only(['store']);
 
-    Route::get('register',[UserController::class,'create'])->name('register');    
+    Route::get('register',[UserController::class,'create'])->name('register');
+    Route::post('register',[UserController::class,'store'])->name('user.store');
+
+    // SUCCESSFUL APPOINTMENT
+    Route::get('my-appointments/create/success',[MyAppointmentController::class,'createSuccess'])->name('my-appointments.create.success');
 });
 
 // APPOINTMENT BOOKING ROUTES

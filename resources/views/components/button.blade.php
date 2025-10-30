@@ -4,7 +4,7 @@
     transition-all font-bold
     p-2
     inline-flex gap-1 items-center justify-center
-    max-sm:text-xs',
+    max-sm:text-sm',
 
     'bg-blue-50 hover:bg-blue-200 border-blue-300 text-blue-700
     disabled:bg-slate-100 border-slate-300 disabled:text-slate-400'

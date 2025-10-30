@@ -10,10 +10,11 @@
             $storeLink = route('my-appointments.create.confirm',['barber_id' => $barber->id, 'service_id' => $service->id]);
 
             $breadcrumbLinks = [
-                'New appointment' => route('my-appointments.create'),
                 'Barber & service' => $serviceLink,
-                'Date' => ''
+                'Date & time' => ''
             ];
+
+            $steps = [true, true, false];
             
             break;
 
@@ -25,7 +26,7 @@
                 'Bookings' => route('appointments.index'),
                 'New booking' => route('appointments.create'),
                 'Service' => $serviceLink,
-                'Date' => ''
+                'Date & time' => ''
             ];
             
             break;
@@ -39,7 +40,7 @@
                 'Bookings' => route('bookings.index'),
                 'New booking' => route('bookings.create'),
                 'Barber & service' => $serviceLink,
-                'Date' => ''
+                'Date & time' => ''
             ];
             break;
     }
@@ -48,7 +49,19 @@
 <x-user-layout title="New {{ $view == 'user' ? 'appointment' : 'booking' }}" currentView="{{ $view }}">
     <x-breadcrumbs :links="$breadcrumbLinks"/>
 
-    <x-headline class="mb-4">Select your date</x-headline>
+    <div class="flex justify-between">
+        <x-headline class="mb-4 blue-300">Select your date</x-headline>
+        
+        @if ($view == 'user')
+            <div class="w-16 flex gap-1">                
+                @foreach ($steps as $step)
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="40" stroke="#93c5fd" stroke-width="6" fill="{{ $step ? '#93c5fd' : 'none' }}" />
+                    </svg>
+                @endforeach
+            </div>
+        @endif
+    </div>
 
     <form action="{{$storeLink}}" method="{{ $view == 'user' ? 'GET' : 'POST' }}">        
 

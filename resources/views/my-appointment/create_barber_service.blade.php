@@ -4,10 +4,10 @@
     switch($view) {
         case 'user':
             $breadcrumbLinks = [
-                'New appointment' => route('my-appointments.create'),
                 'Barber & service' => ''
             ];
             $createDateLink = route('my-appointments.create.earliest');
+            $steps = [true,false,false];
             break;
         case 'barber':
             $breadcrumbLinks = [
@@ -36,7 +36,20 @@
     <form action="{{ $createDateLink }}" method="GET">
 
         @if ($view != 'barber' && isset($barbers))
-            <x-headline class="mb-4">Select your barber</x-headline>
+
+            <div class="flex justify-between">
+                <x-headline class="mb-4 blue-300">Select your barber</x-headline>
+                
+                @if ($view == 'user')
+                    <div class="w-16 flex gap-1">                
+                        @foreach ($steps as $step)
+                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="50" cy="50" r="40" stroke="#93c5fd" stroke-width="6" fill="{{ $step ? '#93c5fd' : 'none' }}" />
+                            </svg>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
 
             <div class="grid grid-cols-3 max-md:grid-cols-2 gap-4 mb-16">
                 @if ($barbers->count() >=1)

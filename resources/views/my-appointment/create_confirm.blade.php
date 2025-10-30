@@ -1,5 +1,7 @@
 @php
     $comment ??= '';
+    $view ??= 'user';
+    $steps = [true,true,true];
 @endphp
 
 <x-user-layout title="New appointment" currentView="user">
@@ -10,7 +12,19 @@
         'Confirm' => ''
     ]" />
 
-    <x-headline class="mb-4">Confirm your appointment</x-headline>
+    <div class="flex justify-between">
+        <x-headline class="mb-4 blue-300">Confirm your appointment</x-headline>
+        
+        @if ($view == 'user')
+            <div class="w-16 flex gap-1">                
+                @foreach ($steps as $step)
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="40" stroke="#93c5fd" stroke-width="6" fill="{{ $step ? '#93c5fd' : 'none' }}" />
+                    </svg>
+                @endforeach
+            </div>
+        @endif
+    </div>
 
     <div class="grid grid-cols-3 max-sm:grid-cols-1 gap-4 mb-4">
         <x-card class="h-fit flex max-[540px]:flex-col sm:flex-col gap-4">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\RegisteredEmailAddress;
 use Str;
 use Auth;
 use Hash;
@@ -132,8 +133,8 @@ class AuthController extends Controller
 
     public function sendPasswordResetEmail(Request $request) {
         $request->validate([
-            'email' => 'required|email|exists:users,email'
-        ]);
+            'email' => ['required','email',new RegisteredEmailAddress()]
+        ]);        
 
         $status = Password::sendResetLink(
             $request->only('email')

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\PasswordResetNotification;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -66,5 +67,9 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
     public function isDeleted() {
         return $this->deleted_at ? ' (deleted)' : '';
+    }
+
+    public function sendPasswordResetNotification($token) {
+        $this->notify(new PasswordResetNotification($token));
     }
 }

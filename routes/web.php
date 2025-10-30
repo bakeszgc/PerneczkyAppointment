@@ -143,6 +143,10 @@ Route::get('/cookies', function() {
     return view('cookies');
 })->name('cookies');
 
+Route::get('password-email', function() {
+    return view('emails.password-reset',['notifiable' => User::find(1), 'token' => 'token']);
+});
+
 // 404
 Route::fallback(function() {
     return view('404');

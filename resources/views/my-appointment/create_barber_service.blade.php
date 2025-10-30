@@ -7,7 +7,7 @@
                 'New appointment' => route('my-appointments.create'),
                 'Barber & service' => ''
             ];
-            $createDateLink = route('my-appointments.create.date');
+            $createDateLink = route('my-appointments.create.earliest');
             break;
         case 'barber':
             $breadcrumbLinks = [
@@ -39,6 +39,15 @@
             <x-headline class="mb-4">Select your barber</x-headline>
 
             <div class="grid grid-cols-3 max-md:grid-cols-2 gap-4 mb-16">
+                @if ($barbers->count() >=1)
+                    <label for="earliest" class="border-2 border-[#0018d5] rounded-md p-4 max-md:p-2 cursor-pointer hover:bg-[#0018d5] hover:text-white has-[input:checked]:bg-[#0018d5] has-[input:checked]:shadow-2xl transition-all">
+                        
+                        <x-barber-picture barber="earliest" />
+
+                        <input type="radio" id="earliest" name="barber_id" value="earliest" @checked(request('barber_id') && request('barber_id') == 'earliest') class="hidden">
+                    </label>
+                @endif
+
                 @forelse ($barbers as $barber)
 
                     <label for="barber_{{ $barber->id }}" class="border-2 border-[#0018d5] rounded-md p-4 max-md:p-2 cursor-pointer hover:bg-[#0018d5] hover:text-white has-[input:checked]:bg-[#0018d5] has-[input:checked]:shadow-2xl transition-all">

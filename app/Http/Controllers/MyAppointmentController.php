@@ -63,6 +63,41 @@ class MyAppointmentController extends Controller
         ]);
     }
 
+    public function createGetEarliestBarber(Request $request) {
+        $request->validate([
+            'barber_id' => 'required',
+            'service_id' => 'required|integer|gt:1|exists:services,id'
+        ]);
+
+        if ($request->barber_id == 'earliest') {
+            $service = Service::find($request->service_id);
+            $barbers = Barber::where('is_visible','=',1)->get();
+
+            $earliestTimeslot = '';
+            $earliestBarberId = '';
+
+            foreach ($barbers as $barber) {
+                $freeSlots = Appointment::getFreeTimeSlots($barber,$service,3);
+
+                $earliestTimeslotOfBarber = Carbon::parse(array_key_first($freeSlots) . ' ' . $freeSlots[array_key_first($freeSlots)][0]);
+                
+                if ($earliestTimeslot == '' || $earliestTimeslotOfBarber < $earliestTimeslot) {
+                    $earliestTimeslot = $earliestTimeslotOfBarber;
+                    $earliestBarberId = $barber->id;
+                }
+            }
+
+        } else {
+            $request->validate(['barber_id' => 'required|integer|exists:barbers,id']);
+            $earliestBarberId = $request->barber_id;
+        }
+
+        return redirect()->route('my-appointments.create.date',[
+            'barber_id' => $earliestBarberId,
+            'service_id' => $request->service_id
+        ]);
+    }
+
     public function createDate(Request $request)
     {
         if (!Barber::find($request->barber_id) || auth()->user()?->barber && $request->barber_id == auth()->user()?->barber->id) {

@@ -41,6 +41,7 @@ Route::middleware('guest')->group(function() {
 
 // APPOINTMENT BOOKING ROUTES
 Route::get('my-appointments/create/selectBarberService',[MyAppointmentController::class,'createBarberService'])->name('my-appointments.create.barber.service');
+Route::get('my-appointments/create/earliest',[MyAppointmentController::class,'createGetEarliestBarber'])->name('my-appointments.create.earliest');
 Route::get('my-appointments/create/selectDate',[MyAppointmentController::class,'createDate'])->name('my-appointments.create.date');
 Route::get('my-appointments/create/confirm', [MyAppointmentController::class,'createConfirm'])->name('my-appointments.create.confirm');
 Route::resource('my-appointments',MyAppointmentController::class)->only('create','store');

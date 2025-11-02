@@ -65,7 +65,7 @@
             <h2 class="font-bold text-xl max-sm:text-lg mb-4">For accountless customers</h2>
 
             <p class="text-justify text-slate-500 mb-4">
-                If your customer is not registered yet, then please click on the 'Continue' button below. You can enter their first name and email (if they want to share it with you). This can be useful for walk in guests as well.
+                If your customer is not registered yet, then please click on the 'Continue' button below. You can enter their first name and email (if they want to share it with you). This can be useful for walk-in guests as well.
             </p>
 
             <x-link-button role="active" :link="route('appointments.create.confirm',['service_id' => $service->id, 'date' => request('date'), 'comment' => request('comment')])">

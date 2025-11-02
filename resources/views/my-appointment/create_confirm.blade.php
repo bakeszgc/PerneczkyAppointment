@@ -181,7 +181,9 @@
                         <div class="mb-4">
                             <div class="flex justify-between items-center">
                                 <x-label for="email">{{ $view == 'user' ? 'Email*' : "Customer's email" }}</x-label>
-                                <p>Leave empty for walk ins</p>
+                                @if ($view != 'user')
+                                    <p>Leave empty for walk-ins</p>
+                                @endif
                             </div>
                             <x-input-field type="email" id="email" name="email" @class(['w-full confirmInput', 'reqInput' => $view == 'user']) :disabled="$view == 'user' ? auth()->user() != null : isset($user)" autoComplete="on" :value="$view == 'user' ? (auth()->user()?->email ?? '') : $email"  />
                         </div>

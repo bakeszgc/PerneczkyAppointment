@@ -39,7 +39,7 @@ Route::middleware('guest')->group(function() {
     Route::get('my-appointments/create/success',[MyAppointmentController::class,'createSuccess'])->name('my-appointments.create.success');
 });
 
-// APPOINTMENT BOOKING ROUTES
+// APPOINTMENT BOOKING ROUTES FOR USERS AND GUESTS
 Route::get('my-appointments/create/selectBarberService',[MyAppointmentController::class,'createBarberService'])->name('my-appointments.create.barber.service');
 Route::get('my-appointments/create/earliest',[MyAppointmentController::class,'createGetEarliestBarber'])->name('my-appointments.create.earliest');
 Route::get('my-appointments/create/selectDate',[MyAppointmentController::class,'createDate'])->name('my-appointments.create.date');
@@ -83,8 +83,10 @@ Route::middleware(['auth','verified','barber'])->group(function() {
     Route::get('appointments/previous',[AppointmentController::class,'indexPrevious'])->name('appointments.previous');
     Route::get('appointments/cancelled',[AppointmentController::class,'indexCancelled'])->name('appointments.cancelled');
 
-    Route::get('appointments/createService',[AppointmentController::class,'createService'])->name('appointments.create.service');
-    Route::get('appointments/createDate',[AppointmentController::class,'createDate'])->name('appointments.create.date');
+    Route::get('appointments/create/selectService',[AppointmentController::class,'createService'])->name('appointments.create.service');
+    Route::get('appointments/create/selectDate',[AppointmentController::class,'createDate'])->name('appointments.create.date');
+    Route::get('appointments/create/selectCustomer',[AppointmentController::class,'createCustomer'])->name('appointments.create.customer');
+    Route::get('appointments/create/confirm',[AppointmentController::class,'createConfirm'])->name('appointments.create.confirm');
 
     Route::resource('appointments',AppointmentController::class)->withTrashed(['show']);
 
@@ -115,8 +117,8 @@ Route::middleware(['auth','verified','admin'])->group(function() {
     Route::post('/upload-cropped-admin/{user}',[PictureController::class,'uploadCropped'])->name('upload-cropped-admin');
 
     // ADMIN BOOKINGS
-    Route::get('/admin/bookings/createBarberService',[AdminAppointmentController::class,'createBarberService'])->name('bookings.create.barber.service');
-    Route::get('/admin/bookings/createDate',[AdminAppointmentController::class,'createDate'])->name('bookings.create.date');
+    Route::get('/admin/bookings/create/selectBarberService',[AdminAppointmentController::class,'createBarberService'])->name('bookings.create.barber.service');
+    Route::get('/admin/bookings/create/selectDate',[AdminAppointmentController::class,'createDate'])->name('bookings.create.date');
     Route::resource('/admin/bookings',AdminAppointmentController::class)->withTrashed(['show']);
 
     // ADMIN USERS
@@ -143,10 +145,6 @@ Route::get('/',function() {
 Route::get('/cookies', function() {
     return view('cookies');
 })->name('cookies');
-
-Route::get('password-email', function() {
-    return view('emails.password-reset',['notifiable' => User::find(1), 'token' => 'token']);
-});
 
 // 404
 Route::fallback(function() {

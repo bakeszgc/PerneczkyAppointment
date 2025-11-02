@@ -62,29 +62,14 @@ class AppointmentController extends Controller
 
     public function create(Request $request)
     {
-        $request->validate([
-            'query' => 'nullable|string|max:255'
-        ]);
-        
-        $query = $request->input('query');
-
-        $users = User::where('id','!=',auth()->user()->id)
-        ->when($query, function ($q) use ($query) {
-            $q->where('first_name','like',"%$query%")
-            ->orWhere('last_name','like',"%$query%")
-            ->orWhere('email','like',"%$query%")
-            ->orWhere('tel_number','like',"%$query%");
-        })->orderBy('first_name')->paginate(10);
-
-        return view('appointment.create',['users' => $users]);
+        return redirect()->route('appointments.create.service');
     }
 
     public function createService(Request $request)
     {
-        // redirect ha nincs a user_id az adatbázisban vagy pont a barber a user_id
-        if (!User::find($request->user_id) || $request->user_id === auth()->user()->id) {
-            return redirect()->route('appointments.create')->with('error','Please select a valid user from the list!');
-        }
+        $request->validate([
+            'service_id' => 'nullable|integer|gt:1|exists:services,id'
+        ]);
 
         $services = Service::withoutTimeoff()->get();
         return view('my-appointment.create_barber_service',[
@@ -97,16 +82,10 @@ class AppointmentController extends Controller
     {
         $request->validate([
             'service_id' => ['required','integer','exists:services,id','gt:1'],
-            'user_id' => ['required','integer','exists:users,id',function($attribute, $value, $fail) {
-                if ($value == auth()->user()->id) {
-                    $fail("You can't select yourself as a customer.");
-                }
-            }]
         ]);
 
         $barber = auth()->user()->barber;
         $service = Service::find($request->service_id);
-        $user = User::find($request->user_id);
 
         $availableSlotsByDate = Appointment::getFreeTimeSlots($barber,$service);
 
@@ -114,42 +93,130 @@ class AppointmentController extends Controller
             'availableSlotsByDate' => $availableSlotsByDate,
             'barber' => $barber,
             'service' => $service,
-            'user' => $user,
             'view' => 'barber'
         ]);
+    }
+
+    public function createCustomer(Request $request) {
+
+        $request->validate([
+            'query' => 'nullable|string|max:255',
+            'service_id' => ['required','integer','exists:services,id','gt:1'],
+            'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
+            'comment' => ['nullable','string']
+        ]);
+        
+        $query = $request->input('query');
+
+        $users = User::where('id','!=',auth()->user()->id)
+        ->when($query, function ($q) use ($query) {
+            $q->where('first_name','like',"%$query%")
+            ->orWhere('last_name','like',"%$query%")
+            ->orWhere('email','like',"%$query%")
+            ->orWhere('tel_number','like',"%$query%");
+        })->orderBy('first_name')->paginate(10);
+
+        return view('appointment.create',[
+            'users' => $users,
+            'service' => Service::find($request->service_id)
+        ]);
+    }
+
+    public function createConfirm(Request $request) {
+        $request->validate([
+            'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
+            'user_id' => ['nullable','integer','exists:users,id'],
+            'service_id' => ['required','exists:services,id','gt:1'],
+            'comment' => ['nullable','string']
+        ]);
+
+        $startTime = Carbon::parse($request->date);
+
+        $data = [
+            'barber' => auth()->user()->barber,
+            'service' => Service::find($request->service_id),
+            'startTime' => $startTime,
+            'comment' => $request->comment,
+            'view' => 'barber'
+        ];
+
+        if ($request->has('user_id')) {
+            $data['user'] = User::find($request->user_id);
+        }
+
+        return view('my-appointment.create_confirm', $data);
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
-            'user_id' => ['required','exists:users,id'],
+            'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i:s',new ValidAppointmentTime],
+            'user_id' => ['nullable','integer','exists:users,id'],
             'service_id' => ['required','exists:services,id','gt:1'],
-            'comment' => ['nullable','string']
+            'comment' => ['nullable','string'],
+            'first_name' => ['nullable','string','min:1'],
+            'email' => ['nullable','email','min:1'],
+            'policy_checkbox' => ['required'],
+            'confirmation_checkbox' => ['required']
         ]);
 
+        // HANDLING AUTHLESS CASES
+        if ($request->has(['first_name']) && !request()->has('user_id')) {
+            $email = $request->email;
+            $firstName = $request->first_name;
+
+            if ($email) {
+                $users = User::whereEmail($email)->get();
+
+                if ($users->count() == 1) {
+                    $user = $users->first();
+                    if ($firstName != $user->first_name) {
+                        $user->update([
+                            'first_name' => $firstName
+                        ]);
+                    }
+                } else {
+                    $user = User::create([
+                        'first_name' => $request->first_name,
+                        'email' => $email,
+                        'is_admin' => false
+                    ]);
+                }
+            } else {
+                $user = User::create([
+                    'first_name' => $request->first_name,
+                    'is_admin' => false
+                ]);
+            }
+        } else {
+            $user = User::find($request->user_id);
+        }
+
         $app_start_time = Carbon::parse($request->date);
-        $duration = Service::findOrFail($request->service_id)->duration;
+        $service = Service::findOrFail($request->service_id);
+        $duration = $service->duration;
         $app_end_time = $app_start_time->clone()->addMinutes($duration);
         $barber = auth()->user()->barber;
 
         if (!Appointment::checkAppointmentClashes($app_start_time,$app_end_time,$barber)) {
-            return redirect()->route('appointments.create.date',['user_id' => $request->user_id, 'service_id' => $request->service_id])->with('error','You have another bookings clashing with the selected timeslot. Please choose another one!');
+            return redirect()->route('appointments.create.date',['service_id' => $service->id, 'comment' => $request->comment])->with('error','You have another bookings clashing with the selected timeslot. Please choose another one!');
         }
 
         $appointment = Appointment::create([
-            'user_id' => $request->user_id,
-            'barber_id' => auth()->user()->barber->id,
-            'service_id' => $request->service_id,
+            'user_id' => $user->id,
+            'barber_id' => $barber->id,
+            'service_id' => $service->id,
             'app_start_time' => $app_start_time,
             'app_end_time' => $app_end_time,
-            'price' => Service::findOrFail($request->service_id)->price,
+            'price' => $service->price,
             'comment' => $request->comment,
         ]);
 
-        $appointment->user->notify(
-            new BookingConfirmationNotification($appointment)
-        );
+        if ($user->email) {
+            $appointment->user->notify(
+                new BookingConfirmationNotification($appointment)
+            );
+        }
 
         return redirect()->route('appointments.show',['appointment' =>  $appointment])->with('success','New booking has been created successfully!');
     }

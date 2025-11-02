@@ -45,7 +45,12 @@ class MyAppointmentController extends Controller
     }
 
     public function createBarberService(Request $request)
-    {        
+    {
+        $request->validate([
+            'barber_id' => 'nullable|integer|exists:barbers,id',
+            'service_id' => 'nullable|integer|gt:1|exists:services,id'
+        ]);
+        
         $selectedServiceId = $request->service_id;
         $selectedBarberId = $request->barber_id;
 

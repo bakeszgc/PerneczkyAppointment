@@ -2,6 +2,7 @@
     use Carbon\Carbon;
 
     $view = $view ?? 'user';
+    $steps = [true, true, false];
 
     switch($view) {
         case 'user':
@@ -13,21 +14,20 @@
                 'Barber & service' => $serviceLink,
                 'Date & time' => ''
             ];
-
-            $steps = [true, true, false];
             
             break;
 
         case 'barber':
-            $serviceLink = route('appointments.create.service',['service_id' => $service->id, 'user_id' => $user->id]);
-            $storeLink = route('appointments.store',['service_id' => $service->id, 'user_id' => $user->id]);
+            $serviceLink = route('appointments.create.service',['service_id' => $service->id]);
+            $storeLink = route('appointments.create.customer',['service_id' => $service->id]);
 
             $breadcrumbLinks = [
                 'Bookings' => route('appointments.index'),
-                'New booking' => route('appointments.create'),
                 'Service' => $serviceLink,
                 'Date & time' => ''
             ];
+
+            $steps[] = false;
             
             break;
 
@@ -42,6 +42,9 @@
                 'Barber & service' => $serviceLink,
                 'Date & time' => ''
             ];
+
+            $steps[] = false;
+
             break;
     }
 @endphp
@@ -51,32 +54,28 @@
 
     <div class="flex justify-between">
         <x-headline class="mb-4 blue-300">Select your date</x-headline>
-        
-        @if ($view == 'user')
-            <div class="w-16 flex gap-1">                
-                @foreach ($steps as $step)
-                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="50" cy="50" r="40" stroke="#93c5fd" stroke-width="6" fill="{{ $step ? '#93c5fd' : 'none' }}" />
-                    </svg>
-                @endforeach
-            </div>
-        @endif
+        <div class="w-16 flex gap-1">                
+            @foreach ($steps as $step)
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="40" stroke="#93c5fd" stroke-width="6" fill="{{ $step ? '#93c5fd' : 'none' }}" />
+                </svg>
+            @endforeach
+        </div>
     </div>
 
-    <form action="{{$storeLink}}" method="{{ $view == 'user' ? 'GET' : 'POST' }}">        
+    <form action="{{$storeLink}}" method="GET">        
 
         @if ($view == 'user')
             <input type="hidden" name="barber_id" value="{{ $barber->id }}">
-            <input type="hidden" name="service_id" value="{{ $service->id }}">
-        @else
-            @csrf
-        @endif        
+        @endif
+        
+        <input type="hidden" name="service_id" value="{{ $service->id }}">
 
         <x-card class="mb-4">
             <div class="flex justify-between gap-4">
                 <div class="flex flex-1 flex-col justify-between">
                     <div class="mb-4">
-                        <h2 class="font-bold text-2xl max-md:text-lg mb-2">{{ $view == 'user' ? 'Your' : ($user->first_name . "'s")}} appointment</h2>
+                        <h2 class="font-bold text-2xl max-md:text-lg mb-2">{{ $view == 'user' ? 'Your' : 'New'}} appointment</h2>
 
                         <h3 class="font-medium text-lg max-md:text-base">
                             <a href="{{ $serviceLink }}">

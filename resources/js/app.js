@@ -143,8 +143,7 @@ window.enableButton = function(button, inputs) {
 };
 
 // ENABLES BUTTON AFTER INPUTS ARE FILLED
-window.enableButtonIfInputsFilled = function(button, inputs, reqInputs) {    
-    button.disabled = true;
+window.enableButtonIfInputsFilled = function(button, inputs, reqInputs) {   
 
     inputs.forEach(input => {
         input.addEventListener('input', function () {

@@ -1,21 +1,22 @@
 @php
     $view = $view ?? 'user';
 
+    $steps = [true,false,false];
+
     switch($view) {
         case 'user':
             $breadcrumbLinks = [
                 'Barber & service' => ''
             ];
             $createDateLink = route('my-appointments.create.earliest');
-            $steps = [true,false,false];
             break;
         case 'barber':
             $breadcrumbLinks = [
                 'Bookings' => route('appointments.index'),
-                'New booking' => route('appointments.create'),
                 'Service' => ''    
             ];
             $createDateLink = route('appointments.create.date');
+            $steps[] = false;
             break;
         case 'admin':
             $breadcrumbLinks = [
@@ -24,6 +25,7 @@
                 'New booking' => route('bookings.create'),
                 'Barber & service' => ''
             ];
+            $steps[] = false;
             $createDateLink = route('bookings.create.date');
             break;
     }
@@ -40,15 +42,13 @@
             <div class="flex justify-between">
                 <x-headline class="mb-4 blue-300">Select your barber</x-headline>
                 
-                @if ($view == 'user')
-                    <div class="w-16 flex gap-1">                
-                        @foreach ($steps as $step)
-                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="50" cy="50" r="40" stroke="#93c5fd" stroke-width="6" fill="{{ $step ? '#93c5fd' : 'none' }}" />
-                            </svg>
-                        @endforeach
-                    </div>
-                @endif
+                <div class="w-16 flex gap-1">                
+                    @foreach ($steps as $step)
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="40" stroke="#93c5fd" stroke-width="6" fill="{{ $step ? '#93c5fd' : 'none' }}" />
+                        </svg>
+                    @endforeach
+                </div>
             </div>
 
             <div class="grid grid-cols-3 max-md:grid-cols-2 gap-4 mb-16">
@@ -80,7 +80,19 @@
             <div id="service"></div>
         @endif
         
-        <x-headline class="mb-4">Select your service</x-headline>
+        <div class="flex justify-between">
+            <x-headline class="mb-4 blue-300">Select your service</x-headline>
+            
+            @if ($view == 'barber')
+                <div class="w-16 flex gap-1">                
+                    @foreach ($steps as $step)
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="40" stroke="#93c5fd" stroke-width="6" fill="{{ $step ? '#93c5fd' : 'none' }}" />
+                        </svg>
+                    @endforeach
+                </div>
+            @endif
+        </div>
 
         <div class="grid grid-cols-2 max-md:grid-cols-1 gap-4 mb-8">
             @forelse ($services as $service)
@@ -105,11 +117,7 @@
             @endforelse
         </div>
 
-        <div class="mb-8">
-            @if ($view != 'user')
-                <input type="hidden" name="user_id" value="{{ request('user_id') }}">
-            @endif
-            
+        <div class="mb-8">            
             <x-button role="ctaMain" :full="true" id="submitBtnForRadioBtns" :disabled="true">Check available dates</x-button>
         </div>
 

@@ -4,8 +4,6 @@
 
 <x-user-layout title="{{$appointment->user->first_name}}'s booking" currentView="{{ $view }}">
 
-    
-
     <div class="flex justify-between items-end align-bottom mb-4">
         <div>
             <x-breadcrumbs :links="$view == 'admin' ? [
@@ -39,65 +37,82 @@
 
     <h2 class="font-bold text-2xl max-md:text-xl mb-4">{{$appointment->user->first_name}}'s details</h2>
 
-    <x-card class="flex max-md:flex-col gap-4 mb-4">
-        <div class="text-base max-md:text-sm flex-1">
-            <div class="mb-4 pb-4 border-b-2">
-                <h3 class="font-bold text-xl max-md:text-lg mb-2">Contact</h3>
-                <ul>
-                    <li>
-                        Telephone number: <a href="tel:{{ $appointment->user->tel_number }}" class="text-blue-700 hover:underline">{{ $appointment->user->tel_number }}</a>
-                    </li>
-                    <li>
-                        Email address: <a href="mailto:{{ $appointment->user->email }}" class="text-blue-700 hover:underline">{{ $appointment->user->email }}</a>
-                    </li>                
-                </ul>
+    @if ($appointment->user->email)
+        <x-card class="flex max-md:flex-col gap-4 mb-4">
+            <div class="text-base max-md:text-sm flex-1">
+                <div class="mb-4 pb-4 border-b-2">
+                    <h3 class="font-bold text-xl max-md:text-lg mb-2">Contact</h3>
+                    <ul>
+                        @if ($appointment->user->tel_number)
+                            <li>
+                                Telephone number: <a href="tel:{{ $appointment->user->tel_number }}" class="text-blue-700 hover:underline">{{ $appointment->user->tel_number }}</a>
+                            </li>
+                        @endif
+                        
+                        <li>
+                            Email address: <a href="mailto:{{ $appointment->user->email }}" class="text-blue-700 hover:underline">{{ $appointment->user->email }}</a>
+                        </li>                
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-bold text-xl max-md:text-lg mb-2">Account</h3>
+
+                    @if ($appointment->user->date_of_birth)
+                        <ul>
+                            <li>
+                                Date of birth: {{ \Carbon\Carbon::parse($appointment->user->date_of_birth)->format('Y-m-d') }} ({{ floor(\Carbon\Carbon::parse($appointment->user->date_of_birth)->diffInYears(now())) }} years old)
+                            </li>
+                            <li>
+                                Account created: {{ \Carbon\Carbon::parse($appointment->user->created_at)->format('Y-m-d G:i') ?? 'Not created yet' }}
+                            </li>
+                            <li>
+                                Email verified: {{ \Carbon\Carbon::parse($appointment->user->email_verified_at)->format('Y-m-d G:i') ?? 'Not verified yet' }}
+                            </li>
+                            
+                            @if ($view == 'admin')
+                            <li class="mt-2">
+                                <a href="{{ route('customers.show',$appointment->user) }}" class="text-blue-700 hover:underline font-bold">
+                                    View {{ $appointment->user->first_name }}'s profile
+                                </a>
+                            </li>
+                            @endif
+                        </ul>
+                    @else
+                        <p class="italic mb-2">{{ $appointment->user->first_name }} hasn't registered their account yet so we don't have any other information stored about them.</p>
+                        <p class="italic">Be sure to encourage your guest to create an account for his next appointment.</p>
+                    @endif
+                </div>  
             </div>
 
-            <div>
-                <h3 class="font-bold text-xl max-md:text-lg mb-2">Account</h3>
-                <ul>                
-                    <li>
-                        Date of birth: {{ \Carbon\Carbon::parse($appointment->user->date_of_birth)->format('Y-m-d') }} ({{ floor(\Carbon\Carbon::parse($appointment->user->date_of_birth)->diffInYears(now())) }} years old)
-                    </li>
-                    <li>
-                        Account created: {{ \Carbon\Carbon::parse($appointment->user->created_at)->format('Y-m-d G:i') ?? 'Not created yet' }}
-                    </li>
-                    <li>
-                        Email verified: {{ \Carbon\Carbon::parse($appointment->user->email_verified_at)->format('Y-m-d G:i') ?? 'Not verified yet' }}
-                    </li>
-                    
+            <div class="border-l-2 max-md:border-l-0 max-md:border-b-2"></div>
+
+            <div class="text-base max-md:text-sm flex-1">
+                <h3 class="font-bold text-xl max-md:text-lg mb-2">Bookings</h3>
+
+                <ul>
+                    <li>Upcoming bookings: {{ $upcoming }}</li>
+                    <li>Previous bookings: {{ $previous }}</li>
+                    <li>Cancelled bookings: {{ $cancelled }}</li>
+                    <li>Favourite barber: {{ $favBarber->getName() }} ({{ $numBarber }})</li>
+                    <li>Favourite service: {{ $favService->name }} ({{ $numService }})</li>
+
                     @if ($view == 'admin')
                     <li class="mt-2">
-                        <a href="{{ route('customers.show',$appointment->user) }}" class="text-blue-700 hover:underline font-bold">
-                            View {{ $appointment->user->first_name }}'s profile
+                        <a href="{{ route('bookings.index',['user' => $appointment->user]) }}" class="text-blue-700 hover:underline font-bold">
+                            View {{ $appointment->user->first_name }}'s bookings
                         </a>
                     </li>
                     @endif
                 </ul>
-            </div>  
-        </div>
-
-        <div class="border-l-2 max-md:border-l-0 max-md:border-b-2"></div>
-
-        <div class="text-base max-md:text-sm flex-1">
-            <h3 class="font-bold text-xl max-md:text-lg mb-2">Bookings</h3>
-
-            <ul>
-                <li>Upcoming bookings: {{ $upcoming }}</li>
-                <li>Previous bookings: {{ $previous }}</li>
-                <li>Cancelled bookings: {{ $cancelled }}</li>
-                <li>Favourite barber: {{ $favBarber->getName() }} ({{ $numBarber }})</li>
-                <li>Favourite service: {{ $favService->name }} ({{ $numService }})</li>
-
-                @if ($view == 'admin')
-                <li class="mt-2">
-                    <a href="{{ route('bookings.index',['user' => $appointment->user]) }}" class="text-blue-700 hover:underline font-bold">
-                        View {{ $appointment->user->first_name }}'s bookings
-                    </a>
-                </li>
-                @endif
-            </ul>
-        </div>
-    </x-card>
+            </div>
+        </x-card>
+    @else
+        <x-empty-card class="mb-4">
+            <p class="text-lg max-md:text-base mb-4">This booking was made with a <span class="font-bold">walk-in account</span>.</p>
+            <p class="max-md:mb-4">This means that we don't have any other information stored about {{ $appointment->user->first_name }} besides his first name.</p>
+            <p>Be sure to encourage your guest to create an account for his next appointment.</p>
+        </x-empty-card>
+    @endif
     
 </x-user-layout>

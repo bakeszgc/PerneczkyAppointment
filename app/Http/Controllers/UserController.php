@@ -73,7 +73,8 @@ class UserController extends Controller
                 'date_of_birth' => $request->date_of_birth,
                 'tel_number' => $request->telephone_number,
                 'password' => bcrypt($request->password),
-                'is_admin' => false
+                'is_admin' => false,
+                'created_at' => now()
             ]);
         } else {
             $user = User::create([

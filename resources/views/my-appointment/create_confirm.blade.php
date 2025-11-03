@@ -1,6 +1,7 @@
 @php
     $comment ??= '';
     $view ??= 'user';
+    $action ??= 'create';
     $steps = [true,true,true];
 
     $firstName = $view == 'user' ? 'your' : ($user?->first_name ?? old('first_name') ?? request('first_name') ?? '');
@@ -8,15 +9,33 @@
 
     switch($view) {
         case 'user':
-            $serviceRoute = route('my-appointments.create.barber.service',['service_id' => $service->id, 'barber_id' => $barber->id]);
-            $dateRoute = route('my-appointments.create.date',['service_id' => $service->id, 'barber_id' => $barber->id, 'comment' => $comment, 'date' => $startTime->format('Y-m-d G:i')]);
-            $storeRoute = route('my-appointments.store');
+            switch($action) {
+                case 'create':
+                    $serviceRoute = route('my-appointments.create.barber.service',['service_id' => $service->id, 'barber_id' => $barber->id]);
+                    $dateRoute = route('my-appointments.create.date',['service_id' => $service->id, 'barber_id' => $barber->id, 'comment' => $comment, 'date' => $startTime->format('Y-m-d G:i')]);
+                    $storeRoute = route('my-appointments.store');
 
-            $breadcrumbLinks = [
-                'Barber & service' => $serviceRoute,
-                'Date & time' => $dateRoute,
-                'Confirm' => ''
-            ];
+                    $breadcrumbLinks = [
+                        'Barber & service' => $serviceRoute,
+                        'Date & time' => $dateRoute,
+                        'Confirm' => ''
+                    ];
+                break;
+
+                case 'edit':
+                    $serviceRoute = route('my-appointments.edit.barber.service',['service_id' => $service->id, 'barber_id' => $barber->id, 'my_appointment' => $appointment]);
+                    $dateRoute = route('my-appointments.edit.date',['service_id' => $service->id, 'barber_id' => $barber->id, 'comment' => $comment, 'date' => $startTime->format('Y-m-d G:i'), 'my_appointment' => $appointment]);
+                    $storeRoute = route('my-appointments.update', $appointment);
+
+                    $breadcrumbLinks = [
+                        'My appointments' => route('my-appointments.index'),
+                        'Appointment #' . $appointment->id => route('my-appointments.show',$appointment),
+                        'Barber & service' => $serviceRoute,
+                        'Date & time' => $dateRoute,
+                        'Confirm' => ''
+                    ];
+                break;
+            }
         break;
 
         case 'barber':
@@ -153,7 +172,7 @@
                 @endif
 
                 <h2 class="text-lg font-bold mb-2">Everything looks fine?</h2>
-                <p>Before confirming and finalizing {{ $firstName != '' ? ($firstName . "'s") : 'this' }} appointment be sure to take a second to double check the details on the left. If anything is wrong feel free to click on it to modify it.</p>
+                <p>Before confirming and finalizing {{ $firstName != '' ? ($firstName . ($firstName != 'your' ? "'s" : '')) : 'this' }} appointment be sure to take a second to double check the details on the left. If anything is wrong feel free to click on it to modify it.</p>
             </x-card>
 
             <x-card class="mb-4 text-center">
@@ -177,6 +196,9 @@
 
                 <div class="w-full text-left">
                     <form action="{{ $storeRoute }}" method="POST">
+                        @if ($action == 'edit')
+                            @method('PUT')
+                        @endif
                         @csrf
 
                         @if ($view != 'barber')

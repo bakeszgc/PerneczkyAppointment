@@ -63,9 +63,13 @@ Route::middleware('auth')->group(function(){
     Route::post('/email/verification-notification',[AuthController::class,'send'])->name('verification.send');
     Route::get('/email/resend',[AuthController::class,'resend'])->name('verification.resend');
 
-    // CUSTOMER INDEX APPOINTMENTS
+    // CUSTOMER APPOINTMENTS
     Route::get('my-appointments/previous',[MyAppointmentController::class,'indexPrevious'])->name('my-appointments.index.previous');
-    Route::resource('my-appointments',MyAppointmentController::class)->except('edit','update','create','store');
+    Route::get('my-appointments/{my_appointment}/edit/selectBarberService',[MyAppointmentController::class,'editBarberService'])->name('my-appointments.edit.barber.service');
+    Route::get('my-appointments/{my_appointment}/edit/earliest',[MyAppointmentController::class,'editGetEarliestBarber'])->name('my-appointments.edit.earliest');
+    Route::get('my-appointments/{my_appointment}/edit/selectDate',[MyAppointmentController::class,'editDate'])->name('my-appointments.edit.date');
+    Route::get('my-appointments/{my_appointment}/edit/confirm',[MyAppointmentController::class,'editConfirm'])->name('my-appointments.edit.confirm');
+    Route::resource('my-appointments',MyAppointmentController::class)->except('create','store');
 });
 
 // AUTH + VERIFIED ROUTES

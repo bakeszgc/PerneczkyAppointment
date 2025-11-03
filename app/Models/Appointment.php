@@ -309,7 +309,7 @@ class Appointment extends Model
     }
 
     // RETRIEVING ALL FREE TIMESLOTS FOR THE NEXT DAYS
-    public static function getFreeTimeSlots(Barber $barber, Service $service, int $numberOfDays = 14)  {
+    public static function getFreeTimeSlots(Barber $barber, Service $service, int $numberOfDays = 14, Appointment|null $except = null)  {
         
         // ALL TIMESLOTS (15 MIN LONG EACH)
         $allDates = [];
@@ -327,7 +327,9 @@ class Appointment extends Model
         }
 
         // RESERVED TIMESLOTS FOR THE SELECTED BARBER
-        $reservedDates = Appointment::barberFilter($barber)->pluck('app_start_time')
+        $reservedDates = Appointment::barberFilter($barber)->when(isset($except), function($q) use ($except) {
+            $q->where('id','!=',$except->id);
+        })->pluck('app_start_time')
         ->map(fn ($time) => Carbon::parse($time))->toArray();
 
         // TIMESLOTS THOSE WOULD OVERLAP WITH ANOTHER BOOKING

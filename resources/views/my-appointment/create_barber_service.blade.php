@@ -1,14 +1,29 @@
 @php
-    $view = $view ?? 'user';
+    $view ??= 'user';
+    $action ??= 'create';
 
     $steps = [true,false,false];
 
     switch($view) {
         case 'user':
-            $breadcrumbLinks = [
-                'Barber & service' => ''
-            ];
-            $createDateLink = route('my-appointments.create.earliest');
+            switch($action) {
+                case 'create':
+                    $breadcrumbLinks = [
+                        'Barber & service' => ''
+                    ];
+                    $createDateLink = route('my-appointments.create.earliest');
+                break;
+
+                case 'edit':
+                    $breadcrumbLinks = [
+                        'My appointments' => route('my-appointments.index'),
+                        'Appointment #' . $appointment->id => route('my-appointments.show',$appointment),
+                        'Barber & service' => ''
+                    ];
+                    $createDateLink = route('my-appointments.edit.earliest',$appointment);
+                break;
+            }
+            
             break;
         case 'barber':
             $breadcrumbLinks = [
@@ -66,7 +81,7 @@
                         
                         <x-barber-picture :barber="$barber" />
 
-                        <input type="radio" id="barber_{{ $barber->id }}" name="barber_id" value="{{ $barber->id }}" @checked(request('barber_id') && request('barber_id') == $barber->id) class="hidden">
+                        <input type="radio" id="barber_{{ $barber->id }}" name="barber_id" value="{{ $barber->id }}" @checked((request('barber_id') && request('barber_id') == $barber->id) || (isset($appointment) && $appointment->barber_id == $barber->id)) class="hidden">
                     </label>
                     
                 @empty
@@ -107,7 +122,7 @@
 
                     <p class="text-base max-md:text-sm text-slate-500 group-hover:text-white group-has-[input:checked]:text-white transition-all">Estimated duration: {{ $service->duration }} minutes</p>
                 
-                    <input type="radio" id="service_{{ $service->id }}" name="service_id" value="{{ $service->id }}" @checked(request('service_id') && request('service_id') == $service->id) class="hidden">
+                    <input type="radio" id="service_{{ $service->id }}" name="service_id" value="{{ $service->id }}" @checked((request('service_id') && request('service_id') == $service->id) || (isset($appointment) && $appointment->service_id == $service->id)) class="hidden">
                 </label>
             @empty
                 <x-empty-card class="col-span-3 max-md:col-span-2">

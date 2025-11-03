@@ -12,6 +12,7 @@ use App\Rules\ValidAppointmentTime;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\Collection;
+use App\Notifications\BookingUpdateNotification;
 use App\Notifications\BookingCancellationNotification;
 use App\Notifications\BookingConfirmationNotification;
 
@@ -244,6 +245,174 @@ class MyAppointmentController extends Controller
         return view('my-appointment.show',[
             'appointment' => $my_appointment
         ]);
+    }
+
+    public function edit(Appointment $my_appointment)
+    {
+        return redirect()->route('my-appointments.edit.barber.service',$my_appointment);
+    }
+
+    public function editBarberService(Appointment $my_appointment, Request $request) {
+        $request->validate([
+            'barber_id' => 'nullable|integer|exists:barbers,id',
+            'service_id' => 'nullable|integer|gt:1|exists:services,id'
+        ]);
+        
+        $selectedServiceId = $request->service_id;
+        $selectedBarberId = $request->barber_id;
+
+        $barbers = Barber::when(auth()->user()?->barber != null, function($q) {
+            return $q->where('id','!=',auth()->user()->barber->id);
+        })->where('is_visible','=',1)->get();
+
+        $services = Service::where('is_visible','=',1)->get();
+
+        return view('my-appointment.create_barber_service',[
+            'barbers' => $barbers,
+            'services' => $services,
+            'service_id' => $selectedServiceId,
+            'barber_id' => $selectedBarberId,
+            'appointment' => $my_appointment,
+            'action' => 'edit'
+        ]);
+    }
+
+    public function editGetEarliestBarber(Appointment $my_appointment, Request $request) {
+        $request->validate([
+            'barber_id' => 'required',
+            'service_id' => 'required|integer|gt:1|exists:services,id'
+        ]);
+
+        if ($request->barber_id == 'earliest') {
+            $service = Service::find($request->service_id);
+            $barbers = Barber::where('is_visible','=',1)->get();
+
+            $earliestTimeslot = '';
+            $earliestBarberId = '';
+
+            foreach ($barbers as $barber) {
+                $freeSlots = Appointment::getFreeTimeSlots($barber,$service,3);
+
+                $earliestTimeslotOfBarber = Carbon::parse(array_key_first($freeSlots) . ' ' . $freeSlots[array_key_first($freeSlots)][0]);
+                
+                if ($earliestTimeslot == '' || $earliestTimeslotOfBarber < $earliestTimeslot) {
+                    $earliestTimeslot = $earliestTimeslotOfBarber;
+                    $earliestBarberId = $barber->id;
+                }
+            }
+
+        } else {
+            $request->validate(['barber_id' => 'required|integer|exists:barbers,id']);
+            $earliestBarberId = $request->barber_id;
+        }
+
+        return redirect()->route('my-appointments.edit.date',[
+            'barber_id' => $earliestBarberId,
+            'service_id' => $request->service_id,
+            'my_appointment' => $my_appointment
+        ]);
+    }
+
+    public function editDate(Appointment $my_appointment, Request $request) {
+        if (!Barber::find($request->barber_id) || auth()->user()?->barber && $request->barber_id == auth()->user()?->barber->id) {
+            return redirect()->route('my-appointments.edit.barber.service',['my_appointment' => $my_appointment, 'service_id' => $request->service_id])->with('error','Please select a barber here!');
+        }
+
+        if (!Service::find($request->service_id) || $request->service_id == 1) {
+            return redirect()->route('my-appointments.edit.barber.service',['my_appointment' => $my_appointment, 'barber_id' => $request->barber_id])->with('error','Please select a service here!');
+        }
+
+        $barber = Barber::find($request->barber_id);
+        $service = Service::find($request->service_id);
+
+        $availableSlotsByDate = Appointment::getFreeTimeSlots($barber,$service, except:$my_appointment);
+
+        return view('my-appointment.create_date',[
+            'availableSlotsByDate' => $availableSlotsByDate,
+            'barber' => $barber,
+            'service' => $service,
+            'appointment' => $my_appointment,
+            'action' => 'edit'
+        ]);
+    }
+
+    public function editConfirm(Appointment $my_appointment, Request $request) {
+        $request->validate([
+            'barber_id' => 'required|integer|exists:barbers,id',
+            'service_id' => 'required|integer|gt:1|exists:services,id',
+            'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
+            'comment' => 'nullable|string'
+        ]);
+
+        $startTime = Carbon::parse($request->date);
+
+        $data = [
+            'barber' => Barber::find($request->barber_id),
+            'service' => Service::find($request->service_id),
+            'startTime' => $startTime,
+            'appointment' => $my_appointment,
+            'action' => 'edit'
+        ];
+
+        if ($request->comment) {
+            $data['comment'] = $request->comment;
+        }
+
+        return view('my-appointment.create_confirm', $data);
+    }
+
+    public function update(Appointment $my_appointment, Request $request) {
+        // gate jöhet ide
+
+        $request->validate([
+            'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i:s',new ValidAppointmentTime],
+            'barber_id' => ['required','exists:barbers,id'],
+            'service_id' => ['required','gt:1','exists:services,id'],
+            'comment' => ['nullable','string'],
+            'policy_checkbox' => ['required'],
+            'confirmation_checkbox' => ['required']
+        ]);
+
+        $user = auth()->user();
+        $barber = Barber::find($request->barber_id);
+        $service = Service::find($request->service_id);
+        $comment = $request->comment;
+
+        $app_start_time = Carbon::parse($request->date);
+        $duration = $service->duration;
+        $app_end_time = $app_start_time->clone()->addMinutes($duration);
+
+        if ($user->id == $barber->user_id) {
+            return redirect()->route('my-appointments.edit.barber.service',['my_appointment' => $my_appointment, 'service_id' => $service->id])->with('error',"You can't choose yourself as your barber.");
+        }
+
+        if (!Appointment::checkAppointmentClashes($app_start_time,$app_end_time,$barber, $my_appointment)) {
+            return redirect()->route('my-appointments.edit.date',['barber_id' => $request->barber_id, 'service_id' => $request->service_id, 'date' => $app_start_time->format('Y-m-d G:i'), 'comment' => $comment])->with('error','Your barber has another bookings clashing with the selected timeslot. Please choose another one!');
+        }
+
+        $oldAppointment = $my_appointment->only([
+            'barber_id',
+            'service_id',
+            'comment',
+            'price',
+            'app_start_time',
+            'app_end_time'
+        ]);
+
+        $my_appointment->update([
+            'barber_id' => $barber->id,
+            'service_id' => $service->id,
+            'app_start_time' => $app_start_time,
+            'app_end_time' => $app_end_time,
+            'price' => $service->price,
+            'comment' => $comment
+        ]);
+
+        // $my_appointment->user->notify(
+        //     new BookingUpdateNotification($oldAppointment,$my_appointment,$my_appointment->user)
+        // );
+
+        return redirect()->route('my-appointments.show',['my_appointment' =>  $my_appointment])->with('success','Appointment updated successfully! See you soon!');
     }
 
     public function destroy(Appointment $my_appointment)

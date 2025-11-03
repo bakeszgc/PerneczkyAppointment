@@ -1,20 +1,37 @@
 @php
     use Carbon\Carbon;
 
-    $view = $view ?? 'user';
+    $view ??= 'user';
+    $action ??= 'create';
     $steps = [true, true, false];
 
     switch($view) {
         case 'user':
-            $serviceLink = route('my-appointments.create.barber.service',['service_id' => $service->id, 'barber_id' => $barber->id]);
+            switch($action) {
+                case 'create':
+                    $serviceLink = route('my-appointments.create.barber.service',['service_id' => $service->id, 'barber_id' => $barber->id]);
 
-            $storeLink = route('my-appointments.create.confirm',['barber_id' => $barber->id, 'service_id' => $service->id]);
+                    $storeLink = route('my-appointments.create.confirm',['barber_id' => $barber->id, 'service_id' => $service->id]);
 
-            $breadcrumbLinks = [
-                'Barber & service' => $serviceLink,
-                'Date & time' => ''
-            ];
-            
+                    $breadcrumbLinks = [
+                        'Barber & service' => $serviceLink,
+                        'Date & time' => ''
+                    ];
+                break;
+
+                case 'edit':
+                    $serviceLink = route('my-appointments.edit.barber.service',['my_appointment' => $appointment, 'service_id' => $service->id, 'barber_id' => $barber->id]);
+
+                    $breadcrumbLinks = [
+                        'My appointments' => route('my-appointments.index'),
+                        'Appointment #' . $appointment->id => route('my-appointments.show',$appointment),
+                        'Barber & service' => $serviceLink,
+                        'Date & time' => ''
+                    ];
+
+                    $storeLink = route('my-appointments.edit.confirm',['barber_id' => $barber->id, 'service_id' => $service->id, 'my_appointment' => $appointment]);
+                break;
+            }
             break;
 
         case 'barber':
@@ -96,7 +113,7 @@
                     </div>
                     <div class="flex flex-col gap-1">
                         <label for="comment">Wanna leave some comments for this appointment? Share with us below!</label>
-                        <x-input-field type="textarea" name="comment" id="comment" class="w-full">{{ old('comment') ?? request('comment') }}</x-input-field>
+                        <x-input-field type="textarea" name="comment" id="comment" class="w-full">{{ old('comment') ?? request('comment') ?? (isset($appointment) ? $appointment->comment : '')}}</x-input-field>
                     </div>
                 </div>
                 <div class="flex-shrink-0 max-md:hidden rounded-md h-52 w-auto overflow-hidden">
@@ -173,7 +190,7 @@
                 slotsByDate: @json($availableSlotsByDate),
 
                 init() {
-                    this.selectedDate = "{{ substr(request('date'),0,10) }}" || Object.keys(this.slotsByDate)[0] || null;
+                    this.selectedDate = "{{ substr(request('date'),0,10) }}" || "{{ substr($appointment->app_start_time,0,10) }}" || Object.keys(this.slotsByDate)[0] || null;                    
                 }
             }
         }
@@ -204,7 +221,7 @@
             checkDateRadioButtons(submitButton);
             if (dayRadioButtons) {
                 dayRadioButtons.forEach(dayButton => {
-                    if (dayButton.value == "{{ substr(request('date'),0,10) }}") {
+                    if (dayButton.value == "{{ request('date') ? substr(request('date'),0,10) : (isset($appointment) ? substr($appointment->app_start_time,0,10) : false) }}") {
                         dayButton.checked = true;
 
                         if (new Date(dayButton.value).getMonth() > new Date().getMonth()) {
@@ -225,10 +242,11 @@
 
             if (dateRadioButtons) {
                 dateRadioButtons.forEach(dateButton => {
-                    if (dateButton.value == "{{ request('date') }}") {
+                    
+                    if (dateButton.value == "{{ request('date') ?? (isset($appointment) ? Carbon::parse($appointment->app_start_time)->format('Y-m-d G:i') : null) }}") {
                         dateButton.checked = true;
                         submitButton.disabled = false;
-                    }
+                    }                    
                     
                     dateButton.addEventListener('change', function () {
                         const isAnyDatesChecked = Array.from(dateRadioButtons).some(radio => radio.checked);

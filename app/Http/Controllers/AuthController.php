@@ -184,41 +184,64 @@ class AuthController extends Controller
             : back()->withErrors(['email' => [__($status)]]);
     }
 
-    // GOOGLE AUTHENTICATION
-    public function googleLogin() {
-        return Socialite::driver('google')->redirect();
+    // SOCIALITE AUTHENTICATION
+    public function authProviderRedirect($provider) {
+        if ($provider) {
+            return Socialite::driver($provider)->redirect();
+        } else {
+            return redirect()->back()->with('error',"Auth provider hasn't been passed properly.");
+        }
+        
     }
 
-    public function googleAuth()
+    public function socialAuth($provider)
     {
         try {
-            $googleUser = Socialite::driver('google')->user();
-            $user = User::where('google_id',$googleUser->getId())->first();
-
-            if ($user) {
-                Auth::login($user);
-            } else {
-                $userWithMail = User::whereEmail($googleUser->getEmail())->first();
-                
-                if ($userWithMail) {
-                    $userWithMail->update([
-                        'google_id' => $googleUser->getId()
-                    ]);
-                    Auth::login($userWithMail);
-
+            if ($provider) {
+                if ($provider == 'facebook') {
+                    $socialUser = Socialite::driver($provider)->fields(['name','first_name','last_name','email'])->user();
                 } else {
-                    $newUser = User::create([
-                        'first_name' => $googleUser->user['given_name'],
-                        'last_name' => $googleUser->user['family_name'],
-                        'email' => $googleUser->getEmail(),
-                        'google_id' => $googleUser->getId(),
-                        'is_admin' => false
-                    ]);
-                    Auth::login($newUser);
+                    $socialUser = Socialite::driver($provider)->user();
                 }
-            }
 
-            return redirect()->intended(route('my-appointments.index'))->with('success','You logged in using Google successfully!');
+                $user = User::where($provider.'_id',$socialUser->getId())->first();
+
+                if ($user) {
+                    Auth::login($user);
+                } else {
+                    $userWithMail = User::whereEmail($socialUser->getEmail())->first();
+                    
+                    if ($userWithMail) {
+                        $userWithMail->update([
+                            $provider.'_id' => $socialUser->getId()
+                        ]);
+                        Auth::login($userWithMail);
+
+                    } else {
+                        if ($provider == 'google') {
+                            $firstName = $socialUser->user['given_name'];
+                            $lastName = $socialUser->user['family_name'];
+                        } else {
+                            $firstName = $socialUser->user['first_name'];
+                            $lastName = $socialUser->user['last_name'];
+                        }
+
+                        $newUser = User::create([
+                            'first_name' => $firstName,
+                            'last_name' => $lastName,
+                            'email' => $socialUser->getEmail(),
+                            $provider.'_id' => $socialUser->getId(),
+                            'is_admin' => false
+                        ]);
+                        
+                        Auth::login($newUser);
+                    }
+                }
+
+                return redirect()->intended(route('my-appointments.index'))->with('success','You logged in using ' . ucfirst($provider) . ' successfully!');
+            } else {
+                return redirect()->route('login')->with('error',"Auth provider hasn't been passed properly.");
+            }
 
         } catch (Exception $e) {
             dd($e);

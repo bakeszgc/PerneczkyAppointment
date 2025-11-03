@@ -90,6 +90,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     }
 
     public function isRegistered() {
-        return $this->hasEmail() && ($this->last_name != null || $this->google_id);
+        return $this->hasEmail() && ($this->last_name != null || $this->google_id || $this->facebook_id);
     }
 }

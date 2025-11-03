@@ -33,8 +33,8 @@ Route::middleware('guest')->group(function() {
     Route::resource('auth', AuthController::class)->only(['store']);
 
     // AUTH WITH GOOGLE
-    Route::get('auth/google', [AuthController::class,'googleLogin'])->name('auth.google');
-    Route::get('auth/google-callback',[AuthController::class, 'googleAuth'])->name('auth.google-callback');
+    Route::get('auth/redirect/{provider}', [AuthController::class,'authProviderRedirect'])->name('auth.redirect');
+    Route::get('auth/{provider}/callback',[AuthController::class, 'socialAuth'])->name('auth.callback');
 
     // REGISTER
     Route::get('register',[UserController::class,'create'])->name('register');

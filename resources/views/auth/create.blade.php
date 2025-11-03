@@ -51,7 +51,8 @@
                 </a>
             </p>
 
-            <a href="{{ route('auth.google') }}" class="text-blue-700 hover:underline">Login with Google</a>
+            <a href="{{ route('auth.redirect', 'google') }}" class="text-blue-700 hover:underline">Login with Google</a>
+            <a href="{{ route('auth.redirect', 'facebook') }}" class="text-blue-700 hover:underline">Login with Facebook</a>
     </x-card>
 
     <script>

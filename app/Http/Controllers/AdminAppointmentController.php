@@ -107,7 +107,7 @@ class AdminAppointmentController extends Controller
 
         $barbers = Barber::withTrashed()->get();
         $services = Service::withTrashed()->withoutTimeoff()->get();
-        $users = User::withTrashed()->orderBy('first_name')->get();
+        $users = User::withTrashed()->hasStoredEmail()->orderBy('first_name')->get();
      
         return view('admin.appointment.index',[
             'appointments' => $appointments,
@@ -119,23 +119,6 @@ class AdminAppointmentController extends Controller
 
     public function create(Request $request)
     {
-        // $request->validate([
-        //     'query' => 'nullable|string|max:255'
-        // ]);
-
-        // $query = $request->input('query');
-
-        // $users = User::when($query, function ($q) use ($query) {
-        //     $q->where('first_name','like',"%$query%")
-        //     ->orWhere('last_name','like',"%$query%")
-        //     ->orWhere('email','like',"%$query%")
-        //     ->orWhere('tel_number','like',"%$query%");
-        // })->orderBy('first_name')->paginate(10);
-
-        // return view('appointment.create',[
-        //     'users' => $users,
-        //     'view' => 'admin'
-        // ]);
         return redirect()->route('bookings.create.barber.service');
     }
 
@@ -230,7 +213,7 @@ class AdminAppointmentController extends Controller
         $query = $request->input('query');
         $barber = Barber::find($request->barber_id);
 
-        $users = User::where('id','!=',$barber->user_id)
+        $users = User::isRegistered()->where('id','!=',$barber->user_id)
         ->when($query, function ($q) use ($query) {
             $q->where('first_name','like',"%$query%")
             ->orWhere('last_name','like',"%$query%")

@@ -31,17 +31,20 @@
 
     <h2 class="font-bold text-2xl max-md:text-xl mb-4">Search results</h2>
 
-    <x-card class="mb-4">
-        <ul class="flex flex-col gap-4">
-            @forelse ($users as $userDetails)
-                <x-user-card :userDetails="$userDetails" @class(['border-b pb-8' => !$loop->last]) />
-            @empty
-                <x-empty-card>
-                    There aren't any users with matching properties
-                </x-empty-card>
-            @endforelse
-        </ul>
-    </x-card>
+    @if ($users->count() > 0)
+        <x-card class="mb-4">
+            <ul class="flex flex-col gap-4">
+                @foreach ($users as $userDetails)
+                    <x-user-card :userDetails="$userDetails" @class(['border-b pb-8' => !$loop->last]) />
+                @endforeach
+            </ul>
+        </x-card>
+    @else
+        <x-empty-card>
+            There aren't any users with matching properties
+        </x-empty-card>
+    @endif
+    
 
     <div @class(['mb-4' => $users->count() == 10])>
         {{ $users->appends($_GET)->links() }}

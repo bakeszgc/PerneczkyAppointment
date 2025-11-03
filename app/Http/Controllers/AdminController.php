@@ -17,7 +17,7 @@ class AdminController extends Controller
             $q->withoutTrashed();
         }])->orderByDesc('appointments_count')->limit(5)->get();
 
-        $users = User::withCount(['appointments as appointments_count' => function ($q) {
+        $users = User::hasStoredEmail()->withCount(['appointments as appointments_count' => function ($q) {
             $q->withoutTimeOffs()->withoutTrashed();
         }])->orderByDesc('appointments_count')->limit(5)->get();
 

@@ -21,7 +21,7 @@ class CustomerController extends Controller
         
         $query = $request->input('query');
 
-        $users = User::when($query, function ($q) use ($query) {
+        $users = User::hasStoredEmail()->when($query, function ($q) use ($query) {
             $q->where('first_name','like',"%$query%")
             ->orWhere('last_name','like',"%$query%")
             ->orWhere('email','like',"%$query%")

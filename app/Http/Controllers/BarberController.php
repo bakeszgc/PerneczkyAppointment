@@ -21,10 +21,9 @@ class BarberController extends Controller
 
     public function create(Request $request)
     {
-
         $query = $request->input('query');
 
-        $users = User::when($query, function ($q) use ($query) {
+        $users = User::isRegistered()->when($query, function ($q) use ($query) {
             $q->where('first_name','like',"%$query%")
             ->orWhere('last_name','like',"%$query%")
             ->orWhere('email','like',"%$query%")

@@ -75,13 +75,11 @@ class AdminTimeOffController extends Controller
 
         $barbers = Barber::withTrashed()->get();
         $services = Service::withTrashed()->get();
-        $users = User::withTrashed()->orderBy('first_name')->get();
      
         return view('admin.appointment.index',[
             'appointments' => $appointments,
             'barbers' => $barbers,
             'services' => $services,
-            'users' => $users,
             'view' => 'Time Off'
         ]);
     }

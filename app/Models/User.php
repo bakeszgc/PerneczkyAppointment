@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use App\Notifications\PasswordResetNotification;
-use Illuminate\Contracts\Auth\CanResetPassword;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\CanResetPassword;
+use App\Notifications\PasswordResetNotification;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -72,5 +73,21 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
     public function sendPasswordResetNotification($token) {
         $this->notify(new PasswordResetNotification($token));
+    }
+
+    public function scopeHasStoredEmail(Builder $query) {
+        $query->where('email','!=',null);
+    }
+
+    public function hasEmail() {
+        return $this->email != null;
+    }
+
+    public function scopeIsRegistered(Builder $query) {
+        $query->where('email','!=',null)->where('last_name','!=',null);
+    }
+
+    public function isRegistered() {
+        return $this->hasEmail() && $this->last_name != null;
     }
 }

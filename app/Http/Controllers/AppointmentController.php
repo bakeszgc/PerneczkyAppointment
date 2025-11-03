@@ -170,10 +170,14 @@ class AppointmentController extends Controller
 
                 if ($users->count() == 1) {
                     $user = $users->first();
-                    if ($firstName != $user->first_name) {
-                        $user->update([
-                            'first_name' => $firstName
-                        ]);
+                    if (!isset($user->last_name)) {
+                        if ($firstName != $user->first_name) {
+                            $user->update([
+                                'first_name' => $firstName
+                            ]);
+                        }
+                    } else {
+                        return redirect()->back()->with('error',"This email address (" . $email . ") belongs to an already registered account. Please choose it on the Customers page or use a different email address.");
                     }
                 } else {
                     $user = User::create([

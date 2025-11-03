@@ -32,13 +32,12 @@
             break;
 
         case 'admin':
-            $serviceLink = route('bookings.create.barber.service',['user_id' => $user->id,'barber_id' => $barber->id, 'service_id' => $service->id]);
-            $storeLink = route('bookings.store',['service_id' => $service->id, 'user_id' => $user->id, 'barber_id' => $barber->id]);
+            $serviceLink = route('bookings.create.barber.service',['barber_id' => $barber->id, 'service_id' => $service->id]);
+            $storeLink = route('bookings.create.customer',['service_id' => $service->id, 'barber_id' => $barber->id]);
 
             $breadcrumbLinks = [
                 'Admin dashboard' => route('admin'),
                 'Bookings' => route('bookings.index'),
-                'New booking' => route('bookings.create'),
                 'Barber & service' => $serviceLink,
                 'Date & time' => ''
             ];
@@ -65,7 +64,7 @@
 
     <form action="{{$storeLink}}" method="GET">        
 
-        @if ($view == 'user')
+        @if ($view != 'barber')
             <input type="hidden" name="barber_id" value="{{ $barber->id }}">
         @endif
         
@@ -100,8 +99,8 @@
                         <x-input-field type="textarea" name="comment" id="comment" class="w-full">{{ old('comment') ?? request('comment') }}</x-input-field>
                     </div>
                 </div>
-                <div class="flex-shrink-0 max-md:hidden">
-                    <img src="{{ $barber->getPicture() }}" alt="{{ $barber->getName() }}" class=" rounded-md h-52 w-auto">
+                <div class="flex-shrink-0 max-md:hidden rounded-md h-52 w-auto overflow-hidden">
+                    <img src="{{ $barber->getPicture() }}" alt="{{ $barber->getName() }}" class="h-52 w-auto transition-all hover:scale-105">
                 </div>
             </div>
         </x-card>

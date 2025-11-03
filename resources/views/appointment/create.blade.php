@@ -7,17 +7,21 @@
         $breadcrumbLinks = [
             'Admin dashboard' => route('admin'),
             'Bookings' => route('bookings.index'),
-            'New booking' => ''
+            'Barber & service' => route('bookings.create.barber.service',['service_id' => $service->id, 'barber_id' => $barber->id]),
+            'Date & time' => route('bookings.create.date', ['service_id' => $service->id, 'barber_id' => $barber->id, 'date' => request('date'), 'comment' => request('comment')]),
+            'Customer' => ''
         ];
-        $submitLink = route('bookings.create');
+        $submitLink = route('bookings.create.customer', ['service_id' => $service->id, 'barber_id' => $barber->id, 'date' => request('date'), 'comment' => request('comment')]);
+        $confirmRoute = route('bookings.create.confirm',['service_id' => $service->id, 'barber_id' => $barber->id, 'date' => request('date'), 'comment' => request('comment')]);
     } else {
         $breadcrumbLinks = [
             'Bookings' => route('appointments.index'),
             'Service' => route('appointments.create.service',['service_id' => $service->id]),
-            'Date & time' => route('appointments.create.date', ['service_id' => $service->id, 'date' => request('date')]),
+            'Date & time' => route('appointments.create.date', ['service_id' => $service->id, 'date' => request('date'), 'comment' => request('comment')]),
             'Customer' => ''
         ];
         $submitLink = route('appointments.create.customer');
+        $confirmRoute = route('appointments.create.confirm',['service_id' => $service->id, 'date' => request('date'), 'comment' => request('comment')]);
     }
 @endphp
 
@@ -42,7 +46,7 @@
                 <div class="flex gap-2 mb-4">
                     <x-input-field name="query" placeholder="Search users..." value="{{ old('query') ?? request('query') }}" class="w-full" />
 
-                    <x-link-button link="{{ $submitLink }}?service_id={{ $service->id }}&date={{ request('date') }}&comment={{ request('comment') }}" role="destroy">
+                    <x-link-button :link="$submitLink" role="destroy">
                         <span class="max-sm:hidden">Clear</span>
                     </x-link-button>
 
@@ -54,6 +58,10 @@
                 <input type="hidden" name="service_id" value="{{ $service->id }}">
                 <input type="hidden" name="date" value="{{ request('date') }}">
                 <input type="hidden" name="comment" value="{{ request('comment') }}">
+
+                @if ($view == 'admin')
+                    <input type="hidden" name="barber_id" value="{{ $barber->id }}">
+                @endif
 
                 <p class="text-slate-500 text-justify">
                     Using this search bar you can narrow down the registered customers to find the one you're looking for. You can search here by name, email address and telephone number.
@@ -68,7 +76,7 @@
                 If your customer is not registered yet, then please click on the 'Continue' button below. You can enter their first name and email (if they want to share it with you). This can be useful for walk-in guests as well.
             </p>
 
-            <x-link-button role="active" :link="route('appointments.create.confirm',['service_id' => $service->id, 'date' => request('date'), 'comment' => request('comment')])">
+            <x-link-button role="active" :link="$confirmRoute">
                 Continue
             </x-link-button>
         </x-card>
@@ -92,7 +100,7 @@
                                 Tel: <a href="tel:{{ $user->tel_number }}" class="text-blue-700 hover:underline">{{ $user->tel_number }}</a>
                             </p>
                         </div>
-                        <x-link-button :link="$view == 'admin' ? route('bookings.create.barber.service',['user_id' => $user->id]) : route('appointments.create.confirm',['user_id' => $user->id, 'service_id' => $service->id, 'date' => request('date'), 'comment' => request('comment')])" role="ctaMain" :maxHeightFit="true">Select customer</x-link-button>
+                        <x-link-button :link="$confirmRoute . '&user_id=' . $user->id" role="ctaMain" :maxHeightFit="true">Select customer</x-link-button>
                     </li>
                 @endforeach
             </ul>

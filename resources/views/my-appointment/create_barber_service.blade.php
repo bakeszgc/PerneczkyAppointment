@@ -22,11 +22,10 @@
             $breadcrumbLinks = [
                 'Admin dashboard' => route('admin'),
                 'Bookings' => route('bookings.index'),
-                'New booking' => route('bookings.create'),
                 'Barber & service' => ''
             ];
             $steps[] = false;
-            $createDateLink = route('bookings.create.date');
+            $createDateLink = route('bookings.create.earliest');
             break;
     }
 @endphp

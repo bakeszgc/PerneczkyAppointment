@@ -35,6 +35,24 @@
 
             $steps[] = true;
         break;
+
+        case 'admin':
+            $serviceRoute = route('bookings.create.barber.service',['service_id' => $service->id, 'barber_id' => $barber->id]);
+            $dateRoute = route('bookings.create.date',['service_id' => $service->id, 'comment' => $comment, 'date' => $startTime->format('Y-m-d G:i'), 'barber_id' => $barber->id]);
+            $customerLink = route('bookings.create.customer',['service_id' => $service->id, 'comment' => $comment, 'date' => $startTime->format('Y-m-d G:i'), 'barber_id' => $barber->id]);
+            $storeRoute = route('bookings.store');
+
+            $breadcrumbLinks = [
+                'Admin dashboard' => route('admin'),
+                'Bookings' => route('bookings.index'),
+                'Barber & service' => $serviceRoute,
+                'Date & time' => $dateRoute,
+                'Customer' => $customerLink,
+                'Confirm' => ''
+            ];
+
+            $steps[] = true;
+        break;
     }
 @endphp
 
@@ -73,7 +91,7 @@
                         @if ($view == 'barber')
                             <p>
                         @else
-                            <a href="{{ $serviceRoute }}" class="text-blue-700 hover:underline"></a>
+                            <a href="{{ $serviceRoute }}" class="text-blue-700 hover:underline">
                         @endif
                         
                             {{ $barber->getName() }}

@@ -118,7 +118,10 @@ Route::middleware(['auth','verified','admin'])->group(function() {
 
     // ADMIN BOOKINGS
     Route::get('/admin/bookings/create/selectBarberService',[AdminAppointmentController::class,'createBarberService'])->name('bookings.create.barber.service');
+    Route::get('admin/bookings/create/earliest',[AdminAppointmentController::class,'createGetEarliestBarber'])->name('bookings.create.earliest');
     Route::get('/admin/bookings/create/selectDate',[AdminAppointmentController::class,'createDate'])->name('bookings.create.date');
+    Route::get('/admin/bookings/create/selectCustomer',[AdminAppointmentController::class,'createCustomer'])->name('bookings.create.customer');
+    Route::get('/admin/bookings/create/confirm',[AdminAppointmentController::class,'createConfirm'])->name('bookings.create.confirm');
     Route::resource('/admin/bookings',AdminAppointmentController::class)->withTrashed(['show']);
 
     // ADMIN USERS

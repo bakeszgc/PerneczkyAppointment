@@ -119,29 +119,29 @@ class AdminAppointmentController extends Controller
 
     public function create(Request $request)
     {
-        $request->validate([
-            'query' => 'nullable|string|max:255'
-        ]);
+        // $request->validate([
+        //     'query' => 'nullable|string|max:255'
+        // ]);
 
-        $query = $request->input('query');
+        // $query = $request->input('query');
 
-        $users = User::when($query, function ($q) use ($query) {
-            $q->where('first_name','like',"%$query%")
-            ->orWhere('last_name','like',"%$query%")
-            ->orWhere('email','like',"%$query%")
-            ->orWhere('tel_number','like',"%$query%");
-        })->orderBy('first_name')->paginate(10);
+        // $users = User::when($query, function ($q) use ($query) {
+        //     $q->where('first_name','like',"%$query%")
+        //     ->orWhere('last_name','like',"%$query%")
+        //     ->orWhere('email','like',"%$query%")
+        //     ->orWhere('tel_number','like',"%$query%");
+        // })->orderBy('first_name')->paginate(10);
 
-        return view('appointment.create',[
-            'users' => $users,
-            'view' => 'admin'
-        ]);
+        // return view('appointment.create',[
+        //     'users' => $users,
+        //     'view' => 'admin'
+        // ]);
+        return redirect()->route('bookings.create.barber.service');
     }
 
     public function createBarberService(Request $request)
     {
         $request->validate([
-            'user_id' => 'required|integer|exists:users,id',
             'service_id' => 'nullable|integer|gt:1|exists:services,id',
             'barber_id' => 'nullable|integer|exists:barbers,id'
         ]);
@@ -149,11 +149,7 @@ class AdminAppointmentController extends Controller
         $selectedServiceId = $request->service_id;
         $selectedBarberId = $request->barber_id;
 
-        $user = User::find($request->user_id);
-
-        $barbers = Barber::when($user->barber != null, function ($q) use ($user) {
-            $q->where('id','!=',$user->barber->id);
-        })->get();
+        $barbers = Barber::all();
 
         $services = Service::withoutTimeoff()->get();
 
@@ -166,21 +162,51 @@ class AdminAppointmentController extends Controller
         ]);
     }
 
+    public function createGetEarliestBarber(Request $request)
+    {
+        $request->validate([
+            'service_id' => 'required|integer|gt:1|exists:services,id',
+            'barber_id' => 'required'
+        ]);
+
+        if ($request->barber_id == 'earliest') {
+            $service = Service::find($request->service_id);
+            $barbers = Barber::all();
+
+            $earliestTimeslot = '';
+            $earliestBarberId = '';
+
+            foreach ($barbers as $barber) {
+                $freeSlots = Appointment::getFreeTimeSlots($barber,$service,3);
+
+                $earliestTimeslotOfBarber = Carbon::parse(array_key_first($freeSlots) . ' ' . $freeSlots[array_key_first($freeSlots)][0]);
+                
+                if ($earliestTimeslot == '' || $earliestTimeslotOfBarber < $earliestTimeslot) {
+                    $earliestTimeslot = $earliestTimeslotOfBarber;
+                    $earliestBarberId = $barber->id;
+                }
+            }
+
+        } else {
+            $request->validate(['barber_id' => 'required|integer|exists:barbers,id']);
+            $earliestBarberId = $request->barber_id;
+        }
+
+        return redirect()->route('bookings.create.date',[
+            'barber_id' => $earliestBarberId,
+            'service_id' => $request->service_id
+        ]);
+    }
+
     public function createDate(Request $request)
     {
         $request->validate([
-            'user_id' => 'required|integer|exists:users,id',
             'service_id' => 'required|integer|gt:1|exists:services,id|gt:1',
             'barber_id' => 'required|integer|exists:barbers,id'
         ]);
 
         $barber = Barber::find($request->barber_id);
         $service = Service::find($request->service_id);
-        $user = User::find($request->user_id);
-
-        if ($barber->user_id == $user->id) {
-            return redirect()->route('bookings.create.barber.service')->with('error',"You can't choose that barber. Please choose another one from the list!");
-        }
 
         $availableSlotsByDate = Appointment::getFreeTimeSlots($barber,$service);
 
@@ -188,31 +214,141 @@ class AdminAppointmentController extends Controller
             'availableSlotsByDate' => $availableSlotsByDate,
             'barber' => $barber,
             'service' => $service,
-            'user' => $user,
             'view' => 'admin'
         ]);
+    }
+
+    public function createCustomer(Request $request) {
+        $request->validate([
+            'query' => 'nullable|string|max:255',
+            'service_id' => ['required','integer','exists:services,id','gt:1'],
+            'barber_id' => 'required|integer|exists:barbers,id',
+            'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
+            'comment' => ['nullable','string']
+        ]);
+        
+        $query = $request->input('query');
+        $barber = Barber::find($request->barber_id);
+
+        $users = User::where('id','!=',$barber->user_id)
+        ->when($query, function ($q) use ($query) {
+            $q->where('first_name','like',"%$query%")
+            ->orWhere('last_name','like',"%$query%")
+            ->orWhere('email','like',"%$query%")
+            ->orWhere('tel_number','like',"%$query%");
+        })->orderBy('first_name')->paginate(10);
+
+        return view('appointment.create',[
+            'users' => $users,
+            'service' => Service::find($request->service_id),
+            'barber' => $barber,
+            'view' => 'admin'
+        ]);
+    }
+
+    public function createConfirm(Request $request)  {
+        $request->validate([
+            'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
+            'user_id' => ['nullable','integer','exists:users,id'],
+            'barber_id' => ['required','integer','exists:barbers,id'],
+            'service_id' => ['required','integer','exists:services,id','gt:1'],
+            'comment' => ['nullable','string']
+        ]);
+
+        $startTime = Carbon::parse($request->date);
+
+        $barber = Barber::find($request->barber_id);
+        
+        $service = Service::find($request->service_id);
+        $comment = $request->comment;
+
+        $data = [
+            'barber' => Barber::find($request->barber_id),
+            'service' => Service::find($request->service_id),
+            'startTime' => $startTime,
+            'comment' => $request->comment,
+            'view' => 'admin'
+        ];
+
+        if ($request->has('user_id')) {
+            $user = User::find($request->user_id);
+
+            if ($barber->user_id == $user->id) {
+                return redirect()->route('bookings.create.customer',['service_id' => $service->id, 'comment' => $comment, 'date' => $startTime->format('Y-m-d G:i'), 'barber_id' => $barber->id]);
+            }
+
+            $data['user'] = $user;
+        }
+
+        return view('my-appointment.create_confirm', $data);
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
-            'user_id' => ['required','integer','exists:users,id'],
+            'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i:s',new ValidAppointmentTime],
+            'user_id' => ['nullable','integer','exists:users,id'],
             'service_id' => ['required','integer','gt:1','exists:services,id','gt:1'],
             'barber_id' => ['required','integer','exists:barbers,id'],
-            'comment' => ['nullable','string']
+            'comment' => ['nullable','string'],
+            'first_name' => ['nullable','string','min:1'],
+            'email' => ['nullable','email','min:1'],
+            'policy_checkbox' => ['required'],
+            'confirmation_checkbox' => ['required']
         ]);
 
+        // HANDLING AUTHLESS CASES
+        if ($request->has(['first_name']) && !request()->has('user_id')) {
+            $email = $request->email;
+            $firstName = $request->first_name;
+
+            if ($email) {
+                $users = User::whereEmail($email)->get();
+
+                if ($users->count() == 1) {
+                    $user = $users->first();
+
+                    if (!isset($user->last_name)) {
+                        if ($firstName != $user->first_name) {
+                            $user->update([
+                                'first_name' => $firstName
+                            ]);
+                        }
+                    } else {
+                        return redirect()->back()->with('error',"This email address (" . $email . ") belongs to an already registered account. Please choose it on the Customers page or use a different email address.");
+                    }
+                    
+                } else {
+                    $user = User::create([
+                        'first_name' => $request->first_name,
+                        'email' => $email,
+                        'is_admin' => false
+                    ]);
+                }
+            } else {
+                $user = User::create([
+                    'first_name' => $request->first_name,
+                    'is_admin' => false
+                ]);
+            }
+        } else {
+            $user = User::find($request->user_id);
+        }
+
         $barber = Barber::find($request->barber_id);
-        $user = User::find($request->user_id);
         $service = Service::find($request->service_id);
+        $comment = $request->comment;
 
         $app_start_time = Carbon::parse($request->date);
         $duration = $service->duration;
         $app_end_time = $app_start_time->clone()->addMinutes($duration);
 
+        if ($barber->user_id == $user->id) {
+            return redirect()->route('bookings.create.customer',['service_id' => $service->id, 'comment' => $comment, 'date' => $app_start_time->format('Y-m-d G:i'), 'barber_id' => $barber->id])->with('error',"The customer can't be the same person as the barber. Please choose another user!");
+        }
+
         if (!Appointment::checkAppointmentClashes($app_start_time,$app_end_time,$barber)) {
-            return redirect()->route('bookings.create.date',['user_id' => $user->id, 'service_id' => $service->id, 'barber_id' => $barber->id])->with('error','You have another bookings clashing with the selected timeslot. Please choose another one!');
+            return redirect()->route('bookings.create.date',['service_id' => $service->id, 'barber_id' => $barber->id, 'comment' => $comment, 'date' => $app_start_time->format('Y-m-d G:i')])->with('error','You have another bookings clashing with the selected timeslot. Please choose another one!');
         }
 
         $appointment = Appointment::create([
@@ -222,12 +358,14 @@ class AdminAppointmentController extends Controller
             'app_start_time' => $app_start_time,
             'app_end_time' => $app_end_time,
             'price' => $service->price,
-            'comment' => $request->comment,
+            'comment' => $comment
         ]);
 
-        $appointment->user->notify(
-            new BookingConfirmationNotification($appointment)
-        );
+        if ($user->email) {
+            $appointment->user->notify(
+                new BookingConfirmationNotification($appointment)
+            );
+        }
 
         return redirect()->route('bookings.show',['booking' =>  $appointment])->with('success','New booking has been created successfully!');
     }

@@ -190,7 +190,7 @@
                 slotsByDate: @json($availableSlotsByDate),
 
                 init() {
-                    this.selectedDate = "{{ substr(request('date'),0,10) }}" || "{{ substr($appointment->app_start_time,0,10) }}" || Object.keys(this.slotsByDate)[0] || null;                    
+                    this.selectedDate = "{{ substr(request('date'),0,10) }}" || "{{ isset($appointment) ? substr($appointment->app_start_time,0,10) : null }}" || Object.keys(this.slotsByDate)[0] || null;                    
                 }
             }
         }

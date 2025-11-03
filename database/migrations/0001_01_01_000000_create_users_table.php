@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string('pfp_path')->nullable();
             $table->boolean('is_admin');
+            $table->string('google_id')->nullable();
+            $table->string('facebook_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

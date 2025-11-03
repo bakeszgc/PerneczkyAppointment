@@ -50,6 +50,8 @@
                     Create one here!
                 </a>
             </p>
+
+            <a href="{{ route('auth.google') }}" class="text-blue-700 hover:underline">Login with Google</a>
     </x-card>
 
     <script>

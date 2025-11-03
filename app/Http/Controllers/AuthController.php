@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Rules\RegisteredEmailAddress;
+use Exception;
+use Laravel\Socialite\Facades\Socialite;
 use Str;
 use Auth;
 use Hash;
@@ -180,5 +182,46 @@ class AuthController extends Controller
         return $status === Password::PasswordReset
             ? redirect()->route('login')->with('success',__($status))
             : back()->withErrors(['email' => [__($status)]]);
+    }
+
+    // GOOGLE AUTHENTICATION
+    public function googleLogin() {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function googleAuth()
+    {
+        try {
+            $googleUser = Socialite::driver('google')->user();
+            $user = User::where('google_id',$googleUser->getId())->first();
+
+            if ($user) {
+                Auth::login($user);
+            } else {
+                $userWithMail = User::whereEmail($googleUser->getEmail())->first();
+                
+                if ($userWithMail) {
+                    $userWithMail->update([
+                        'google_id' => $googleUser->getId()
+                    ]);
+                    Auth::login($userWithMail);
+
+                } else {
+                    $newUser = User::create([
+                        'first_name' => $googleUser->user['given_name'],
+                        'last_name' => $googleUser->user['family_name'],
+                        'email' => $googleUser->getEmail(),
+                        'google_id' => $googleUser->getId(),
+                        'is_admin' => false
+                    ]);
+                    Auth::login($newUser);
+                }
+            }
+
+            return redirect()->intended(route('my-appointments.index'))->with('success','You logged in using Google successfully!');
+
+        } catch (Exception $e) {
+            dd($e);
+        }
     }
 }

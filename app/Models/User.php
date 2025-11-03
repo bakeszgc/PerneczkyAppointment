@@ -33,7 +33,9 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         'email_verified_at',
         'pfp_path',
         'is_admin',
-        'created_at'
+        'created_at',
+        'google_id',
+        'facebook_id'
     ];
 
     /**
@@ -88,6 +90,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     }
 
     public function isRegistered() {
-        return $this->hasEmail() && $this->last_name != null;
+        return $this->hasEmail() && ($this->last_name != null || $this->google_id);
     }
 }

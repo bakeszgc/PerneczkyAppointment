@@ -1,7 +1,7 @@
 <x-email-layout>
     <h1 class="mb-4">Hi {{ $notifiable->first_name }},</h1>
 
-    <p class="mb-8">Welcome to PERNECZKY BarberShop, thank you for creating an account! Before booking your first appointment please verify your email address by clicking the button below:</p>
+    <p class="mb-8">Welcome to PERNECZKY BarberShop, thank you for creating an account! Please click on the button bellow to verify your email address so we will know it's actually you.</p>
 
     <div class="text-center mb-8">
         <a href="{{ $url }}" id="ctaButton" target="_blank">Verify email address</a>

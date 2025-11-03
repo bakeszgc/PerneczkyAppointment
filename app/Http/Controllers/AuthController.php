@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Rules\RegisteredEmailAddress;
-use Exception;
-use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Str;
 use Auth;
 use Hash;
+use Exception;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Rules\ValidAppointmentTime;
 use Illuminate\Auth\Events\Verified;
+use App\Rules\RegisteredEmailAddress;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Password;
+use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Auth\Events\PasswordReset;
 use Whitecube\LaravelCookieConsent\Facades\Cookies;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -217,6 +219,10 @@ class AuthController extends Controller
                         ]);
                         Auth::login($userWithMail);
 
+                        if (!$userWithMail->email_verified_at) {
+                            $userWithMail->notify(new VerifyEmail());
+                        }
+
                     } else {
                         if ($provider == 'google') {
                             $firstName = $socialUser->user['given_name'];
@@ -235,6 +241,7 @@ class AuthController extends Controller
                         ]);
                         
                         Auth::login($newUser);
+                        $newUser->notify(new VerifyEmail());
                     }
                 }
 

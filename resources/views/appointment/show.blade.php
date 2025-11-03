@@ -111,7 +111,7 @@
         <x-empty-card class="mb-4">
             <p class="text-lg max-md:text-base mb-4">This booking was made with a <span class="font-bold">walk-in account</span>.</p>
             <p class="max-md:mb-4">This means that we don't have any other information stored about {{ $appointment->user->first_name }} besides his first name.</p>
-            <p>Be sure to encourage your guest to create an account for his next appointment.</p>
+            <p>Be sure to encourage your guest to create an account for theri next appointment.</p>
         </x-empty-card>
     @endif
     

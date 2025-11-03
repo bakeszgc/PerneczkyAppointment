@@ -55,7 +55,7 @@ class CustomerController extends Controller
 
         $sumOfBookings = Appointment::getSumOfBookings(user: $customer);
 
-        return view('user.show',[
+        $data = [
             'user' => $customer,
             'showPassword' => $showPassword,
             'showProfile' => $showProfile,
@@ -65,7 +65,14 @@ class CustomerController extends Controller
             'showBookings' => $showBookings,
             'sumOfBookings' => $sumOfBookings,
             'view' => 'admin'
-        ]);
+        ];
+
+        if (!$customer->hasEmail()) {
+            $appointment = Appointment::userFilter($customer)->first();
+            $data['appointment'] = $appointment;
+        }
+
+        return view('user.show',$data);
     }
 
     public function update(Request $request, User $customer)

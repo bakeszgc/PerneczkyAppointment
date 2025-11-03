@@ -41,6 +41,8 @@ class UserPolicy
     {
         if ($model->deleted_at) {
             return Response::deny("You can't update deleted users' profile.");
+        } elseif(!$model->isRegistered()) {
+            return Response::deny("You can't update unregistered customer profiles.");
         } else {
             return Response::allow();
         }

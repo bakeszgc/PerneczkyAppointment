@@ -27,130 +27,146 @@
         </span>
     </x-headline>
 
-    <x-show-card :show="$showProfile" type="profile" class="mb-4">
-        <form action="{{ $updateRoute }}" method="POST">
-            @csrf
-            @method('PUT')
+    @if ($user->hasEmail())
+        <x-show-card :show="$showProfile" type="profile" class="mb-4">
+            <form action="{{ $updateRoute }}" method="POST">
+                @csrf
+                @method('PUT')
 
-            <div class="mb-4">
-                <div class="grid grid-cols-2 gap-2">
-                    <div class="flex flex-col max-sm:col-span-2">
-                        <x-label for="first_name">First name*</x-label>
-                        <x-input-field name="first_name" id="first_name" value="{{ old('first_name') ??$user->first_name }}" :disabled="isset($user->deleted_at)" class="profileInput" />
-                        @error('first_name')
-                            <p class=" text-red-500">{{$message}}</p>
-                        @enderror
-                    </div>
-
-                    <div class="flex flex-col max-sm:col-span-2">
-                        <x-label for="last_name">Last name*</x-label>
-                        <x-input-field name="last_name" id="last_name" value="{{ old('last_name') ??$user->last_name }}" :disabled="isset($user->deleted_at)" class="profileInput" />
-                        @error('last_name')
-                            <p class=" text-red-500">{{$message}}</p>
-                        @enderror
-                    </div>
-
-                    @if ($user->barber && !isset($user->barber->deleted_at) && $view != 'admin')
-                        <div class="flex flex-col col-span-2">
-                            <x-label for="display_name">Display name</x-label>
-                            <x-input-field name="display_name" id="display_name" value="{{ old('display_name') ??$user->barber->display_name }}" :disabled="isset($user->deleted_at)" class="profileInput" />
-                            @error('display_name')
+                <div class="mb-4">
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="flex flex-col max-sm:col-span-2">
+                            <x-label for="first_name">First name*</x-label>
+                            <x-input-field name="first_name" id="first_name" value="{{ old('first_name') ??$user->first_name }}" :disabled="isset($user->deleted_at) || !$user->isRegistered()" class="profileInput" />
+                            @error('first_name')
                                 <p class=" text-red-500">{{$message}}</p>
                             @enderror
                         </div>
 
-                        <div class="flex flex-col col-span-2">
-                            <x-label for="description">Description (<span id="charCount">xxx</span>/500)</x-label>
-                            <x-input-field type="textarea" name="description" id="description" :disabled="isset($user->deleted_at) || isset($user->barber->deleted_at)" class="profileInput">{{ old('comment') ?? $user->barber->description }}</x-input-field>
-                            @error('description')
+                        <div class="flex flex-col max-sm:col-span-2">
+                            <x-label for="last_name">Last name*</x-label>
+                            <x-input-field name="last_name" id="last_name" value="{{ old('last_name') ??$user->last_name }}" :disabled="isset($user->deleted_at) || !$user->isRegistered()" class="profileInput" />
+                            @error('last_name')
                                 <p class=" text-red-500">{{$message}}</p>
                             @enderror
                         </div>
-                    @endif
 
-                    <div class="flex flex-col col-span-2">
-                        <div class="flex justify-between items-end">
-                            <x-label for="email">Email address*</x-label>
-                            <div class="text-right">
-                                @if ($user->email_verified_at === null)
-                                    @if ($view == 'admin')
-                                        <p class="text-slate-500 text-sm">Not verified yet</p>
-                                    @else
-                                        <a href="{{ route('verification.notice') }}"class="text-base max-md:text-xs text-blue-500 hover:underline">Verify your email here</a>
-                                    @endif
-                                @else
-                                    <p class="text-slate-500 text-sm max-md:text-xs">Verified on {{ date_format($user->email_verified_at,'d M Y')  }}</p>
-                                @endif
+                        @if ($user->barber && !isset($user->barber->deleted_at) && $view != 'admin')
+                            <div class="flex flex-col col-span-2">
+                                <x-label for="display_name">Display name</x-label>
+                                <x-input-field name="display_name" id="display_name" value="{{ old('display_name') ??$user->barber->display_name }}" :disabled="isset($user->deleted_at)" class="profileInput" />
+                                @error('display_name')
+                                    <p class=" text-red-500">{{$message}}</p>
+                                @enderror
                             </div>
+
+                            <div class="flex flex-col col-span-2">
+                                <x-label for="description">Description (<span id="charCount">xxx</span>/500)</x-label>
+                                <x-input-field type="textarea" name="description" id="description" :disabled="isset($user->deleted_at) || isset($user->barber->deleted_at)" class="profileInput">{{ old('comment') ?? $user->barber->description }}</x-input-field>
+                                @error('description')
+                                    <p class=" text-red-500">{{$message}}</p>
+                                @enderror
+                            </div>
+                        @endif
+
+                        <div class="flex flex-col col-span-2">
+                            <div class="flex justify-between items-end">
+                                <x-label for="email">Email address*</x-label>
+                                <div class="text-right">
+                                    @if ($user->email_verified_at === null)
+                                        @if ($view == 'admin')
+                                            <p class="text-slate-500 text-sm">Not verified yet</p>
+                                        @else
+                                            <a href="{{ route('verification.notice') }}"class="text-base max-md:text-xs text-blue-500 hover:underline">Verify your email here</a>
+                                        @endif
+                                    @else
+                                        <p class="text-slate-500 text-sm max-md:text-xs">Verified on {{ date_format($user->email_verified_at,'d M Y')  }}</p>
+                                    @endif
+                                </div>
+                            </div>
+                            
+                            <x-input-field type="email" name="email" id="email" value="{{ old('email') ?? $user->email }}" :disabled="isset($user->deleted_at) || !$user->isRegistered()" class="profileInput" />
+                            @error('email')
+                                <p class=" text-red-500">{{$message}}</p>
+                            @enderror
                         </div>
-                        
-                        <x-input-field type="email" name="email" id="email" value="{{ old('email') ?? $user->email }}" :disabled="isset($user->deleted_at)" class="profileInput" />
-                        @error('email')
-                            <p class=" text-red-500">{{$message}}</p>
-                        @enderror
-                    </div>
 
-                    <div class="flex flex-col max-sm:col-span-2">
-                        <x-label for="date_of_birth">Date of birth*</x-label>
-                        <x-input-field type="date" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth') ?? $user->date_of_birth }}" :disabled="isset($user->deleted_at)" class="profileInput w-full" />
-                        @error('date_of_birth')
-                            <p class=" text-red-500">{{$message}}</p>
-                        @enderror
-                    </div>
+                        <div class="flex flex-col max-sm:col-span-2">
+                            <x-label for="date_of_birth">Date of birth*</x-label>
+                            <x-input-field type="date" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth') ?? $user->date_of_birth }}" :disabled="isset($user->deleted_at) || !$user->isRegistered()" class="profileInput w-full" />
+                            @error('date_of_birth')
+                                <p class=" text-red-500">{{$message}}</p>
+                            @enderror
+                        </div>
 
-                    <div class="flex flex-col max-sm:col-span-2">
-                        <x-label for="telephone_number">Telephone number*</x-label>
-                        <x-input-field type="tel" name="telephone_number" id="telephone_number" value="{{ old('telephone_number') ?? $user->tel_number }}" :disabled="isset($user->deleted_at)" class="profileInput" />
-                        @error('telephone_number')
-                            <p class=" text-red-500">{{$message}}</p>
-                        @enderror
+                        <div class="flex flex-col max-sm:col-span-2">
+                            <x-label for="telephone_number">Telephone number*</x-label>
+                            <x-input-field type="tel" name="telephone_number" id="telephone_number" value="{{ old('telephone_number') ?? $user->tel_number }}" :disabled="isset($user->deleted_at) || !$user->isRegistered()" class="profileInput" />
+                            @error('telephone_number')
+                                <p class=" text-red-500">{{$message}}</p>
+                            @enderror
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="mb-4 flex justify-between">                
-                <div class="*:flex *:items-center *:gap-2">
-                    @if ($view == 'admin')
-                        <div class="mb-2">
-                            <x-input-field type="checkbox" name="is_barber" id="is_barber" value="1" :checked="$user->barber && $user->barber->deleted_at == null" :disabled="isset($user->deleted_at)" />
-                            <label for="is_barber">Barber access</label>
-                        </div>
+                <div class="mb-4 flex justify-between">                
+                    <div class="*:flex *:items-center *:gap-2">
+                        @if ($view == 'admin' && $user->isRegistered())
+                            <div class="mb-2">
+                                <x-input-field type="checkbox" name="is_barber" id="is_barber" value="1" :checked="$user->barber && $user->barber->deleted_at == null" :disabled="isset($user->deleted_at)" />
+                                <label for="is_barber">Barber access</label>
+                            </div>
 
-                        <div>
-                            <x-input-field type="checkbox" name="is_admin" id="is_admin" value="1" :checked="$user->is_admin" :disabled="isset($user->deleted_at)" />
-                            <label for="is_admin">Admin access</label>
+                            <div>
+                                <x-input-field type="checkbox" name="is_admin" id="is_admin" value="1" :checked="$user->is_admin" :disabled="isset($user->deleted_at)" />
+                                <label for="is_admin">Admin access</label>
+                            </div>
+                        @endif
+                    </div>                
+
+                    <div class="text-right">
+                        * Reqiured fields
+                    </div>
+                </div>
+
+                @if ($view == 'admin')
+                    @if ($user->barber && $user->barber->deleted_at == null)
+                        <div class="border-2 border-dashed rounded-md p-4 border-yellow-400 mb-4">
+                            <h3 class="text-xl mb-2 font-base">Attention</h3>
+                            <p>{{ $user->first_name }} is one of your employees and you are currently viewing his customer page. If you want to edit their details or see their stats as barbers then check his <a href="{{ route('barbers.show',$user->barber) }}" class="text-blue-700 hover:underline">barber page!</a></p>
                         </div>
                     @endif
-                </div>                
 
-                <div class="text-right">
-                    * Reqiured fields
+                    @if (isset($user->deleted_at))
+                        <div class="border-2 border-dashed rounded-md p-4 border-yellow-400 mb-4">
+                            <h3 class="text-xl mb-2 font-base">Attention</h3>
+                            <p>{{ $user->first_name }}'s account is currently disabled. If you want to edit their details you need to restore the account first!</p>
+                        </div>
+                    @endif
+
+                    @if (!$user->isRegistered())
+                        <div class="border-2 border-dashed rounded-md p-4 border-yellow-400 mb-4">
+                            <h3 class="text-xl mb-2 font-base">Attention</h3>
+                            <p>{{ $user->first_name }}'s account is not registered yet. If you know this person be sure to encourage them to create an account for their next appointment.</p>
+                        </div>
+                    @endif
+                @endif
+
+                <div>
+                    <x-button role="ctaMain" :full="true" :disabled="true" id="profileButton">Save changes</x-button>
                 </div>
-            </div>
+            </form>
+        </x-show-card>
+    @else
+        <x-empty-card class="mb-4">
+            <p class="text-lg max-md:text-base mb-4">This is a <span class="font-bold">walk-in account</span>.</p>
 
-            @if ($view == 'admin')
-                @if ($user->barber && $user->barber->deleted_at == null)
-                    <div class="border-2 border-dashed rounded-md p-4 border-yellow-400 mb-4">
-                        <h3 class="text-xl mb-2 font-base">Attention</h3>
-                        <p>{{ $user->first_name }} is one of your employees and you are currently viewing his customer page. If you want to edit their details or see their stats as barbers then check his <a href="{{ route('barbers.show',$user->barber) }}" class="text-blue-700 hover:underline">barber page!</a></p>
-                    </div>
-                @endif
+            <p class="max-md:mb-4">This means that it was used only for <a href="{{ isset($appointment) ? route('bookings.show',$appointment) : '' }}" class="text-blue-700 hover:underline">one booking</a> before and we don't have any other information stored about {{ $user->first_name }} besides his first name.</p>
+            <p>If you know this person be sure to encourage them to create an account for their next appointment.</p>
+        </x-empty-card>
+    @endif
 
-                @if (isset($user->deleted_at))
-                    <div class="border-2 border-dashed rounded-md p-4 border-yellow-400 mb-4">
-                        <h3 class="text-xl mb-2 font-base">Attention</h3>
-                        <p>{{ $user->first_name }}'s account is currently disabled. If you want to edit their details you need to restore the account first!</p>
-                    </div>
-                @endif
-            @endif
-
-            <div>
-                <x-button role="ctaMain" :full="true" :disabled="true" id="profileButton">Save changes</x-button>
-            </div>
-        </form>
-    </x-show-card>
-
-    @if ($view == 'admin')
+    @if ($view == 'admin' && $user->hasEmail())
         <x-show-card type="bookings" :show="$showBookings" class="mb-4">
             <x-sum-of-bookings :sumOfBookings="$sumOfBookings" :user="$user" context="bookings" />
 
@@ -246,37 +262,38 @@
     @endif
 
     @if ($view == 'admin')
+        @if ($user->isRegistered())
+            @if ($user->deleted_at)
+                <x-show-card :show="$showRestore" type="restore" class="mb-4">
+                    <p class="mb-2 text-justify">
+                        This account has been deleted and can no longer be accessed. {{ $user->first_name }} cannot log in, view their appointments, or create new ones.
+                    </p>
 
-        @if ($user->deleted_at)
-            <x-show-card :show="$showRestore" type="restore" class="mb-4">
-                <p class="mb-2 text-justify">
-                    This account has been deleted and can no longer be accessed. {{ $user->first_name }} cannot log in, view their appointments, or create new ones.
-                </p>
+                    <p class="mb-4 text-justify">
+                        If you wish to have your account restored. You must restore the account to re-enable their access and be able to edit their details on the admin page.
+                    </p>
 
-                <p class="mb-4 text-justify">
-                    If you wish to have your account restored. You must restore the account to re-enable their access and be able to edit their details on the admin page.
-                </p>
+                    <form action="{{ route('customers.restore',$user) }}" method="post">
+                        @method('PUT')
+                        @csrf
+                        <x-button role="restoreMain">Restore account</x-button>
+                    </form>
+                </x-show-card>
+            @else
+                <x-show-card :show="$showDestroy" type="destroy" class="mb-4">
+                    <p class="mb-2 text-justify">Deleting this account will prevent {{ $user->first_name }} from logging in, viewing their appointments, or creating new ones.</p>
 
-                <form action="{{ route('customers.restore',$user) }}" method="post">
-                    @method('PUT')
-                    @csrf
-                    <x-button role="restoreMain">Restore account</x-button>
-                </form>
-            </x-show-card>
-        @else
-            <x-show-card :show="$showDestroy" type="destroy" class="mb-4">
-                <p class="mb-2 text-justify">Deleting this account will prevent {{ $user->first_name }} from logging in, viewing their appointments, or creating new ones.</p>
+                    <p class="mb-2 text-justify">Their upcoming appointments will be cancelled and their admin or barber roles will be revoked. The account can only be restored by an administrator.</p>
 
-                <p class="mb-2 text-justify">Their upcoming appointments will be cancelled and their admin or barber roles will be revoked. The account can only be restored by an administrator.</p>
+                    <p class="mb-4 text-justify">Are you sure you want to proceed?</p>
 
-                <p class="mb-4 text-justify">Are you sure you want to proceed?</p>
-
-                <form action="{{ route('customers.destroy',$user) }}" method="post">
-                    @method('DELETE')
-                    @csrf
-                    <x-button role="destroyMain">Delete account</x-button>
-                </form>
-            </x-show-card>
+                    <form action="{{ route('customers.destroy',$user) }}" method="post">
+                        @method('DELETE')
+                        @csrf
+                        <x-button role="destroyMain">Delete account</x-button>
+                    </form>
+                </x-show-card>
+            @endif
         @endif
 
     @else

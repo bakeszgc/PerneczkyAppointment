@@ -36,9 +36,6 @@
                 </div>
 
                 @if (request('from'))
-                    @foreach ($prevAttributes as $key => $value)
-                        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
-                    @endforeach
                     <input type="hidden" name="from" value="{{ request('from') }}">
                 @endif
 

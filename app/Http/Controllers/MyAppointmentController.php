@@ -127,6 +127,7 @@ class MyAppointmentController extends Controller
     }
 
     public function createConfirm(Request $request) {
+        
         $request->validate([
             'barber_id' => 'required|integer|exists:barbers,id',
             'service_id' => 'required|integer|gt:1|exists:services,id',
@@ -139,12 +140,9 @@ class MyAppointmentController extends Controller
         $data = [
             'barber' => Barber::find($request->barber_id),
             'service' => Service::find($request->service_id),
-            'startTime' => $startTime
+            'startTime' => $startTime,
+            'comment' => $request->comment
         ];
-
-        if ($request->comment) {
-            $data['comment'] = $request->comment;
-        }
 
         return view('my-appointment.create_confirm', $data);
     }

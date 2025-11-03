@@ -30,6 +30,7 @@
         default:
             $detailsLink = route('my-appointments.show',['my_appointment' => $appointment]);
             $cancelLink = route('my-appointments.destroy',['my_appointment' => $appointment]);
+            $editLink = route('my-appointments.edit',['my_appointment' => $appointment]);
             $rebookLink = route('my-appointments.create.date',[
                 'service_id' => $appointment->service_id,
                 'barber_id' => $appointment->barber_id,
@@ -112,11 +113,9 @@
         @endif
         
         @if ($appointment->app_start_time >= now('Europe/Budapest') && !$appointment->deleted_at)
-            @if ($access === 'barber' || $access === 'admin')
-                <x-link-button :link="$editLink" role="edit">
-                    <span class="max-sm:hidden">Edit</span>
-                </x-link-button>
-            @endif
+            <x-link-button :link="$editLink" role="edit">
+                <span class="max-sm:hidden">Edit</span>
+            </x-link-button>
 
             <form action="{{ $cancelLink }}" method="POST">
                 @csrf

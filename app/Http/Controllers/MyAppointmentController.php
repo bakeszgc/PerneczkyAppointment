@@ -440,9 +440,9 @@ class MyAppointmentController extends Controller
             'comment' => $comment
         ]);
 
-        // $my_appointment->user->notify(
-        //     new BookingUpdateNotification($oldAppointment,$my_appointment,$my_appointment->user)
-        // );
+        $my_appointment->user->notify(
+            new BookingUpdateNotification($oldAppointment,$my_appointment,$my_appointment->user)
+        );
 
         return redirect()->route('my-appointments.show',['my_appointment' =>  $my_appointment])->with('success','Appointment updated successfully! See you soon!');
     }

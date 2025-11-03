@@ -6,11 +6,25 @@
 
         $oldEndTime = Carbon\Carbon::parse($oldAppointment['app_end_time']);
         $newEndTime = Carbon\Carbon::parse($newAppointment->app_end_time);
+
+        if ($updatedBy === 'admin') {
+            $updatedByName = 'An admin has';
+        } else {
+            switch(get_class($updatedBy)){
+                case 'App\Models\User':
+                    $updatedByName = 'You have';
+                break;
+
+                case 'App\Models\Barber':
+                    $updatedByName = $updatedBy->getName() . ' has';
+                break;
+            }
+        }
     @endphp    
 
     <h1 class="mb-4">Hi {{ $notifiable->first_name }},</h1>
 
-    <p class="mb-8">{{ $updatedBy === 'admin' ? 'An admin' : $updatedBy->getName() }} has modified some details of your upcoming appointment. You can see the changes highlighted below:</p>
+    <p class="mb-8">{{ $updatedByName }} modified some details of your upcoming appointment. You can see the changes highlighted below:</p>
 
     <table class="mb-8">
         <thead>

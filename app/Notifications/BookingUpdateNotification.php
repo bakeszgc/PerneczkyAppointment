@@ -23,7 +23,7 @@ class BookingUpdateNotification extends Notification implements ShouldQueue
     public function __construct(
         public array $oldAppointment,
         public Appointment $newAppointment,
-        public Barber|string $updatedBy
+        public Barber|User|string $updatedBy
     ) { }
 
     /**

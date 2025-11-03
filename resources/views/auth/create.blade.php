@@ -5,7 +5,8 @@
 
     <x-headline class="mb-4">Sign in to your account</x-headline>
 
-    <x-card class="mb-8 p-8 max-md:p-4">
+    <x-card class="mb-8 p-8 max-md:p-4 flex max-lg:flex-col gap-8">
+        <div class="flex-1">
             <form action="{{route('auth.store')}}" method="POST">
                 @csrf
                 <div class="mb-4">
@@ -50,9 +51,18 @@
                     Create one here!
                 </a>
             </p>
+        </div>
 
-            <a href="{{ route('auth.redirect', 'google') }}" class="text-blue-700 hover:underline">Login with Google</a>
-            <a href="{{ route('auth.redirect', 'facebook') }}" class="text-blue-700 hover:underline">Login with Facebook</a>
+        <div class="border-l-2 border-t-2"></div>
+
+        <div class="flex-1 text-center lg:my-auto max-lg:mb-4">
+            <h2 class="text-lg max-md:text-base font-bold mb-4">Log in using social media accounts</h2>
+
+            <div class="flex lg:flex-col max-sm:flex-col items-center justify-center gap-4">
+                <x-sign-in-button provider="google" />
+                <x-sign-in-button provider="facebook" />
+            </div>
+        </div>
     </x-card>
 
     <script>

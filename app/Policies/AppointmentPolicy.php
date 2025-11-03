@@ -51,6 +51,19 @@ class AppointmentPolicy
             : Response::deny("You can't view other users' appointments.");
     }
 
+    public function userEdit(User $user, Appointment $appointment): Response
+    {
+        if ($appointment->user_id != $user->id) {
+            return Response::deny("You can't edit other users' appointments.");
+        } elseif ($appointment->app_start_time <= now()) {
+            return Response::deny("You can't edit appointments from the past.");
+        } elseif ($appointment->deleted_at) {
+            return Response::deny("You can't edit cancelled appointments.");
+        } else {
+            return Response::allow();
+        }
+    }
+
     public function userDelete(User $user, Appointment $appointment): Response
     {
         if ($appointment->user_id != $user->id) {

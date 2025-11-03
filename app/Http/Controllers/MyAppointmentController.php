@@ -249,10 +249,21 @@ class MyAppointmentController extends Controller
 
     public function edit(Appointment $my_appointment)
     {
+        $response = Gate::inspect('userEdit',$my_appointment);
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
+        }
+
         return redirect()->route('my-appointments.edit.barber.service',$my_appointment);
     }
 
-    public function editBarberService(Appointment $my_appointment, Request $request) {
+    public function editBarberService(Appointment $my_appointment, Request $request) 
+    {
+        $response = Gate::inspect('userEdit',$my_appointment);
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
+        }
+
         $request->validate([
             'barber_id' => 'nullable|integer|exists:barbers,id',
             'service_id' => 'nullable|integer|gt:1|exists:services,id'
@@ -277,7 +288,13 @@ class MyAppointmentController extends Controller
         ]);
     }
 
-    public function editGetEarliestBarber(Appointment $my_appointment, Request $request) {
+    public function editGetEarliestBarber(Appointment $my_appointment, Request $request) 
+    {
+        $response = Gate::inspect('userEdit',$my_appointment);
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
+        }
+
         $request->validate([
             'barber_id' => 'required',
             'service_id' => 'required|integer|gt:1|exists:services,id'
@@ -313,7 +330,13 @@ class MyAppointmentController extends Controller
         ]);
     }
 
-    public function editDate(Appointment $my_appointment, Request $request) {
+    public function editDate(Appointment $my_appointment, Request $request) 
+    {
+        $response = Gate::inspect('userEdit',$my_appointment);
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
+        }
+
         if (!Barber::find($request->barber_id) || auth()->user()?->barber && $request->barber_id == auth()->user()?->barber->id) {
             return redirect()->route('my-appointments.edit.barber.service',['my_appointment' => $my_appointment, 'service_id' => $request->service_id])->with('error','Please select a barber here!');
         }
@@ -336,7 +359,13 @@ class MyAppointmentController extends Controller
         ]);
     }
 
-    public function editConfirm(Appointment $my_appointment, Request $request) {
+    public function editConfirm(Appointment $my_appointment, Request $request) 
+    {
+        $response = Gate::inspect('userEdit',$my_appointment);
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
+        }
+
         $request->validate([
             'barber_id' => 'required|integer|exists:barbers,id',
             'service_id' => 'required|integer|gt:1|exists:services,id',
@@ -362,7 +391,10 @@ class MyAppointmentController extends Controller
     }
 
     public function update(Appointment $my_appointment, Request $request) {
-        // gate jöhet ide
+        $response = Gate::inspect('userEdit',$my_appointment);
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
+        }
 
         $request->validate([
             'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i:s',new ValidAppointmentTime],

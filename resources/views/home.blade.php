@@ -154,11 +154,18 @@
             
             <div class="sm:text-right">
                 <h2 class="text-2xl max-lg:text-lg font-black mb-2">Opening&nbsp;hours</h2>
-                <ul class="*:mb-1">
-                    <li>Mo-Sa: 10:00-20:00</li>
-                    <li>Su: 10:00-18:00</li>
-                    <li><a href="{{ route('cookies') }}" class="hover:text-blue-500 transition-all">Cookie policy</a></li>
-                    <li><a href="{{ asset('files/perneczky_aszf.pdf') }}" target="_blank" class="hover:text-blue-500 transition-all">T&C</a></li>
+                <ul>
+                    <li class="mb-1">Mo-Sa: 10:00-20:00</li>
+                    <li class="mb-4">Su: 10:00-18:00</li>
+                    <li class="mb-1">
+                        <a href="{{ route('cookies') }}" class="hover:text-blue-500 transition-all">Cookie policy</a>
+                    </li>
+                    <li class="mb-1">
+                        <a href="{{ route('privacy') }}" class="hover:text-blue-500 transition-all">Privacy policy</a>
+                    </li>
+                    <li class="mb-1">
+                        <a href="{{ asset('files/perneczky_aszf.pdf') }}" target="_blank" class="hover:text-blue-500 transition-all">Terms & conditions</a>
+                    </li>
                 </ul>
             </div>
         </div>        

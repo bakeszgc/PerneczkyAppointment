@@ -53,7 +53,7 @@
                 @enderror
             </div>
             
-            <div class="flex gap-4 mb-8 max-md:mb-4 max-md:flex-col">
+            <div class="flex gap-4 mb-4 max-md:mb-4 max-md:flex-col">
                 <div class="flex-grow">
                     <div class="mb-4">
                         <x-label for="password">Password*</x-label>
@@ -81,6 +81,15 @@
                 @endforeach
                 <input type="hidden" name="from" value="{{ request('from') }}">
             @endif
+
+            <div class="flex gap-2 items-center mb-4">
+                <x-input-field type="checkbox" name="policy_checkbox" id="policy_checkbox" value="1" class="regInput reqInput"/>
+                <label for="policy_checkbox" class="flex-1">I have read and I accept the terms & conditions and the <a href="{{ route('privacy') }}" target="_blank"class="text-blue-700 hover:underline">privacy policy</a>.*</label>
+
+                @error('policy_checkbox')
+                    <p class=" text-red-500 text-right">{{$message}}</p>
+                @enderror
+            </div>
 
             <x-button role="ctaMain" :full="true" :disabled="true" id="regButton">Register</x-button>
         </form>
@@ -111,6 +120,8 @@
 
                     if (allFilled && passwordChecked) {
                         regButton.disabled = false;
+                    } else {
+                        regButton.disabled = true;
                     }
                 });
             });

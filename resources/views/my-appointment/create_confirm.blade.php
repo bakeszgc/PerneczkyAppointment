@@ -228,22 +228,28 @@
                             <x-input-field type="email" id="email" name="email" @class(['w-full confirmInput', 'reqInput' => $view == 'user']) :disabled="$view == 'user' ? auth()->user() != null : isset($user)" autoComplete="on" :value="$view == 'user' ? (auth()->user()?->email ?? '') : $email"  />
                         </div>
 
-                        <div class="flex gap-2 items-center mb-2">
-                            <x-input-field type="checkbox" name="confirmation_checkbox" id="confirmation_checkbox" value="1" class="confirmInput reqInput"/>
-                            <label for="confirmation_checkbox" class="flex-1">Yes, the appointment details match to my expectations.*</label>
+                        <div class="mb-4">
+                            <div class="flex gap-2 items-center">
+                                <x-input-field type="checkbox" name="confirmation_checkbox" id="confirmation_checkbox" value="1" class="confirmInput reqInput"/>
+                                <label for="confirmation_checkbox" class="flex-1">Yes, the appointment details match to my expectations.*</label>
 
-                            @error('confirmation_checkbox')
-                                <p class=" text-red-500 text-right">{{$message}}</p>
-                            @enderror
-                        </div>
+                                @error('confirmation_checkbox')
+                                    <p class=" text-red-500 text-right">{{$message}}</p>
+                                @enderror
+                            </div>
 
-                        <div class="flex gap-2 items-center mb-4">
-                            <x-input-field type="checkbox" name="policy_checkbox" id="policy_checkbox" value="1" class="confirmInput reqInput"/>
-                            <label for="policy_checkbox" class="flex-1">I have read and I accept the Terms & conditions and the Data privacy.*</label>
+                            <div class="flex gap-2 items-center mt-2">
+                                @guest
+                                    <x-input-field type="checkbox" name="policy_checkbox" id="policy_checkbox" value="1" class="confirmInput reqInput"/>
+                                    <label for="policy_checkbox" class="flex-1">I have read and I accept the terms & conditions and the <a href="{{ route('privacy') }}" target="_blank" class="text-blue-700 hover:underline">privacy policy</a>.*</label>
 
-                            @error('policy_checkbox')
-                                <p class=" text-red-500 text-right">{{$message}}</p>
-                            @enderror
+                                    @error('policy_checkbox')
+                                        <p class=" text-red-500 text-right">{{$message}}</p>
+                                    @enderror
+                                @else
+                                    <input type="hidden" name="policy_checkbox" value="1">
+                                @endguest
+                            </div>
                         </div>
 
                         <div>

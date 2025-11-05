@@ -55,6 +55,7 @@ class UserController extends Controller
             'email' => ['required','email',new FreeEmailAddress()],
             'password' => ['required',Password::min(8)->mixedCase()->numbers()],
             'password_confirmation' => 'required|same:password',
+            'policy_checkbox' => 'required',
             'date' => ['nullable','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
             'barber_id' => ['nullable','exists:barbers,id'],
             'service_id' => ['nullable','gt:1','exists:services,id'],

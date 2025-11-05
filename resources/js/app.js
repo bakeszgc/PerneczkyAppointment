@@ -143,10 +143,10 @@ window.enableButton = function(button, inputs) {
 };
 
 // ENABLES BUTTON AFTER INPUTS ARE FILLED
-window.enableButtonIfInputsFilled = function(button, inputs, reqInputs) {   
-
+window.enableButtonIfInputsFilled = function(button, inputs, reqInputs) {    
     inputs.forEach(input => {
-        input.addEventListener('input', function () {
+        const triggerEvent = (input.type == 'checkbox' || input.type == 'radio') ? 'change' : 'input';
+        input.addEventListener(triggerEvent, function () {            
             const allFilled = allInputsFilled(reqInputs);
             if (allFilled) {
                 button.disabled = false;

@@ -108,7 +108,7 @@ class AppointmentController extends Controller
         
         $query = $request->input('query');
 
-        $users = User::isRegistered()->where('id','!=',auth()->user()->id)
+        $users = User::registered()->where('id','!=',auth()->user()->id)
         ->when($query, function ($q) use ($query) {
             $q->where('first_name','like',"%$query%")
             ->orWhere('last_name','like',"%$query%")

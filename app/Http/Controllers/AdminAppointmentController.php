@@ -213,7 +213,7 @@ class AdminAppointmentController extends Controller
         $query = $request->input('query');
         $barber = Barber::find($request->barber_id);
 
-        $users = User::isRegistered()->where('id','!=',$barber->user_id)
+        $users = User::registered()->where('id','!=',$barber->user_id)
         ->when($query, function ($q) use ($query) {
             $q->where('first_name','like',"%$query%")
             ->orWhere('last_name','like',"%$query%")

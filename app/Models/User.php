@@ -85,7 +85,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         return $this->email != null;
     }
 
-    public function scopeIsRegistered(Builder $query) {
+    public function scopeRegistered(Builder $query) {
         $query->where('email','!=',null)->where('last_name','!=',null);
     }
 

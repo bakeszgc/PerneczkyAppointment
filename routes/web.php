@@ -158,6 +158,11 @@ Route::get('/cookies', function() {
     return view('cookies');
 })->name('cookies');
 
+// PRIVACY POLICY
+Route::get('/privacy',function() {
+    return view('privacy');
+})->name('privacy');
+
 // 404
 Route::fallback(function() {
     return view('404');

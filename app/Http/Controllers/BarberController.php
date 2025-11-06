@@ -23,12 +23,12 @@ class BarberController extends Controller
     {
         $query = $request->input('query');
 
-        $users = User::isRegistered()->when($query, function ($q) use ($query) {
+        $users = User::registered()->when($query, function ($q) use ($query) {
             $q->where('first_name','like',"%$query%")
             ->orWhere('last_name','like',"%$query%")
             ->orWhere('email','like',"%$query%")
             ->orWhere('tel_number','like',"%$query%");
-        })->paginate(10);
+        })->orderBy('first_name')->paginate(10);
 
         return view('barber.create',['users' => $users]);
     }

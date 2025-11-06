@@ -233,7 +233,7 @@
 
             @switch($view)
                 @case('Booking')
-                    <div @class(['mb-4','grid grid-cols-2 max-md:grid-cols-1 gap-4  mb-4' => $access == 'admin'])>
+                    <div @class(['mb-4','grid grid-cols-2 max-md:grid-cols-1 gap-4  mb-4'])>
                         <div class="flex flex-col">
                             <x-label for="comment">Comment</x-label>
 
@@ -244,25 +244,23 @@
                             @enderror
                         </div>
 
-                        @if ($access == 'admin')
-                            <div>
-                                <x-label for="barber">Barber*</x-label>
-                                
-                                <x-select name="barber" id="barber" class="w-full">
-                                    @foreach ($barbers as $barber)
-                                        <option value="{{ $barber->id }}" @selected($barber->id == $appointment->barber_id)>
-                                            {{ $barber->getName() }}
-                                        </option>
-                                    @endforeach
-                                </x-select>
+                        <div>
+                            <x-label for="barber">Barber*</x-label>
+                            
+                            <x-select name="barber" id="barber" class="w-full">
+                                @foreach ($barbers as $barber)
+                                    <option value="{{ $barber->id }}" @selected($barber->id == $appointment->barber_id)>
+                                        {{ $barber->getName() }}
+                                    </option>
+                                @endforeach
+                            </x-select>
 
-                                @error('barber')
-                                    <p class=" text-red-500">{{$message}}</p>
-                                @enderror
+                            @error('barber')
+                                <p class=" text-red-500">{{$message}}</p>
+                            @enderror
 
-                                <div class="text-right mt-4 max-md:hidden">* Required fields</div>
-                            </div>
-                        @endif
+                            <div class="text-right mt-4 max-md:hidden">* Required fields</div>
+                        </div>
                     </div>
                 @break
 
@@ -296,18 +294,14 @@
                 </div>
 
                 @if ($action == 'edit' && $view == 'Booking')
-                    @if ($access == 'barber')
-                        <div class="text-right">* Required fields</div>
-                    @else
-                        <div class="text-right md:hidden">* Required fields</div>
-                    @endif
+                    <div class="text-right md:hidden">* Required fields</div>
                 @endif
             </div>
     </x-card>
 
     <x-card class="mb-4">
         <div class="relative">        
-            <div id="calendarEventContainer" class="relative w-full h-0 left-0 top-0 max-lg:-translate-y-3"></div>
+            <div id="calendarEventContainer" class="relative w-full h-0 left-0 top-0"></div>
 
             <div class="flex text-center mb-4">
                 <div class="w-1/8"></div>
@@ -459,7 +453,7 @@
                 renderExisting(appointments, getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ $access }}', date, calendar);
             });
 
-            if (barberInput) {
+            if (barberInput) {                
                 barberInput.addEventListener('change', function () {
                     renderExisting(appointments, getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ $access }}', date, calendar);
                     renderCurrent (calendar, getDateTime(appStartDate,appStartHour,appStartMinute), getDateTime(appEndDate,appEndHour,appEndMinute), getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ isset($appointment) ? $appointment->user->first_name : '' }}', '{{ $action }}', '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}', appointments);
@@ -468,7 +462,7 @@
         });
         
         function getBarberId(barberInput) {
-            if (barberInput) {
+            if (barberInput) {                
                 return barberInput.value;
             } else {
                 return {{ isset($appointment) ? $appointment->barber_id : (auth()->user()->barber->id ?? null) }};

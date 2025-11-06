@@ -273,13 +273,15 @@ class AppointmentController extends Controller
             return redirect()->route('time-offs.edit',$appointment);
         }
 
-        $appointments = Appointment::barberFilter(auth()->user()->barber)->with('user')->get();
+        $appointments = Appointment::with('user')->get();
         $services = Service::withoutTimeoff()->get();
+        $barbers = Barber::all();
 
         return view('appointment.edit', [
             'appointment' => $appointment,
             'services' => $services,
-            'appointments' => $appointments
+            'appointments' => $appointments,
+            'barbers' => $barbers
         ]);
     }
     
@@ -296,6 +298,7 @@ class AppointmentController extends Controller
 
         $request->validate([
             'service' => 'required|integer|exists:services,id|gt:1',
+            'barber' => 'required|integer|exists:barbers,id',
             'price' => 'required|integer|min:0',
             'app_start_date' => ['required','date','after_or_equal:today'],
             'app_start_hour' => ['required','integer','between:10,19'],
@@ -308,7 +311,7 @@ class AppointmentController extends Controller
 
         $app_start_time = Carbon::parse($request->app_start_date . " " . $request->app_start_hour . ":" . $request->app_start_minute);
         $app_end_time = Carbon::parse($request->app_end_date . " " . $request->app_end_hour . ":" . $request->app_end_minute);
-        $barber = auth()->user()->barber;
+        $barber = Barber::find($request->barber);
 
         if ($app_start_time >= $app_end_time) {
             return redirect()->route('appointments.edit',$appointment)->with('error',"The booking's ending time has to be later than its starting time");
@@ -329,6 +332,7 @@ class AppointmentController extends Controller
 
         $appointment->update([
             'service_id' => $request->service,
+            'barber_id' => $barber->id,
             'comment' => $request->comment,
             'price' => $request->price,
             'app_start_time' => $app_start_time,
@@ -336,10 +340,14 @@ class AppointmentController extends Controller
         ]);
 
         $appointment->user->notify(
-            new BookingUpdateNotification($oldAppointment,$appointment,$barber)
+            new BookingUpdateNotification($oldAppointment,$appointment,updatedBy: Barber::find($oldAppointment['barber_id']))
         );
 
-        return redirect()->route('appointments.show',['appointment' => $appointment])->with('success','Booking has been updated successfully!');
+        if (auth()->user()->barber->id != $barber->id) {
+            return redirect()->route('appointments.index')->with('success',"Your booking has been assigned to " . $barber->getName() . " successfully!");
+        } else {
+            return redirect()->route('appointments.show',['appointment' => $appointment])->with('success','Booking has been updated successfully!');
+        }
     }
 
     public function destroy(Appointment $appointment)

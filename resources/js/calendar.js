@@ -75,14 +75,14 @@ export function renderDivs(appStartTime, appEndTime, calendar, appointments, bar
             
             div.style.height = duration / 60 * 53 + 'px';
 
-            if (divData.view == 'week') {
-                div.style.left = (start.getDay() == 0 ? 7 : start.getDay()) * 12.5 + '%';
-                div.style.top = 53/60 * ((startHour-10) * 60 + parseInt(startMinute)) + 44 + 'px';
-                div.classList.add('w-1/8');
-            } else {
+            if (divData.view == 'day') {                
                 div.style.left = (divData.barberId) * 12.5 + '%';
                 div.style.top = 53/60 * ((startHour-10) * 60 + parseInt(startMinute)) + 29 + 'px';
                 div.classList.add('w-1/8-resize','barber_'+divData.barberId);
+            } else {
+                div.style.left = (start.getDay() == 0 ? 7 : start.getDay()) * 12.5 + '%';
+                div.style.top = 53/60 * ((startHour-10) * 60 + parseInt(startMinute)) + 44 + 'px';
+                div.classList.add('w-1/8');
             }
 
             // CREATING THE A ELEMENT FOR EXISTING APPOINTMENTS
@@ -252,7 +252,7 @@ window.renderDayNumbers = function (date, ...dayElements) {
         d.setDate(mondayDate.getDate() + i);
         el.innerHTML = d.getDate();
         el.classList = '';
-        el.classList.add('font-bold','rounded-full','p-1','transition-all');
+        el.classList.add('font-bold','rounded-full','py-1','px-2','transition-all');
         (sameDay(d,new Date())) ? el.classList.add('bg-blue-600','text-white','hover:bg-blue-800') : el.classList.add('hover:bg-slate-300');
     });
 };
@@ -296,3 +296,8 @@ window.renderDates = function(displayWindow, view, date) {
         displayWindow.innerHTML = date.toLocaleDateString('en-CA');
     }
 };
+
+window.updateCurrentTimeDiv = function(currentTimeDiv, view) {
+    const offsetX = (view == 'week') ? 68 : 52;
+    currentTimeDiv.style.top = (53/60 * ((new Date().getHours() -10) * 60 + new Date().getMinutes()) + offsetX) + "px";
+}

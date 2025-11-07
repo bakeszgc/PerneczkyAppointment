@@ -25,8 +25,7 @@
         </div>
 
         @if (now()->format('G') >= 10 && now()->format('G') <= 21)
-            <div class="absolute h-px bg-blue-700 z-20 min-w-full" id="currentTimeDiv">
-            </div>
+            <div class="absolute h-px bg-blue-700 z-20 min-w-full" id="currentTimeDiv"></div>
         @endif
         
     </div>
@@ -242,11 +241,6 @@
             widthClassWide = "max-md:w-[" + (12.5 + barbers.length * 100 / 4) + "%]";
             element.classList.toggle(widthClass);
             element.classList.toggle(widthClassWide);
-        }
-
-        function updateCurrentTimeDiv(currentTimeDiv, view) {
-            offsetX = (view == 'week') ? 68 : 52;
-            currentTimeDiv.style.top = (53/60 * ((new Date().getHours() -10) * 60 + new Date().getMinutes()) + offsetX) + "px";
         }
     </script>
 </div>

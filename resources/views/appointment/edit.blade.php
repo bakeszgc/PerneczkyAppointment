@@ -301,12 +301,12 @@
 
     <x-card class="mb-4">
         <div class="relative">        
-            <div id="calendarEventContainer" class="relative w-full h-0 left-0 top-0"></div>
+            <div id="calendarEventContainer" class="relative w-full h-0 left-0 top-0 lg:translate-y-6"></div>
 
             <div class="flex text-center mb-4">
                 <div class="w-1/8"></div>
                 @for ($i = 1; $i<=7; $i++)
-                    <div class="flex items-center justify-center gap-1 max-lg:flex-col w-1/8">
+                    <div class="flex items-center justify-center gap-1 flex-col w-1/8">
                         <span class="text-slate-500">
                             {{ date('D', strtotime("Sunday + {$i} days")) }}
                         </span>
@@ -325,8 +325,7 @@
             </div>
 
             @if (now()->format('G') >= 10 && now()->format('G') <= 21)
-                <div style="position: absolute; width: 100%; height: 1px; background-color: blue; top: {{ 53/60 * (now()->format('G') * 60 + now()->format('i')) - 486 }}px; z-index: 20;">
-                </div>
+                <div class="absolute h-px bg-blue-700 z-20 min-w-full" id="currentTimeDiv"></div>
             @endif
             
         </div>
@@ -362,6 +361,9 @@
             let date = new Date(appStartDate.value);
 
             const calendar = document.getElementById('calendarEventContainer');
+            const currentTimeDiv = document.getElementById('currentTimeDiv');
+
+            updateCurrentTimeDiv(currentTimeDiv, 'week');
 
             @switch($view)
                 @case('Booking')
@@ -383,6 +385,8 @@
                         appEndMinute.value = endDateTime.getMinutes();
 
                         renderCurrent (calendar, getDateTime(appStartDate,appStartHour,appStartMinute), getDateTime(appEndDate,appEndHour,appEndMinute), getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ isset($appointment) ? $appointment->user->first_name : '' }}', '{{ $action }}', '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}', appointments);
+
+                        updateCurrentTimeDiv(currentTimeDiv, 'week');
                     });
                 @break
 
@@ -407,6 +411,8 @@
                         appEndMinute.toggleAttribute('disabled');
                         
                         renderCurrent (calendar, getDateTime(appStartDate,appStartHour,appStartMinute), getDateTime(appEndDate,appEndHour,appEndMinute), getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ isset($appointment) ? $appointment->user->first_name : '' }}', '{{ $action }}', '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}', appointments);
+
+                        updateCurrentTimeDiv(currentTimeDiv, 'week');
                     });
                 @break
             @endswitch
@@ -432,6 +438,8 @@
                     }                    
 
                     renderCurrent (calendar, getDateTime(appStartDate,appStartHour,appStartMinute), getDateTime(appEndDate,appEndHour,appEndMinute), getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ isset($appointment) ? $appointment->user->first_name : '' }}', '{{ $action }}', '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}', appointments);
+
+                    updateCurrentTimeDiv(currentTimeDiv, 'week');
                 });
             });
 
@@ -440,9 +448,12 @@
                     timeDifference = getTimeDifference(appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute);
 
                     renderCurrent (calendar, getDateTime(appStartDate,appStartHour,appStartMinute), getDateTime(appEndDate,appEndHour,appEndMinute), getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ isset($appointment) ? $appointment->user->first_name : '' }}', '{{ $action }}', '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}', appointments);
+
+                    updateCurrentTimeDiv(currentTimeDiv, 'week');
                 });
             });
             
+            updateCurrentTimeDiv(currentTimeDiv, 'week');
             renderDayNumbers (date, monday, tuesday, wednesday, thursday, friday, saturday, sunday);
             renderExisting(appointments, getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ $access }}', date, calendar);
             renderCurrent (calendar, getDateTime(appStartDate,appStartHour,appStartMinute), getDateTime(appEndDate,appEndHour,appEndMinute), getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ isset($appointment) ? $appointment->user->first_name : '' }}', '{{ $action }}', '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}', appointments);
@@ -451,12 +462,14 @@
                 date = new Date(appStartDate.value);
                 renderDayNumbers(date, monday, tuesday, wednesday, thursday, friday, saturday, sunday);
                 renderExisting(appointments, getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ $access }}', date, calendar);
+                updateCurrentTimeDiv(currentTimeDiv, 'week');
             });
 
             if (barberInput) {                
                 barberInput.addEventListener('change', function () {
                     renderExisting(appointments, getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ $access }}', date, calendar);
                     renderCurrent (calendar, getDateTime(appStartDate,appStartHour,appStartMinute), getDateTime(appEndDate,appEndHour,appEndMinute), getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ isset($appointment) ? $appointment->user->first_name : '' }}', '{{ $action }}', '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}', appointments);
+                    updateCurrentTimeDiv(currentTimeDiv, 'week');
                 });
             }
         });

@@ -358,3 +358,29 @@ window.setDivLeft = function(view) {
         });
     }
 }
+
+window.switchToWeeklyView = function(colHeaderContainer,date,appointments,barberId,access,calendar,view,timeslots,barbers,currentTimeDiv) {
+    renderDateNumbersNew(colHeaderContainer,date);
+    renderExisting(appointments, barberId, 0, access, date, calendar, view);
+
+    timeslots.forEach(ts => {
+        toggleFullWidth(ts, barbers);
+    });
+
+    toggleFullWidth(currentTimeDiv, barbers);
+    updateCurrentTimeDiv(currentTimeDiv, view);
+}
+
+window.switchToDailyView = function(colHeaderContainer,date,appointments,barberId,access,calendar,view,timeslots,barbers,currentTimeDiv) {
+    calendar.innerHTML = "";
+    renderBarberNames(colHeaderContainer,barbers);
+    renderExisting(appointments, barberId, 0, access, date, calendar, view);
+    setDivLeft(view);
+
+    timeslots.forEach(ts => {
+        toggleFullWidth(ts, barbers);
+    });
+
+    toggleFullWidth(currentTimeDiv, barbers);
+    updateCurrentTimeDiv(currentTimeDiv, view);
+}

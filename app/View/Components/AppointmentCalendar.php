@@ -17,7 +17,8 @@ class AppointmentCalendar extends Component
         public Collection $calAppointments,
         public Barber $barber,
         public Collection $barbers,
-        public string $access = 'barber'
+        public string $access = 'barber',
+        public string $defaultView = 'week'
     ) { }
 
     /**

@@ -1,4 +1,4 @@
-<div>
+<div {{ $attributes->merge(['class' => '']) }}>
     <div class="relative overflow-auto mb-4">        
         <div id="calendarEventContainer" class="relative w-full h-0 left-0 top-0 lg:translate-y-6"></div>
 
@@ -30,8 +30,8 @@
         
     </div>
 
-    <div class="flex items-center mb-4">
-        <div class="flex-grow-0">
+    <div class="grid grid-cols-3 max-sm:grid-cols-5 mb-4">
+        <div>
             <div id="previousWeekButton" class="border border-slate-300 hover:border-slate-700 rounded-md text-slate-500 hover:text-slate-700 flex items-center gap-2 w-fit p-2 pr-3 cursor-pointer transition-all">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
@@ -41,12 +41,12 @@
         </div>
         
 
-        <div class="flex-grow text-sm max-md:text-xs text-slate-500 text-center">
+        <div class="max-sm:col-span-3 text-sm max-md:text-xs text-slate-500 text-center flex flex-col justify-center">
             <p>Displayed <span class="viewType">week</span></p>
             <p id="displayWindow"></p>
         </div>
 
-        <div class="flex justify-end flex-grow-0">
+        <div class="flex justify-end">
             <div id="upcomingWeekButton" class="border border-slate-300 hover:border-slate-700 rounded-md text-slate-500 hover:text-slate-700 text-right flex items-center gap-2 w-fit p-2 pl-3 cursor-pointer transition-all">
                 <p class="max-sm:hidden">Upcoming <span class="viewType">week</span></p>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -124,33 +124,11 @@
             toggleViewButton.addEventListener('click', () => {
                 if (view == 'week') {
                     view = 'day';
-                    spanViewType.innerHTML = 'weekly';
-
-                    calendar.innerHTML = "";
-                    renderBarberNames(colHeaderContainer,barbers);
-                    renderExisting(appointments, {{ $barber->id }}, 0, access, date, calendar, view);
-                    setDivLeft(view);
-
-                    timeslots.forEach(ts => {
-                        toggleFullWidth(ts, barbers);
-                    });
-
-                    toggleFullWidth(currentTimeDiv, barbers);
-                    updateCurrentTimeDiv(currentTimeDiv, view);
+                    switchToDailyView(colHeaderContainer,date,appointments,{{ $barber->id }},access,calendar,view,timeslots,barbers,currentTimeDiv);
                     
                 } else {
                     view = 'week';
-                    spanViewType.innerHTML = 'daily';
-
-                    renderDateNumbersNew(colHeaderContainer,date);
-                    renderExisting(appointments, {{ $barber->id }}, 0, access, date, calendar, view);
-
-                    timeslots.forEach(ts => {
-                        toggleFullWidth(ts, barbers);
-                    });
-
-                    toggleFullWidth(currentTimeDiv, barbers);
-                    updateCurrentTimeDiv(currentTimeDiv, view);
+                    switchToWeeklyView(colHeaderContainer,date,appointments,{{ $barber->id }},access,calendar,view,timeslots,barbers,currentTimeDiv);
                 }
 
                 spanViewType.forEach(span => {
@@ -166,6 +144,21 @@
             });
 
             window.addEventListener('resize', () => setDivLeft(view));
+
+            @if ($defaultView == 'day')
+                view = 'day';
+
+                switchToDailyView(colHeaderContainer,date,appointments,{{ $barber->id }},access,calendar,view,timeslots,barbers,currentTimeDiv);
+
+                spanViewType.forEach(span => {
+                    span.innerHTML = view;
+                    span.classList.forEach(spanClass => {
+                        if (spanClass == 'weekly') {
+                            span.innerHTML = (view == 'week') ? 'daily' : 'weekly';
+                        }
+                    });
+                });
+            @endif
         });
     </script>
 </div>

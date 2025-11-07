@@ -22,13 +22,17 @@ class AdminController extends Controller
         }])->orderByDesc('appointments_count')->limit(5)->get();
 
         $sumOfBookings = Appointment::getSumOfBookings();
-
         $sumOfTimeOffs = Appointment::getSumOfTimeOffs();
+
+        $allBarbers = Barber::with('user')->get();
+        $calAppointments = Appointment::with('user')->get();
 
         return view('admin/admin',[
             'users' => $users,
             'barbers' => $barbers,
+            'allBarbers' => $allBarbers,
             'services' => $services,
+            'calAppointments' => $calAppointments,
             'sumOfBookings' => $sumOfBookings,
             'sumOfTimeOffs' => $sumOfTimeOffs
         ]);

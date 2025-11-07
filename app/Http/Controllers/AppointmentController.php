@@ -359,8 +359,10 @@ class AppointmentController extends Controller
             return redirect()->route('time-offs.show',$appointment);
         }
 
+        $barber = auth()->user()->barber;
+
         $appointment->user->notify(
-            new BookingCancellationNotification($appointment,Barber::find($appointment->barber_id))
+            new BookingCancellationNotification($appointment,$barber)
         );
         $appointment->delete();
         return redirect()->route('appointments.show',$appointment)

@@ -1,7 +1,7 @@
 export function renderDivs(appStartTime, appEndTime, calendar, appointments, barberId, divData) {
     // CHECKING THE DAY DIFFERENCE OF THE SELECTED TIME OFF
     const startDateString = appStartTime.toLocaleDateString('en-CA');
-    const endDateString = appEndTime.toLocaleDateString('en-CA');    
+    const endDateString = appEndTime.toLocaleDateString('en-CA');
 
     const dayDifference = (new Date(endDateString) - new Date(startDateString)) / 1000 / 60 / 60 / 24;
     for (let index = 0; index < dayDifference + 1; index++) {
@@ -65,7 +65,7 @@ export function renderDivs(appStartTime, appEndTime, calendar, appointments, bar
 
             // CREATING NEW DIV ELEMENT
             const div = document.createElement('div');
-            div.classList.add('absolute','w-1/8','p-0.5');
+            div.classList.add('absolute','p-0.5');
 
             if (divData.state == 'current') {
                 div.classList.add('currentApp','z-10');
@@ -73,9 +73,17 @@ export function renderDivs(appStartTime, appEndTime, calendar, appointments, bar
                 div.classList.add('existingApp');
             }
             
-            div.style.top = 53/60 * ((startHour-10) * 60 + parseInt(startMinute)) + 44 + 'px';
-            div.style.left = (start.getDay() == 0 ? 7 : start.getDay()) * 12.5 + '%';
             div.style.height = duration / 60 * 53 + 'px';
+
+            if (divData.view == 'week') {
+                div.style.left = (start.getDay() == 0 ? 7 : start.getDay()) * 12.5 + '%';
+                div.style.top = 53/60 * ((startHour-10) * 60 + parseInt(startMinute)) + 44 + 'px';
+                div.classList.add('w-1/8');
+            } else {
+                div.style.left = (divData.barberId) * 12.5 + '%';
+                div.style.top = 53/60 * ((startHour-10) * 60 + parseInt(startMinute)) + 29 + 'px';
+                div.classList.add('w-1/8-resize','barber_'+divData.barberId);
+            }
 
             // CREATING THE A ELEMENT FOR EXISTING APPOINTMENTS
             const link = document.createElement('a');
@@ -162,19 +170,39 @@ export function renderDivs(appStartTime, appEndTime, calendar, appointments, bar
     }
 }
 
-window.renderExisting = function (appointments, barberId, appId, access, date, calendar) {
-    const ws = new Date(getFirstDayOfWeek(date).toLocaleDateString('en-CA'));
-    const weekStart = new Date(ws.setHours(0,0));
+window.renderExisting = function (appointments, barberId, appId, access, date, calendar, view) {
+    if (!view) {
+        view = 'week';
+    }
+
+    let windowStart = '';
+    let windowEnd = '';
+
+    if (view && view == 'day') {
+        windowStart = new Date(date.setHours(0,0,0));
+        windowEnd = addDays(windowStart,1);
+    } else {
+        const ws = new Date(getFirstDayOfWeek(date).toLocaleDateString('en-CA'));
+        windowStart = new Date(ws.setHours(0,0,0));
+        windowEnd = addDays(windowStart,7);
+    }    
     
-    const weekEnd = addDays(weekStart,7);
     const filtered = appointments.filter(app => {
         const appStart = new Date(app.app_start_time.replace(' ', 'T'));
-        return (
-            app.barber_id == barberId &&
-            appStart >= weekStart &&
-            appStart < weekEnd &&
-            app.id != appId
-        );
+        if (view == 'day') {
+            return (
+                appStart >= windowStart &&
+                appStart < windowEnd &&
+                app.id != appId
+            );
+        } else {
+            return (
+                app.barber_id == barberId &&
+                appStart >= windowStart &&
+                appStart < windowEnd &&
+                app.id != appId
+            );
+        }
     });
     
     // REMOVING EXISTING APPOINTMENT DIV ELEMENT
@@ -189,8 +217,11 @@ window.renderExisting = function (appointments, barberId, appId, access, date, c
             access: access,
             state: 'existing',
             appId: app.id,
-            customerName: app.user.first_name
+            customerName: app.user.first_name,
+            barberId: app.barber_id,
+            view: view
         };
+        
         renderDivs(appStartTime, appEndTime, calendar, appointments, barberId, divData);
     });
 };
@@ -234,7 +265,7 @@ window.getFirstDayOfWeek = function (date) {
     return mondayDate;
 };
 
-export function sameDay(d1, d2) {
+window.sameDay = function(d1, d2) {
     return d1.getFullYear() === d2.getFullYear() &&
            d1.getMonth() === d2.getMonth() &&
            d1.getDate() === d2.getDate();
@@ -256,7 +287,12 @@ window.getTimeDifference = function (appStartDate, appStartHour, appStartMinute,
     return (endDateTime - startDateTime) / 1000 / 60;
 };
 
-window.renderDates = function(fromDate, toDate, date) {
-    fromDate.innerHTML = getFirstDayOfWeek(date).toLocaleDateString('en-CA');
-    toDate.innerHTML = addDays(getFirstDayOfWeek(date),6).toLocaleDateString('en-CA');
+window.renderDates = function(displayWindow, view, date) {
+    if (view == 'week') {
+        const start = getFirstDayOfWeek(date).toLocaleDateString('en-CA');
+        const end = addDays(getFirstDayOfWeek(date),6).toLocaleDateString('en-CA');
+        displayWindow.innerHTML = "From " + start + " to " + end;
+    } else {
+        displayWindow.innerHTML = date.toLocaleDateString('en-CA');
+    }
 };

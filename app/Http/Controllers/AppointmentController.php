@@ -21,11 +21,13 @@ class AppointmentController extends Controller
     {
         $appointments = Appointment::barberFilter(auth()->user()->barber)->withoutTimeOffs()->withTrashed()->orderByDesc('id')->paginate(10);
 
-        $calAppointments = Appointment::barberFilter(auth()->user()->barber)->with('user')->get();
+        $calAppointments = Appointment::with('user')->get();
+        $barbers = Barber::with('user')->get();
      
         return view('appointment.index',[
             'appointments' => $appointments,
             'calAppointments' => $calAppointments,
+            'barbers' => $barbers,
             'type' => 'All'
         ]);
     }

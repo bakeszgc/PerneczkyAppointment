@@ -163,6 +163,11 @@ Route::get('/privacy',function() {
     return view('privacy');
 })->name('privacy');
 
+//dummy
+// Route::get('/dummy',function() {
+//     return view('dummy');
+// });
+
 // 404
 Route::fallback(function() {
     return view('404');

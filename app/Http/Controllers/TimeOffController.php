@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barber;
 use Carbon\Carbon;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
@@ -16,13 +17,15 @@ class TimeOffController extends Controller
             ->orderByDesc('id')
         ->paginate(10);
 
-        $calAppointments = Appointment::barberFilter(auth()->user()->barber)
-        ->with('user')->get();
+        $calAppointments = Appointment::with('user')->get();
+        $barbers = Barber::with('user')->get();
 
         return view('time-off.index',[
             'timeoffs' => $timeoffs,
             'calAppointments' => $calAppointments,
-            'type' => 'All']);
+            'barbers' => $barbers,
+            'type' => 'All',
+        ]);
     }
 
     public function indexUpcoming()

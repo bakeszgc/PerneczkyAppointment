@@ -38,7 +38,13 @@
             }
 
             .w-1\/8{
-                width: 12.5%;
+                min-width: 12.5%;
+                max-width: 12.5%;
+            }
+
+            .w-1\/8-resize{
+                min-width: 12.5%;
+                max-width: 12.5%;
             }
 
             #logo{
@@ -64,6 +70,13 @@
                 }
                 .hamburger.active .bar:nth-child(3){
                     transform: translateY(-8px) rotate(-45deg);
+                }
+            }
+
+            @media not all and (min-width:768px) {
+                .w-1\/8-resize{
+                    min-width: 25%;
+                    max-width: 25%;
                 }
             }
         </style>

@@ -16,6 +16,7 @@ class AppointmentCalendar extends Component
     public function __construct(
         public Collection $calAppointments,
         public Barber $barber,
+        public Collection $barbers,
         public string $access = 'barber'
     ) { }
 

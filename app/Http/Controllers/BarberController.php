@@ -62,13 +62,15 @@ class BarberController extends Controller
         $showBookings = $request->showBookings ?? false;
         $showTimeOffs = $request->showTimeOffs ?? false;
 
-        $calAppointments = Appointment::barberFilter($barber)->with('user')->get();
+        $calAppointments = Appointment::with('user')->get();
+        $barbers = Barber::with('user')->get();
 
         $sumOfBookings = Appointment::getSumOfBookings($barber);
         $sumOfTimeOffs = Appointment::getSumOfTimeOffs($barber);
 
         return view('barber.show',[
             'barber' => $barber,
+            'barbers' => $barbers,
             'calAppointments' => $calAppointments,
             'sumOfBookings' => $sumOfBookings,
             'sumOfTimeOffs' => $sumOfTimeOffs,

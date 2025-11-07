@@ -24,9 +24,8 @@
             @endfor
         </div>
 
-        @if (now()->format('G') >= 10 && now()->format('G') <= 21)
-            <div class="absolute h-px bg-blue-700 z-20 min-w-full" id="currentTimeDiv"></div>
-        @endif
+
+        <div @class(['hidden' => now()->format('G') < 10 || now()->format('G') > 21, 'absolute h-px bg-blue-700 z-20 min-w-full' => true]) id="currentTimeDiv"></div>
         
     </div>
 

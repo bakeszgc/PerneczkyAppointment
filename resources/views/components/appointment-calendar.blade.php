@@ -57,9 +57,9 @@
     </div>
 
     <div class="text-center">
-        <button type="button" id="toggleViewButton" class="p-2 bg-blue-500 hover:bg-blue-700 text-white text-base max-md:text-sm font-bold rounded-md transition-all">
+        <x-button role="ctaMain" id="toggleViewButton">
             Switch to <span class="viewType weekly">daily</span> view
-        </button>
+        </x-button>
     </div>
 
     <script>

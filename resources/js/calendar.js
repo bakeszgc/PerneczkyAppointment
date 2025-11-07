@@ -359,7 +359,7 @@ window.setDivLeft = function(view) {
     }
 }
 
-window.switchToWeeklyView = function(colHeaderContainer,date,appointments,barberId,access,calendar,view,timeslots,barbers,currentTimeDiv) {
+window.switchToWeeklyView = function(colHeaderContainer,date,appointments,barberId,access,calendar,view,timeslots,barbers,currentTimeDiv,barberSelect) {
     renderDateNumbersNew(colHeaderContainer,date);
     renderExisting(appointments, barberId, 0, access, date, calendar, view);
 
@@ -369,9 +369,11 @@ window.switchToWeeklyView = function(colHeaderContainer,date,appointments,barber
 
     toggleFullWidth(currentTimeDiv, barbers);
     updateCurrentTimeDiv(currentTimeDiv, view);
+
+    barberSelect.disabled = false;
 }
 
-window.switchToDailyView = function(colHeaderContainer,date,appointments,barberId,access,calendar,view,timeslots,barbers,currentTimeDiv) {
+window.switchToDailyView = function(colHeaderContainer,date,appointments,barberId,access,calendar,view,timeslots,barbers,currentTimeDiv,barberSelect) {
     calendar.innerHTML = "";
     renderBarberNames(colHeaderContainer,barbers);
     renderExisting(appointments, barberId, 0, access, date, calendar, view);
@@ -383,4 +385,6 @@ window.switchToDailyView = function(colHeaderContainer,date,appointments,barberI
 
     toggleFullWidth(currentTimeDiv, barbers);
     updateCurrentTimeDiv(currentTimeDiv, view);
+
+    barberSelect.disabled = true;
 }

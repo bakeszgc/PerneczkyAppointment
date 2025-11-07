@@ -56,10 +56,17 @@
         </div>
     </div>
 
-    <div class="text-center">
+    <div class="text-center flex justify-center items-center gap-4">
         <x-button role="ctaMain" id="toggleViewButton">
             Switch to <span class="viewType weekly">daily</span> view
         </x-button>
+
+        <x-select name="barberSelect" id="barberSelect" :disabled="$defaultView=='day'" class="text-sm">
+            <option value="empty">Select a barber</option>
+            @foreach ($barbers as $b)
+                <option value="{{ $b->id }}" @selected((isset($barber) && $barber->id == $b->id) ?? auth()->user()?->barber->id == $b->id)>{{ $b->getName() }}</option>
+            @endforeach
+        </x-select>
     </div>
 
     <script>
@@ -72,6 +79,8 @@
             const upcomingWeekButton = document.getElementById('upcomingWeekButton');
 
             const toggleViewButton = document.getElementById('toggleViewButton');
+            const barberSelect = document.getElementById('barberSelect');
+
             const colHeaderContainer = document.getElementById('colHeaderContainer');
 
             const spanViewType = document.querySelectorAll('.viewType');
@@ -91,7 +100,7 @@
             updateCurrentTimeDiv(currentTimeDiv, view);
             renderDateNumbersNew(colHeaderContainer,date);
             renderDates(displayWindow, view, date);
-            renderExisting(appointments, {{ $barber->id }}, 0, access, date, calendar, view);
+            renderExisting(appointments, barberSelect.value, 0, access, date, calendar, view);
 
             previousWeekButton.addEventListener('click',function () {
                 if (view == 'week') {
@@ -103,7 +112,7 @@
                 }
 
                 renderDates(displayWindow, view, date);
-                renderExisting(appointments, {{ $barber->id }}, 0, access, date, calendar, view);
+                renderExisting(appointments, barberSelect.value, 0, access, date, calendar, view);
                 setDivLeft(view);
             });
 
@@ -117,18 +126,24 @@
                 }                
 
                 renderDates(displayWindow, view, date);
-                renderExisting(appointments, {{ $barber->id }}, 0, access, date, calendar, view);
+                renderExisting(appointments, barberSelect.value, 0, access, date, calendar, view);
                 setDivLeft(view);
+            });
+
+            barberSelect.addEventListener('change', () => {
+                renderDateNumbersNew(colHeaderContainer,date);
+                renderDates(displayWindow, view, date);
+                renderExisting(appointments, barberSelect.value, 0, access, date, calendar, view);
             });
 
             toggleViewButton.addEventListener('click', () => {
                 if (view == 'week') {
                     view = 'day';
-                    switchToDailyView(colHeaderContainer,date,appointments,{{ $barber->id }},access,calendar,view,timeslots,barbers,currentTimeDiv);
+                    switchToDailyView(colHeaderContainer,date,appointments,barberSelect.value,access,calendar,view,timeslots,barbers,currentTimeDiv,barberSelect);
                     
                 } else {
                     view = 'week';
-                    switchToWeeklyView(colHeaderContainer,date,appointments,{{ $barber->id }},access,calendar,view,timeslots,barbers,currentTimeDiv);
+                    switchToWeeklyView(colHeaderContainer,date,appointments,barberSelect.value,access,calendar,view,timeslots,barbers,currentTimeDiv,barberSelect);
                 }
 
                 spanViewType.forEach(span => {
@@ -148,7 +163,7 @@
             @if ($defaultView == 'day')
                 view = 'day';
 
-                switchToDailyView(colHeaderContainer,date,appointments,{{ $barber->id }},access,calendar,view,timeslots,barbers,currentTimeDiv);
+                switchToDailyView(colHeaderContainer,date,appointments,barberSelect.value,access,calendar,view,timeslots,barbers,currentTimeDiv,barberSelect);
 
                 spanViewType.forEach(span => {
                     span.innerHTML = view;

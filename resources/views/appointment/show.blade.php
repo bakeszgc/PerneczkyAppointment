@@ -37,17 +37,20 @@
 
     <h2 class="font-bold text-2xl max-md:text-xl mb-4">{{$appointment->user->first_name}}'s details</h2>
 
-    @if ($appointment->user->email)
+    @if ($appointment->user->hasEmail())
         <x-card class="flex max-md:flex-col gap-4 mb-4">
             <div class="text-base max-md:text-sm flex-1">
                 <div class="mb-4 pb-4 border-b-2">
                     <h3 class="font-bold text-xl max-md:text-lg mb-2">Contact</h3>
                     <ul>
-                        @if ($appointment->user->tel_number)
-                            <li>
-                                Telephone number: <a href="tel:{{ $appointment->user->tel_number }}" class="text-blue-700 hover:underline">{{ $appointment->user->tel_number }}</a>
-                            </li>
-                        @endif
+                        <li>
+                            Telephone number:
+                            @if ($appointment->user->tel_number)
+                            <a href="tel:{{ $appointment->user->tel_number }}" class="text-blue-700 hover:underline">{{ $appointment->user->tel_number }}</a>
+                            @else
+                                <span class="italic">Not given yet</span>
+                            @endif
+                        </li>
                         
                         <li>
                             Email address: <a href="mailto:{{ $appointment->user->email }}" class="text-blue-700 hover:underline">{{ $appointment->user->email }}</a>

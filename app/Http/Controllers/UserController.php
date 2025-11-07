@@ -50,8 +50,8 @@ class UserController extends Controller
         $request->validate([
             'first_name' => 'required|string|min:2|max:255',
             'last_name' => 'required|string|min:2|max:255',
-            'date_of_birth' => 'required|date|before_or_equal:today',
-            'telephone_number' => 'required|starts_with:+,0|numeric|unique:users,tel_number',
+            'date_of_birth' => 'nullable|date|before_or_equal:today',
+            'telephone_number' => 'nullable|starts_with:+,0|numeric|unique:users,tel_number',
             'email' => ['required','email',new FreeEmailAddress()],
             'password' => ['required',Password::min(8)->mixedCase()->numbers()],
             'password_confirmation' => 'required|same:password',
@@ -147,8 +147,8 @@ class UserController extends Controller
             'last_name' => 'required|string|min:2|max:255',
             'display_name' => ['nullable','string','max:255',Rule::unique('barbers','display_name')->ignore($user->barber?->id)],
             'description' => ['nullable','string','max:500'],
-            'date_of_birth' => 'required|date|before_or_equal:today',
-            'telephone_number' => ['required','starts_with:+,0','numeric',Rule::unique('users','tel_number')->ignore($user->id)],
+            'date_of_birth' => 'nullable|date|before_or_equal:today',
+            'telephone_number' => ['nullable','starts_with:+,0','numeric',Rule::unique('users','tel_number')->ignore($user->id)],
             'email' => ['required','email',Rule::unique('users','email')->ignore($user->id)]
         ]);
 

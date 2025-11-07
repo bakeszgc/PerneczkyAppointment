@@ -58,16 +58,18 @@
                 <div>
                     <h3 class="font-bold text-xl max-md:text-lg mb-2">Account</h3>
 
-                    @if ($appointment->user->date_of_birth)
+                    @if ($appointment->user->isRegistered())
                         <ul>
                             <li>
-                                Date of birth: {{ \Carbon\Carbon::parse($appointment->user->date_of_birth)->format('Y-m-d') }} ({{ floor(\Carbon\Carbon::parse($appointment->user->date_of_birth)->diffInYears(now())) }} years old)
+                                Date of birth: <span @class(['italic' => !$appointment->user->date_of_birth])>{{ $appointment->user->date_of_birth ? \Carbon\Carbon::parse($appointment->user->date_of_birth)->format('Y-m-d') . ' (' .  floor(\Carbon\Carbon::parse($appointment->user->date_of_birth)->diffInYears(now())) . ' years old)' : 'Not given yet'}}</span>
                             </li>
                             <li>
-                                Account created: {{ \Carbon\Carbon::parse($appointment->user->created_at)->format('Y-m-d G:i') ?? 'Not created yet' }}
+                                Account created: {{ \Carbon\Carbon::parse($appointment->user->created_at)->format('Y-m-d G:i') }}
                             </li>
                             <li>
-                                Email verified: {{ \Carbon\Carbon::parse($appointment->user->email_verified_at)->format('Y-m-d G:i') ?? 'Not verified yet' }}
+                                Email verified: <span @class(['italic' => !$appointment->user->email_verified_at])>
+                                    {{ $appointment->user->email_verified_at ? \Carbon\Carbon::parse($appointment->user->email_verified_at)->format('Y-m-d G:i') : 'Not verified yet' }}
+                                </span>
                             </li>
                             
                             @if ($view == 'admin')

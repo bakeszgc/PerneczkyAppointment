@@ -242,20 +242,56 @@ window.renderCurrent = function (calendar, appStartTime, appEndTime, barberId, a
     renderDivs(appStartTime, appEndTime, calendar, appointments, barberId, divData);
 };
 
-window.renderDayNumbers = function (date, ...dayElements) {
-    let day = date.getDay();
-    if (day === 0) day = 7;
+window.renderDateNumbersNew = function(colHeaderContainer,date) {
+    colHeaderContainer.innerHTML = "";
+    var dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     let mondayDate = getFirstDayOfWeek(date);
 
-    dayElements.forEach((el, i) => {
+    const offsetDiv = document.createElement('div');
+    offsetDiv.classList.add('w-1/8');
+    colHeaderContainer.appendChild(offsetDiv);
+
+    for (let i = 0; i < 7; i++) {
+        const div = document.createElement('div');
+        div.classList.add('flex','items-center','justify-center','gap-1','flex-col','w-1/8');
+
+        const spanNameOfDay = document.createElement('span');
+        spanNameOfDay.classList.add('text-slate-500');
+        spanNameOfDay.innerHTML=dayNames[i];
+        div.appendChild(spanNameOfDay);
+
+        const spanNumberOfDay = document.createElement('span');
         let d = new Date(mondayDate);
         d.setDate(mondayDate.getDate() + i);
-        el.innerHTML = d.getDate();
-        el.classList = '';
-        el.classList.add('font-bold','rounded-full','py-1','px-2','transition-all');
-        (sameDay(d,new Date())) ? el.classList.add('bg-blue-600','text-white','hover:bg-blue-800') : el.classList.add('hover:bg-slate-300');
-    });
-};
+        spanNumberOfDay.innerHTML = d.getDate();
+        spanNumberOfDay.classList = '';
+        spanNumberOfDay.classList.add('font-bold','rounded-full','py-1','px-2','transition-all');
+        (sameDay(d,new Date())) ? spanNumberOfDay.classList.add('bg-blue-600','text-white','hover:bg-blue-800') : spanNumberOfDay.classList.add('hover:bg-slate-300');
+        div.appendChild(spanNumberOfDay);
+
+        colHeaderContainer.appendChild(div);
+    }
+}
+
+window.renderBarberNames = function(colHeaderContainer, barbers) {
+    colHeaderContainer.innerHTML = "";
+
+    const offsetDiv = document.createElement('div');
+    offsetDiv.classList.add('w-1/8');
+    colHeaderContainer.appendChild(offsetDiv);
+
+    for (let i = 0; i < barbers.length; i++) {
+        const div = document.createElement('div');
+        div.classList.add('w-1/8-resize','mt-4');
+
+        const spanNameOfBarber = document.createElement('span');
+        spanNameOfBarber.classList.add('font-bold','rounded-full','p-1');
+        spanNameOfBarber.innerHTML = barbers[i].display_name ?? barbers[i].user.first_name;
+        div.appendChild(spanNameOfBarber);
+        
+        colHeaderContainer.appendChild(div);
+    }
+}
 
 window.getFirstDayOfWeek = function (date) {
     let mondayDate = new Date(date);
@@ -300,4 +336,25 @@ window.renderDates = function(displayWindow, view, date) {
 window.updateCurrentTimeDiv = function(currentTimeDiv, view) {
     const offsetX = (view == 'week') ? 68 : 52;
     currentTimeDiv.style.top = (53/60 * ((new Date().getHours() -10) * 60 + new Date().getMinutes()) + offsetX) + "px";
+}
+window.toggleFullWidth = function(element, barbers) {
+    const widthClass = "w-[" + ((barbers.length + 1) * 100 / 8) + "%]";
+    const widthClassWide = "max-md:w-[" + (12.5 + barbers.length * 100 / 4) + "%]";
+    element.classList.toggle(widthClass);
+    element.classList.toggle(widthClassWide);
+}
+
+window.setDivLeft = function(view) {
+    if (view == 'day') {
+        const divs = document.querySelectorAll('.existingApp');
+        divs.forEach(div => {
+            const barberId = div.className.split('_')[1];
+            
+            if (window.innerWidth < 768) {
+                div.style.left = `calc(12.5% + ${(barberId-1) * 25}%)`; 
+            } else {
+                div.style.left = `calc(12.5% + ${(barberId-1) * 12.5}%)`; 
+            }                
+        });
+    }
 }

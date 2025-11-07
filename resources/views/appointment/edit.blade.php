@@ -303,8 +303,9 @@
         <div class="relative">        
             <div id="calendarEventContainer" class="relative w-full h-0 left-0 top-0 lg:translate-y-6"></div>
 
-            <div class="flex text-center mb-4">
+            <div class="flex text-center mb-4" id="colHeaderContainer">
                 <div class="w-1/8"></div>
+
                 @for ($i = 1; $i<=7; $i++)
                     <div class="flex items-center justify-center gap-1 flex-col w-1/8">
                         <span class="text-slate-500">
@@ -347,13 +348,7 @@
             let timeDifference = getTimeDifference(appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute);
 
             // CALENDAR VARIABLES
-            const monday = document.getElementById('monNumber');
-            const tuesday = document.getElementById('tueNumber');
-            const wednesday = document.getElementById('wedNumber');
-            const thursday = document.getElementById('thuNumber');
-            const friday = document.getElementById('friNumber');
-            const saturday = document.getElementById('satNumber');
-            const sunday = document.getElementById('sunNumber');
+            const colHeaderContainer = document.getElementById('colHeaderContainer');
 
             const appointments = @json($appointments);
 
@@ -362,8 +357,6 @@
 
             const calendar = document.getElementById('calendarEventContainer');
             const currentTimeDiv = document.getElementById('currentTimeDiv');
-
-            updateCurrentTimeDiv(currentTimeDiv, 'week');
 
             @switch($view)
                 @case('Booking')
@@ -453,14 +446,14 @@
                 });
             });
             
+            renderDateNumbersNew(colHeaderContainer,date);
             updateCurrentTimeDiv(currentTimeDiv, 'week');
-            renderDayNumbers (date, monday, tuesday, wednesday, thursday, friday, saturday, sunday);
             renderExisting(appointments, getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ $access }}', date, calendar);
             renderCurrent (calendar, getDateTime(appStartDate,appStartHour,appStartMinute), getDateTime(appEndDate,appEndHour,appEndMinute), getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ isset($appointment) ? $appointment->user->first_name : '' }}', '{{ $action }}', '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}', appointments);
 
             appStartDate.addEventListener('change', function () {
                 date = new Date(appStartDate.value);
-                renderDayNumbers(date, monday, tuesday, wednesday, thursday, friday, saturday, sunday);
+                renderDateNumbersNew(colHeaderContainer,date);
                 renderExisting(appointments, getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ $access }}', date, calendar);
                 updateCurrentTimeDiv(currentTimeDiv, 'week');
             });

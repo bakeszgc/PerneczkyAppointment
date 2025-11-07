@@ -164,7 +164,7 @@
                         <a href="{{ route('privacy') }}" class="hover:text-blue-500 transition-all">Privacy policy</a>
                     </li>
                     <li class="mb-1">
-                        <a href="{{ asset('files/perneczky_aszf.pdf') }}" target="_blank" class="hover:text-blue-500 transition-all">Terms & conditions</a>
+                        <a href="{{ route('terms') }}" class="hover:text-blue-500 transition-all">Terms & conditions</a>
                     </li>
                 </ul>
             </div>

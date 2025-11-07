@@ -241,7 +241,7 @@
                             <div class="flex gap-2 items-center mt-2">
                                 @guest
                                     <x-input-field type="checkbox" name="policy_checkbox" id="policy_checkbox" value="1" class="confirmInput reqInput"/>
-                                    <label for="policy_checkbox" class="flex-1">I have read and I accept the terms & conditions and the <a href="{{ route('privacy') }}" target="_blank" class="text-blue-700 hover:underline">privacy policy</a>.*</label>
+                                    <label for="policy_checkbox" class="flex-1">I have read and I accept the <a href="{{ route('terms') }}" target="_blank" class="text-blue-700 hover:underline">terms & conditions</a> and the <a href="{{ route('privacy') }}" target="_blank" class="text-blue-700 hover:underline">privacy policy</a>.*</label>
 
                                     @error('policy_checkbox')
                                         <p class=" text-red-500 text-right">{{$message}}</p>

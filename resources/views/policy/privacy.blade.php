@@ -17,7 +17,7 @@
 
         <div class="mb-8">
             <h2 class="text-xl max-md:text-lg font-bold mb-4">Who we are</h2>
-            <ul class="list-disc *:ml-6 mb-4">
+            <ul class="*:mb-2 list-disc *:ml-6 mb-4">
                 <li>
                     Data controller: {{ env('COMPANY_NAME') }}
                 </li>
@@ -147,7 +147,7 @@
             <p class="mb-4 text-justify">
                 We keep your personal data only as long as necessary for the purposes listed above:
             </p>
-            <ul class="list-disc *:ml-6 mb-4">
+            <ul class="*:mb-2 list-disc *:ml-6 mb-4">
                 <li>Booking and account data: 2 years after your last interaction</li>
                 <li>Accounting or payment records: 8 years (as required by Hungarian tax law)</li>
                 <li>Marketing consent data: until you withdraw your consent</li>
@@ -162,7 +162,7 @@
             <p class="mb-4 text-justify">
                 We share personal data only with trusted service providers that help us operate our business, such as:
             </p>
-            <ul class="list-disc *:ml-6 mb-4">
+            <ul class="*:mb-2 list-disc *:ml-6 mb-4">
                 <li>Hosting provider: {{ env('HOSTING_PROVIDER_NAME') }}</li>
                 <li>Email service: {{ env('HOSTING_PROVIDER_NAME') }} Webmail</li>
             </ul>
@@ -232,8 +232,8 @@
             <p class="mb-4 text-justify">
                 If you believe we have processed your data unlawfully, you can file a complaint with the Hungarian National Authority for Data Protection and Freedom of Information (NAIH):
             </p>
-            <h3 class="font-bold">Nemzeti Adatvédelmi és Információszabadság Hatóság (NAIH)</h3>
-            <ul class="list-disc *:ml-6">
+            <h3 class="font-bold mb-2">Nemzeti Adatvédelmi és Információszabadság Hatóság (NAIH)</h3>
+            <ul class="*:mb-2 list-disc *:ml-6">
                 <li>
                     Website: <a href="https://www.naih.hu" class="text-blue-700 hover:underline">https://www.naih.hu</a>
                 </li>
@@ -251,7 +251,7 @@
             <p class="mb-4 text-justify">
                 We take appropriate technical and organizational measures to protect your data, including:
             </p>
-            <ul class="list-disc *:ml-6 mb-4">
+            <ul class="*:mb-2 list-disc *:ml-6 mb-4">
                 <li>Encrypted (HTTPS) connections</li>
                 <li>Secure servers and password protection</li>
                 <li>Regular software and system updates</li>
@@ -273,8 +273,8 @@
             <p class="text-justify mb-4">
                 If you have any questions, concerns, or requests regarding this Privacy Policy or your personal data, please contact us:
             </p>
-            <h3 class="font-bold">{{ env('APP_NAME') }}</h3>
-            <ul class="list-disc *:ml-6">
+            <h3 class="font-bold mb-2">{{ env('APP_NAME') }}</h3>
+            <ul class="*:mb-2 list-disc *:ml-6">
                 <li>
                     Email: <a href="mailto:{{ env('COMPANY_MAIL') }}" class="text-blue-700 hover:underline">{{ env('COMPANY_MAIL') }}</a>
                 </li>

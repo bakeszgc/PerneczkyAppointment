@@ -155,20 +155,20 @@ Route::get('/',function() {
 
 // COOKIE POLICY
 Route::get('/cookies', function() {
-    return view('cookies');
+    return view('policy.cookies');
 })->name('cookies');
 
 // PRIVACY POLICY
 Route::get('/privacy',function() {
-    return view('privacy');
+    return view('policy.privacy');
 })->name('privacy');
 
-//dummy
-// Route::get('/dummy',function() {
-//     return view('dummy');
-// });
+// TERMS AND CONDITIONS
+Route::get('terms', function(){
+    return view('policy.terms');
+})->name('terms');
 
-//debug
+// DEBUG
 Route::get('debug-page/{message}',function(string $message){
     return view('debugpage',['message' => $message]);
 })->name('debugpage');

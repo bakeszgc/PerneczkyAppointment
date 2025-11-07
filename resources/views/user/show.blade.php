@@ -37,7 +37,7 @@
                     <div class="grid grid-cols-2 gap-2">
                         <div class="flex flex-col max-sm:col-span-2">
                             <x-label for="first_name">First name*</x-label>
-                            <x-input-field name="first_name" id="first_name" value="{{ old('first_name') ??$user->first_name }}" :disabled="isset($user->deleted_at) || !$user->isRegistered()" class="profileInput" />
+                            <x-input-field name="first_name" id="first_name" value="{{ old('first_name') ??$user->first_name }}" :disabled="isset($user->deleted_at) || !$user->isRegistered()" class="profileInput profileReqInput" />
                             @error('first_name')
                                 <p class=" text-red-500">{{$message}}</p>
                             @enderror
@@ -45,7 +45,7 @@
 
                         <div class="flex flex-col max-sm:col-span-2">
                             <x-label for="last_name">Last name*</x-label>
-                            <x-input-field name="last_name" id="last_name" value="{{ old('last_name') ??$user->last_name }}" :disabled="isset($user->deleted_at) || !$user->isRegistered()" class="profileInput" />
+                            <x-input-field name="last_name" id="last_name" value="{{ old('last_name') ??$user->last_name }}" :disabled="isset($user->deleted_at) || !$user->isRegistered()" class="profileInput profileReqInput" />
                             @error('last_name')
                                 <p class=" text-red-500">{{$message}}</p>
                             @enderror
@@ -85,14 +85,14 @@
                                 </div>
                             </div>
                             
-                            <x-input-field type="email" name="email" id="email" value="{{ old('email') ?? $user->email }}" :disabled="isset($user->deleted_at) || !$user->isRegistered()" class="profileInput" />
+                            <x-input-field type="email" name="email" id="email" value="{{ old('email') ?? $user->email }}" :disabled="isset($user->deleted_at) || !$user->isRegistered()" class="profileInput profileReqInput" />
                             @error('email')
                                 <p class=" text-red-500">{{$message}}</p>
                             @enderror
                         </div>
 
                         <div class="flex flex-col max-sm:col-span-2">
-                            <x-label for="date_of_birth">Date of birth*</x-label>
+                            <x-label for="date_of_birth">Date of birth</x-label>
                             <x-input-field type="date" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth') ?? $user->date_of_birth }}" :disabled="isset($user->deleted_at) || !$user->isRegistered()" class="profileInput w-full" />
                             @error('date_of_birth')
                                 <p class=" text-red-500">{{$message}}</p>
@@ -100,7 +100,7 @@
                         </div>
 
                         <div class="flex flex-col max-sm:col-span-2">
-                            <x-label for="telephone_number">Telephone number*</x-label>
+                            <x-label for="telephone_number">Telephone number</x-label>
                             <x-input-field type="tel" name="telephone_number" id="telephone_number" value="{{ old('telephone_number') ?? $user->tel_number }}" :disabled="isset($user->deleted_at) || !$user->isRegistered()" class="profileInput" />
                             @error('telephone_number')
                                 <p class=" text-red-500">{{$message}}</p>
@@ -364,8 +364,9 @@
             // PROFILE BUTTON RE-ENABLE
             const profileButton = document.getElementById('profileButton');
             const profileInputs = document.querySelectorAll('.profileInput');
+            const profileReqInputs = document.querySelectorAll('.profileReqInput');
 
-            enableButton(profileButton, profileInputs);
+            enableButtonIfInputsFilled(profileButton, profileInputs, profileReqInputs);
         });
 
         function checkPassword(passButton, passInput, newPassInput, newPassConfInput) {

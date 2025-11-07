@@ -23,14 +23,14 @@
                 <div class="grid grid-cols-2 gap-2 mb-4">
                     <div class="flex flex-col max-sm:col-span-2">
                         <x-label for="first_name">First name*</x-label>
-                        <x-input-field name="first_name" id="first_name" value="{{ old('first_name') ??$barber->user->first_name }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" />
+                        <x-input-field name="first_name" id="first_name" value="{{ old('first_name') ??$barber->user->first_name }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" class="profileInput profileReqInput" />
                         @error('first_name')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
                     </div>
                     <div class="flex flex-col max-sm:col-span-2">
                         <x-label for="last_name">Last name*</x-label>
-                        <x-input-field name="last_name" id="last_name" value="{{ old('last_name') ??$barber->user->last_name }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" />
+                        <x-input-field name="last_name" id="last_name" value="{{ old('last_name') ??$barber->user->last_name }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" class="profileInput profileReqInput"/>
                         @error('last_name')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
@@ -38,7 +38,7 @@
 
                     <div class="flex flex-col col-span-2">
                         <x-label for="display_name">Display name</x-label>
-                        <x-input-field name="display_name" id="display_name" value="{{ old('display_name') ??$barber->display_name }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" />
+                        <x-input-field name="display_name" id="display_name" value="{{ old('display_name') ??$barber->display_name }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" class="profileInput"/>
                         @error('display_name')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
@@ -46,7 +46,7 @@
 
                     <div class="flex flex-col col-span-2">
                         <x-label for="description">Description (<span id="charCount">xxx</span>/500)</x-label>
-                        <x-input-field type="textarea" name="description" id="description" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)">{{ old('description') ?? $barber->description }}</x-input-field>
+                        <x-input-field type="textarea" name="description" id="description" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" class="profileInput">{{ old('description') ?? $barber->description }}</x-input-field>
                         @error('description')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
@@ -63,23 +63,23 @@
                             
                         </div>
                         
-                        <x-input-field type="email" name="email" id="email" value="{{ old('email') ?? $barber->user->email }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" />
+                        <x-input-field type="email" name="email" id="email" value="{{ old('email') ?? $barber->user->email }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" class="profileInput profileReqInput"/>
                         @error('email')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
                     </div>
 
                     <div class="flex flex-col max-sm:col-span-2">
-                        <x-label for="date_of_birth">Date of birth*</x-label>
-                        <x-input-field type="date" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth') ?? $barber->user->date_of_birth }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" />
+                        <x-label for="date_of_birth">Date of birth</x-label>
+                        <x-input-field type="date" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth') ?? $barber->user->date_of_birth }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" class="profileInput"/>
                         @error('date_of_birth')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
                     </div>
 
                     <div class="flex flex-col max-sm:col-span-2">
-                        <x-label for="telephone_number">Telephone number*</x-label>
-                        <x-input-field type="tel" name="telephone_number" id="telephone_number" value="{{ old('telephone_number') ?? $barber->user->tel_number }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" />
+                        <x-label for="telephone_number">Telephone number</x-label>
+                        <x-input-field type="tel" name="telephone_number" id="telephone_number" value="{{ old('telephone_number') ?? $barber->user->tel_number }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" class="profileInput"/>
                         @error('telephone_number')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
@@ -88,7 +88,7 @@
 
                 <div class="flex justify-between items-center mb-4">
                     <div class="flex items-center gap-2">
-                        <x-input-field type="checkbox" name="is_visible" id="is_visible" :checked="$barber->is_visible" value="is_visible" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)"></x-input-field>
+                        <x-input-field type="checkbox" name="is_visible" id="is_visible" :checked="$barber->is_visible" value="is_visible" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" class="profileInput" />
                         <label for="is_visible">
                             Visible for everyone
                         </label>
@@ -110,7 +110,7 @@
             
             <div class="flex max-sm:flex-col gap-2">
                 <div class="max-sm:w-full">
-                    <x-button role="ctaMain" :disabled="isset($barber->deleted_at)" :full="true" id="submitButton">Save changes</x-button>
+                    <x-button role="ctaMain" :disabled="isset($barber->deleted_at)" :full="true" id="profileButton" :disabled="true">Save changes</x-button>
                     </form>
                 </div>
 
@@ -250,6 +250,13 @@
             if (description && charCount) {
                 countCharacters(charCount, description);
             }
+
+            // PROFILE BUTTON RE-ENABLE
+            const profileButton = document.getElementById('profileButton');
+            const profileInputs = document.querySelectorAll('.profileInput');
+            const profileReqInputs = document.querySelectorAll('.profileReqInput');
+
+            enableButtonIfInputsFilled(profileButton, profileInputs, profileReqInputs);
         });
     </script>
 </x-user-layout>

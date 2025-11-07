@@ -86,9 +86,9 @@ class CustomerController extends Controller
         $request->validate([
             'first_name' => 'required|string|min:2|max:255',
             'last_name' => 'required|string|min:2|max:255',
-            'display_name' => 'string|nullable',
-            'date_of_birth' => 'required|date|before_or_equal:today',
-            'telephone_number' => ['required','starts_with:+,0','numeric',Rule::unique('users','tel_number')->ignore($customer->id)],
+            'display_name' => 'nullable|string',
+            'date_of_birth' => 'nullable|date|before_or_equal:today',
+            'telephone_number' => ['nullable','starts_with:+,0','numeric',Rule::unique('users','tel_number')->ignore($customer->id)],
             'email' => ['required','email',Rule::unique('users','email')->ignore($customer->id)],
             'is_barber' => 'nullable',
             'is_admin' => 'nullable|boolean'

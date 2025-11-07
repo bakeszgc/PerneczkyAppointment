@@ -209,75 +209,80 @@ class AuthController extends Controller
 
     public function socialAuth($provider, Request $request)
     {
-        if (!$provider) {
-            return redirect()->route('login')->with('error',"Auth provider hasn't been passed properly.");
-        }
-
-        if (session('barber_id') && session('service_id') && session('date')) {
-            $barberId = session('barber_id');
-            $serviceId = session('service_id');
-            $date = session('date');
-            $comment = session('comment');
-
-            $bookingData = [
-                'barber_id' => $barberId,
-                'service_id' => $serviceId,
-                'date' => $date,
-                'comment' => $comment,
-            ];
-
-            $request->session()->forget(['barber_id', 'service_id', 'date', 'comment']);
-        }
-        
-        if ($provider == 'facebook') {
-            $socialUser = Socialite::driver($provider)->fields(['name','first_name','last_name','email'])->user();
-        } else {
-            $socialUser = Socialite::driver($provider)->user();
-        }
-
-        $user = User::where($provider.'_id',$socialUser->getId())->first();
-
-        if ($user) {
-            Auth::login($user);
-        } else {
-            $userWithMail = User::whereEmail($socialUser->getEmail())->first();
-            
-            if ($userWithMail) {
-                $userWithMail->update([
-                    $provider.'_id' => $socialUser->getId()
-                ]);
-                Auth::login($userWithMail);
-
-                if (!$userWithMail->email_verified_at) {
-                    $userWithMail->notify(new VerifyEmail());
-                }
-
-            } else {
-                if ($provider == 'google') {
-                    $firstName = $socialUser->user['given_name'];
-                    $lastName = $socialUser->user['family_name'];
-                } else {
-                    $firstName = $socialUser->user['first_name'];
-                    $lastName = $socialUser->user['last_name'];
-                }
-
-                $newUser = User::create([
-                    'first_name' => $firstName,
-                    'last_name' => $lastName,
-                    'email' => $socialUser->getEmail(),
-                    $provider.'_id' => $socialUser->getId(),
-                    'is_admin' => false
-                ]);
-                
-                Auth::login($newUser);
-                $newUser->notify(new VerifyEmail());
+        try {
+            if (!$provider) {
+                return redirect()->route('login')->with('error',"Auth provider hasn't been passed properly.");
             }
-        }
 
-        if (isset($bookingData)) {
-            return redirect()->route('my-appointments.create.confirm',$bookingData)->with('success','You logged in using ' . ucfirst($provider) . ' successfully!');
-        } else {
-            return redirect()->route('my-appointments.index')->with('success','You logged in using ' . ucfirst($provider) . ' successfully!');
+            if (session('barber_id') && session('service_id') && session('date')) {
+                $barberId = session('barber_id');
+                $serviceId = session('service_id');
+                $date = session('date');
+                $comment = session('comment');
+
+                $bookingData = [
+                    'barber_id' => $barberId,
+                    'service_id' => $serviceId,
+                    'date' => $date,
+                    'comment' => $comment,
+                ];
+
+                $request->session()->forget(['barber_id', 'service_id', 'date', 'comment']);
+            }
+            
+            if ($provider == 'facebook') {
+                $socialUser = Socialite::driver($provider)->fields(['name','first_name','last_name','email'])->user();
+            } else {
+                $socialUser = Socialite::driver($provider)->user();
+            }
+
+            $user = User::where($provider.'_id',$socialUser->getId())->first();
+
+            if ($user) {
+                Auth::login($user);
+            } else {
+                $userWithMail = User::whereEmail($socialUser->getEmail())->first();
+                
+                if ($userWithMail) {
+                    $userWithMail->update([
+                        $provider.'_id' => $socialUser->getId()
+                    ]);
+                    Auth::login($userWithMail);
+
+                    if (!$userWithMail->email_verified_at) {
+                        $userWithMail->notify(new VerifyEmail());
+                    }
+
+                } else {
+                    if ($provider == 'google') {
+                        $firstName = $socialUser->user['given_name'];
+                        $lastName = $socialUser->user['family_name'];
+                    } else {
+                        $firstName = $socialUser->user['first_name'];
+                        $lastName = $socialUser->user['last_name'];
+                    }
+
+                    $newUser = User::create([
+                        'first_name' => $firstName,
+                        'last_name' => $lastName,
+                        'email' => $socialUser->getEmail(),
+                        $provider.'_id' => $socialUser->getId(),
+                        'is_admin' => false
+                    ]);
+                    
+                    Auth::login($newUser);
+                    $newUser->notify(new VerifyEmail());
+                }
+            }
+
+            if (isset($bookingData)) {
+                return redirect()->route('my-appointments.create.confirm',$bookingData)->with('success','You logged in using ' . ucfirst($provider) . ' successfully!');
+            } else {
+                return redirect()->route('my-appointments.index')->with('success','You logged in using ' . ucfirst($provider) . ' successfully!');
+            }
+
+        } catch (Exception $e) {
+            return redirect()->route('debugpage',['message' => $e]);
         }
     }
 }

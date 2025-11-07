@@ -168,6 +168,11 @@ Route::get('/privacy',function() {
 //     return view('dummy');
 // });
 
+//debug
+Route::get('debug-page/{message}',function(string $message){
+    return view('debugpage',['message' => $message]);
+})->name('debugpage');
+
 // 404
 Route::fallback(function() {
     return view('404');

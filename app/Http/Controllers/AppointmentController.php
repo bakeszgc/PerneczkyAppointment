@@ -345,11 +345,7 @@ class AppointmentController extends Controller
             new BookingUpdateNotification($oldAppointment,$appointment,updatedBy: Barber::find($oldAppointment['barber_id']))
         );
 
-        if (auth()->user()->barber->id != $barber->id) {
-            return redirect()->route('appointments.index')->with('success',"Your booking has been assigned to " . $barber->getName() . " successfully!");
-        } else {
-            return redirect()->route('appointments.show',['appointment' => $appointment])->with('success','Booking has been updated successfully!');
-        }
+        return redirect()->route('appointments.show',['appointment' => $appointment])->with('success','Booking has been updated successfully!');
     }
 
     public function destroy(Appointment $appointment)

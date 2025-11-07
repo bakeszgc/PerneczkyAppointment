@@ -12,16 +12,12 @@ class AppointmentPolicy
     // FOR BARBERS - APPOINTMENT & TIMEOFF CONTROLLER
     public function view(User $user, Appointment $appointment): Response
     {
-        return $appointment->barber_id === $user->barber->id
-            ? Response::allow()
-            : Response::deny("You can't view other barbers' " . $appointment->getType() . "s.");
+        return Response::allow();
     }
 
     public function update(User $user, Appointment $appointment): Response
     {
-        if ($appointment->barber_id != $user->barber->id) {
-            return Response::deny("You can't edit other barbers' " . $appointment->getType() . "s.");
-        } elseif ($appointment->app_start_time <= now()) {
+        if ($appointment->app_start_time <= now()) {
             return Response::deny("You can't edit " . $appointment->getType() . "s from the past.");
         } elseif ($appointment->deleted_at) {
             return Response::deny("You can't edit cancelled " . $appointment->getType() . "s.");
@@ -32,9 +28,7 @@ class AppointmentPolicy
 
     public function delete(User $user, Appointment $appointment): Response
     {
-        if ($appointment->barber_id != $user->barber->id) {
-            return Response::deny("You can't cancel other barbers' " . $appointment->getType() . "s.");
-        } elseif ($appointment->app_start_time <= now()) {
+        if ($appointment->app_start_time <= now()) {
             return Response::deny("You can't cancel " . $appointment->getType() . "s from the past.");
         } elseif ($appointment->deleted_at) {
             return Response::deny("You can't cancel already cancelled " . $appointment->getType() . "s.");

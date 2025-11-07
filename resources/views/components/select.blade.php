@@ -9,13 +9,18 @@ disabled:bg-slate-100 disabled:text-slate-300 disabled:hover:border-slate-300 di
     document.addEventListener('DOMContentLoaded',()=>{
         const selectInputs = document.querySelectorAll("select[name={{ $name }}]");
         selectInputs.forEach(input => {
+            toggleSelectGreyText(input)
             input.addEventListener('change',()=>{
-                if (input.value == '' || input.value == 'empty') {
-                    input.classList.add('text-slate-300');
-                } else {
-                    input.classList.remove('text-slate-300');
-                }
+                toggleSelectGreyText(input)
             });
         });
     });
+    
+    function toggleSelectGreyText(input) {
+        if (!input.value || input.value == '' || input.value == 'empty') {
+            input.classList.add('text-slate-300');
+        } else {
+            input.classList.remove('text-slate-300');
+        }
+    }
 </script>

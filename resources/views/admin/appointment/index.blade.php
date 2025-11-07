@@ -46,7 +46,7 @@
                 <div class="flex flex-col">
                     <x-label for="barberSelect">Barber</x-label>
                     <x-select name="barber" id="barberSelect">
-                        <option value="empty"></option>
+                        <option value="empty">Select a barber</option>
                         @foreach ($barbers as $barber)
                             <option value="{{ $barber->id }}" @selected(request('barber') == $barber->id)>
                                 {{ $barber->getName() }} {{ $barber->deleted_at ? '(deleted)' : '' }}
@@ -62,7 +62,7 @@
                     <div class="flex flex-col">
                         <x-label for="serviceSelect">Service</x-label>
                         <x-select name="service" id="serviceSelect">
-                            <option value="empty"></option>
+                            <option value="empty">Select a service</option>
                             @foreach ($services as $service)
                                 <option value="{{ $service->id }}" @selected(request('service') == $service->id)>
                                     {{ $service->name }} {{ $service->deleted_at ? '(deleted)' : '' }}
@@ -74,7 +74,7 @@
                     <div class="flex flex-col">
                         <x-label for="userSelect">Customer</x-label>
                         <x-select name="user" id="userSelect">
-                            <option value="empty"></option>
+                            <option value="empty">Select a customer</option>
                             @foreach ($users as $user)
                                 <option value="{{ $user->id }}" @selected(request('user') == $user->id)>
                                     {{ $user->first_name . " " . $user->last_name }} {{ $user->deleted_at ? '(deleted)' : '' }}

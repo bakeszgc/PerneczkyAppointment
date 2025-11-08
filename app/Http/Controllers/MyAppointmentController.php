@@ -114,6 +114,13 @@ class MyAppointmentController extends Controller
             return redirect()->route('my-appointments.create.barber.service',['barber_id' => $request->barber_id])->with('error','Please select a service here!');
         }
 
+        $request->validate([
+            'barber_id' => 'required|integer|exists:barbers,id',
+            'service_id' => 'required|integer|gt:1|exists:services,id',
+            'date' => ['nullable','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
+            'comment' => 'nullable|string'
+        ]);
+
         $barber = Barber::find($request->barber_id);
         $service = Service::find($request->service_id);
 
@@ -127,6 +134,14 @@ class MyAppointmentController extends Controller
     }
 
     public function createConfirm(Request $request) {
+
+        if (!Barber::find($request->barber_id) || auth()->user()?->barber && $request->barber_id == auth()->user()?->barber->id) {
+            return redirect()->route('my-appointments.create.barber.service',['service_id' => $request->service_id])->with('error','Please select a barber here!');
+        }
+
+        if (!Service::find($request->service_id) || $request->service_id == 1) {
+            return redirect()->route('my-appointments.create.barber.service',['barber_id' => $request->barber_id])->with('error','Please select a service here!');
+        }
         
         $request->validate([
             'barber_id' => 'required|integer|exists:barbers,id',
@@ -151,8 +166,8 @@ class MyAppointmentController extends Controller
     {
         $request->validate([
             'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i:s',new ValidAppointmentTime],
-            'barber_id' => ['required','exists:barbers,id'],
-            'service_id' => ['required','gt:1','exists:services,id'],
+            'barber_id' => ['required','integer','exists:barbers,id'],
+            'service_id' => ['required','integer','gt:1','exists:services,id'],
             'comment' => ['nullable','string'],
             'first_name' => ['nullable','string','min:1'],
             'email' => ['nullable','email','min:1'],
@@ -189,6 +204,10 @@ class MyAppointmentController extends Controller
 
         $user = auth()->user() ?? $user;
         $barber = Barber::find($request->barber_id);
+
+        if ($user->id == $barber->user_id) {
+            return redirect()->route('my-appointments.create.barber.service',['service_id' => $request->service_id])->with('error','Please select a barber here!');
+        }
 
         $app_start_time = Carbon::parse($request->date);
         $duration = Service::findOrFail($request->service_id)->duration;
@@ -343,6 +362,13 @@ class MyAppointmentController extends Controller
             return redirect()->route('my-appointments.edit.barber.service',['my_appointment' => $my_appointment, 'barber_id' => $request->barber_id])->with('error','Please select a service here!');
         }
 
+        $request->validate([
+            'barber_id' => 'required|integer|exists:barbers,id',
+            'service_id' => 'required|integer|gt:1|exists:services,id',
+            'date' => ['nullable','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
+            'comment' => 'nullable|string'
+        ]);
+
         $barber = Barber::find($request->barber_id);
         $service = Service::find($request->service_id);
 
@@ -362,6 +388,14 @@ class MyAppointmentController extends Controller
         $response = Gate::inspect('userEdit',$my_appointment);
         if ($response->denied()) {
             return redirect()->back()->with('error',$response->message());
+        }
+
+        if (!Barber::find($request->barber_id) || auth()->user()?->barber && $request->barber_id == auth()->user()?->barber->id) {
+            return redirect()->route('my-appointments.edit.barber.service',['service_id' => $request->service_id, 'my_appointment' => $my_appointment])->with('error','Please select a barber here!');
+        }
+
+        if (!Service::find($request->service_id) || $request->service_id == 1) {
+            return redirect()->route('my-appointments.edit.barber.service',['barber_id' => $request->barber_id, 'my_appointment' => $my_appointment])->with('error','Please select a service here!');
         }
 
         $request->validate([
@@ -405,6 +439,11 @@ class MyAppointmentController extends Controller
 
         $user = auth()->user();
         $barber = Barber::find($request->barber_id);
+
+        if ($user->id == $barber->user_id) {
+            return redirect()->route('my-appointments.edit.barber.service',['service_id' => $request->service_id,'my_appointment'=>$my_appointment])->with('error','Please select a barber here!');
+        }
+
         $service = Service::find($request->service_id);
         $comment = $request->comment;
 

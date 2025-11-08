@@ -132,6 +132,10 @@ class AppointmentController extends Controller
             'comment' => ['nullable','string']
         ]);
 
+        if ($request->user_id == auth()->user()->id) {
+            return redirect()->route('appointments.create.customer',['service_id' => $request->service_id,'date' => $request->date, 'comment' => $request->comment])->with('error','Please select a customer here!');
+        }
+
         $startTime = Carbon::parse($request->date);
 
         $data = [
@@ -203,6 +207,10 @@ class AppointmentController extends Controller
         $duration = $service->duration;
         $app_end_time = $app_start_time->clone()->addMinutes($duration);
         $barber = auth()->user()->barber;
+
+        if ($user->id == $barber->user_id) {
+            return redirect()->route('appointments.create.customer',['service_id' => $request->service_id,'date' => $request->date, 'comment' => $request->comment])->with('error','Please select a customer here!');
+        }
 
         if (!Appointment::checkAppointmentClashes($app_start_time,$app_end_time,$barber)) {
             return redirect()->route('appointments.create.date',['service_id' => $service->id, 'comment' => $request->comment])->with('error','You have another bookings clashing with the selected timeslot. Please choose another one!');
@@ -314,6 +322,10 @@ class AppointmentController extends Controller
         $app_start_time = Carbon::parse($request->app_start_date . " " . $request->app_start_hour . ":" . $request->app_start_minute);
         $app_end_time = Carbon::parse($request->app_end_date . " " . $request->app_end_hour . ":" . $request->app_end_minute);
         $barber = Barber::find($request->barber);
+
+        if ($appointment->user->id == $barber->user_id) {
+            return redirect()->route('appointments.edit.customer',['service_id' => $request->service_id,'date' => $request->date, 'comment' => $request->comment, 'appointment' => $appointment])->with('error','Please select a customer here!');
+        }
 
         if ($app_start_time >= $app_end_time) {
             return redirect()->route('appointments.edit',$appointment)->with('error',"The booking's ending time has to be later than its starting time");

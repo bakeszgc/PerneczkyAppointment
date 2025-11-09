@@ -1,5 +1,5 @@
 <div {{ $attributes->merge(['class' => '']) }}>
-    <p class="font-semibold text-base max-md:text-sm mb-2">Password criteria checklist</p>
+    <p class="font-semibold text-base max-md:text-sm mb-2">{{ __('auth.pw_checklist') }}</p>
     <ul class="mb-2 max-md:text-sm">
         <li class="flex gap-2 items-center">
             <div class="text-slate-500" id="lcLetterIconFalse">
@@ -12,7 +12,7 @@
                     <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
                 </svg>
             </div>
-            <p>contains at least one <span class="font-semibold">lowercase letter</span></p>
+            <p>{{ __('auth.contains_at_least_one') }} <span class="font-semibold">{{ __('auth.lc_letter') }}</span></p>
         </li>
         <li class="flex gap-2 items-center">
             <div class="text-slate-500" id="ucLetterIconFalse">
@@ -25,7 +25,7 @@
                     <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
                 </svg>
             </div>
-            contains at least one <span class="font-semibold">uppercase letter</span>
+            <p>{{ __('auth.contains_at_least_one') }} <span class="font-semibold">{{ __('auth.uc_letter') }}</span></p>
         </li>
         <li class="flex gap-2 items-center">
             <div class="text-slate-500" id="numberIconFalse">
@@ -38,7 +38,7 @@
                     <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
                 </svg>
             </div>
-            contains at least one <span class="font-semibold">number</span>
+            <p>{{ __('auth.contains_at_least_one') }} <span class="font-semibold">{{ __('auth.number') }}</span></p>
         </li>
         <li class="flex gap-2 items-center">
             <div class="text-slate-500" id="charLengthIconFalse">
@@ -51,7 +51,7 @@
                     <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
                 </svg>
             </div>
-            at least <span class="font-semibold">8 characters long</span>
+            <p>{{ __('auth.at least') }} <span class="font-semibold">{{ __('auth.8_char_long') }}</span></p>
         </li>
         <li class="flex gap-2 items-center">
             <div class="text-slate-500" id="matchIconFalse">
@@ -64,11 +64,13 @@
                     <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
                 </svg>
             </div>
-            matches with the confirmation field
+            <p>{{ __('auth.pw_match') }}</p>
         </li>
     </ul>
 
-    Fields marked with * are <span class="font-semibold">required</span>
+    <p>
+        {{ __('auth.marked_with') }} <span class="font-semibold">{{ __('auth.required') }}</span>
+    </p>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

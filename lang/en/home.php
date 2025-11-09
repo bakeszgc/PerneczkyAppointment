@@ -24,6 +24,8 @@ return [
     "success" => "Success",
     "error" => "Error",
 
+    "home" => "Home",
+
     "book_your_appointment" => "BOOK YOUR APPOINTMENT",
 
     "about_us_title" => "Hi! We are very glad you're here with us!",

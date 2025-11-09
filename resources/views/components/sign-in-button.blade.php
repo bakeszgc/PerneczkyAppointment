@@ -4,7 +4,9 @@
             <img src="{{ asset('logo/' . $provider . '.png') }}" alt="{{ ucfirst($provider) }} logo" class="h-8">
         </div>
         <p class="flex-1 text-center">
-            <span class="text-base max-md:text-sm">Sign in with {{ ucfirst($provider) }}</span>
+            <span class="text-base max-md:text-sm">
+                {{ __('auth.sign_in_with') . ' ' . ucfirst($provider) . __('auth.with') }}
+            </span>
         </p>
     </a>
 </div>

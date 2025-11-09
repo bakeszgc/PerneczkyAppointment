@@ -24,6 +24,8 @@ return [
     "success" => "Siker",
     "error" => "Hiba",
 
+    "home" => "Főoldal",
+
     "book_your_appointment" => "ONLINE IDŐPONTFOGLALÁS",
 
     "about_us_title" => "Szia! Nagyon örülünk, hogy itt vagy velünk!",

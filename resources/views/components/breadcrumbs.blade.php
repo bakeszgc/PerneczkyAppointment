@@ -1,5 +1,7 @@
 <div>
-    <a href="{{ route('home') }}" class="hover:underline">Home</a>
+    <a href="{{ route('home') }}" class="hover:underline">
+        {{ __('home.home') }}
+    </a>
     @foreach ($links as $linkDisplay => $link)
         @if ($linkDisplay !== 'All')
             ➡️

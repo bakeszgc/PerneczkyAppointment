@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LanguageController;
 use App\Models\User;
 use App\Models\Barber;
 use App\Models\Service;
@@ -18,6 +19,9 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AdminTimeOffController;
 use App\Http\Controllers\MyAppointmentController;
 use App\Http\Controllers\AdminAppointmentController;
+
+// SWITCH LANGUAGE
+Route::get('change', [LanguageController::class,'change'])->name('lang.change');
 
 // PASSWORD RESET
 Route::get('/forgot-password',[AuthController::class, 'forgotPassword'])->name('password.request');
@@ -75,13 +79,6 @@ Route::middleware('auth')->group(function(){
     Route::get('my-appointments/{my_appointment}/edit/selectDate',[MyAppointmentController::class,'editDate'])->name('my-appointments.edit.date');
     Route::get('my-appointments/{my_appointment}/edit/confirm',[MyAppointmentController::class,'editConfirm'])->name('my-appointments.edit.confirm');
     Route::resource('my-appointments',MyAppointmentController::class)->except('create','store');
-});
-
-// AUTH + VERIFIED ROUTES
-Route::middleware(['auth','verified'])->group(function() {
-
-    
-
 });
 
 // BARBER ROUTES

@@ -38,5 +38,6 @@
     <div class="w-[562.5%] max-md:w-[562.5%]"></div>
     <div class="w-[575%] max-md:w-[575%]"></div>
     <div class="w-[587.5%] max-md:w-[587.5%]"></div>
-    <div class="-translate-x-4"></div>
+    <div class="-translate-x-4 max-lg:-translate-x-full"></div>
+    <div class="max-xl:-translate-x-full"></div>
 </x-user-layout>

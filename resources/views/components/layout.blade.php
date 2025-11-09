@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ session('lang',env('APP_LOCALE')) }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -128,7 +128,7 @@
                 }
             }
 
-            @media not all and (min-width: 1024px) {
+            @media not all and (min-width: {{ App::getLocale() == 'en' ? '1024' : '1280' }}px) {
                 .hamburger{
                     display: block;
                 }
@@ -149,7 +149,11 @@
     </head>
 
     <body class="bg-slate-50 text-black">
-        <nav class="h-12 bg-black py-2 px-4 max-lg:px-0 text-white font-extrabold w-full fixed z-40 drop-shadow-lg"  id="navbar">
+        <nav @class([
+            'h-12 bg-black py-2 px-4 text-white font-extrabold w-full fixed z-40 drop-shadow-lg',
+            'max-lg:px-0' => App::getLocale() == 'en',
+            'max-xl:px-0' => App::getLocale() == 'hu'
+        ]) id="navbar">
             <a href="#home">
                 <img src="{{ asset('logo/perneczky_circle.png') }}" alt="Perneczky BarberShop" id="logo" class="h-20">
             </a>
@@ -160,23 +164,31 @@
                 <span class="bar"></span>
             </div>
 
-            <div class="flex justify-between items-center gap-4 max-lg:flex-col max-lg:translate-y-2.5 max-lg:bg-[#0f0f0f] max-lg:pt-16 max-lg:pb-6 max-lg:-translate-x-full nav-menu" id="nav-menu">
+            <div @class([
+                'flex justify-between items-center gap-4 nav-menu',
+                'max-lg:flex-col max-lg:translate-y-2.5 max-lg:bg-[#0f0f0f] max-lg:pt-16 max-lg:pb-6 max-lg:-translate-x-full' => App::getLocale() == 'en',
+                'max-xl:flex-col max-xl:translate-y-2.5 max-xl:bg-[#0f0f0f] max-xl:pt-16 max-xl:pb-6 max-xl:-translate-x-full' => App::getLocale() == 'hu'
+            ]) id="nav-menu">
 
                 @auth                    
-                    <ul class="flex items-center gap-2 max-lg:flex-col max-lg:gap-4">
+                    <ul @class([
+                        'flex items-center gap-2',
+                        'max-lg:flex-col max-lg:gap-4' => App::getLocale() == 'en',
+                        'max-xl:flex-col max-xl:gap-4' => App::getLocale() == 'hu',
+                    ])>
                         <li>
-                            Welcome, {{auth()->user()->barber->display_name ?? auth()->user()->first_name ?? 'Guest'}}!
+                            {{ __('home.welcome') . ', ' . (auth()->user()?->barber->display_name ?? auth()->user()->first_name ?? __('home.guest'))}}!
                         </li>
 
                         @if (auth()->user()->barber ?? false)
                             <li>
                                 @if ($currentView !== 'barber')
                                     <a href="{{ route('appointments.index') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
-                                    Barber view
+                                        {{ __('home.barber_view') }}
                                     </a>
                                 @else
                                     <a href="{{ route('my-appointments.index') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
-                                    Customer view
+                                        {{ __('home.customer_view') }}
                                     </a>
                                 @endif
                             </li>
@@ -185,76 +197,96 @@
                         @if (auth()->user()->is_admin ?? false)
                             <li>
                                 <a href="{{ route('admin') }}" class=" bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
-                                    Admin dashboard
+                                    {{ __('home.admin_dashboard') }}
                                 </a>
                             </li>
                         @endif
                     </ul>
                 @else
                     <ul>
-                    
+                        <x-switch-lang />
                     </ul>
 
-                    <ul class="flex items-center gap-4 max-lg:gap-2 max-lg:flex-col" id="navLinks">
+                    <ul @class([
+                        'flex items-center gap-4',
+                        'lg:mr-16 max-lg:gap-2 max-lg:flex-col' => strtolower(App::getLocale()) == 'en',
+                        'xl:mr-10 max-xl:gap-2 max-xl:flex-col' => strtolower(App::getLocale()) == 'hu'
+                    ]) id="navLinks">
                         <li>
-                            <a href="#about" class="hover:text-blue-400 transition-all navLink">About us</a>
+                            <a href="#about" class="hover:text-blue-400 transition-all navLink">
+                                {{ __('home.about_us') }}
+                            </a>
                         </li>
                         <li>
-                            <a href="#services" class="hover:text-blue-400 transition-all navLink">Services</a>
+                            <a href="#services" class="hover:text-blue-400 transition-all navLink">
+                                {{ __('home.services') }}
+                            </a>
                         </li>
                         <li>
-                            <a href="#barbers" class="hover:text-blue-400 transition-all navLink">Barbers</a>
+                            <a href="#barbers" class="hover:text-blue-400 transition-all navLink">
+                                {{ __('home.barbers') }}
+                            </a>
                         </li>
-                        <li class="w-18 max-lg:hidden"></li>
+                        <li @class(['w-18',
+                            'max-lg:hidden' => strtolower(App::getLocale()) == 'en',
+                            'max-xl:hidden' => strtolower(App::getLocale()) == 'hu'
+                        ])></li>
                         <li>
-                            <a href="#location" class="hover:text-blue-400 transition-all navLink">Location</a>
+                            <a href="#location" class="hover:text-blue-400 transition-all navLink">
+                                {{ __('home.location') }}
+                            </a>
                         </li>
                         <li>
-                            <a href="#contact" class="hover:text-blue-400 transition-all navLink">Contact</a>
+                            <a href="#contact" class="hover:text-blue-400 transition-all navLink">
+                                {{ __('home.contact') }}
+                            </a>
                         </li>
                         <li>
-                            <a href="#opening-hours" class="hover:text-blue-400 transition-all navLink">Opening hours</a>
+                            <a href="#opening-hours" class="hover:text-blue-400 transition-all navLink">
+                                {{ __('home.opening_hours') }}
+                            </a>
                         </li>
                     </ul>
                 @endauth
 
-                <ul class="flex items-center gap-4 max-lg:flex-col">
+                <ul @class([
+                    'flex items-center gap-4',
+                    'max-lg:flex-col' => strtolower(App::getLocale()) == 'en',
+                    'max-xl:flex-col' => strtolower(App::getLocale()) == 'hu'
+                ])>
                     @auth
-                        @if ($currentView === 'barber')
-                            <li>
-                                <a href="{{ route('appointments.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
-                                    Bookings
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('time-offs.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
-                                    Time offs
-                                </a>
-                            </li>
-                        @else
-                            <li>
-                                <a href="{{ route('my-appointments.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
-                                    My appointments
-                                </a>
-                            </li>
-                        @endif
+                        <li>
+                            <a href="{{ route('my-appointments.index') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
+                                {{ __('home.my_appointments') }}
+                            </a>
+                        </li>
                         <li>
                             <a href="{{ route('users.show',auth()->user()) }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
-                                Account settings
+                                {{ __('home.account_settings') }}
                             </a>
                         </li>
                         <li>
                             <form action="{{route('logout')}}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button class="bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">Sign out</button>
+                                <button class="bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
+                                    {{ __('home.sign_out') }}
+                                </button>
                             </form>
                         </li>
                     @else
-                        <a href="{{ route('register') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
-                            Sign up
-                        </a>
-                        <a href="{{route('login')}}" class="bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">Sign in</a>
+                        <div @class([
+                            'flex items-center gap-1',
+                            'max-lg:flex-col' => strtolower(App::getLocale()) == 'en',
+                            'max-xl:flex-col' => strtolower(App::getLocale()) == 'hu'
+                        ])>
+                            <a href="{{ route('register') }}" class="py-1 px-2 rounded-md hover:bg-blue-700 transition-all">
+                                {{ __('home.sign_up') }}
+                            </a>
+                            <a href="{{route('login')}}" class="bg-slate-100 text-slate-800 py-1 px-2 rounded-md hover:bg-slate-300 transition-all">
+                                {{ __('home.sign_in') }}
+                            </a>
+                        </div>                        
                     @endauth
                 </ul>
             </div>
@@ -298,7 +330,7 @@
                 if (!navMenu.classList.contains("transition-all")) { 
                     navMenu.classList.add("transition-all");
                     hamburger.classList.toggle("active");
-                    navMenu.classList.toggle("max-lg:-translate-x-full");
+                    navMenu.classList.toggle("max-{{ strtolower(App::getLocale()) == 'en' ? 'lg' : 'xl' }}:-translate-x-full");
                 } else { 
                     closeNavMenu(navMenu, hamburger);
                 }
@@ -306,7 +338,7 @@
 
             function closeNavMenu(navMenu, hamburger) {
                 hamburger.classList.toggle("active");
-                navMenu.classList.toggle("max-lg:-translate-x-full");
+                navMenu.classList.toggle("max-{{ strtolower(App::getLocale()) == 'en' ? 'lg' : 'xl' }}:-translate-x-full");
                 timeout = setTimeout(() => {
                     navMenu.classList.remove("transition-all");
                 }, 300);

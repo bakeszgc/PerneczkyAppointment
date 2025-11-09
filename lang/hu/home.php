@@ -11,13 +11,18 @@ return [
     "sign_in" => "Bejelentkezés",
     "sign_out" => "Kijelentkezés",
     "account_settings" => "Fiókbeállítások",
-    "my_appointments" => "Foglalásaim",
+    "my_appointments" => "Időpontjaim",
+    "bookings" => "Foglalások",
+    "time_offs" => "Szünetek",
 
     "welcome" => "Üdvözlünk",
     "guest" => "Vendég",
     "barber_view" => "Borbély nézet",
     "customer_view" => "Vendég nézet",
     "admin_dashboard" => "Admin felület",
+
+    "success" => "Siker",
+    "error" => "Hiba",
 
     "book_your_appointment" => "ONLINE IDŐPONTFOGLALÁS",
 

@@ -12,12 +12,17 @@ return [
     "sign_out" => "Sign out",
     "account_settings" => "Account settings",
     "my_appointments" => "My appointments",
+    "bookings" => "Bookings",
+    "time_offs" => "Time offs",
 
     "welcome" => "Welcome",
     "guest" => "Guest",
     "barber_view" => "Barber view",
     "customer_view" => "Customer view",
     "admin_dashboard" => "Admin dashboard",
+
+    "success" => "Success",
+    "error" => "Error",
 
     "book_your_appointment" => "BOOK YOUR APPOINTMENT",
 

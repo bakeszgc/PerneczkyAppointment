@@ -56,7 +56,7 @@
             </div>
 
             <div class="mb-4">
-                <x-label for="email">Email*</x-label>
+                <x-label for="email">{{ __('auth.email') }}*</x-label>
                 <x-input-field type="email" name="email" id="email" autoComplete="on" value="{{old('email') ?? request('email')}}" placeholder="{{ str_replace('á','a',strtolower(__('auth.john'))) . '@' . str_replace('é','e',strtolower(__('auth.example'))) }}.com" class="w-full regInput reqInput"/>
                 @error('email')
                     <p class=" text-red-500">{{$message}}</p>

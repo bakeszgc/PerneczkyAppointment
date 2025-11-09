@@ -33,6 +33,7 @@ return [
     "last_name" => "Last name",
     "date_of_birth" => "Date of birth",
     "tel_number" => "Telephone number",
+    "email" => "Email address",
     "confirm_pw" => "Confirm password",
     "john" => "John",
     "example" => "Example",
@@ -52,6 +53,16 @@ return [
     "at least" => "at least",
     "pw_match" => "matches with the confirmation field",
     "marked_with" => "Fields marked with * are",
-    "required" => "required"
+    "required" => "required",
+
+    "forgot_pw_title" => "Forgot password",
+    "your_email" => "Your email address",
+    "forgot_pw_p" => "Enter your email address that you have used for your account and we will send you a link to change your password. If you still need help please",
+    "contact_us" => "contact us",
+    "send_pw_reset_link" => "Send password reset link",
+
+    "reset_pw_title" => "Reset password",
+    "new_pw" => "New password",
+    "confirm_new_pw" => "Confirm new password"
 
 ];

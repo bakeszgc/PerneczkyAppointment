@@ -22,6 +22,7 @@ return [
     "last_name" => "Vezetéknév",
     "date_of_birth" => "Születési idő",
     "tel_number" => "Telefonszám",
+    "email" => "Email cím",
     "confirm_pw" => "Jelszó megerősítése",
     "john" => "János",
     "example" => "Példa",
@@ -41,6 +42,16 @@ return [
     "at least" => "legalább",
     "pw_match" => "egyezik a megerősítő mezővel",
     "marked_with" => "A *-gal jelölt mezők kitöltése",
-    "required" => "kötelező"
+    "required" => "kötelező",
+
+    "forgot_pw_title" => "Elfelejtett jelszó",
+    "your_email" => "Email címed",
+    "forgot_pw_p" => "Add meg az email címedet, amivel regisztráltál és elküldünk oda egy linket, amely segítségével vissza tudod állítani a jelszavad. Ha szükséged van még további segítségre kérlek",
+    "contact_us" => "vedd fel velünk a kapcsolatot",
+    "send_pw_reset_link" => "Jelszó-visszaállítási link küldése",
+
+    "reset_pw_title" => "Jelszó visszaállítása",
+    "new_pw" => "Új jelszó",
+    "confirm_new_pw" => "Új jelszó megerősítése"
 
 ];

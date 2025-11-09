@@ -12,7 +12,7 @@
             <form action="{{route('auth.store')}}" method="POST">
                 @csrf
                 <div class="mb-4">
-                    <x-label for="email">Email</x-label>
+                    <x-label for="email">{{ __('auth.email') }}</x-label>
                     <x-input-field type="email" name="email" id="email" value="{{old('email')}}" autoComplete="on" class="w-full loginInput reqInput"/>
                     @error('email')
                         <p class=" text-red-500">{{$message}}</p>

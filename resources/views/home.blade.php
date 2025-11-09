@@ -55,7 +55,7 @@
                 <a href="{{ route('my-appointments.create.barber.service',['service_id' => $service->id]) }}">
                     <div class="rounded-md border-2 border-[#0018d5] p-4 h-full hover:bg-[#0018d5] hover:text-white hover:shadow-2xl transition-all">
                         <div class="flex justify-between items-start mb-2">
-                            <h2 class="font-black text-lg max-lg:text-base">{{ $service->name }}</h2>
+                            <h2 class="font-black text-lg max-lg:text-base">{{ $service->getName() }}</h2>
                             <p class="text-lg max-lg:text-base min-w-24 w-fit text-right">{{ number_format($service->price,thousands_separator: ' ') }}&nbsp;HUF</p>
                         </div>
                         <p class="text-base max-lg:text-sm">{{ __('home.estimated_duration') }}: {{ $service->duration }} {{ __('home.minutes') }}</p>

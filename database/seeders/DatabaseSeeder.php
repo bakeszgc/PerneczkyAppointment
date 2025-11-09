@@ -46,78 +46,93 @@ class DatabaseSeeder extends Seeder
         // CREATING THE SERVICES
         $services = [
             [
-                'name' => 'TIMEOFF',
+                'name' => 'SZÜNET',
+                'en_name' => 'TIMEOFF',
                 'price' => 0,
                 'duration' => 0,
                 'is_visible' => 0
             ],
             [
-                'name' => 'Haircut',
+                'name' => 'Hajvágás',
+                'en_name' => 'Haircut',
                 'price' => 7000,
                 'duration' => 45
             ],
             [
                 'name' => 'Skinfade',
+                'en_name' => 'Skinfade',
                 'price' => 8000,
                 'duration' => 45
             ],
             [
-                'name' => 'Beard trimming',
+                'name' => 'Szakálligazítás',
+                'en_name' => 'Beard trimming',
                 'price' => 5000,
                 'duration' => 30
             ],
             [
-                'name' => 'Haircut & Beard trimming',
+                'name' => 'Hajvágás & szakálligazítás',
+                'en_name' => 'Haircut & beard trimming',
                 'price' => 10000,
                 'duration' => 60
             ],
             [
-                'name' => 'Skinfade & Beard trimming',
+                'name' => 'Skinfade & szakálligazítás',
+                'en_name' => 'Skinfade & beard trimming',
                 'price' => 11000,
                 'duration' => 60
             ],
             [
-                'name' => 'One-length haircut',
+                'name' => 'Egyhossz gépi hajvágás',
+                'en_name' => 'One-length haircut',
                 'price' => 5000,
                 'duration' => 15
             ],
             [
-                'name' => 'One-length haircut & Beard trimming',
+                'name' => 'Egyhossz gépi hajvágás & szakálligazítás',
+                'en_name' => 'One-length haircut & beard trimming',
                 'price' => 8000,
                 'duration' => 30
             ],
             [
-                'name' => 'Shave (with hot towel)',
+                'name' => 'Borotválás (forró törölközővel)',
+                'en_name' => 'Shave (with hot towel)',
                 'price' => 7000,
                 'duration' => 30
             ],
             [
-                'name' => 'Haircut & Shave (Barber Treatment)',
+                'name' => 'Hajvágás és borotválás (Barber treatment)',
+                'en_name' => 'Haircut & shave (Barber treatment)',
                 'price' => 12000,
                 'duration' => 75
             ],
             [
-                'name' => 'Haircut & Beard trimming & Beard Dyeing',
+                'name' => 'Hajvágás & szakálligazítás & szakállfestés',
+                'en_name' => 'Haircut & beard trimming & beard dyeing',
                 'price' => 16000,
                 'duration' => 90
             ],
             [
-                'name' => 'Beard trimming & Beard dyeing',
+                'name' => 'Szakálligazítás & szakállfestés',
+                'en_name' => 'Beard trimming & beard dyeing',
                 'price' => 9000,
                 'duration' => 90
             ],
             [
-                'name' => 'Creative haircut (with scissors only)',
+                'name' => 'Kreatív hajvágás (csak ollóval)',
+                'en_name' => 'Creative haircut (with scissors only)',
                 'price' => 9000,
                 'duration' => 60
             ],
             [
-                'name' => 'Hair colouring',
+                'name' => 'Hajfestés',
+                'en_name' => 'Hair colouring',
                 'price' => 10000,
                 'duration' => 45
             ],
             [
-                'name' => 'Kids haircut',
+                'name' => 'Gyerek hajvágás',
+                'en_name' => 'Kids haircut',
                 'price' => 6000,
                 'duration' => 30
             ]            
@@ -126,9 +141,9 @@ class DatabaseSeeder extends Seeder
         foreach ($services as $service) {
             Service::factory()->create([
                 'name' => $service['name'],
+                'en_name' => $service['en_name'],
                 'price' => $service['price'],
-                'duration' => $service['duration'],
-                'is_visible' => $service['is_visible'] ?? true
+                'duration' => $service['duration']
             ]);
         }
 

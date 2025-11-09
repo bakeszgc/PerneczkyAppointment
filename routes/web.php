@@ -142,7 +142,7 @@ Route::middleware(['auth','verified','admin'])->group(function() {
 Route::get('/',function() {
 
     $barbers = Barber::where('is_visible','=',1)->get();
-    $services = Service::where('is_visible','=',1)->get();
+    $services = Service::withoutTimeoff()->where('is_visible','=',1)->get();
 
     return view('home',[
         'barbers' => $barbers,

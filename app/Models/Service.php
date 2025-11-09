@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,5 +26,13 @@ class Service extends Model
 
     public function scopeWithoutTimeoff(Builder $query) {
         $query->where('id','!=',1);
+    }
+
+    public function getName() {
+        if (App::getLocale() == 'en') {
+            return $this->en_name;
+        } else {
+            return $this->name;
+        }
     }
 }

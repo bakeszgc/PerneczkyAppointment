@@ -250,7 +250,7 @@
                 @endauth
 
                 <ul @class([
-                    'flex items-center gap-4',
+                    'flex items-center gap-2',
                     'max-lg:flex-col' => strtolower(App::getLocale()) == 'en',
                     'max-xl:flex-col' => strtolower(App::getLocale()) == 'hu'
                 ])>

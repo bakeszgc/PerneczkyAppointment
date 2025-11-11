@@ -82,5 +82,11 @@ return [
     "edit" => "Edit",
     "cancel" => "Cancel",
     "rebook" => "Rebook",
+
+    "my_upcoming_appointment" => "My upcoming appointment",
+    "my_previous_appointment" => "My previous appointment",
+    "fresh_cut" => "Need a fresh cut?",
+    "fresh_cut_earlier" => "Need a fresh cut earlier?",
+    "book_appointment_here" => "Book an appointment here!"
     
 ];

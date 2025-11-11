@@ -82,5 +82,11 @@ return [
     "edit" => "Módosítás",
     "cancel" => "Lemondás",
     "rebook" => "Újrafoglalás",
+
+    "my_upcoming_appointment" => "Következő foglalásom",
+    "my_previous_appointment" => "Korábbi foglalásom",
+    "fresh_cut" => "Jól jönne egy friss vágás",
+    "fresh_cut_earlier" => "Jól jönne egy friss vágás még korábban?",
+    "book_appointment_here" => "Foglalj egy időpontot itt!"
     
 ];

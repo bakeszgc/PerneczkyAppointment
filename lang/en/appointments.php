@@ -1,19 +1,20 @@
 <?php
 
 return [
+
+    // CREATE APPOINTMENT - BARBER & SERVICE
     "appointment" => "Appointment",
     "barber_and_service" => "Barber & service",
     "service" => "Service",
     "date_and_time" => "Date & time",
-
     "new_appointment" => "New appointment",
     "new_booking" => "New booking",
-
     "select_your_barber" => "Select your barber",
     "select_your_service" => "Select your service",
     "earliest_available" => "Earliest available",
     "check_available_dates" => "Check available dates",
 
+    // CREATE APPOINTMENT - DATE
     "select_your_date" => "Select your date",
     "your_appointment" => "Your appointment",
     "barber" => "Barber",
@@ -21,6 +22,7 @@ return [
     "free_ts_on" => "Free timeslots on",
     "book_appointment" => "Book appointment",
 
+    // CREATE APPOINTMENT - CONFIRM
     "confirm" => "Confirm",
     "confirm_your_appointment" => "Confirm your appointment",
     "confirm_this_booking" => "Confirm this booking",
@@ -48,6 +50,7 @@ return [
     "confirm_booking" => "Confirm booking",
     "empty_for_walk_ins" => "Leave empty for walk-ins",
 
+    // CREATE APPOINTMENT - SUCCESS
     "success" => "Success",
     "appointment_booked_successfully" => "Appointment booked successfully",
     "everything_is_done" => "Everything is done",
@@ -65,6 +68,7 @@ return [
     "sign_up_now" => "Sign up now",
     "go_home" => "Go back to home",
 
+    // MY APPOINTMENTS INDEX
     "my_upcoming_appointments" => "My upcoming appointments",
     "my_previous_appointments" => "My previous appointments",
     "upcoming" => "Upcoming",
@@ -83,6 +87,7 @@ return [
     "cancel" => "Cancel",
     "rebook" => "Rebook",
 
+    // MY APPOINTMENTS SHOW
     "my_upcoming_appointment" => "My upcoming appointment",
     "my_previous_appointment" => "My previous appointment",
     "fresh_cut" => "Need a fresh cut?",

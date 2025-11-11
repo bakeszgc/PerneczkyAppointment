@@ -1,19 +1,20 @@
 <?php
 
 return [
+
+    // CREATE APPOINTMENT - BARBER & SERVICE
     "appointment" => "Időpont",
     "barber_and_service" => "Borbély & szolgáltatás",
     "service" => "Szolgáltatás",
     "date_and_time" => "Dátum & idő",
-
     "select_your_barber" => "Válassz egy borbélyt",
     "select_your_service" => "Válassz egy szolgáltatást",
     "new_appointment" => "Új időpont",
     "new_booking" => "Új foglalás",
-
     "earliest_available" => "Elsőként szabad",
     "check_available_dates" => "Szabad időpontok megtekintése",
 
+    // CREATE APPOINTMENT - DATE
     "select_your_date" => "Válassz egy időpontot",
     "your_appointment" => "A foglalásod",
     "barber" => "Borbély",
@@ -21,6 +22,7 @@ return [
     "free_ts_on" => "Szabad időpontok: ",
     "book_appointment" => "Időpont foglalása",
 
+    // CREATE APPOINTMENT - CONFIRM
     "confirm" => "Megerősítés",
     "confirm_your_appointment" => "Erősítsd meg a foglalásodat",
     "confirm_this_booking" => "Erősítsd meg ezt a foglalást",
@@ -48,6 +50,7 @@ return [
     "confirm_booking" => "Foglalás megerősítése",
     "empty_for_walk_ins" => "Hagyd üresen beugró esetében",
 
+    // CREATE APPOINTMENT - SUCCESS
     "success" => "Siker",
     "appointment_booked_successfully" => "Időpont sikeresen lefoglalva",
     "everything_is_done" => "Meg is vagyunk",
@@ -65,6 +68,7 @@ return [
     "sign_up_now" => "Regisztrálj most",
     "go_home" => "Vissza a főoldalra",
 
+    // MY APPOINTMENTS INDEX
     "my_upcoming_appointments" => "Következő időpontjaim",
     "my_previous_appointments" => "Korábbi időpontjaim",
     "upcoming" => "Következő",
@@ -83,6 +87,7 @@ return [
     "cancel" => "Lemondás",
     "rebook" => "Újrafoglalás",
 
+    // MY APPOINTMENTS SHOW
     "my_upcoming_appointment" => "Következő foglalásom",
     "my_previous_appointment" => "Korábbi foglalásom",
     "fresh_cut" => "Jól jönne egy friss vágás",

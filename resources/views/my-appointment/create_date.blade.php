@@ -14,8 +14,8 @@
                     $storeLink = route('my-appointments.create.confirm',['barber_id' => $barber->id, 'service_id' => $service->id]);
 
                     $breadcrumbLinks = [
-                        'Barber & service' => $serviceLink,
-                        'Date & time' => ''
+                        __('appointments.barber_and_service') => $serviceLink,
+                        __('appointments.date_and_time') => ''
                     ];
                 break;
 
@@ -23,10 +23,10 @@
                     $serviceLink = route('my-appointments.edit.barber.service',['my_appointment' => $appointment, 'service_id' => $service->id, 'barber_id' => $barber->id]);
 
                     $breadcrumbLinks = [
-                        'My appointments' => route('my-appointments.index'),
-                        'Appointment #' . $appointment->id => route('my-appointments.show',$appointment),
-                        'Barber & service' => $serviceLink,
-                        'Date & time' => ''
+                        __('home.my_appointments') => route('my-appointments.index'),
+                        __('appointments.appointment') .' #' . $appointment->id => route('my-appointments.show',$appointment),
+                        __('appointments.barber_and_service') => $serviceLink,
+                        __('appointments.date_and_time') => ''
                     ];
 
                     $storeLink = route('my-appointments.edit.confirm',['barber_id' => $barber->id, 'service_id' => $service->id, 'my_appointment' => $appointment]);
@@ -39,9 +39,9 @@
             $storeLink = route('appointments.create.customer',['service_id' => $service->id]);
 
             $breadcrumbLinks = [
-                'Bookings' => route('appointments.index'),
-                'Service' => $serviceLink,
-                'Date & time' => ''
+                __('home.bookings') => route('appointments.index'),
+                __('appointments.service') => $serviceLink,
+                __('appointments.date_and_time') => ''
             ];
 
             $steps[] = false;
@@ -53,10 +53,10 @@
             $storeLink = route('bookings.create.customer',['service_id' => $service->id, 'barber_id' => $barber->id]);
 
             $breadcrumbLinks = [
-                'Admin dashboard' => route('admin'),
-                'Bookings' => route('bookings.index'),
-                'Barber & service' => $serviceLink,
-                'Date & time' => ''
+                __('home.admin_dashboard') => route('admin'),
+                __('home.bookings') => route('bookings.index'),
+                __('appointments.barber_and_service') => $serviceLink,
+                __('appointments.date_and_time') => ''
             ];
 
             $steps[] = false;
@@ -65,11 +65,13 @@
     }
 @endphp
 
-<x-user-layout title="New {{ $view == 'user' ? 'appointment' : 'booking' }}" currentView="{{ $view }}">
+<x-user-layout title="{{ $view == 'user' ? __('appointments.new_appointment') : __('appointments.new_booking')}}" currentView="{{ $view }}">
     <x-breadcrumbs :links="$breadcrumbLinks"/>
 
     <div class="flex justify-between">
-        <x-headline class="mb-4 blue-300">Select your date</x-headline>
+        <x-headline class="mb-4 blue-300">
+            {{ __('appointments.select_your_date') }}
+        </x-headline>
         <div class="w-16 flex gap-1">                
             @foreach ($steps as $step)
                 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -91,28 +93,32 @@
             <div class="flex justify-between gap-4">
                 <div class="flex flex-1 flex-col justify-between">
                     <div class="mb-4">
-                        <h2 class="font-bold text-2xl max-md:text-lg mb-2">{{ $view == 'user' ? 'Your' : 'New'}} appointment</h2>
+                        <h2 class="font-bold text-2xl max-md:text-lg mb-2">
+                            {{ $view == 'user' ? __('appointments.your_appointment') : __('appointments.new_appointment') }}
+                        </h2>
 
                         <h3 class="font-medium text-lg max-md:text-base">
                             <a href="{{ $serviceLink }}">
-                                {{$service->name}}
+                                {{$service->getName()}}
                                 
                                 <span class="max-sm:hidden">•</span>
                                 <br class="sm:hidden">
                                 
-                                {{$service->duration}} minutes
+                                {{$service->duration . ' ' . __('home.minutes') }}
                                 •
                                 {{number_format($service->price,thousands_separator:' ')}} HUF
                             </a>
                         </h3>
                         <p class="font-medium text-base text-slate-500">
                             <a href="{{ $serviceLink }}">
-                            Barber: {{$barber->getName()}}
+                            {{ __('appointments.barber') }}: {{$barber->getName()}}
                             </a>
                         </p>
                     </div>
                     <div class="flex flex-col gap-1">
-                        <label for="comment">Wanna leave some comments for this appointment? Share with us below!</label>
+                        <label for="comment">
+                            {{ __('appointments.wanna_leave_some_comment') }}
+                        </label>
                         <x-input-field type="textarea" name="comment" id="comment" class="w-full">{{ old('comment') ?? request('comment') ?? (isset($appointment) ? $appointment->comment : '')}}</x-input-field>
                     </div>
                 </div>
@@ -155,7 +161,7 @@
                     <template x-if="selectedDate">
                         <div>
                             <h2 class="w-full text-center mb-4 text-xl max-md:text-lg font-bold">
-                                Free timeslots on <span x-text="selectedDate"></span>
+                                {{ __('appointments.free_ts_on') }} <span x-text="selectedDate"></span>
                             </h2>
                             
                             <template x-if="slotsByDate[selectedDate]?.length">
@@ -177,7 +183,9 @@
         </x-card>
 
         <div class="mb-8">
-            <x-button role="ctaMain" :full="true" id="submitBtnForRadioBtns" :disabled="true">Book appointment</x-button>
+            <x-button role="ctaMain" :full="true" id="submitBtnForRadioBtns" :disabled="true">
+                {{ __('appointments.book_appointment') }}
+            </x-button>
         </div>
     </form>
 

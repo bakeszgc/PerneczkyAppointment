@@ -59,7 +59,7 @@ class MyAppointmentController extends Controller
             return $q->where('id','!=',auth()->user()->barber->id);
         })->where('is_visible','=',1)->get();
 
-        $services = Service::where('is_visible','=',1)->get();
+        $services = Service::withoutTimeoff()->where('is_visible','=',1)->get();
 
         return view('my-appointment.create_barber_service',[
             'barbers' => $barbers,

@@ -9,16 +9,16 @@
             switch($action) {
                 case 'create':
                     $breadcrumbLinks = [
-                        'Barber & service' => ''
+                        __('appointments.barber_and_service') => ''
                     ];
                     $createDateLink = route('my-appointments.create.earliest');
                 break;
 
                 case 'edit':
                     $breadcrumbLinks = [
-                        'My appointments' => route('my-appointments.index'),
-                        'Appointment #' . $appointment->id => route('my-appointments.show',$appointment),
-                        'Barber & service' => ''
+                        __('home.my_appointments') => route('my-appointments.index'),
+                        __('appointments.appointment') .' #' . $appointment->id => route('my-appointments.show',$appointment),
+                        __('appointments.barber_and_service') => ''
                     ];
                     $createDateLink = route('my-appointments.edit.earliest',$appointment);
                 break;
@@ -27,17 +27,17 @@
             break;
         case 'barber':
             $breadcrumbLinks = [
-                'Bookings' => route('appointments.index'),
-                'Service' => ''    
+                __('home.bookings') => route('appointments.index'),
+                __('appointments.service') => ''    
             ];
             $createDateLink = route('appointments.create.date');
             $steps[] = false;
             break;
         case 'admin':
             $breadcrumbLinks = [
-                'Admin dashboard' => route('admin'),
-                'Bookings' => route('bookings.index'),
-                'Barber & service' => ''
+                __('home.admin_dashboard') => route('admin'),
+                __('home.bookings') => route('bookings.index'),
+                __('appointments.barber_and_service') => ''
             ];
             $steps[] = false;
             $createDateLink = route('bookings.create.earliest');
@@ -45,7 +45,7 @@
     }
 @endphp
 
-<x-user-layout title="New {{ $view == 'user' ? 'appointment' : 'booking'}}" currentView="{{ $view }}">
+<x-user-layout title="{{ $view == 'user' ? __('appointments.new_appointment') : __('appointments.new_booking')}}" currentView="{{ $view }}">
 
     <x-breadcrumbs :links="$breadcrumbLinks" />
 
@@ -54,7 +54,9 @@
         @if ($view != 'barber' && isset($barbers))
 
             <div class="flex justify-between">
-                <x-headline class="mb-4 blue-300">Select your barber</x-headline>
+                <x-headline class="mb-4 blue-300">
+                    {{ __('appointments.select_your_barber') }}
+                </x-headline>
                 
                 <div class="w-16 flex gap-1">                
                     @foreach ($steps as $step)
@@ -95,7 +97,9 @@
         @endif
         
         <div class="flex justify-between">
-            <x-headline class="mb-4 blue-300">Select your service</x-headline>
+            <x-headline class="mb-4 blue-300">
+                {{ __('appointments.select_your_service') }}
+            </x-headline>
             
             @if ($view == 'barber')
                 <div class="w-16 flex gap-1">                
@@ -113,14 +117,14 @@
                 <label for="service_{{ $service->id }}" class="border-2 border-[#0018d5] rounded-md p-4 cursor-pointer hover:bg-[#0018d5] hover:text-white has-[input:checked]:bg-[#0018d5] has-[input:checked]:text-white transition-all group has-[input:checked]:shadow-2xl">
                     <div class="flex justify-between items-start">
                         <h2 class="font-black text-lg max-md:text-base">
-                            {{ $service->name }}
+                            {{ $service->getName() }}
                         </h2>
                         <p class="text-lg max-md:text-base min-w-24 w-fit text-right">
                             {{number_format($service->price,thousands_separator:' ')}}&nbsp;HUF
                         </p>
                     </div>
 
-                    <p class="text-base max-md:text-sm text-slate-500 group-hover:text-white group-has-[input:checked]:text-white transition-all">Estimated duration: {{ $service->duration }} minutes</p>
+                    <p class="text-base max-md:text-sm text-slate-500 group-hover:text-white group-has-[input:checked]:text-white transition-all">{{ __('home.estimated_duration') . ': ' . $service->duration . ' ' . __('home.minutes') }} </p>
                 
                     <input type="radio" id="service_{{ $service->id }}" name="service_id" value="{{ $service->id }}" @checked((request('service_id') && request('service_id') == $service->id) || (isset($appointment) && $appointment->service_id == $service->id)) class="hidden">
                 </label>
@@ -132,7 +136,9 @@
         </div>
 
         <div class="mb-8">            
-            <x-button role="ctaMain" :full="true" id="submitBtnForRadioBtns" :disabled="true">Check available dates</x-button>
+            <x-button role="ctaMain" :full="true" id="submitBtnForRadioBtns" :disabled="true">
+                {{ __('appointments.check_available_dates') }}
+            </x-button>
         </div>
 
     </form>

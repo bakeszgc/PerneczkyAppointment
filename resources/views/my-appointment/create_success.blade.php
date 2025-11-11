@@ -1,41 +1,69 @@
-<x-user-layout currentView="user" title="Success">
+<x-user-layout currentView="user" title="{{ __('appointments.success') }}">
     <x-breadcrumbs :links="[
-        'Success' => ''
+        __('appointment.success') => ''
     ]" />
-    <x-headline class="mb-4">Appointment booked successfully</x-headline>
+    <x-headline class="mb-4">
+        {{ __('appointments.appointment_booked_successfully') }}
+    </x-headline>
     <x-card class="mb-6">
-        <h3 class="text-lg max-md:text-base mb-4 font-bold">✅ Everything is done, {{ $user->first_name }}!</h3>
-        <p class="mb-4">Thanks for choosing us for your next appointment! We promise we will take a good care of your hair. See you soon!</p>
-        <p>We have sent you an email including the most important details of your booking. If you want to have access to multiple awesome features that makes your life a lot easier, then consider creating an account!</p>
+        <h3 class="text-lg max-md:text-base mb-4 font-bold">
+            ✅ {{__('appointments.everything_is_done') . ', ' . $user->first_name }}!
+        </h3>
+        <p class="mb-4">
+            {{ __('appointments.success_p1') }}
+        </p>
+        <p>
+            {{ __('appointments.success_p2') }}
+        </p>
     </x-card>
 
-    <h2 class="text-xl max-md:text-lg font-bold mb-4">Why should I sign up?</h2>
+    <h2 class="text-xl max-md:text-lg font-bold mb-4">
+        {{ __('appointments.why_should_i_sign_up') }}
+    </h2>
 
     <div class="grid grid-cols-3 max-md:grid-cols-1 gap-4 mb-6">
         <x-card>
-            <h3 class="font-bold text-lg max-md:text-base mb-4">View and manage your appointments</h3>
-            <p class="mb-2">With an account you can log in on our page and check your upcoming and previous appointments at one place. Even those that you have booked with the same email address before your account was created.</p>
+            <h3 class="font-bold text-lg max-md:text-base mb-4">
+                {{ __('appointments.sign_up_t1') }}
+            </h3>
+            <p class="mb-2">
+                {{ __('appointments.sign_up_p1a') }}
+            </p>
             <p>
-                You can modify or cancel your upcoming bookings here or rebook your previous ones.
+                {{ __('appointments.sign_up_p1b') }}
             </p>
         </x-card>
 
         <x-card>
-            <h3 class="font-bold text-lg max-md:text-base mb-4">Rebook the usual just by one click</h3>
-            <p class="mb-2">Are you a safe player and choosing the same barber with the same service everytime? We got you!</p>
-            <p>Instead of going through the whole booking process you can hit the 'Rebook' button on your previous appointments, select a date and your next appointment is ready to go!</p>
+            <h3 class="font-bold text-lg max-md:text-base mb-4">
+                {{ __('appointments.sign_up_t2') }}
+            </h3>
+            <p class="mb-2">
+                {{ __('appointments.sign_up_p2a') }}
+            </p>
+            <p>
+                {{ __('appointments.sign_up_p2b') }}
+            </p>
         </x-card>
 
         <x-card>
-            <h3 class="font-bold text-lg max-md:text-base mb-4">Get a free cut after 10 appointments</h3>
-            <p>Yes, you heard it right! We want to make to feel our regulars special, so after every 10th appointments the next one is on the house! This is an upcoming feature though.</p>
+            <h3 class="font-bold text-lg max-md:text-base mb-4">
+                {{ __('appointments.sign_up_t3') }}
+            </h3>
+            <p>
+                {{ __('appointments.sign_up_p3') }}
+            </p>
         </x-card>
     </div>
 
     <div class="mb-2">
-        <x-link-button :full="true" role="ctaMain" link="{{ route('register') }}?first_name={{ $user->first_name }}&email={{ $user->email }}">Sign up now</x-link-button>
+        <x-link-button :full="true" role="ctaMain" :link="route('register',['first_name' => $user->first_name, 'email' => $user->email ])">
+            {{ __('appointments.sign_up_now') }}
+        </x-link-button>
     </div>
     <div class="mb-4 text-center">
-        <a href="{{ route('home') }}" class="text-blue-700 hover:underline max-md:text-sm">Go back to home</a>
+        <a href="{{ route('home') }}" class="text-blue-700 hover:underline max-md:text-sm">
+            {{ __('appointments.go_home') }}
+        </a>
     </div>
 </x-user-layout>

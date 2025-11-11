@@ -42,17 +42,17 @@ class AppointmentPolicy
     {
         return $appointment->user_id === $user->id
             ? Response::allow()
-            : Response::deny("You can't view other users' appointments.");
+            : Response::deny(__('appointments.user_show_error'));
     }
 
     public function userEdit(User $user, Appointment $appointment): Response
     {
         if ($appointment->user_id != $user->id) {
-            return Response::deny("You can't edit other users' appointments.");
+            return Response::deny(__('appointments.user_edit_error_1'));
         } elseif ($appointment->app_start_time <= now()) {
-            return Response::deny("You can't edit appointments from the past.");
+            return Response::deny(__('appointments.user_edit_error_2'));
         } elseif ($appointment->deleted_at) {
-            return Response::deny("You can't edit cancelled appointments.");
+            return Response::deny(__('appointments.user_edit_error_3'));
         } else {
             return Response::allow();
         }
@@ -61,11 +61,11 @@ class AppointmentPolicy
     public function userDelete(User $user, Appointment $appointment): Response
     {
         if ($appointment->user_id != $user->id) {
-            return Response::deny("You can't cancel other users' appointments.");
+            return Response::deny(__('appointments.user_cancel_error_1'));
         } elseif ($appointment->app_start_time <= now()) {
-            return Response::deny("You can't cancel appointments from the past.");
+            return Response::deny(__('appointments.user_cancel_error_2'));
         } elseif ($appointment->deleted_at) {
-            return Response::deny("You can't cancel already cancelled appointments.");
+            return Response::deny(__('appointments.user_cancel_error_3'));
         } else {
             return Response::allow();
         }

@@ -87,6 +87,26 @@ return [
     "my_previous_appointment" => "Korábbi foglalásom",
     "fresh_cut" => "Jól jönne egy friss vágás",
     "fresh_cut_earlier" => "Jól jönne egy friss vágás még korábban?",
-    "book_appointment_here" => "Foglalj egy időpontot itt!"
+    "book_appointment_here" => "Foglalj egy időpontot itt!",
+
+    // SUCCESS & ERROR MESSAGES
+    "store_success" => "Időpont sikeresen lefoglalva! Nemsokára találkozunk!",
+    "update_success" => "Időpont sikeresen módosítva! Nemsokára találkozunk!",
+    "cancel_success" => "Időpont sikeresen lemondva! Ne felejts el egy újat foglalni helyette!",
+    "timeoff_show_error" => "Nem tudod megnézni a szüneteidet a vendég nézetből. Válts át a borbély nézetre, hogy kezelni tudd őket!",
+    "barber_error" => "Kérlek válassz egy borbélyt innen!",
+    "service_error" => "Kérlek válassz egy szolgáltatást innen!",
+    "user_barber_error" => "Nem választhatod magadat a saját borbélyodként! Kérlek válassz egy borbélyt innen!",
+    "clashing_error" => "A borbélyodnak van egy másik foglalása, ami ütközik az általad választott idősávval. Kérlek válassz egy másikat!",
+    "timeoff_cancel_error" => "Nem tudod lemondani a szünetedet a vendég nézetből. Válts át a borbély nézetre, hogy kezelni tudd őket!",
+    "invalid_email_1" => "Ez az email cím",
+    "invalid_email_2" => "egy korábban már regisztrált fiókhoz tartozik. Ha ez a tied, akkor kérlek jelentkezz be. Ellenkező esetben használj egy másik email címet!",
+    "user_show_error" => "Nem nézheted meg más felhasználók időpontjait.",
+    "user_edit_error_1" => "Nem szerkesztheted más felhasználók időpontjait.",
+    "user_edit_error_2" => "Nem szerkeszthetsz múltbeli időpontokat.",
+    "user_edit_error_3" => "Nem szerkeszthetsz lemondott időpontokat.",
+    "user_cancel_error_1" => "Nem mondhatod le más felhasználók időpontjait.",
+    "user_cancel_error_2" => "Nem mondhatsz le múltbeli időpontokat.",
+    "user_cancel_error_3" => "Nem mondhatsz le már korábban lemondott időpontokat.",
     
 ];

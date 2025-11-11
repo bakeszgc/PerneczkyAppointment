@@ -107,11 +107,11 @@ class MyAppointmentController extends Controller
     public function createDate(Request $request)
     {
         if (!Barber::find($request->barber_id) || auth()->user()?->barber && $request->barber_id == auth()->user()?->barber->id) {
-            return redirect()->route('my-appointments.create.barber.service',['service_id' => $request->service_id])->with('error','Please select a barber here!');
+            return redirect()->route('my-appointments.create.barber.service',['service_id' => $request->service_id])->with('error',__('appointments.barber_error'));
         }
 
         if (!Service::find($request->service_id) || $request->service_id == 1) {
-            return redirect()->route('my-appointments.create.barber.service',['barber_id' => $request->barber_id])->with('error','Please select a service here!');
+            return redirect()->route('my-appointments.create.barber.service',['barber_id' => $request->barber_id])->with('error',__('appointments.service_error'));
         }
 
         $request->validate([
@@ -136,11 +136,11 @@ class MyAppointmentController extends Controller
     public function createConfirm(Request $request) {
 
         if (!Barber::find($request->barber_id) || auth()->user()?->barber && $request->barber_id == auth()->user()?->barber->id) {
-            return redirect()->route('my-appointments.create.barber.service',['service_id' => $request->service_id])->with('error','Please select a barber here!');
+            return redirect()->route('my-appointments.create.barber.service',['service_id' => $request->service_id])->with('error',__('appointments.barber_error'));
         }
 
         if (!Service::find($request->service_id) || $request->service_id == 1) {
-            return redirect()->route('my-appointments.create.barber.service',['barber_id' => $request->barber_id])->with('error','Please select a service here!');
+            return redirect()->route('my-appointments.create.barber.service',['barber_id' => $request->barber_id])->with('error',__('appointments.service_error'));
         }
         
         $request->validate([
@@ -191,7 +191,7 @@ class MyAppointmentController extends Controller
                         ]);
                     }
                 } else {
-                    return redirect()->back()->with('error',"This email address (" . $email . ") belongs to an already registered account. If you own this account please log in, otherwise use a different email address.");
+                    return redirect()->back()->with('error',__('appointments.invalid_email_1') . " (" . $email . ") " . __('appointments.invalid_email_2') );
                 }
             } else {
                 $user = User::create([
@@ -206,7 +206,7 @@ class MyAppointmentController extends Controller
         $barber = Barber::find($request->barber_id);
 
         if ($user->id == $barber->user_id) {
-            return redirect()->route('my-appointments.create.barber.service',['service_id' => $request->service_id])->with('error','Please select a barber here!');
+            return redirect()->route('my-appointments.create.barber.service',['service_id' => $request->service_id])->with('error',__('appointments.user_barber_error'));
         }
 
         $app_start_time = Carbon::parse($request->date);
@@ -214,7 +214,7 @@ class MyAppointmentController extends Controller
         $app_end_time = $app_start_time->clone()->addMinutes($duration);
 
         if (!Appointment::checkAppointmentClashes($app_start_time,$app_end_time,$barber)) {
-            return redirect()->route('my-appointments.create.date',['barber_id' => $request->barber_id, 'service_id' => $request->service_id])->with('error','Your barber has another bookings clashing with the selected timeslot. Please choose another one!');
+            return redirect()->route('my-appointments.create.date',['barber_id' => $request->barber_id, 'service_id' => $request->service_id])->with('error',__('appointments.clashing_error'));
         }
 
         $appointment = Appointment::create([
@@ -232,7 +232,7 @@ class MyAppointmentController extends Controller
         );
 
         if (auth()->user()) {
-            return redirect()->route('my-appointments.show',['my_appointment' =>  $appointment])->with('success','Appointment booked successfully! See you soon!');
+            return redirect()->route('my-appointments.show',['my_appointment' =>  $appointment])->with('success',__('appointments.store_success'));
         } else {
             return redirect()->route('my-appointments.create.success')->with('user',$user->id);
         }
@@ -256,7 +256,7 @@ class MyAppointmentController extends Controller
         }
         
         if (Gate::allows('isTimeOff',$my_appointment)) {
-            return redirect()->route('my-appointments.index')->with('error', 'You cannot view your time offs in the customer view. Please switch to barber view to manage your time offs!');
+            return redirect()->route('my-appointments.index')->with('error', __('appointments.timeoff_show_error'));
         }
 
         return view('my-appointment.show',[
@@ -293,7 +293,7 @@ class MyAppointmentController extends Controller
             return $q->where('id','!=',auth()->user()->barber->id);
         })->where('is_visible','=',1)->get();
 
-        $services = Service::where('is_visible','=',1)->get();
+        $services = Service::withoutTimeoff()->where('is_visible','=',1)->get();
 
         return view('my-appointment.create_barber_service',[
             'barbers' => $barbers,
@@ -355,11 +355,11 @@ class MyAppointmentController extends Controller
         }
 
         if (!Barber::find($request->barber_id) || auth()->user()?->barber && $request->barber_id == auth()->user()?->barber->id) {
-            return redirect()->route('my-appointments.edit.barber.service',['my_appointment' => $my_appointment, 'service_id' => $request->service_id])->with('error','Please select a barber here!');
+            return redirect()->route('my-appointments.edit.barber.service',['my_appointment' => $my_appointment, 'service_id' => $request->service_id])->with('error',__('appointments.barber_error'));
         }
 
         if (!Service::find($request->service_id) || $request->service_id == 1) {
-            return redirect()->route('my-appointments.edit.barber.service',['my_appointment' => $my_appointment, 'barber_id' => $request->barber_id])->with('error','Please select a service here!');
+            return redirect()->route('my-appointments.edit.barber.service',['my_appointment' => $my_appointment, 'barber_id' => $request->barber_id])->with('error',__('appointments.service_error'));
         }
 
         $request->validate([
@@ -391,11 +391,11 @@ class MyAppointmentController extends Controller
         }
 
         if (!Barber::find($request->barber_id) || auth()->user()?->barber && $request->barber_id == auth()->user()?->barber->id) {
-            return redirect()->route('my-appointments.edit.barber.service',['service_id' => $request->service_id, 'my_appointment' => $my_appointment])->with('error','Please select a barber here!');
+            return redirect()->route('my-appointments.edit.barber.service',['service_id' => $request->service_id, 'my_appointment' => $my_appointment])->with('error',__('appointments.barber_error'));
         }
 
         if (!Service::find($request->service_id) || $request->service_id == 1) {
-            return redirect()->route('my-appointments.edit.barber.service',['barber_id' => $request->barber_id, 'my_appointment' => $my_appointment])->with('error','Please select a service here!');
+            return redirect()->route('my-appointments.edit.barber.service',['barber_id' => $request->barber_id, 'my_appointment' => $my_appointment])->with('error',__('appointments.service_error'));
         }
 
         $request->validate([
@@ -441,7 +441,7 @@ class MyAppointmentController extends Controller
         $barber = Barber::find($request->barber_id);
 
         if ($user->id == $barber->user_id) {
-            return redirect()->route('my-appointments.edit.barber.service',['service_id' => $request->service_id,'my_appointment'=>$my_appointment])->with('error','Please select a barber here!');
+            return redirect()->route('my-appointments.edit.barber.service',['service_id' => $request->service_id,'my_appointment'=>$my_appointment])->with('error',__('appointments.user_barber_error'));
         }
 
         $service = Service::find($request->service_id);
@@ -450,13 +450,9 @@ class MyAppointmentController extends Controller
         $app_start_time = Carbon::parse($request->date);
         $duration = $service->duration;
         $app_end_time = $app_start_time->clone()->addMinutes($duration);
-
-        if ($user->id == $barber->user_id) {
-            return redirect()->route('my-appointments.edit.barber.service',['my_appointment' => $my_appointment, 'service_id' => $service->id])->with('error',"You can't choose yourself as your barber.");
-        }
-
+        
         if (!Appointment::checkAppointmentClashes($app_start_time,$app_end_time,$barber, $my_appointment)) {
-            return redirect()->route('my-appointments.edit.date',['barber_id' => $request->barber_id, 'service_id' => $request->service_id, 'date' => $app_start_time->format('Y-m-d G:i'), 'comment' => $comment])->with('error','Your barber has another bookings clashing with the selected timeslot. Please choose another one!');
+            return redirect()->route('my-appointments.edit.date',['barber_id' => $request->barber_id, 'service_id' => $request->service_id, 'date' => $app_start_time->format('Y-m-d G:i'), 'comment' => $comment])->with('error',__('appointments.clashing_error'));
         }
 
         $oldAppointment = $my_appointment->only([
@@ -481,7 +477,7 @@ class MyAppointmentController extends Controller
             new BookingUpdateNotification($oldAppointment,$my_appointment,$my_appointment->user)
         );
 
-        return redirect()->route('my-appointments.show',['my_appointment' =>  $my_appointment])->with('success','Appointment updated successfully! See you soon!');
+        return redirect()->route('my-appointments.show',['my_appointment' =>  $my_appointment])->with('success',__('appointments.update_success'));
     }
 
     public function destroy(Appointment $my_appointment)
@@ -492,7 +488,7 @@ class MyAppointmentController extends Controller
         }
 
         if (Gate::allows('isTimeOff',$my_appointment)) {
-            return redirect()->route('my-appointments.index')->with('error', "You can't cancel a time off here. Please switch to barber view to manage your time offs!");
+            return redirect()->route('my-appointments.index')->with('error', __('appointments.timeoff_cancel_error'));
         }
 
         $my_appointment->barber->user->notify(
@@ -500,6 +496,6 @@ class MyAppointmentController extends Controller
         );
         $my_appointment->delete();
         return redirect()->route('my-appointments.index')
-            ->with('success','Appointment cancelled successfully! Don\'t forget to book another one instead!');
+            ->with('success',__('appointments.cancel_success'));
     }
 }

@@ -87,6 +87,26 @@ return [
     "my_previous_appointment" => "My previous appointment",
     "fresh_cut" => "Need a fresh cut?",
     "fresh_cut_earlier" => "Need a fresh cut earlier?",
-    "book_appointment_here" => "Book an appointment here!"
+    "book_appointment_here" => "Book an appointment here!",
+
+    // SUCCESS & ERROR MESSAGES
+    "store_success" => "Appointment booked successfully! See you soon!",
+    "update_success" => "Appointment updated successfully! See you soon!",
+    "cancel_success" => "Appointment cancelled successfully! Don't forget to book another one instead!",
+    "timeoff_show_error" => "You can't view your time offs in the customer view. Please switch to barber view to manage your time offs!",
+    "barber_error" => "Please select a barber here!",
+    "service_error" => "Please select a service here!",
+    "user_barber_error" => "You can't choose yourself as your barber. Please select a barber here!",
+    "clashing_error" => "Your barber has another bookings clashing with the selected timeslot. Please choose another one!",
+    "timeoff_cancel_error" => "You can't cancel a time off here. Please switch to barber view to manage your time offs!",
+    "invalid_email_1" => "This email address",
+    "invalid_email_2" => "belongs to an already registered account. If you own this account please log in, otherwise use a different email address.",
+    "user_show_error" => "You can't view other users' appointments.",
+    "user_edit_error_1" => "You can't edit other users' appointments.",
+    "user_edit_error_2" => "You can't edit appointments from the past.",
+    "user_edit_error_3" => "You can't edit cancelled appointments.",
+    "user_cancel_error_1" => "You can't cancel other users' appointments.",
+    "user_cancel_error_2" => "You can't cancel appointments from the past.",
+    "user_cancel_error_3" => "You can't cancel already cancelled appointments.",
     
 ];

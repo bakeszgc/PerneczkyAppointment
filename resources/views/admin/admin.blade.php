@@ -6,7 +6,7 @@
     <x-headline class="mb-4">Admin dashboard</x-headline>
 
     <x-card class="mb-6">
-        <x-appointment-calendar :calAppointments="$calAppointments" access="barber" :barber="auth()->user()->barber" :barbers="$allBarbers" defaultView="day"/>
+        <x-appointment-calendar :calAppointments="$calAppointments" access="barber" :barber="auth()->user()?->barber ?? $allBarbers->first()" :barbers="$allBarbers" defaultView="day"/>
     </x-card>
 
     <x-show-card :show="true" type="bookings" class="mb-6">

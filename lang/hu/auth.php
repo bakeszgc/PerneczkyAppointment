@@ -43,6 +43,7 @@ return [
     "pw_match" => "egyezik a megerősítő mezővel",
     "marked_with" => "A *-gal jelölt mezők kitöltése",
     "required" => "kötelező",
+    "required_fields" => "Kötelező mezők",
 
     "forgot_pw_title" => "Elfelejtett jelszó",
     "your_email" => "Email címed",

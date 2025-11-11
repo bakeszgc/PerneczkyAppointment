@@ -54,6 +54,7 @@ return [
     "pw_match" => "matches with the confirmation field",
     "marked_with" => "Fields marked with * are",
     "required" => "required",
+    "required_fields" => "Required fields",
 
     "forgot_pw_title" => "Forgot password",
     "your_email" => "Your email address",

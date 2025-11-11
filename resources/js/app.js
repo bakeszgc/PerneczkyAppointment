@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resetButton = document.getElementById('reset');
     const cropModal = document.getElementById('cropModal');
     const submitDiv = document.getElementById('submitDiv');
+    const lang = document.getElementById('langCheck').value;
 
     if (imageInput) {
         imageInput.addEventListener('change', () => {
@@ -90,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 submitDiv.removeAttribute("hidden","");
             });
             
-            title.innerHTML = "Updated profile picture";
+            title.innerHTML = (lang == 'en') ? "Updated profile picture" : "Új profilkép";
             toggleElement(cropModal);
         });
     }

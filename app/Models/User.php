@@ -70,7 +70,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     }
 
     public function isDeleted() {
-        return $this->deleted_at ? ' (deleted)' : '';
+        return $this->deleted_at ? __('appointments.deleted') : '';
     }
 
     public function sendPasswordResetNotification($token) {

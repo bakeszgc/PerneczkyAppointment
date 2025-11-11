@@ -139,6 +139,7 @@
             <input type="hidden" name="source" value="admin">
             <input type="file" id="selectedImg" class="form-control" accept="image/*" hidden>
             <input type="file" id="croppedImg" name="croppedImg" class="form-control" hidden>
+            <input type="hidden" name="lang" id="langCheck" value="{{ App::getLocale() }}">
 
             <div class="flex gap-8 max-sm:flex-col">
                 <div class="min-w-60">

@@ -64,5 +64,23 @@ return [
     "sign_up_p3" => "Yes, you heard it right! We want to make to feel our regulars special, so after every 10th appointments the next one is on the house! This is an upcoming feature, more info coming soon.",
     "sign_up_now" => "Sign up now",
     "go_home" => "Go back to home",
+
+    "my_upcoming_appointments" => "My upcoming appointments",
+    "my_previous_appointments" => "My previous appointments",
+    "upcoming" => "Upcoming",
+    "previous" => "Previous",
+    "no_upcoming" => "You don't have any upcoming appointments!",
+    "no_previous" => "You don't have any previous appointments!",
+    "why_not_book" => "Why not booking one right now?",
+    "cancelled" => "Cancelled",
+    "deleted" => "(deleted)",
+    "today" => "Today",
+    "tomorrow" => "Tomorrow",
+    "yesterday" => "Yesterday",
+    "full_day" => "Full day",
+    "details" => "Details",
+    "edit" => "Edit",
+    "cancel" => "Cancel",
+    "rebook" => "Rebook",
     
 ];

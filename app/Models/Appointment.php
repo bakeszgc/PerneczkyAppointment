@@ -59,7 +59,7 @@ class Appointment extends Model
     }
 
     public function isDeleted() {
-        return $this->deleted_at ? 'Cancelled' : '';
+        return $this->deleted_at ? __('appointments.cancelled') : '';
     }
 
     public function isFullDay() {

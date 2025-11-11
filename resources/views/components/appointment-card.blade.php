@@ -45,7 +45,7 @@
             <h2 @class(['font-bold text-2xl max-sm:text-lg mb-1 flex items-center gap-2' => true, 'text-blue-600 hover:text-blue-800' => $appointment->app_start_time >= now() && !$appointment->deleted_at ])>
                 <a href="{{ $detailsLink }}"
                 @class(['line-through' => $appointment->deleted_at])>
-                    {{$appointment->user->first_name . " " . $appointment->user->last_name}} #{{$appointment->id}}
+                    {{$appointment->user->first_name . " " . $appointment->user->last_name . ' #' .$appointment->id}}
                 </a>
                 <span class="font-medium text-lg max-sm:hidden">{{ $appointment->isDeleted() }}</span>
             </h2>
@@ -54,7 +54,7 @@
                 @if ($access == 'admin')
                     <a href="{{ route('services.show',$appointment->service) }}" class="text-blue-700 hover:underline">
                 @endif
-                    {{$appointment->service->name}} {{ $appointment->service->isDeleted() }}
+                    {{$appointment->service->getName() .' '. $appointment->service->isDeleted() }}
                 @if ($access == 'admin')
                     </a>
                 @endif
@@ -66,12 +66,12 @@
             </h3>
 
             <p class="font-medium text-base max-sm:text-sm text-slate-500">
-                Barber: 
+                {{ __('appointments.barber') }}: 
                 @if ($access == 'admin')
                     <a href="{{ route('barbers.show',$appointment->barber) }}" class="text-blue-700 hover:underline">
                 @endif
 
-                {{$appointment->barber->getName() }} {{ $appointment->barber->isDeleted() }}
+                {{$appointment->barber->getName() .' '. $appointment->barber->isDeleted() }}
 
                 @if ($access == 'admin')
                     </a>
@@ -86,20 +86,20 @@
         <div class="text-right min-w-max">
             <h2 class="font-bold text-2xl max-sm:text-lg mb-1">
                 @if (Carbon::parse($appointment->app_start_time)->isToday())
-                    Today
+                    {{ __('appointments.today') }}
                 @elseif (Carbon::parse($appointment->app_start_time)->isTomorrow())
-                    Tomorrow
+                    {{ __('appointments.tomorrow') }}
                 @elseif (Carbon::parse($appointment->app_start_time)->isYesterday())
-                    Yesterday
+                    {{ __('appointments.yesterday') }}
                 @else
                     {{Carbon::parse($appointment->app_start_time)->format('Y-m-d')}}
                 @endif
             </h2>
             <h3 class="font-medium text-lg max-sm:text-sm">
-                {{ $appointment->getDuration() >= 600 ? 'Full day' : Carbon::parse($appointment->app_start_time)->format('G:i') . ' - ' . Carbon::parse($appointment->app_end_time)->format('G:i') }}
+                {{ $appointment->getDuration() >= 600 ? __('appointments.full_day') : Carbon::parse($appointment->app_start_time)->format('G:i') . ' - ' . Carbon::parse($appointment->app_end_time)->format('G:i') }}
             </h3>
             <h4 class="text-base max-sm:text-sm">
-                {{ $appointment->getDuration() . ' minutes' }}
+                {{ $appointment->getDuration() . ' ' .__('home.minutes')}}
             </h4>
         </div>
     </div>
@@ -108,27 +108,35 @@
         
         @if($showDetails)
             <x-link-button :link="$detailsLink" role="show">
-                <span class="max-sm:hidden">Details</span>
+                <span class="max-sm:hidden">
+                    {{ __('appointments.details') }}
+                </span>
             </x-link-button>
         @endif
         
         @if ($appointment->app_start_time >= now('Europe/Budapest') && !$appointment->deleted_at)
             <x-link-button :link="$editLink" role="edit">
-                <span class="max-sm:hidden">Edit</span>
+                <span class="max-sm:hidden">
+                    {{ __('appointments.edit') }}
+                </span>
             </x-link-button>
 
             <form action="{{ $cancelLink }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <x-button role="destroy">
-                    <span class="max-sm:hidden">Cancel</span>
+                    <span class="max-sm:hidden">
+                        {{ __('appointments.cancel') }}
+                    </span>
                 </x-button>
             </form>
         @endif
 
         @if ($appointment->app_start_time < now() && !$appointment->user->deleted_at && !$appointment->service->deleted_at && !$appointment->barber->deleted_at && $appointment->user->isRegistered())
             <x-link-button :link="$rebookLink" role="restore">
-                <span class="max-sm:hidden">Rebook</span>
+                <span class="max-sm:hidden">
+                    {{ __('appointments.cancel') }}
+                </span>
             </x-link-button>
         @endif
         

@@ -64,5 +64,23 @@ return [
     "sign_up_p3" => "Igen, jól hallottad! Kiemelt figyelmet fordítunk a visszatérő vendégeinkre, ezáltal minden tizedik foglalás után a következőt a ház állja! Ez az ajánlat még bevezetés alatt áll, nemsokára érkezünk a részletekkel.",
     "sign_up_now" => "Regisztrálj most",
     "go_home" => "Vissza a főoldalra",
+
+    "my_upcoming_appointments" => "Következő időpontjaim",
+    "my_previous_appointments" => "Korábbi időpontjaim",
+    "upcoming" => "Következő",
+    "previous" => "Korábbi",
+    "no_upcoming" => "Nincs még következő időpontod!",
+    "no_previous" => "Nincsenek még korábbi időpontjaid!",
+    "why_not_book" => "Foglalj egyet most!",
+    "cancelled" => "Lemondott",
+    "deleted" => "(törölt)",
+    "today" => "Ma",
+    "tomorrow" => "Holnap",
+    "yesterday" => "Tegnap",
+    "full_day" => "Egész nap",
+    "details" => "Részletek",
+    "edit" => "Módosítás",
+    "cancel" => "Lemondás",
+    "rebook" => "Újrafoglalás",
     
 ];

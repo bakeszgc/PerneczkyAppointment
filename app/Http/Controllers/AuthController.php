@@ -276,9 +276,9 @@ class AuthController extends Controller
             }
 
             if (isset($bookingData)) {
-                return redirect()->route('my-appointments.create.confirm',$bookingData)->with('success','You logged in using ' . ucfirst($provider) . ' successfully!');
+                return redirect()->route('my-appointments.create.confirm',$bookingData)->with('success',__('auth.social_login_success_message_1') . ' ' . ucfirst($provider) . ' ' . __('auth.social_login_success_message_2'));
             } else {
-                return redirect()->route('my-appointments.index')->with('success','You logged in using ' . ucfirst($provider) . ' successfully!');
+                return redirect()->route('my-appointments.index')->with('success',__('auth.social_login_success_message_1') . ' ' . ucfirst($provider) . ' ' . __('auth.social_login_success_message_2'));
             }
 
         } catch (Exception $e) {

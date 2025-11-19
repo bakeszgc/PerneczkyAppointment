@@ -64,6 +64,10 @@ return [
 
     "reset_pw_title" => "Reset password",
     "new_pw" => "New password",
-    "confirm_new_pw" => "Confirm new password"
+    "confirm_new_pw" => "Confirm new password",
+
+    // LOGIN WITH SOCIAL
+    "social_login_success_message_1" => "You logged in using",
+    "social_login_success_message_2" => "successfully!",
 
 ];

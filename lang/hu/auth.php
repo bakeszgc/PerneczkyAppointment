@@ -53,6 +53,10 @@ return [
 
     "reset_pw_title" => "Jelszó visszaállítása",
     "new_pw" => "Új jelszó",
-    "confirm_new_pw" => "Új jelszó megerősítése"
+    "confirm_new_pw" => "Új jelszó megerősítése",
+
+    // LOGIN WITH SOCIAL
+    "social_login_success_message_1" => "Sikeresen beléptél a",
+    "social_login_success_message_2" => "fiókod használatával!",
 
 ];

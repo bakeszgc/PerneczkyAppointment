@@ -46,9 +46,9 @@
 
             $breadcrumbLinks = [
                 __('home.bookings') => route('appointments.index'),
-                'Service' => $serviceRoute,
+                __('appointments.service') => $serviceRoute,
                 __('appointments.date_and_time') => $dateRoute,
-                'Customer' => $customerLink,
+                __('barber.customer') => $customerLink,
                 __('appointments.confirm') => ''
             ];
 
@@ -66,7 +66,7 @@
                 __('home.bookings') => route('bookings.index'),
                 __('appointments.barber_and_service') => $serviceRoute,
                 __('appointments.date_and_time') => $dateRoute,
-                'Customer' => $customerLink,
+                __('barber.customer') => $customerLink,
                 __('appointments.confirm') => ''
             ];
 

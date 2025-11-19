@@ -35,19 +35,26 @@
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                 </svg>
-                <p class="max-sm:hidden">Previous <span class="viewType">week</span></p>
+                <p class="max-sm:hidden">
+                    {{ __('barber.previous') }} <span class="viewType">{{ __('barber.week') }}</span>
+                </p>
             </div>
         </div>
         
 
         <div class="max-sm:col-span-3 text-sm max-md:text-xs text-slate-500 text-center flex flex-col justify-center">
-            <p>Displayed <span class="viewType">week</span></p>
+            <p>
+                {{ __('barber.displayed') }} <span class="viewType">{{ __('barber.week') }}</span>
+            </p>
             <p id="displayWindow"></p>
         </div>
 
         <div class="flex justify-end">
             <div id="upcomingWeekButton" class="border border-slate-300 hover:border-slate-700 rounded-md text-slate-500 hover:text-slate-700 text-right flex items-center gap-2 w-fit p-2 pl-3 cursor-pointer transition-all">
-                <p class="max-sm:hidden">Upcoming <span class="viewType">week</span></p>
+                <p class="max-sm:hidden">
+                    {{ __('barber.upcoming') }} <span class="viewType">{{ __('barber.week') }}</span>
+                </p>
+
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                 </svg>
@@ -57,7 +64,11 @@
 
     <div class="text-center flex justify-center items-center gap-4">
         <x-button role="ctaMain" id="toggleViewButton">
-            Switch to <span class="viewType weekly">daily</span> view
+            {{ __('barber.switch_to') }}
+            <span class="viewType weekly">
+                {{ __('barber.daily') }}
+            </span>
+            {{ __('barber.view') }}
         </x-button>
 
         <x-select name="barberSelect" id="barberSelect" :disabled="$defaultView=='day'" class="text-sm">
@@ -96,21 +107,23 @@
 
             let date = new Date();
 
+            const currentLang = "{{ App::getLocale() }}";            
+
             updateCurrentTimeDiv(currentTimeDiv, view);
-            renderDateNumbersNew(colHeaderContainer,date);
-            renderDates(displayWindow, view, date);
+            renderDateNumbersNew(colHeaderContainer,date,currentLang);
+            renderDates(displayWindow, view, date, currentLang);
             renderExisting(appointments, barberSelect.value, 0, access, date, calendar, view);
 
             previousWeekButton.addEventListener('click',function () {
                 if (view == 'week') {
                     date = addDays(date,-7);
-                    renderDateNumbersNew(colHeaderContainer,date);
+                    renderDateNumbersNew(colHeaderContainer,date,currentLang);
                 } else {
                     renderBarberNames(colHeaderContainer,barbers);
                     date = addDays(date,-1);
                 }
 
-                renderDates(displayWindow, view, date);
+                renderDates(displayWindow, view, date, currentLang);
                 renderExisting(appointments, barberSelect.value, 0, access, date, calendar, view);
                 setDivLeft(view);
             });
@@ -118,20 +131,20 @@
             upcomingWeekButton.addEventListener('click',function () {
                 if (view == 'week') {
                     date = addDays(date,7);
-                    renderDateNumbersNew(colHeaderContainer,date);
+                    renderDateNumbersNew(colHeaderContainer,date,currentLang);
                 } else {
                     renderBarberNames(colHeaderContainer,barbers);
                     date = addDays(date,1);
                 }                
 
-                renderDates(displayWindow, view, date);
+                renderDates(displayWindow, view, date, currentLang);
                 renderExisting(appointments, barberSelect.value, 0, access, date, calendar, view);
                 setDivLeft(view);
             });
 
             barberSelect.addEventListener('change', () => {
-                renderDateNumbersNew(colHeaderContainer,date);
-                renderDates(displayWindow, view, date);
+                renderDateNumbersNew(colHeaderContainer,date,currentLang);
+                renderDates(displayWindow, view, date, currentLang);
                 renderExisting(appointments, barberSelect.value, 0, access, date, calendar, view);
             });
 
@@ -142,19 +155,24 @@
                     
                 } else {
                     view = 'week';
-                    switchToWeeklyView(colHeaderContainer,date,appointments,barberSelect.value,access,calendar,view,timeslots,barbers,currentTimeDiv,barberSelect);
+                    switchToWeeklyView(colHeaderContainer,date,appointments,barberSelect.value,access,calendar,view,timeslots,barbers,currentTimeDiv,barberSelect,currentLang);
                 }
 
                 spanViewType.forEach(span => {
-                    span.innerHTML = view;
+                    if (view == 'week') {
+                        span.innerHTML = "{{ __('barber.week') }}";
+                    } else {
+                        span.innerHTML = "{{ __('barber.day') }}";
+                    }
+                    
                     span.classList.forEach(spanClass => {
                         if (spanClass == 'weekly') {
-                            span.innerHTML = (view == 'week') ? 'daily' : 'weekly';
+                            span.innerHTML = (view == 'week') ? '{{ __('barber.daily') }}' : '{{ __('barber.weekly') }}';
                         }
                     });
                 });
 
-                renderDates(displayWindow, view, date);
+                renderDates(displayWindow, view, date, currentLang);
             });
 
             window.addEventListener('resize', () => setDivLeft(view));
@@ -165,7 +183,7 @@
                 switchToDailyView(colHeaderContainer,date,appointments,barberSelect.value,access,calendar,view,timeslots,barbers,currentTimeDiv,barberSelect);
 
                 spanViewType.forEach(span => {
-                    span.innerHTML = view;
+                    span.innerHTML = "{{ __('barber.day') }}";
                     span.classList.forEach(spanClass => {
                         if (spanClass == 'weekly') {
                             span.innerHTML = (view == 'week') ? 'daily' : 'weekly';

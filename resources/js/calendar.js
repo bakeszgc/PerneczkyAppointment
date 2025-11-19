@@ -242,9 +242,15 @@ window.renderCurrent = function (calendar, appStartTime, appEndTime, barberId, a
     renderDivs(appStartTime, appEndTime, calendar, appointments, barberId, divData);
 };
 
-window.renderDateNumbersNew = function(colHeaderContainer,date) {
+window.renderDateNumbersNew = function(colHeaderContainer,date,lang) {
     colHeaderContainer.innerHTML = "";
-    var dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+    if (lang && lang == 'hu') {
+        var dayNames = ['H', 'K', 'SZ', 'CS', 'P', 'SZ', 'V'];
+    } else {
+        var dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    }
+    
     let mondayDate = getFirstDayOfWeek(date);
 
     const offsetDiv = document.createElement('div');
@@ -323,11 +329,18 @@ window.getTimeDifference = function (appStartDate, appStartHour, appStartMinute,
     return (endDateTime - startDateTime) / 1000 / 60;
 };
 
-window.renderDates = function(displayWindow, view, date) {
+window.renderDates = function(displayWindow, view, date, lang) {
     if (view == 'week') {
         const start = getFirstDayOfWeek(date).toLocaleDateString('en-CA');
-        const end = addDays(getFirstDayOfWeek(date),6).toLocaleDateString('en-CA');
-        displayWindow.innerHTML = "From " + start + " to " + end;
+        const end = addDays(getFirstDayOfWeek(date),6).toLocaleDateString('en-CA');        
+
+        if (lang && lang == 'hu') {
+            let dayNumber = start.slice(-2);
+            displayWindow.innerHTML = start + "-" + getFromSuffix(dayNumber) + " " + end + "-ig";
+        } else {
+            displayWindow.innerHTML = "From " + start + " to " + end;
+        }
+        
     } else {
         displayWindow.innerHTML = date.toLocaleDateString('en-CA');
     }
@@ -359,8 +372,8 @@ window.setDivLeft = function(view) {
     }
 }
 
-window.switchToWeeklyView = function(colHeaderContainer,date,appointments,barberId,access,calendar,view,timeslots,barbers,currentTimeDiv,barberSelect) {
-    renderDateNumbersNew(colHeaderContainer,date);
+window.switchToWeeklyView = function(colHeaderContainer,date,appointments,barberId,access,calendar,view,timeslots,barbers,currentTimeDiv,barberSelect,lang) {
+    renderDateNumbersNew(colHeaderContainer,date,lang);
     renderExisting(appointments, barberId, 0, access, date, calendar, view);
 
     timeslots.forEach(ts => {
@@ -387,4 +400,31 @@ window.switchToDailyView = function(colHeaderContainer,date,appointments,barberI
     updateCurrentTimeDiv(currentTimeDiv, view);
 
     barberSelect.disabled = true;
+}
+
+window.getFromSuffix = function (number) {
+    switch (number) {
+        case "10":
+            return "től";
+        break;
+
+        case "20":
+        case "30":
+            return "tól";
+        break;
+
+        default:
+            switch (number.slice(-1)) {
+                case "1":
+                case "4":
+                case "5":
+                case "7":
+                case "9":
+                    return "től";
+                break;
+
+                default:
+                    return "tól";
+            }
+    }
 }

@@ -44,4 +44,19 @@ return [
     "walk_in_p2a" => "This means that we don't have any other information stored about ",
     "walk_in_p2b" => " besides his first name.",
 
+    // APPOINTMENTS CREATE CUSTOMER
+    "customer" => "Customer",
+    "select_your_customer" => "Select your customer",
+    "for_registered_customers" => "For registered customers",
+    "search_users" => "Search users...",
+    "clear" => "Clear",
+    "search" => "Search",
+    "registered_p" => "Using this search bar you can narrow down the registered customers to find the one you're looking for. You can search here by name, email address and telephone number.",
+    "for_accountless_customers" => "For accountless customers",
+    "accountless_p" => "If your customer is not registered yet, then please click on the 'Continue' button below. You can enter their first name and email (if they want to share it with you). This can be useful for walk-in guests as well.",
+    "continue" => "Continue",
+    "search_results" => "Search results",
+    "select_customer" => "Select customer",
+    "empty_users" => "There aren't any users with matching properties",
+
 ];

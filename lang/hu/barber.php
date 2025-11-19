@@ -43,4 +43,19 @@ return [
     "walk_in_p1c" => "lett létrehozva.",
     "walk_in_p2a" => "Ez azt jelenti, hogy nincs más infónk ",
     "walk_in_p2b" => "ről a keresztnevét leszámítva.",
+
+    // APPOINTMENTS CREATE CUSTOMER
+    "customer" => "Vendég",
+    "select_your_customer" => "Válaszd ki a vendéged",
+    "for_registered_customers" => "Regisztrált vendégeknek",
+    "search_users" => "Keresés...",
+    "clear" => "Törlés",
+    "search" => "Keresés",
+    "registered_p" => "A fenti keresőmezőt használva leszűkítheted a regisztrált felhasználókat, hogy megtaláld azt akit keresel. Kereshetsz név, email és telefonszám alapján is.",
+    "for_accountless_customers" => "Fiók nélküli vendégeknek",
+    "accountless_p" => "Ha a vendéged még nem regisztrált, akkor kattints a lenti 'Folytatás' gombra. Ott rögzítheted a keresztnevét és az email címét (ha meg szeretné adni). Beeső vendégek esetében ez a módszer hasznos lehet.",
+    "continue" => "Folytatás",
+    "search_results" => "Keresési eredmények",
+    "select_customer" => "Vendég kiválasztása",
+    "empty_users" => "Nincs a keresési feltételeknek megfelelő felhasználó"
 ];

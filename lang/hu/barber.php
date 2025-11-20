@@ -60,5 +60,23 @@ return [
     "continue" => "Folytatás",
     "search_results" => "Keresési eredmények",
     "select_customer" => "Vendég kiválasztása",
-    "empty_users" => "Nincs a keresési feltételeknek megfelelő felhasználó"
+    "empty_users" => "Nincs a keresési feltételeknek megfelelő felhasználó",
+
+    // APPOINTMENTS MESSAGES
+    "success_new_booking" => "Új foglalás sikeresen létrehozva!",
+    "success_updated_booking" => "Foglalás sikeresen módosítva!",
+    "success_booking_destroyed" => "Foglalás sikeresen lemondva! Ne felejts el egyeztetni a vendégeddel egy új időpontról!",
+    "error_select_customer" => "Kérlek válassz innen egy vendéget!",
+    "error_clashing" => "Vannak más foglalásaid, amik ütköznek ezzel az időponttal. Kérlek válassz egy másikat!",
+    "error_email_1" => "Ez az email cím (",
+    "error_email_2" => ") egy már regisztrált fiókhoz tartozik. Kérlek válaszd ki ezt a Vendég oldalon vagy használj egy másik email címet!",
+    "error_ending_time" => "A foglalás befejezési ideje nem lehet korábbi a kezdési idejénél",
+    "error_timeoff_edit_past" => "Nem módosíthatsz múltbéli szüneteket.",
+    "error_booking_edit_past" => "Nem módosíthatsz múltbéli foglalásokat.",
+    "error_timeoff_edit_cancelled" => "Nem módosíthatsz törölt szüneteket.",
+    "error_booking_edit_cancelled" => "Nem módosíthatsz lemondott foglalásokat.",
+    "error_timeoff_destroy_past" => "Nem törölhetsz múltbéli szüneteket.",
+    "error_booking_destroy_past" => "Nem mondhatsz le múltbéli foglalásokat.",
+    "error_timeoff_destroy_cancelled" => "Nem törölhetsz már korábban törölt szüneteket.",
+    "error_booking_destroy_cancelled" => "Nem mondhatsz le már korábban lemondott szüneteket.",
 ];

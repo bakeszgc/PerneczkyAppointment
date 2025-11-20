@@ -18,6 +18,9 @@ return [
     "displayed" => "Displayed",
     "previous" => "Previous",
     "upcoming" => "Upcoming",
+    "no_bookings_p1" => "You don't have any ",
+    "no_bookings_p2" => " bookings",
+    "add_new_app" => "Add a new appointment here for one of your clients!",
 
     // APPOINTMENTS SHOW
     "booking" => "Booking",

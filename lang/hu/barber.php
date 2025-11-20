@@ -18,6 +18,9 @@ return [
     "displayed" => "Megjelenített",
     "previous" => "Előző",
     "upcoming" => "Következő",
+    "no_bookings_p1" => "Nincsenek még ",
+    "no_bookings_p2" => " foglalásaid",
+    "add_new_app" => "Hozz létre egy új időpontot az egyik kliensednek!",
 
     // APPOINTMENTS SHOW
     "booking" => "Foglalás",

@@ -18,9 +18,17 @@ class AppointmentPolicy
     public function update(User $user, Appointment $appointment): Response
     {
         if ($appointment->app_start_time <= now()) {
-            return Response::deny("You can't edit " . $appointment->getType() . "s from the past.");
+            if ($appointment->getType() == 'time off') {
+                return Response::deny(__('barber.error_timeoff_edit_past'));
+            } else {
+                return Response::deny(__('barber.error_booking_edit_past'));
+            }            
         } elseif ($appointment->deleted_at) {
-            return Response::deny("You can't edit cancelled " . $appointment->getType() . "s.");
+            if ($appointment->getType() == 'time off') {
+                return Response::deny(__('barber.error_timeoff_edit_cancelled'));
+            } else {
+                return Response::deny(__('barber.error_booking_edit_cancelled'));
+            }
         } else {
             return Response::allow();
         }
@@ -29,9 +37,17 @@ class AppointmentPolicy
     public function delete(User $user, Appointment $appointment): Response
     {
         if ($appointment->app_start_time <= now()) {
-            return Response::deny("You can't cancel " . $appointment->getType() . "s from the past.");
+            if ($appointment->getType() == 'time off') {
+                return Response::deny(__('barber.error_timeoff_destroy_past'));
+            } else {
+                return Response::deny(__('barber.error_booking_destroy_past'));
+            }
         } elseif ($appointment->deleted_at) {
-            return Response::deny("You can't cancel already cancelled " . $appointment->getType() . "s.");
+            if ($appointment->getType() == 'time off') {
+                return Response::deny(__('barber.error_timeoff_destroy_cancelled'));
+            } else {
+                return Response::deny(__('barber.error_booking_destroy_cancelled'));
+            }
         } else {
             return Response::allow();
         }

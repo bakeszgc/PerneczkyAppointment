@@ -59,4 +59,22 @@ return [
     "select_customer" => "Select customer",
     "empty_users" => "There aren't any users with matching properties",
 
+    // APPOINTMENTS MESSAGES
+    "success_new_booking" => "New booking has been created successfully!",
+    "success_updated_booking" => "Booking has been updated successfully!",
+    "success_booking_destroyed" => "Appointment has been cancelled successfully! Be sure to set up a new booking with your client!",
+    "error_select_customer" => "Please select a customer here!",
+    "error_clashing" => "You have another bookings clashing with the selected timeslot. Please choose another one!",
+    "error_email_1" => "This email address (",
+    "error_email_2" => ") belongs to an already registered account. Please choose it on the Customers page or use a different email address.",
+    "error_ending_time" => "The booking's ending time has to be later than its starting time",
+    "error_timeoff_edit_past" => "You can't edit timeoffs from the past.",
+    "error_booking_edit_past" => "You can't edit bookings from the past.",
+    "error_timeoff_edit_cancelled" => "You can't edit cancelled timeoffs.",
+    "error_booking_edit_cancelled" => "You can't edit cancelled bookings.",
+    "error_timeoff_destroy_past" => "You can't cancel timeoffs from the past.",
+    "error_booking_destroy_past" => "You can't cancel bookings from the past.",
+    "error_timeoff_destroy_cancelled" => "You can't cancel already cancelled timeoffs.",
+    "error_booking_destroy_cancelled" => "You can't cancel already cancelled bookings.",
+
 ];

@@ -133,7 +133,7 @@ class AppointmentController extends Controller
         ]);
 
         if ($request->user_id == auth()->user()->id) {
-            return redirect()->route('appointments.create.customer',['service_id' => $request->service_id,'date' => $request->date, 'comment' => $request->comment])->with('error','Please select a customer here!');
+            return redirect()->route('appointments.create.customer',['service_id' => $request->service_id,'date' => $request->date, 'comment' => $request->comment])->with('error',__('barber.error_select_customer'));
         }
 
         $startTime = Carbon::parse($request->date);
@@ -183,7 +183,7 @@ class AppointmentController extends Controller
                             ]);
                         }
                     } else {
-                        return redirect()->back()->with('error',"This email address (" . $email . ") belongs to an already registered account. Please choose it on the Customers page or use a different email address.");
+                        return redirect()->back()->with('error',__('barber.error_email_1') . $email . __('barber.error_email_2'));
                     }
                 } else {
                     $user = User::create([
@@ -209,11 +209,11 @@ class AppointmentController extends Controller
         $barber = auth()->user()->barber;
 
         if ($user->id == $barber->user_id) {
-            return redirect()->route('appointments.create.customer',['service_id' => $request->service_id,'date' => $request->date, 'comment' => $request->comment])->with('error','Please select a customer here!');
+            return redirect()->route('appointments.create.customer',['service_id' => $request->service_id,'date' => $request->date, 'comment' => $request->comment])->with('error',__('barber.error_select_customer'));
         }
 
         if (!Appointment::checkAppointmentClashes($app_start_time,$app_end_time,$barber)) {
-            return redirect()->route('appointments.create.date',['service_id' => $service->id, 'comment' => $request->comment])->with('error','You have another bookings clashing with the selected timeslot. Please choose another one!');
+            return redirect()->route('appointments.create.date',['service_id' => $service->id, 'comment' => $request->comment])->with('error',__('barber.error_clashing'));
         }
 
         $appointment = Appointment::create([
@@ -232,7 +232,7 @@ class AppointmentController extends Controller
             );
         }
 
-        return redirect()->route('appointments.show',['appointment' =>  $appointment])->with('success','New booking has been created successfully!');
+        return redirect()->route('appointments.show',['appointment' =>  $appointment])->with('success',__('barber.success_new_booking'));
     }
     
     public function show(Appointment $appointment)
@@ -324,15 +324,15 @@ class AppointmentController extends Controller
         $barber = Barber::find($request->barber);
 
         if ($appointment->user->id == $barber->user_id) {
-            return redirect()->route('appointments.edit.customer',['service_id' => $request->service_id,'date' => $request->date, 'comment' => $request->comment, 'appointment' => $appointment])->with('error','Please select a customer here!');
+            return redirect()->route('appointments.edit.customer',['service_id' => $request->service_id,'date' => $request->date, 'comment' => $request->comment, 'appointment' => $appointment])->with('error',__('barber.error_select_customer'));
         }
 
         if ($app_start_time >= $app_end_time) {
-            return redirect()->route('appointments.edit',$appointment)->with('error',"The booking's ending time has to be later than its starting time");
+            return redirect()->route('appointments.edit',$appointment)->with('error',__('barber.error_ending_time'));
         }
 
         if (!Appointment::checkAppointmentClashes($app_start_time,$app_end_time,$barber,$appointment)) {
-            return redirect()->route('appointments.edit',$appointment)->with('error','You have another bookings clashing with the selected timeslot. Please choose another one!');
+            return redirect()->route('appointments.edit',$appointment)->with('error',__('barber.error_clashing'));
         }
 
         $oldAppointment = $appointment->only([
@@ -357,7 +357,7 @@ class AppointmentController extends Controller
             new BookingUpdateNotification($oldAppointment,$appointment,updatedBy: Barber::find($oldAppointment['barber_id']))
         );
 
-        return redirect()->route('appointments.show',['appointment' => $appointment])->with('success','Booking has been updated successfully!');
+        return redirect()->route('appointments.show',['appointment' => $appointment])->with('success',__('barber.success_updated_booking'));
     }
 
     public function destroy(Appointment $appointment)
@@ -378,6 +378,6 @@ class AppointmentController extends Controller
         );
         $appointment->delete();
         return redirect()->route('appointments.show',$appointment)
-            ->with('success','Appointment has been cancelled successfully! Be sure to set up a new booking with your client!');
+            ->with('success',__('barber.success_booking_destroyed'));
     }
 }

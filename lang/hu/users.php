@@ -20,7 +20,7 @@ return [
     "updated_pfp" => "Új profilkép",
     "guidelines" => "Útmutató",
     "guidelines_p1" => "A",
-    "left" => "balra oldali",
+    "left" => "bal oldali",
     "above" => "fenti",
     "guidelines_p2" => "képre kattintva cserélheted le a profilképedet. Ez a kép fog megjelenni rólad a főoldalon és az időpontfoglalási folyamat során. Kérlek vedd figyelembe az alábbiakat, mielőtt módosítanád a fotódat:",
     "guidelines_bp1" => "A fotónak élesnek és jó minőségűnek kell lennie",

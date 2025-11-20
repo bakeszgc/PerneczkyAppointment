@@ -48,7 +48,7 @@ return [
     "correct_details" => "Igen, a foglalás részletei helyesek.",
     "confirm_appointment" => "Időpont megerősítése",
     "confirm_booking" => "Foglalás megerősítése",
-    "empty_for_walk_ins" => "Hagyd üresen beugró esetében",
+    "empty_for_walk_ins" => "Hagyd üresen beeső esetében",
 
     // CREATE APPOINTMENT - SUCCESS
     "success" => "Siker",

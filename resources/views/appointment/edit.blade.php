@@ -11,24 +11,24 @@
                 case 'Time Off':
                     switch ($action) {
                         case 'edit':
-                            $title = "Editing " . $appointment->barber->getName() . "'s time off";
+                            $title = __('barber.editing_s1s_1') . $appointment->barber->getName() . __('barber.editing_s1s_timeoff_2');
                             $formRoute = route('admin-time-offs.update',$appointment);
                             $destroyRoute = route('admin-time-offs.destroy',$appointment);
                             $breadcrumbLinks = [
-                                'Admin dashboard' => route('admin'),
-                                'Time offs' => route('admin-time-offs.index'),
-                                'Time off #' . $appointment->id => route('admin-time-offs.show',$appointment),
-                                'Edit' => ''
+                                __('home.admin_dashboard') => route('admin'),
+                                __('home.time_offs') => route('admin-time-offs.index'),
+                                __('barber.time_off') . " #" . $appointment->id => route('admin-time-offs.show',$appointment),
+                                __('appointments.edit') => ''
                             ];
                         break;
 
                         case 'create':
-                            $title = "Set a new time off";
+                            $title = __('barber.new_time_off');
                             $formRoute = route('admin-time-offs.store');
                             $breadcrumbLinks = [
-                                'Admin dashboard' => route('admin'),
-                                'Time offs' => route('admin-time-offs.index'),
-                                'New time off' => ''
+                                __('home.admin_dashboard') => route('admin'),
+                                __('home.time_offs') => route('admin-time-offs.index'),
+                                __('barber.new_time_off') => ''
                             ];
                         break;
                     }
@@ -36,14 +36,14 @@
                 break;
 
                 case 'Booking':
-                    $title = "Editing " . $appointment->user->first_name . "'s booking";
+                    $title = __('barber.editing_s1s_1') . $appointment->user->first_name . __('barber.editing_s1s_booking_2');
                     $formRoute = route('bookings.update',$appointment);
                     $destroyRoute = route('bookings.destroy',$appointment);
                     $breadcrumbLinks = [
-                        'Admin dashboard' => route('admin'),
-                        'Bookings' => route('bookings.index'),
-                        'Booking #' . $appointment->id => route('bookings.show',$appointment),
-                        'Edit' => ''
+                        __('home.admin_dashboard') => route('admin'),
+                        __('home.bookings') => route('bookings.index'),
+                        __('barber.booking') . " #" . $appointment->id => route('bookings.show',$appointment),
+                        __('appointments.edit') => ''
                     ];
                 break;
             }
@@ -54,35 +54,35 @@
                 case 'Time Off':
                     switch ($action) {
                         case 'edit':
-                            $title = "Editing your time off";
+                            $title = __('barber.editing_your_timeoff');
                             $formRoute = route('time-offs.update',$appointment);
                             $destroyRoute = route('time-offs.destroy',$appointment);
                             $breadcrumbLinks = [
-                                'Time offs' => route('time-offs.index'),
-                                'Time off #' . $appointment->id => route('time-offs.show',$appointment),
-                                'Edit' => ''
+                                __('home.time_offs') => route('time-offs.index'),
+                                __('barber.time_off') . " #" . $appointment->id => route('time-offs.show',$appointment),
+                                __('appointments.edit') => ''
                             ];
                         break;
 
                         case 'create':
-                            $title = "Set your time off";
+                            $title = __('barber.new_time_off');
                             $formRoute = route('time-offs.store');
                             $breadcrumbLinks = [
-                                'Time offs' => route('time-offs.index'),
-                                'New time off' => ''
+                                __('home.time_offs') => route('time-offs.index'),
+                                __('barber.new_time_off') => ''
                             ];
                         break;
                     }
                 break;
 
                 case 'Booking':
-                    $title = "Editing " . $appointment->user->first_name . "'s booking";
+                    $title = __('barber.editing_s1s_1') . $appointment->user->first_name . __('barber.editing_s1s_booking_2');
                     $formRoute = route('appointments.update',$appointment);
                     $destroyRoute = route('appointments.destroy',$appointment);
                     $breadcrumbLinks = [
-                        'Bookings' => route('appointments.index'),
-                        'Booking #' . $appointment->id => route('appointments.show',$appointment),
-                        'Edit' => ''
+                        __('home.bookings') => route('appointments.index'),
+                        __('barber.booking') . " #" . $appointment->id => route('appointments.show',$appointment),
+                        __('appointments.edit') => ''
                     ];
                 break;
             }
@@ -116,13 +116,13 @@
                 @if ($view == 'Booking')
                     <div class="max-sm:col-span-2">
                         <x-label for="service">
-                            Service*
+                            {{ __('appointments.service') }}*
                         </x-label>
 
                         <x-select name="service" id="service" class="w-full">
                             @foreach ($services as $service)
                                 <option value="{{ $service->id }}" @selected($service->id == $appointment->service_id)>
-                                    {{ $service->name }}
+                                    {{ $service->getName() }}
                                 </option>
                             @endforeach
                         </x-select>
@@ -134,7 +134,7 @@
 
                     <div class="max-sm:col-span-2">
                         <x-label for="price">
-                            Price (in HUF)*
+                            {{ __('barber.price_in_huf') }}*
                         </x-label>
 
                         <x-input-field type="number" name="price" id="price" :value="$appointment->price" class="w-full h-fit"/>
@@ -147,7 +147,7 @@
 
                 @if ($access == 'admin' && $view == 'Time Off' && $action == 'create')
                     <div class=" col-span-2">
-                        <x-label for="barber">Barber*</x-label>
+                        <x-label for="barber">{{ __('appointments.barber') }}*</x-label>
                         
                         <x-select name="barber" id="barber" class="w-full">
                             <option value="empty"></option>
@@ -166,7 +166,7 @@
 
                 <div class="flex flex-col max-md:col-span-2">
                     <x-label for="startDate">
-                        {{ $view == 'Booking' ? 'Booking' : 'Time off' }}'s start time*
+                        {{ $view == 'Booking' ? __('barber.bookings_start_time') : __('barber.timeoffs_start_time') }}
                     </x-label>
 
                     <div class="flex items-center gap-1">
@@ -198,7 +198,7 @@
 
                 <div class="flex flex-col max-md:col-span-2">
                     <x-label for="endDate">
-                        {{ $view == 'Booking' ? 'Booking' : 'Time off' }}'s end time*
+                        {{ $view == 'Booking' ? __('barber.bookings_end_time') : __('barber.timeoffs_end_time') }}
                     </x-label>
 
                     <div class="flex items-center gap-1">
@@ -235,7 +235,7 @@
                 @case('Booking')
                     <div @class(['mb-4','grid grid-cols-2 max-md:grid-cols-1 gap-4  mb-4'])>
                         <div class="flex flex-col">
-                            <x-label for="comment">Comment</x-label>
+                            <x-label for="comment">{{ __('appointments.comment') }}</x-label>
 
                             <x-input-field type="textarea" name="comment" id="comment">{{old('comment') ?? $appointment->comment}}</x-input-field>
 
@@ -245,7 +245,7 @@
                         </div>
 
                         <div>
-                            <x-label for="barber">Barber*</x-label>
+                            <x-label for="barber">{{ __('appointments.barber') }}*</x-label>
                             
                             <x-select name="barber" id="barber" class="w-full">
                                 @foreach ($barbers as $barber)
@@ -259,7 +259,7 @@
                                 <p class=" text-red-500">{{$message}}</p>
                             @enderror
 
-                            <div class="text-right mt-4 max-md:hidden">* Required fields</div>
+                            <div class="text-right mt-4 max-md:hidden">* {{ __('auth.required_fields') }}</div>
                         </div>
                     </div>
                 @break
@@ -268,9 +268,9 @@
                     <div class="flex justify-between items-center mb-4">
                         <div class="flex gap-2 items-center">
                             <x-input-field type="checkbox" id="fullDayCheckBox" name="full_day" :checked="isset($appointment) ? $appointment->isFullDay() : false"  />
-                            <x-label for="fullDayCheckBox">Full day off</x-label>
+                            <x-label for="fullDayCheckBox">{{ __('barber.full_day_off') }}</x-label>
                         </div>
-                        <div class="text-right">* Required fields</div>
+                        <div class="text-right">* {{ __('auth.required_fields') }}</div>
                     </div>
                 @break                    
             @endswitch
@@ -278,7 +278,7 @@
             <div class="flex justify-between">
                 <div class="flex gap-2">
                     <x-button role="{{ $view == 'Time Off' ? ($action == 'edit' ? 'timeoffMain' : 'timeoffCreateMain') : 'ctaMain' }}" id="submitButton">
-                        {{ $action == 'edit' ? 'Update' : 'Create' }}
+                        {{ $action == 'edit' ? __('barber.update') : __('barber.create') }}
                     </x-button>
                     </form>
 
@@ -287,14 +287,14 @@
                             @csrf
                             @method('DELETE')
                                 <x-button role="destroy">
-                                    Cancel
+                                    {{ __('appointments.cancel') }}
                                 </x-button>
                         </form>
                     @endif
                 </div>
 
                 @if ($action == 'edit' && $view == 'Booking')
-                    <div class="text-right md:hidden">* Required fields</div>
+                    <div class="text-right md:hidden">* {{ __('auth.required_fields') }}</div>
                 @endif
             </div>
     </x-card>
@@ -309,7 +309,7 @@
                 @for ($i = 1; $i<=7; $i++)
                     <div class="flex items-center justify-center gap-1 flex-col w-1/8">
                         <span class="text-slate-500">
-                            {{ date('D', strtotime("Sunday + {$i} days")) }}
+                            {{ __('barbers.' . strtolower(date('D', strtotime("Sunday + {$i} days")))) }}
                         </span>
                         <span id="{{ lcfirst(date('D', strtotime("Sunday + {$i} days"))) . 'Number'}}">
                         </span>
@@ -345,6 +345,8 @@
 
             let timeDifference = getTimeDifference(appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute);
 
+            const currentLang = "{{ App::getLocale() }}";
+
             // CALENDAR VARIABLES
             const colHeaderContainer = document.getElementById('colHeaderContainer');
 
@@ -375,7 +377,7 @@
                         appEndHour.value = endDateTime.getHours();
                         appEndMinute.value = endDateTime.getMinutes();
 
-                        renderCurrent (calendar, getDateTime(appStartDate,appStartHour,appStartMinute), getDateTime(appEndDate,appEndHour,appEndMinute), getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ isset($appointment) ? $appointment->user->first_name : '' }}', '{{ $action }}', '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}', appointments);
+                        renderCurrent (calendar, getDateTime(appStartDate,appStartHour,appStartMinute), getDateTime(appEndDate,appEndHour,appEndMinute), getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ isset($appointment) ? $appointment->user->first_name : '' }}', '{{ $action }}', '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}', appointments, currentLang);
 
                         updateCurrentTimeDiv(currentTimeDiv, 'week');
                     });
@@ -401,7 +403,7 @@
                         appEndHour.toggleAttribute('disabled');
                         appEndMinute.toggleAttribute('disabled');
                         
-                        renderCurrent (calendar, getDateTime(appStartDate,appStartHour,appStartMinute), getDateTime(appEndDate,appEndHour,appEndMinute), getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ isset($appointment) ? $appointment->user->first_name : '' }}', '{{ $action }}', '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}', appointments);
+                        renderCurrent (calendar, getDateTime(appStartDate,appStartHour,appStartMinute), getDateTime(appEndDate,appEndHour,appEndMinute), getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ isset($appointment) ? $appointment->user->first_name : '' }}', '{{ $action }}', '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}', appointments, currentLang);
 
                         updateCurrentTimeDiv(currentTimeDiv, 'week');
                     });
@@ -428,7 +430,7 @@
                         timeDifference = getTimeDifference(appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute);
                     }                    
 
-                    renderCurrent (calendar, getDateTime(appStartDate,appStartHour,appStartMinute), getDateTime(appEndDate,appEndHour,appEndMinute), getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ isset($appointment) ? $appointment->user->first_name : '' }}', '{{ $action }}', '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}', appointments);
+                    renderCurrent (calendar, getDateTime(appStartDate,appStartHour,appStartMinute), getDateTime(appEndDate,appEndHour,appEndMinute), getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ isset($appointment) ? $appointment->user->first_name : '' }}', '{{ $action }}', '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}', appointments, currentLang);
 
                     updateCurrentTimeDiv(currentTimeDiv, 'week');
                 });
@@ -438,20 +440,20 @@
                 input.addEventListener('change', function () {
                     timeDifference = getTimeDifference(appStartDate, appStartHour, appStartMinute, appEndDate, appEndHour, appEndMinute);
 
-                    renderCurrent (calendar, getDateTime(appStartDate,appStartHour,appStartMinute), getDateTime(appEndDate,appEndHour,appEndMinute), getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ isset($appointment) ? $appointment->user->first_name : '' }}', '{{ $action }}', '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}', appointments);
+                    renderCurrent (calendar, getDateTime(appStartDate,appStartHour,appStartMinute), getDateTime(appEndDate,appEndHour,appEndMinute), getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ isset($appointment) ? $appointment->user->first_name : '' }}', '{{ $action }}', '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}', appointments, currentLang);
 
                     updateCurrentTimeDiv(currentTimeDiv, 'week');
                 });
             });
             
-            renderDateNumbersNew(colHeaderContainer,date);
+            renderDateNumbersNew(colHeaderContainer,date,currentLang);
             updateCurrentTimeDiv(currentTimeDiv, 'week');
             renderExisting(appointments, getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ $access }}', date, calendar);
-            renderCurrent (calendar, getDateTime(appStartDate,appStartHour,appStartMinute), getDateTime(appEndDate,appEndHour,appEndMinute), getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ isset($appointment) ? $appointment->user->first_name : '' }}', '{{ $action }}', '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}', appointments);
+            renderCurrent (calendar, getDateTime(appStartDate,appStartHour,appStartMinute), getDateTime(appEndDate,appEndHour,appEndMinute), getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ isset($appointment) ? $appointment->user->first_name : '' }}', '{{ $action }}', '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}', appointments, currentLang);
 
             appStartDate.addEventListener('change', function () {
                 date = new Date(appStartDate.value);
-                renderDateNumbersNew(colHeaderContainer,date);
+                renderDateNumbersNew(colHeaderContainer,date,currentLang);
                 renderExisting(appointments, getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ $access }}', date, calendar);
                 updateCurrentTimeDiv(currentTimeDiv, 'week');
             });
@@ -459,7 +461,7 @@
             if (barberInput) {                
                 barberInput.addEventListener('change', function () {
                     renderExisting(appointments, getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ $access }}', date, calendar);
-                    renderCurrent (calendar, getDateTime(appStartDate,appStartHour,appStartMinute), getDateTime(appEndDate,appEndHour,appEndMinute), getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ isset($appointment) ? $appointment->user->first_name : '' }}', '{{ $action }}', '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}', appointments);
+                    renderCurrent (calendar, getDateTime(appStartDate,appStartHour,appStartMinute), getDateTime(appEndDate,appEndHour,appEndMinute), getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ isset($appointment) ? $appointment->user->first_name : '' }}', '{{ $action }}', '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}', appointments, currentLang);
                     updateCurrentTimeDiv(currentTimeDiv, 'week');
                 });
             }

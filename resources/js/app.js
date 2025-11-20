@@ -26,7 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const resetButton = document.getElementById('reset');
     const cropModal = document.getElementById('cropModal');
     const submitDiv = document.getElementById('submitDiv');
-    const lang = document.getElementById('langCheck').value;
+    const langInput = document.getElementById('langCheck');
+    if (langInput) {
+        const lang = langInput.value;
+    }
 
     if (imageInput) {
         imageInput.addEventListener('change', () => {

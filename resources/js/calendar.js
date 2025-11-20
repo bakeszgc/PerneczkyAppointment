@@ -2,6 +2,7 @@ export function renderDivs(appStartTime, appEndTime, calendar, appointments, bar
     // CHECKING THE DAY DIFFERENCE OF THE SELECTED TIME OFF
     const startDateString = appStartTime.toLocaleDateString('en-CA');
     const endDateString = appEndTime.toLocaleDateString('en-CA');
+    
 
     const dayDifference = (new Date(endDateString) - new Date(startDateString)) / 1000 / 60 / 60 / 24;
     for (let index = 0; index < dayDifference + 1; index++) {
@@ -145,13 +146,25 @@ export function renderDivs(appStartTime, appEndTime, calendar, appointments, bar
                         spanName.innerHTML = 'OVERLAPPING';
                     } else {
                         if(start < new Date()) {
-                            spanName.innerHTML = 'IN PAST';
-                        } else {                                
-                            spanName.innerHTML = (divData.type == 'timeoff') ? 'TIME OFF' : divData.customerName;
+                            if (divData.lang && divData.lang == 'hu') {
+                                spanName.innerHTML = 'MÚLTBAN';
+                            } else {
+                                spanName.innerHTML = 'IN PAST';
+                            }                            
+                        } else {
+                            if (divData.lang && divData.lang == 'hu') {
+                                spanName.innerHTML = (divData.type == 'timeoff') ? 'SZÜNET' : divData.customerName;
+                            } else {
+                                spanName.innerHTML = (divData.type == 'timeoff') ? 'TIME OFF' : divData.customerName;
+                            }
                         }
                     }
                 } else {
-                    spanName.innerHTML = (divData.type == 'timeoff') ? 'TIME OFF' : divData.customerName;
+                    if (divData.lang && divData.lang == 'hu') {
+                        spanName.innerHTML = (divData.type == 'timeoff') ? 'SZÜNET' : divData.customerName;
+                    } else {
+                        spanName.innerHTML = (divData.type == 'timeoff') ? 'TIME OFF' : divData.customerName;
+                    }
                 }
                         
                 innerDiv.appendChild(spanTime);
@@ -226,9 +239,13 @@ window.renderExisting = function (appointments, barberId, appId, access, date, c
     });
 };
 
-window.renderCurrent = function (calendar, appStartTime, appEndTime, barberId, appId, customerName, action, type, appointments) {
+window.renderCurrent = function (calendar, appStartTime, appEndTime, barberId, appId, customerName, action, type, appointments, lang) {
     // REMOVING EXISTING CURRENT DIV ELEMENT
     document.querySelectorAll('.currentApp').forEach(el => el.remove());
+
+    if (!lang) {
+        const lang = "en";
+    }
     
     // RENDERING CURRENT DIV ELEMENT
     const divData = {
@@ -236,7 +253,8 @@ window.renderCurrent = function (calendar, appStartTime, appEndTime, barberId, a
         action: action,
         type: type,
         appId: appId,
-        customerName: customerName
+        customerName: customerName,
+        lang: lang
     }
     
     renderDivs(appStartTime, appEndTime, calendar, appointments, barberId, divData);

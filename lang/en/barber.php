@@ -62,6 +62,30 @@ return [
     "select_customer" => "Select customer",
     "empty_users" => "There aren't any users with matching properties",
 
+    // APPOINTMENTS EDIT
+    "editing_s1s_1" => "Editing ",
+    "editing_s1s_booking_2" => "'s booking",
+    "editing_s1s_timeoff_2" => "'s time off",
+    "editing_your_timeoff" => "Editing your time off",
+    "time_off" => "Time off",
+    "new_time_off" => "New time off",
+    "price_in_huf" => "Price (in HUF)",
+    "bookings_start_time" => "Booking's start time",
+    "bookings_end_time" => "Booking's end time",
+    "timeoffs_start_time" => "Time off's start time",
+    "timeoffs_end_time" => "Time off's end time",
+    "full_day_off" => "Full day off",
+    "update" => "Update",
+    "create" => "Create",
+    "mon" => "Mon",
+    "tue" => "Tue",
+    "wed" => "Wed",
+    "thu" => "Thu",
+    "fri" => "Fri",
+    "sat" => "Sat",
+    "sun" => "Sun",
+
+
     // APPOINTMENTS MESSAGES
     "success_new_booking" => "New booking has been created successfully!",
     "success_updated_booking" => "Booking has been updated successfully!",

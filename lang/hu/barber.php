@@ -121,4 +121,9 @@ return [
     "need_break_earlier" => "Jól jönne egy korábbi szünet?",
     "set_timeoff" => "Húzz ki egyet itt!",
     "timeoff_uc" => "SZÜNET",
+
+    // TIMEOFFS MESSAGES
+    "success_timeoff_store" => "Szünet sikeresen felvéve! Élvezd a jól megérdemelt pihenést!",
+    "success_timeoff_update" => "Szünet sikeresen módosítva!",
+    "success_timeoff_destroy" => "Szünet sikeresen törölve!"
 ];

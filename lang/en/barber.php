@@ -122,4 +122,9 @@ return [
     "set_timeoff" => "Set a time off here!",
     "timeoff_uc" => "TIME OFF",
 
+    // TIMEOFFS MESSAGES
+    "success_timeoff_store" => "Time off created successfully! Enjoy your well deserved rest!",
+    "success_timeoff_update" => "Time off has been updated successfully!",
+    "success_timeoff_destroy" => "Time off has been cancelled successfully!"
+
 ];

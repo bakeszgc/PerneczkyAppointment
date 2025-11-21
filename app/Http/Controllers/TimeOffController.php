@@ -75,7 +75,7 @@ class TimeOffController extends Controller
         if (get_class($time_off) != "App\Models\Appointment") {
             return $time_off;
         } else {
-            return redirect()->route('time-offs.show',$time_off)->with('success', 'Time off created successfully! Enjoy your well deserved rest!');
+            return redirect()->route('time-offs.show',$time_off)->with('success', __('barber.success_timeoff_store'));
         }
     }
 
@@ -139,7 +139,7 @@ class TimeOffController extends Controller
         if (get_class($time_off) != "App\Models\Appointment") {
             return $time_off;
         } else {
-            return redirect()->route('time-offs.show',$time_off)->with('success','Time off has been updated successfully!');
+            return redirect()->route('time-offs.show',$time_off)->with('success',__('barber.success_timeoff_update'));
         }
     }
 
@@ -155,6 +155,6 @@ class TimeOffController extends Controller
         }
 
         $time_off->delete();
-        return redirect()->route('time-offs.index')->with('success','Time off has been cancelled successfully!');
+        return redirect()->route('time-offs.index')->with('success',__('barber.success_timeoff_destroy'));
     }
 }

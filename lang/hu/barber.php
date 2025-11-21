@@ -102,4 +102,13 @@ return [
     "error_booking_destroy_past" => "Nem mondhatsz le múltbéli foglalásokat.",
     "error_timeoff_destroy_cancelled" => "Nem törölhetsz már korábban törölt szüneteket.",
     "error_booking_destroy_cancelled" => "Nem mondhatsz le már korábban lemondott szüneteket.",
+
+    // TIMEOFFS INDEX
+    "your_timeoffs" => "Szüneteid",
+    "your_upcoming_timeoffs" => "Következő szüneteid",
+    "your_previous_timeoffs" => "Korábbi szüneteid",
+    "no_timeoffs" => "Nincsenek még szüneteid",
+    "no_upcoming_timeoffs" => "Nincsenek jövőbeli szüneteid",
+    "no_previous_timeoffs" => "Nincsenek korábbi szüneteid",
+    "set_one" => "Húzz ki egy idősávot itt!",
 ];

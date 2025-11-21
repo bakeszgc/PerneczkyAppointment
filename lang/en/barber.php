@@ -85,7 +85,6 @@ return [
     "sat" => "Sat",
     "sun" => "Sun",
 
-
     // APPOINTMENTS MESSAGES
     "success_new_booking" => "New booking has been created successfully!",
     "success_updated_booking" => "Booking has been updated successfully!",
@@ -103,5 +102,14 @@ return [
     "error_booking_destroy_past" => "You can't cancel bookings from the past.",
     "error_timeoff_destroy_cancelled" => "You can't cancel already cancelled timeoffs.",
     "error_booking_destroy_cancelled" => "You can't cancel already cancelled bookings.",
+
+    // TIMEOFFS INDEX
+    "your_timeoffs" => "Your time offs",
+    "your_upcoming_timeoffs" => "Your upcoming time offs",
+    "your_previous_timeoffs" => "Your previous time offs",
+    "no_timeoffs" => "You don't have any time offs",
+    "no_upcoming_timeoffs" => "You don't have any upcoming time offs",
+    "no_previous_timeoffs" => "You don't have any previous time offs",
+    "set_one" => "Set yourself one here!",
 
 ];

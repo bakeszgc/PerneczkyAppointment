@@ -125,6 +125,9 @@ return [
     // TIMEOFFS MESSAGES
     "success_timeoff_store" => "Time off created successfully! Enjoy your well deserved rest!",
     "success_timeoff_update" => "Time off has been updated successfully!",
-    "success_timeoff_destroy" => "Time off has been cancelled successfully!"
+    "success_timeoff_destroy" => "Time off has been cancelled successfully!",
+    "error_timeoff_start_later" => "The ending time of your time off has to be later than its starting time!",
+    "error_timeoff_start_past" => "The starting time of your time off cannot be in the past!",
+    "error_timeoff_end_past" => "The ending time of your time off cannot be in the past!",
 
 ];

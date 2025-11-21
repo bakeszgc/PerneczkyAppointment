@@ -125,5 +125,9 @@ return [
     // TIMEOFFS MESSAGES
     "success_timeoff_store" => "Szünet sikeresen felvéve! Élvezd a jól megérdemelt pihenést!",
     "success_timeoff_update" => "Szünet sikeresen módosítva!",
-    "success_timeoff_destroy" => "Szünet sikeresen törölve!"
+    "success_timeoff_destroy" => "Szünet sikeresen törölve!",
+    "error_timeoff_start_later" => "A szüneted vége nem lehet korábban, mint a kezdete!",
+    "error_timeoff_start_past" => "A szüneted kezdete nem lehet a múltban!",
+    "error_timeoff_end_past" => "A szüneted vége nem lehet a múltban!",
+
 ];

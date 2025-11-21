@@ -416,20 +416,20 @@ class Appointment extends Model
 
         // APP START TIME IS LATER OR EQUAL THAN APP END TIME
         if ($appStartTime >= $appEndTime) {
-            return redirect()->back()->with('error',"The ending time of your time off has to be later than its starting time");
+            return redirect()->back()->with('error',__('barber.error_timeoff_start_later'));
         }
 
         // HANDLING WHEN APPSTARTTIME OR APPENDTIME IS IN THE PAST
         if ($appStartTime < now()) {
-            return redirect()->back()->with('error',"The starting time of your time off cannot be in the past!");
+            return redirect()->back()->with('error',__('barber.error_timeoff_start_past'));
         } elseif ($appEndTime < now()) {
-            return redirect()->back()->with('error',"The ending time of your time off cannot be in the past!");
+            return redirect()->back()->with('error',__('barber.error_timeoff_end_past'));
         }
 
         // COUNTING THE APPOINTMENTS THAT ARE CLASHING WITH THE SELECTED TIMEFRAME
         // IF THERE ARE NONE -> LETS THE CODE RUN FORWARD
         if (!Appointment::checkAppointmentClashes($appStartTime,$appEndTime,$barber,$time_off)) {
-            return redirect()->back()->with('error','You have bookings clashing with the selected timeframe.');
+            return redirect()->back()->with('error',__('barber.error_clashing'));
         }
 
         // HANDLING TIME OFFS THAT ARE LONGER THAN ONE DAY

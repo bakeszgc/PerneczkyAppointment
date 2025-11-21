@@ -46,6 +46,8 @@ return [
     "walk_in_p1c" => ".",
     "walk_in_p2a" => "This means that we don't have any other information stored about ",
     "walk_in_p2b" => " besides his first name.",
+    "no_comments_from1" => "No comments from ",
+    "no_comments_from2" => ".",
 
     // APPOINTMENTS CREATE CUSTOMER
     "customer" => "Customer",

@@ -28,9 +28,11 @@
 
     <x-appointment-card :appointment="$appointment" access="{{ $view }}" class="mb-8">
         <div class="text-base max-sm:text-sm text-slate-500">
-            Comment:
+            {{ __('appointments.comment') }}:
             @if (!$appointment->comment)
-                <span class="italic">No comments from {{ $appointment->user->first_name }}.</span>
+                <span class="italic">
+                    {{ __('barber.no_comments_from1') . $appointment->user->first_name . __('barber.no_comments_from2') }}
+                </span>
             @else
                 {{ $appointment->comment }}
             @endif

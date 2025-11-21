@@ -112,7 +112,7 @@
             updateCurrentTimeDiv(currentTimeDiv, view);
             renderDateNumbersNew(colHeaderContainer,date,currentLang);
             renderDates(displayWindow, view, date, currentLang);
-            renderExisting(appointments, barberSelect.value, 0, access, date, calendar, view);
+            renderExisting(appointments, barberSelect.value, 0, access, date, calendar, view, currentLang);
 
             previousWeekButton.addEventListener('click',function () {
                 if (view == 'week') {
@@ -124,7 +124,7 @@
                 }
 
                 renderDates(displayWindow, view, date, currentLang);
-                renderExisting(appointments, barberSelect.value, 0, access, date, calendar, view);
+                renderExisting(appointments, barberSelect.value, 0, access, date, calendar, view, currentLang);
                 setDivLeft(view);
             });
 
@@ -138,14 +138,14 @@
                 }                
 
                 renderDates(displayWindow, view, date, currentLang);
-                renderExisting(appointments, barberSelect.value, 0, access, date, calendar, view);
+                renderExisting(appointments, barberSelect.value, 0, access, date, calendar, view, currentLang);
                 setDivLeft(view);
             });
 
             barberSelect.addEventListener('change', () => {
                 renderDateNumbersNew(colHeaderContainer,date,currentLang);
                 renderDates(displayWindow, view, date, currentLang);
-                renderExisting(appointments, barberSelect.value, 0, access, date, calendar, view);
+                renderExisting(appointments, barberSelect.value, 0, access, date, calendar, view, currentLang);
             });
 
             toggleViewButton.addEventListener('click', () => {

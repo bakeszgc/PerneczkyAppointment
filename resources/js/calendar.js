@@ -183,7 +183,7 @@ export function renderDivs(appStartTime, appEndTime, calendar, appointments, bar
     }
 }
 
-window.renderExisting = function (appointments, barberId, appId, access, date, calendar, view) {
+window.renderExisting = function (appointments, barberId, appId, access, date, calendar, view, lang) {
     if (!view) {
         view = 'week';
     }
@@ -232,7 +232,8 @@ window.renderExisting = function (appointments, barberId, appId, access, date, c
             appId: app.id,
             customerName: app.user.first_name,
             barberId: app.barber_id,
-            view: view
+            view: view,
+            lang: lang
         };
         
         renderDivs(appStartTime, appEndTime, calendar, appointments, barberId, divData);

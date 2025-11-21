@@ -143,7 +143,11 @@ export function renderDivs(appStartTime, appEndTime, calendar, appointments, bar
 
                 if (divData.state == 'current') {
                     if (clashCount != 0) {
-                        spanName.innerHTML = 'OVERLAPPING';
+                        if (divData.lang && divData.lang == 'hu') {
+                            spanName.innerHTML = 'ÜTKÖZIK';
+                        } else {
+                            spanName.innerHTML = 'OVERLAPPING';
+                        }
                     } else {
                         if(start < new Date()) {
                             if (divData.lang && divData.lang == 'hu') {
@@ -393,7 +397,7 @@ window.setDivLeft = function(view) {
 
 window.switchToWeeklyView = function(colHeaderContainer,date,appointments,barberId,access,calendar,view,timeslots,barbers,currentTimeDiv,barberSelect,lang) {
     renderDateNumbersNew(colHeaderContainer,date,lang);
-    renderExisting(appointments, barberId, 0, access, date, calendar, view);
+    renderExisting(appointments, barberId, 0, access, date, calendar, view, lang);
 
     timeslots.forEach(ts => {
         toggleFullWidth(ts, barbers);
@@ -405,10 +409,10 @@ window.switchToWeeklyView = function(colHeaderContainer,date,appointments,barber
     barberSelect.disabled = false;
 }
 
-window.switchToDailyView = function(colHeaderContainer,date,appointments,barberId,access,calendar,view,timeslots,barbers,currentTimeDiv,barberSelect) {
+window.switchToDailyView = function(colHeaderContainer,date,appointments,barberId,access,calendar,view,timeslots,barbers,currentTimeDiv,barberSelect,lang) {
     calendar.innerHTML = "";
     renderBarberNames(colHeaderContainer,barbers);
-    renderExisting(appointments, barberId, 0, access, date, calendar, view);
+    renderExisting(appointments, barberId, 0, access, date, calendar, view, lang);
     setDivLeft(view);
 
     timeslots.forEach(ts => {

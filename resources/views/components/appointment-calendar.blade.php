@@ -151,7 +151,7 @@
             toggleViewButton.addEventListener('click', () => {
                 if (view == 'week') {
                     view = 'day';
-                    switchToDailyView(colHeaderContainer,date,appointments,barberSelect.value,access,calendar,view,timeslots,barbers,currentTimeDiv,barberSelect);
+                    switchToDailyView(colHeaderContainer,date,appointments,barberSelect.value,access,calendar,view,timeslots,barbers,currentTimeDiv,barberSelect,currentLang);
                     
                 } else {
                     view = 'week';
@@ -180,7 +180,7 @@
             @if ($defaultView == 'day')
                 view = 'day';
 
-                switchToDailyView(colHeaderContainer,date,appointments,barberSelect.value,access,calendar,view,timeslots,barbers,currentTimeDiv,barberSelect);
+                switchToDailyView(colHeaderContainer,date,appointments,barberSelect.value,access,calendar,view,timeslots,barbers,currentTimeDiv,barberSelect,currentLang);
 
                 spanViewType.forEach(span => {
                     span.innerHTML = "{{ __('barber.day') }}";

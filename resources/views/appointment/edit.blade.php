@@ -448,19 +448,19 @@
             
             renderDateNumbersNew(colHeaderContainer,date,currentLang);
             updateCurrentTimeDiv(currentTimeDiv, 'week');
-            renderExisting(appointments, getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ $access }}', date, calendar);
+            renderExisting(appointments, getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ $access }}', date, calendar, 'week', currentLang);
             renderCurrent (calendar, getDateTime(appStartDate,appStartHour,appStartMinute), getDateTime(appEndDate,appEndHour,appEndMinute), getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ isset($appointment) ? $appointment->user->first_name : '' }}', '{{ $action }}', '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}', appointments, currentLang);
 
             appStartDate.addEventListener('change', function () {
                 date = new Date(appStartDate.value);
                 renderDateNumbersNew(colHeaderContainer,date,currentLang);
-                renderExisting(appointments, getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ $access }}', date, calendar);
+                renderExisting(appointments, getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ $access }}', date, calendar, 'week', currentLang);
                 updateCurrentTimeDiv(currentTimeDiv, 'week');
             });
 
             if (barberInput) {                
                 barberInput.addEventListener('change', function () {
-                    renderExisting(appointments, getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ $access }}', date, calendar);
+                    renderExisting(appointments, getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ $access }}', date, calendar, 'week', currentLang);
                     renderCurrent (calendar, getDateTime(appStartDate,appStartHour,appStartMinute), getDateTime(appEndDate,appEndHour,appEndMinute), getBarberId(barberInput), {{ isset($appointment) ? $appointment->id : 0 }}, '{{ isset($appointment) ? $appointment->user->first_name : '' }}', '{{ $action }}', '{{ $view == 'Time Off' ? 'timeoff' : 'appointment' }}', appointments, currentLang);
                     updateCurrentTimeDiv(currentTimeDiv, 'week');
                 });

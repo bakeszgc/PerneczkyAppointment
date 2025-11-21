@@ -111,4 +111,12 @@ return [
     "no_upcoming_timeoffs" => "Nincsenek jövőbeli szüneteid",
     "no_previous_timeoffs" => "Nincsenek korábbi szüneteid",
     "set_one" => "Húzz ki egy idősávot itt!",
+
+    // TIMEOFFS SHOW
+    "your_timeoff" => "Szüneted",
+    "s1s_timeoff" => " szünete",
+    "need_break" => "Jól jönne egy szünet?",
+    "need_break_earlier" => "Jól jönne egy korábbi szünet?",
+    "set_timeoff" => "Húzz ki egyet itt!",
+    "timeoff_uc" => "SZÜNET",
 ];

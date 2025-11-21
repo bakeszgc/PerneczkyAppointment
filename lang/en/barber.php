@@ -112,4 +112,12 @@ return [
     "no_previous_timeoffs" => "You don't have any previous time offs",
     "set_one" => "Set yourself one here!",
 
+    // TIMEOFFS SHOW
+    "your_timeoff" => "Your time off",
+    "s1s_timeoff" => "'s time off",
+    "need_break" => "Need a break?",
+    "need_break_earlier" => "Need a break earlier?",
+    "set_timeoff" => "Set a time off here!",
+    "timeoff_uc" => "TIME OFF",
+
 ];

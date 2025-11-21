@@ -4,20 +4,20 @@
     switch ($access) {
         case 'barber':
             $createRoute = route('time-offs.create');
-            $title = "Your time off";
+            $title = __('barber.your_timeoff');
             $breadcrumbLinks = [
-                'Time offs' => route('time-offs.index'),
-                'Time off #' . $appointment->id => ''
+                __('home.time_offs') => route('time-offs.index'),
+                __('barber.time_off') . ' #' . $appointment->id => ''
             ];
         break;
 
         case 'admin':
             $createRoute = route('admin-time-offs.create',['barber' => $appointment->barber_id]);
-            $title = $appointment->barber->getName() . '\'s time off';
+            $title = $appointment->barber->getName() . __('barber.s1s_timeoff');
             $breadcrumbLinks = [
-                'Admin dashboard' => route('admin'),
-                'Time offs' => route('admin-time-offs.index'),
-                'Time off #' . $appointment->id => ''
+                __('home.admin_dashboard') => route('admin'),
+                __('home.time_offs') => route('admin-time-offs.index'),
+                __('barber.time_off') . ' #' . $appointment->id => ''
             ];
         break;
     }
@@ -33,7 +33,9 @@
 
         <div>
             <x-link-button :link="$createRoute" role="timeoffCreateMain">
-                <span class="max-sm:hidden">New&nbsp;time&nbsp;off</span>
+                <span class="max-sm:hidden">
+                    {{ __('barber.new_time_off') }}
+                </span>
             </x-link-button>
         </div>
     </div>
@@ -41,7 +43,11 @@
     <x-time-off-card :appointment="$appointment" :access="$access" class="mb-4" />
 
     <div class="text-center mb-4">
-        Need a break{{ $appointment->app_start_time >= now('Europe/Budapest') ? ' earlier' : ''}}? <a href="{{ $createRoute }}" class="text-blue-700 hover:underline">Set a time off here!</a>
+        {{ $appointment->app_start_time >= now('Europe/Budapest') ? __('barber.need_break_earlier') : __('barber.need_break')}}
+        
+        <a href="{{ $createRoute }}" class="text-green-700 hover:underline">
+            {{ __('barber.set_timeoff') }}
+        </a>
     </div>
 
 </x-user-layout>

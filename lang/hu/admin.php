@@ -42,4 +42,19 @@ return [
     "hr" => "óra",
     "hrs" => "óra",
 
+    // BOOKINGS INDEX
+    "new_booking" => "Új foglalás",
+    "select_a_barber" => "Válassz egy borbélyt",
+    "select_a_service" => "Válassz egy szolgáltatást",
+    "select_a_customer" => "Válassz egy vendéget",
+    "time_window" => "Időszak",
+    "custom" => "Egyedi",
+    "from" => "Mikortól",
+    "to" => "Meddig",
+    "cancelled_excluded" => "Lemondottak nélkül",
+    "cancelled_included" => "Lemondottakkal együtt",
+    "cancelled_only" => "Csak lemondottak",
+    "no_bookings_filter" => "Nem található foglalás a megadott szűrők alapján",
+    "no_timeoffs_filter" => "Nem található szünet a megadott szűrők alapján",
+
 ];

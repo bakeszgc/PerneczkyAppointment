@@ -80,7 +80,7 @@ class AdminTimeOffController extends Controller
             'appointments' => $appointments,
             'barbers' => $barbers,
             'services' => $services,
-            'view' => 'Time Off'
+            'view' => 'timeoff'
         ]);
     }
 

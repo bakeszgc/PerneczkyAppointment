@@ -1,37 +1,39 @@
 @php
-    $view ??= 'Booking';
+    $view ??= 'booking';
 
     switch ($view) {
-        case 'Time Off':
+        case 'timeoff':
             $createRoute = route('admin-time-offs.create');
             $breadcrumbLinks = [
-                'Admin dashboard' => route('admin'),
-                'Time offs' => route('admin-time-offs.index')
+                __('home.admin_dashboard') => route('admin'),
+                __('home.time_offs') => route('admin-time-offs.index')
             ];
         break;
 
-        case 'Booking':
+        case 'booking':
             $createRoute = route('bookings.create');
             $breadcrumbLinks = [
-                'Admin dashboard' => route('admin'),
-                'Bookings' => route('bookings.index')
+                __('home.admin_dashboard') => route('admin'),
+                __('home.bookings') => route('bookings.index')
             ];
         break;
     }
 @endphp
 
-<x-user-layout title="All {{ strtolower($view) }}s" currentView="admin">
+<x-user-layout title="{{ __('admin.all_'.$view.'s') }}" currentView="admin">
     
     <div class="flex justify-between items-end align-bottom mb-4">
         <div>
             <x-breadcrumbs :links="$breadcrumbLinks"/>
             <x-headline>
-                All {{ strtolower($view) }}s
+                {{ __('admin.all_'.$view.'s') }}
             </x-headline>
         </div>
         <div>
-            <x-link-button :link="$createRoute" role="{{ $view == 'Time Off' ? 'timeoffCreateMain' : 'createMain' }}">
-                <span class="max-sm:hidden">New&nbsp;{{ strtolower($view) }}</span>
+            <x-link-button :link="$createRoute" role="{{ $view == 'timeoff' ? 'timeoffCreateMain' : 'createMain' }}">
+                <span class="max-sm:hidden">
+                    {{ __('admin.new_'.$view) }}
+                </span>
             </x-link-button>
         </div>
     </div>
@@ -40,13 +42,13 @@
         <form action="" method="GET" id="filterForm">
             <div @class([
                 'grid grid-cols-2 grid-flow-col max-md:grid-cols-1 gap-4 mb-4',
-                'grid-rows-3 max-md:grid-rows-6' => $view == 'Booking',
-                'grid-rows-2 max-md:grid-rows-4' => $view == 'Time Off'
+                'grid-rows-3 max-md:grid-rows-6' => $view == 'booking',
+                'grid-rows-2 max-md:grid-rows-4' => $view == 'timeoff'
             ])>
                 <div class="flex flex-col">
-                    <x-label for="barberSelect">Barber</x-label>
+                    <x-label for="barberSelect">{{ __('appointments.barber') }}</x-label>
                     <x-select name="barber" id="barberSelect">
-                        <option value="empty">Select a barber</option>
+                        <option value="empty">{{ __('admin.select_a_barber') }}</option>
                         @foreach ($barbers as $barber)
                             <option value="{{ $barber->id }}" @selected(request('barber') == $barber->id)>
                                 {{ $barber->getName() }} {{ $barber->deleted_at ? '(deleted)' : '' }}
@@ -58,26 +60,26 @@
                     @enderror
                 </div>
 
-                @if ($view == 'Booking')
+                @if ($view == 'booking')
                     <div class="flex flex-col">
-                        <x-label for="serviceSelect">Service</x-label>
+                        <x-label for="serviceSelect">{{ __('appointments.service') }}</x-label>
                         <x-select name="service" id="serviceSelect">
-                            <option value="empty">Select a service</option>
+                            <option value="empty">{{ __('admin.select_a_service') }}</option>
                             @foreach ($services as $service)
                                 <option value="{{ $service->id }}" @selected(request('service') == $service->id)>
-                                    {{ $service->name }} {{ $service->deleted_at ? '(deleted)' : '' }}
+                                    {{ $service->getName() . ' ' . $service->isDeleted() }}
                                 </option>
                             @endforeach
                         </x-select>
                     </div>
 
                     <div class="flex flex-col">
-                        <x-label for="userSelect">Customer</x-label>
+                        <x-label for="userSelect">{{ __('barber.customer') }}</x-label>
                         <x-select name="user" id="userSelect">
-                            <option value="empty">Select a customer</option>
+                            <option value="empty">{{ __('admin.select_a_customer') }}</option>
                             @foreach ($users as $user)
                                 <option value="{{ $user->id }}" @selected(request('user') == $user->id)>
-                                    {{ $user->first_name . " " . $user->last_name }} {{ $user->deleted_at ? '(deleted)' : '' }}
+                                    {{ $user->first_name . " " . $user->last_name . " " . $user->isDeleted() }}
                                 </option>
                             @endforeach
                         </x-select>
@@ -102,12 +104,12 @@
                         ];
                     @endphp
 
-                    <x-label for="custom_time_window">Time window</x-label>
+                    <x-label for="custom_time_window">{{ __('admin.time_window') }}</x-label>
                     <div class="grid grid-cols-3 gap-2 p-1.5 rounded-md bg-slate-300 text-center text-base max-sm:text-sm font-bold">
                         @foreach ($timeWindowOptions as $timeWindowOption)
 
                             <label for="{{ $timeWindowOption['id'] }}" class="rounded-md py-1 has-[input:checked]:bg-white transition-all hover:bg-white cursor-pointer">
-                                {{ ucfirst($timeWindowOption['name']) }}
+                                {{ __('admin.'.$timeWindowOption['name']) }}
 
                                 <input type="radio" name="time_window" id="{{ $timeWindowOption['id'] }}" class="hidden" value="{{ $timeWindowOption['name'] }}" @checked(request('time_window') == $timeWindowOption['name'] || $loop->index == 0)>
                             </label>
@@ -117,7 +119,7 @@
                 </div>
 
                 <div class="flex flex-col">
-                    <x-label for="fromDate">From</x-label>
+                    <x-label for="fromDate">{{ __('admin.from') }}</x-label>
                     <div class="flex gap-2">
                         <x-input-field type="date" name="from_app_start_date" id="fromDate" class="flex-1 w-full dateTimeInput" value="{{ request('from_app_start_date') }}" :disabled="request('time_window') == 'previous' || request('time_window') == 'upcoming'" />
                         
@@ -142,7 +144,7 @@
                 </div>
 
                 <div class="flex flex-col">
-                    <x-label for="toDate">To</x-label>
+                    <x-label for="toDate">{{ __('admin.to') }}</x-label>
                     <div class="flex gap-2">
                         <x-input-field type="date" name="to_app_start_date" id="toDate" :disabled="request('time_window') == 'previous' || request('time_window') == 'upcoming'" class="flex-1 dateTimeInput" value="{{ request('to_app_start_date') }}" />
 
@@ -167,18 +169,18 @@
                 </div>                   
             </div>
 
-            @if ($view == 'Booking')
+            @if ($view == 'booking')
                 <div class="*:mt-2 *:flex *:gap-2 *:items-center mb-4">
                     @php
                         $cancelledRadioButtons = [
                             0 => [
-                                'name' => 'Cancelled excluded'
+                                'name' => 'cancelled_excluded'
                             ],
                             1 => [
-                                'name' => 'Cancelled included'
+                                'name' => 'cancelled_included'
                             ],
                             2 => [
-                                'name' => 'Cancelled only'
+                                'name' => 'cancelled_only'
                             ]
                         ];
                     @endphp
@@ -186,32 +188,36 @@
                     @foreach ($cancelledRadioButtons as $cancelledRadioButton => $details)
                         <label for="cancelled_{{ $cancelledRadioButton }}">
                             <x-input-field type="radio" name="cancelled" :value="$cancelledRadioButton" id="cancelled_{{ $cancelledRadioButton }}" :checked="$cancelledRadioButton == (request('cancelled') ?? 1)" />
-                            <p>{{ $details['name'] }}</p>
+                            <p>{{ __('admin.'.$details['name']) }}</p>
                         </label>
                     @endforeach
                 </div>
             @endif
 
             <div>
-                <x-button role="ctaMain" :full="true" id="submitButton" :disabled="true">Search</x-button>
+                <x-button role="ctaMain" :full="true" id="submitButton" :disabled="true">{{ __('barber.search') }}</x-button>
             </div>
         </form>
     </x-card>
 
     <h2 class="text-2xl font-bold mb-4">
-        Search results
+        {{ __('barber.search_results') }}
     </h2>
 
     @forelse ($appointments as $appointment)
-        @if ($view == 'Time Off')
+        @if ($view == 'timeoff')
             <x-time-off-card access="admin" :appointment="$appointment" :showDetails="true" class="mb-4" />
         @else
             <x-appointment-card access="admin" :appointment="$appointment" :showDetails="true" class="mb-4" />
         @endif        
     @empty
         <x-empty-card>
-            <p class="text-lg max-md:text-base font-medium">No bookings were found for the applied filters!</p>
-            <a href="{{ route('bookings.create') }}" class=" text-blue-700 hover:underline">Add a new booking here for one of your clients!</a>
+            <p class="text-lg max-md:text-base font-medium">
+                {{ __('admin.no_'.$view.'s_filter') }}
+            </p>
+            <a href="{{ route('bookings.create') }}" @class(['hover:underline', 'text-blue-700' => $view == 'booking', 'text-green-700' => $view == 'timeoff'])>
+                {{ __('admin.new_one') }}
+            </a>
         </x-empty-card>
     @endforelse
 

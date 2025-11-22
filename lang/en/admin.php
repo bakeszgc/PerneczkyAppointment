@@ -42,4 +42,19 @@ return [
     "hr" => "hr",
     "hrs" => "hrs",
 
+    // BOOKINGS INDEX
+    "new_booking" => "New booking",
+    "select_a_barber" => "Select a barber",
+    "select_a_service" => "Select a service",
+    "select_a_customer" => "Select a customer",
+    "time_window" => "Time window",
+    "custom" => "Custom",
+    "from" => "From",
+    "to" => "To",
+    "cancelled_excluded" => "Cancelled excluded",
+    "cancelled_included" => "Cancelled included",
+    "cancelled_only" => "Cancelled only",
+    "no_bookings_filter" => "No bookings were found for the applied filters",
+    "no_timeoffs_filter" => "No time offs were found for the applied filters",
+
 ];

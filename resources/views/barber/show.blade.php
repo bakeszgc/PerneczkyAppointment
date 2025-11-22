@@ -1,7 +1,7 @@
 <x-user-layout currentView="admin" :title="$barber->getName()">
     <x-breadcrumbs :links="[
-        'Admin dashboard' => route('admin'),
-        'Barbers' => route('barbers.index'),
+        __('home.admin_dashboard') => route('admin'),
+        __('admin.barbers') => route('barbers.index'),
         $barber->getName() => ''
     ]"/>
 
@@ -22,14 +22,14 @@
             <div class="mb-4">
                 <div class="grid grid-cols-2 gap-2 mb-4">
                     <div class="flex flex-col max-sm:col-span-2">
-                        <x-label for="first_name">First name*</x-label>
+                        <x-label for="first_name">{{ __('auth.first_name') }}*</x-label>
                         <x-input-field name="first_name" id="first_name" value="{{ old('first_name') ??$barber->user->first_name }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" class="profileInput profileReqInput" />
                         @error('first_name')
                             <p class=" text-red-500">{{$message}}</p>
                         @enderror
                     </div>
                     <div class="flex flex-col max-sm:col-span-2">
-                        <x-label for="last_name">Last name*</x-label>
+                        <x-label for="last_name">{{ __('auth.last_name') }}*</x-label>
                         <x-input-field name="last_name" id="last_name" value="{{ old('last_name') ??$barber->user->last_name }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" class="profileInput profileReqInput"/>
                         @error('last_name')
                             <p class=" text-red-500">{{$message}}</p>
@@ -37,7 +37,7 @@
                     </div>
 
                     <div class="flex flex-col col-span-2">
-                        <x-label for="display_name">Display name</x-label>
+                        <x-label for="display_name">{{ __('users.display_name') }}</x-label>
                         <x-input-field name="display_name" id="display_name" value="{{ old('display_name') ??$barber->display_name }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" class="profileInput"/>
                         @error('display_name')
                             <p class=" text-red-500">{{$message}}</p>
@@ -45,7 +45,7 @@
                     </div>
 
                     <div class="flex flex-col col-span-2">
-                        <x-label for="description">Description (<span id="charCount">xxx</span>/500)</x-label>
+                        <x-label for="description">{{ __('users.description') }} (<span id="charCount">xxx</span>/500)</x-label>
                         <x-input-field type="textarea" name="description" id="description" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" class="profileInput">{{ old('description') ?? $barber->description }}</x-input-field>
                         @error('description')
                             <p class=" text-red-500">{{$message}}</p>
@@ -54,11 +54,11 @@
 
                     <div class="flex flex-col col-span-2">
                         <div class="flex justify-between items-end">
-                            <x-label for="email">Email address*</x-label>
+                            <x-label for="email">{{ __('auth.email') }}*</x-label>
                             @if ($barber->user->email_verified_at === null)
-                                <p class="text-slate-500 text-sm">Not verified yet</p>
+                                <p class="text-slate-500 text-sm">{{ __('users.not_verified_yet') }}</p>
                             @else
-                                <p class="text-slate-500 text-sm">Verified on {{ date_format($barber->user->email_verified_at,'d M Y')  }}</p>
+                                <p class="text-slate-500 text-sm">{{ __('users.verified_on') .' '. date_format($barber->user->email_verified_at,'Y-m-d')  }}</p>
                             @endif
                             
                         </div>
@@ -70,7 +70,7 @@
                     </div>
 
                     <div class="flex flex-col max-sm:col-span-2">
-                        <x-label for="date_of_birth">Date of birth</x-label>
+                        <x-label for="date_of_birth">{{ __('auth.date_of_birth') }}</x-label>
                         <x-input-field type="date" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth') ?? $barber->user->date_of_birth }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" class="profileInput"/>
                         @error('date_of_birth')
                             <p class=" text-red-500">{{$message}}</p>
@@ -78,7 +78,7 @@
                     </div>
 
                     <div class="flex flex-col max-sm:col-span-2">
-                        <x-label for="telephone_number">Telephone number</x-label>
+                        <x-label for="telephone_number">{{ __('auth.tel_number') }}</x-label>
                         <x-input-field type="tel" name="telephone_number" id="telephone_number" value="{{ old('telephone_number') ?? $barber->user->tel_number }}" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" class="profileInput"/>
                         @error('telephone_number')
                             <p class=" text-red-500">{{$message}}</p>
@@ -90,7 +90,7 @@
                     <div class="flex items-center gap-2">
                         <x-input-field type="checkbox" name="is_visible" id="is_visible" :checked="$barber->is_visible" value="is_visible" :disabled="isset($barber->deleted_at) || isset($user->barber->deleted_at)" class="profileInput" />
                         <label for="is_visible">
-                            Visible for everyone
+                            {{ __('admin.visible_for_everyone') }}
                         </label>
                         @error('is_visible')
                             <p class=" text-red-500">{{$message}}</p>
@@ -98,19 +98,23 @@
                     </div>
 
                     <div class="text-right">
-                        * Required fields
+                        * {{ __('auth.required_fields') }}
                     </div>
                 </div>
             </div>
 
             <div class="border-2 border-dashed rounded-md p-4 border-yellow-400 mb-4">
-                <h3 class="text-xl max-md:text-lg mb-2">Attention</h3>
-                <p class="max-sm:text-xs">You're currently viewing {{ $barber->user->first_name }}'s barber page. If you want to edit their details or see their stats as a customer then check his <a href="{{ route('customers.show',$barber->user) }}" class="text-blue-700 hover:underline">customer page!</a></p>
+                <h3 class="text-xl max-md:text-lg mb-2">{{ __('admin.attention') }}</h3>
+                <p class="max-sm:text-xs">
+                    {{ __('admin.viewing_barber_page_1') . $barber->user->first_name . __('admin.viewing_barber_page_2') }}
+
+                    <a href="{{ route('customers.show',$barber->user) }}" class="text-blue-700 hover:underline">{{ __('admin.viewing_barber_page_3') }}</a>!
+                </p>
             </div>
             
             <div class="flex max-sm:flex-col gap-2">
                 <div class="max-sm:w-full">
-                    <x-button role="ctaMain" :disabled="isset($barber->deleted_at)" :full="true" id="profileButton" :disabled="true">Save changes</x-button>
+                    <x-button role="ctaMain" :disabled="isset($barber->deleted_at)" :full="true" id="profileButton" :disabled="true">{{ __('users.save_changes') }}</x-button>
                     </form>
                 </div>
 
@@ -119,13 +123,13 @@
                         <form action="{{ route('barbers.restore',$barber) }}" method="POST">
                             @method('PUT')
                             @csrf
-                            <x-button role="restore" :full="true">Restore barber access</x-button>
+                            <x-button role="restore" :full="true">{{ __('admin.restore_barber_access') }}</x-button>
                         </form>
                     @else
                         <form action="{{ route('barbers.destroy',$barber) }}" method="POST">
                             @method('DELETE')
                             @csrf
-                            <x-button role="destroy" :full="true">Remove barber access</x-button>
+                            <x-button role="destroy" :full="true">{{ __('admin.remove_barber_access') }}</x-button>
                         </form>
                     @endif
                 </div>
@@ -143,7 +147,9 @@
 
             <div class="flex gap-8 max-sm:flex-col">
                 <div class="min-w-60">
-                    <h3 class="font-bold text-lg mb-2" id="currentPfpTitle">Current profile picture</h3>
+                    <h3 class="font-bold text-lg mb-2" id="currentPfpTitle">
+                        {{ __('users.current_pfp') }}
+                    </h3>
                     <div class="relative w-fit group cursor-pointer  rounded-md border border-slate-500">
                         <img src="{{ $barber->getPicture() }}" alt="Profile picture" id="currentPfp" class="w-60  group-hover:blur-sm transition-all rounded-md max-sm:w-full">
                         <label for="selectedImg" class="cursor-pointer">
@@ -165,30 +171,42 @@
                 </div>
 
                 <div>
-                    <h3 class="font-bold text-lg mb-2">Guidelines</h3>
-                    <p class="mb-2 text-justify">By clicking on the image <span class="sm:hidden">above</span><span class="max-sm:hidden">on the left</span>, you can update your profile picture. This picture will appear on the homepage and during the appointment booking process. Please take into account the followings before modifying your image:</p>
-                    <ul class="list-disc *:ml-6 *:mb-1">
+                    <h3 class="font-bold text-lg mb-2">
+                        {{ __('users.guidelines') }}
+                    </h3>
+
+                    <p class="mb-2 text-justify">
+                        {{ __('users.guidelines_p1') }}
+                        <span class="sm:hidden">{{ __('users.above') }}</span>
+                        <span class="max-sm:hidden">{{ __('users.left') }}</span>
+                        {{ __('users.guidelines_p2') }}
+                    </p>
+
+                    <ul class="list-disc *:ml-6 *:mb-1 mb-4">
                         <li>
-                            The picture of the barber needs to be a clear and high quality image
+                            {{ __('users.guidelines_bp1') }}
                         </li>
                         <li>
-                            Use neutral backgrounds for this barber's profile picture
+                            {{ __('users.guidelines_bp2') }}
                         </li>
                         <li>
-                            Avoid using group pictures
+                            {{ __('users.guidelines_bp3') }}
                         </li>
                         <li>
-                            Do not upload any inappropriate, offensive or irrelevant images
+                            {{ __('users.guidelines_bp4') }}
                         </li>
                         <li>
-                            Be aware that you will have to crop it to a 1:1 (square) aspect ratio
+                            {{ __('users.guidelines_bp5') }}
                         </li>
                         <li>
-                            The uploaded file cannot exceed 4 MB
+                            {{ __('users.guidelines_bp6') }}
                         </li>
                     </ul>
-                    <div id="submitDiv" class="mt-4" hidden>
-                        <x-button id="submit" role="ctaMain">Save changes</x-button>
+                    
+                    <div id="submitDiv" hidden>
+                        <x-button id="submit" role="ctaMain">
+                            {{ __('users.save_changes') }}
+                        </x-button>
                     </div>
                 </div>
             </div>
@@ -197,7 +215,9 @@
 
     <x-modal id="cropModal">
         <div class="flex justify-between items-center w-full mb-4">
-            <h1 class="text-xl max-md:text-lg font-bold">Crop your photo</h1>
+            <h1 class="text-xl max-md:text-lg font-bold">
+                {{ __('users.crop_your_photo') }}
+            </h1>
             <div id="closeModal" class="hover:bg-blue-100 transition-all rounded-full p-2 cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -210,8 +230,12 @@
         </div>
         
         <div class="flex gap-2 mt-4">
-            <x-button id="crop" :hidden="true" role="ctaMain">Crop</x-button>
-            <x-button id="reset" :hidden="true">Reset</x-button>
+            <x-button id="crop" :hidden="true" role="ctaMain">
+                {{ __('users.crop') }}
+            </x-button>
+            <x-button id="reset" :hidden="true">
+                {{ __('users.reset') }}
+            </x-button>
         </div>
     </x-modal>
     
@@ -220,25 +244,25 @@
 
         <div class="flex gap-2">
             <x-link-button :link="route('bookings.index',['barber' => $barber->id])" role="ctaMain">
-                All bookings
+                {{ __('admin.all_bookings') }}
             </x-link-button>
 
             <x-link-button :link="route('bookings.create')" role="create">
-                New booking
+                {{ __('admin.new_booking') }}
             </x-link-button>
         </div>
     </x-show-card>
 
     <x-show-card :show="$showTimeOffs" type="timeoff" class="mb-4">
-        <x-sum-of-bookings class="mb-8" :sumOfBookings="$sumOfTimeOffs" :barber="$barber" context="time offs" />
+        <x-sum-of-bookings class="mb-8" :sumOfBookings="$sumOfTimeOffs" :barber="$barber" context="time_offs" />
 
         <div class="flex gap-2">
             <x-link-button :link="route('admin-time-offs.index',['barber' => $barber->id])" role="timeoffMain">
-                All time offs
+                {{ __('admin.all_timeoffs') }}
             </x-link-button>
 
             <x-link-button :link="route('admin-time-offs.create',['barber' => $barber->id])" role="timeoffCreate">
-                New time off
+                {{ __('admin.new_timeoff') }}
             </x-link-button>
         </div>
     </x-show-card>

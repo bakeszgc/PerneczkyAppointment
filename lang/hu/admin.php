@@ -62,6 +62,16 @@ return [
     "barber_since" => "Borbély ezóta",
     "barbers" => "Borbélyok",
 
+    // BARBERS SHOW
+    "overview_of_bookings" => "Foglalások áttekintése",
+    "visible_for_everyone" => "Látható mindenki számára",
+    "attention" => "Figyelem",
+    "viewing_barber_page_1" => "Jelenleg ",
+    "viewing_barber_page_2" => " borbély oldalán vagy. Ha szerkesztenéd vagy megtekintenéd a személyes adatait vendégként, akkor ezt megteheted a",
+    "viewing_barber_page_3" => "felhasználói oldalán",
+    "remove_barber_access" => "Borbély hozzáférés törlése",
+    "restore_barber_access" => "Borbély hozzáférés visszaállítása",
+
     // BOOKINGS MESSAGES
     "error_customer_barber" => "A vendég nem lehet ugyanaz a személy, mint a borbélya. Kérlek válassz egy másik felhasználót!",
     "error_barber_clashing" => "Ennek a borbélynak van egy másik foglalása, ami ütközik a kiválasztott időponttal. Kérlek válassz egy másikat!",

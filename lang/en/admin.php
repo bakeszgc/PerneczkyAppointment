@@ -62,6 +62,15 @@ return [
     "barber_since" => "Barber since",
     "barbers" => "Barbers",
 
+    // BARBERS SHOW
+    "overview_of_bookings" => "Overview of bookings",
+    "visible_for_everyone" => "Visible for everyone",
+    "attention" => "Attention",
+    "viewing_barber_page_1" => "You're currently viewing ",
+    "viewing_barber_page_2" => "'s barber page. If you want to edit their details or see their stats as a customer then check their ",
+    "viewing_barber_page_3" => "customer page",
+    "remove_barber_access" => "Remove barber access",
+    "restore_barber_access" => "Restore barber access",
 
     // BOOKINGS MESSAGES
     "error_customer_barber" => "The customer can't be the same person as the barber. Please choose another user!",

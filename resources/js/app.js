@@ -27,9 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const cropModal = document.getElementById('cropModal');
     const submitDiv = document.getElementById('submitDiv');
     const langInput = document.getElementById('langCheck');
-    if (langInput) {
-        const lang = langInput.value;
-    }
 
     if (imageInput) {
         imageInput.addEventListener('change', () => {
@@ -94,7 +91,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 submitDiv.removeAttribute("hidden","");
             });
             
-            title.innerHTML = (lang == 'en') ? "Updated profile picture" : "Új profilkép";
+            if (langInput) {
+                title.innerHTML = (langInput.value == 'en') ? "Updated profile picture" : "Új profilkép";
+            }
+            
             toggleElement(cropModal);
         });
     }

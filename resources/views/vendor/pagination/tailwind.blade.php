@@ -34,7 +34,7 @@
                     @else
                         {{ $paginator->count() }}
                     @endif
-                    {!! __('pagination.of') !!}
+                    {!! Appointment::getTheVariant($paginator->total()) !!}
                     <span class="font-medium">{{ $paginator->total() }}</span>
                     {{ __('pagination.'.Str::plural('result',$paginator->total())) }}
                 </p>

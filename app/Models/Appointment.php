@@ -525,6 +525,22 @@ class Appointment extends Model
         return $fromSuffix;
     }
 
+    // RETURNS THE CORRECT THE VARIANT IN HUNGARIAN FOR A GIVEN NUMBER
+    public static function getTheVariant(int $num) {
+        switch (substr($num,0,1)) {
+            case 1:
+            case 5:
+                $theVariant = __('pagination.of2'); //az
+            break;
+            
+            default:
+                $theVariant = __('pagination.of1'); //a
+            break;
+        }
+
+        return $theVariant;
+    }
+
     // SCOPES
 
     // LATER & EARLIER APPOINTMENTS

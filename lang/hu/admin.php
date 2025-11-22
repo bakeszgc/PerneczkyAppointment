@@ -72,6 +72,15 @@ return [
     "remove_barber_access" => "Borbély hozzáférés törlése",
     "restore_barber_access" => "Borbély hozzáférés visszaállítása",
 
+    // BARBERS CREATE
+    "add_a_new_barber" => "Új borbély hozzáadása",
+    "search_for_user" => "Keress rá egy regisztrált felhasználóra",
+    "click_to_add" => "Miután megtaláltad a keresett felhasználót, csak kattints a hozzátartozó 'Előléptetés borbéllyá' gombra, hogy új borbélyként vehesd fel.",
+    "already_a_barber" => "Már borbély",
+    "view_s1s_barber_page_1" => "",
+    "view_s1s_barber_page_2" => " oldalának megtekintése",
+    "promote_to_barber" => "Előléptetés borbéllyá",
+
     // BOOKINGS MESSAGES
     "error_customer_barber" => "A vendég nem lehet ugyanaz a személy, mint a borbélya. Kérlek válassz egy másik felhasználót!",
     "error_barber_clashing" => "Ennek a borbélynak van egy másik foglalása, ami ütközik a kiválasztott időponttal. Kérlek válassz egy másikat!",

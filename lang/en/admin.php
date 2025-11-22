@@ -72,6 +72,15 @@ return [
     "remove_barber_access" => "Remove barber access",
     "restore_barber_access" => "Restore barber access",
 
+    // BARBERS CREATE
+    "add_a_new_barber" => "Add a new barber",
+    "search_for_user" => "Search for an existing user here",
+    "click_to_add" => "After finding the right user, click the 'Promote to barber' button to add them as a new barber.",
+    "already_a_barber" => "Already a barber",
+    "view_s1s_barber_page_1" => "View ",
+    "view_s1s_barber_page_2" => "'s barber page",
+    "promote_to_barber" => "Promote to barber",
+
     // BOOKINGS MESSAGES
     "error_customer_barber" => "The customer can't be the same person as the barber. Please choose another user!",
     "error_barber_clashing" => "This barber has another bookings clashing with the selected timeslot. Please choose another one!",

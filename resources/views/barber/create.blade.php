@@ -1,36 +1,40 @@
-<x-user-layout currentView="admin" title="New barber">
+<x-user-layout currentView="admin" title="{{ __('admin.new_barber') }}">
     <x-breadcrumbs :links="[
-        'Admin dashboard' => route('admin'),
-        'Barbers' => route('barbers.index'),
-        'New barber' => ''
+        __('home.admin_dashboard') => route('admin'),
+        __('admin.barbers') => route('barbers.index'),
+        __('admin.new_barber') => ''
     ]"/>
 
-    <x-headline class="mb-4">Create a new barber</x-headline>
+    <x-headline class="mb-4">{{ __('admin.add_a_new_barber') }}</x-headline>
 
     <x-card class="mb-8">
-        <h2 class="font-bold text-2xl max-sm:text-lg mb-4">Search for an existing user here</h2>
+        <h2 class="font-bold text-2xl max-sm:text-lg mb-4">
+            {{ __('admin.search_for_user') }}
+        </h2>
         <form method="GET" action="{{ route('barbers.create') }}">
             <div class="flex gap-2 mb-4">
-                <x-input-field name="query" placeholder="Search users..." value="{{ request('query') }}" class="w-full"></x-input-field>
+                <x-input-field name="query" placeholder="{{ __('barber.search_users') }}" value="{{ request('query') }}" class="w-full"></x-input-field>
 
                 <x-link-button link="{{ route('barbers.create') }}" role="destroy">
-                    <span class="max-sm:hidden">Clear</span>
+                    <span class="max-sm:hidden">{{ __('barber.clear') }}</span>
                 </x-link-button>
 
                 <x-button role="search">
-                    <span class="max-sm:hidden">Search</span>
+                    <span class="max-sm:hidden">{{ __('barber.search') }}</span>
                 </x-button>
             </div>
             <p class="text-slate-500 text-justify mb-2">
-                You can search here by name, email address and telephone number to find your customer.
+                {{ __('barber.registered_p') }}
             </p>
             <p class="text-slate-500 text-justify">
-                After finding the right user, click the 'Promote to barber' button to add them as a new barber.
+                {{ __('admin.click_to_add') }}
             </p>
         </form>        
     </x-card>
 
-    <h2 class="font-bold text-2xl max-md:text-xl mb-4">Search results</h2>
+    <h2 class="font-bold text-2xl max-md:text-xl mb-4">
+        {{ __('barber.search_results') }}
+    </h2>
 
     <x-card class="mb-4">
         <ul class="flex flex-col gap-4">
@@ -55,14 +59,18 @@
 
                         @if ($user->barber)
                             <div class="flex flex-col gap-1 items-end max-sm:items-start">
-                                <x-button role="ctaMain" disabled :maxHeightFit="true">Already a barber</x-button>
+                                <x-button role="ctaMain" disabled :maxHeightFit="true">
+                                    {{ __('admin.already_a_barber') }}
+                                </x-button>
 
                                 <a href="{{ route('barbers.show',$user->barber) }}" class="text-sm text-[#0018d5] hover:underline">
-                                    View {{ $user->barber->getName() }}'s profile
+                                    {{ __('admin.view_s1s_barber_page_1') . $user->barber->getName() . __('admin.view_s1s_barber_page_2') }}
                                 </a>
                             </div>
                         @else
-                            <x-button role="ctaMain" :maxHeightFit="true">Promote to barber</x-button>
+                            <x-button role="ctaMain" :maxHeightFit="true">
+                                {{ __('admin.promote_to_barber') }}
+                            </x-button>
                         @endif
                     </li>
                 </form>

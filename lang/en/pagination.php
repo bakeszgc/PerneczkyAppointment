@@ -9,7 +9,8 @@ return [
     "from2" => "",
     "to1" => "to ",
     "to2" => "",
-    "of" => "of",
+    "of1" => "of",
+    "of2" => "of",
     "result" => "result",
     "results" => "results",
 

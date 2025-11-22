@@ -57,4 +57,6 @@ return [
     "no_bookings_filter" => "Nem található foglalás a megadott szűrők alapján",
     "no_timeoffs_filter" => "Nem található szünet a megadott szűrők alapján",
 
+    // BOOKINGS MESSAGES
+
 ];

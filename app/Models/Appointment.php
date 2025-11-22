@@ -302,9 +302,9 @@ class Appointment extends Model
         return $sumOfTimeOffs;
     }
 
-    public function getType () {
+    public function getType() {
         return $this->service_id == 1
-            ? 'time off'
+            ? 'timeoff'
             : 'booking';
     }
 

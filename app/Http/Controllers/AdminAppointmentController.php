@@ -47,7 +47,7 @@ class AdminAppointmentController extends Controller
 
         if ($fromAppStartTime != null && $toAppStartTime != null) {
             if ($toAppStartTime < $fromAppStartTime) {
-                return redirect()->back()->with('error','The end time must be after or equal to the start date!');
+                return redirect()->back()->with('error',__('admin.error_end_start_time'));
             }
         }
 
@@ -298,7 +298,7 @@ class AdminAppointmentController extends Controller
                             ]);
                         }
                     } else {
-                        return redirect()->back()->with('error',"This email address (" . $email . ") belongs to an already registered account. Please choose it on the Customers page or use a different email address.");
+                        return redirect()->back()->with('error',__('barber.error_email_1') . $email . __('barber.error_email_2'));
                     }
                     
                 } else {
@@ -327,11 +327,11 @@ class AdminAppointmentController extends Controller
         $app_end_time = $app_start_time->clone()->addMinutes($duration);
 
         if ($barber->user_id == $user->id) {
-            return redirect()->route('bookings.create.customer',['service_id' => $service->id, 'comment' => $comment, 'date' => $app_start_time->format('Y-m-d G:i'), 'barber_id' => $barber->id])->with('error',"The customer can't be the same person as the barber. Please choose another user!");
+            return redirect()->route('bookings.create.customer',['service_id' => $service->id, 'comment' => $comment, 'date' => $app_start_time->format('Y-m-d G:i'), 'barber_id' => $barber->id])->with('error',__('admin.error_customer_barber'));
         }
 
         if (!Appointment::checkAppointmentClashes($app_start_time,$app_end_time,$barber)) {
-            return redirect()->route('bookings.create.date',['service_id' => $service->id, 'barber_id' => $barber->id, 'comment' => $comment, 'date' => $app_start_time->format('Y-m-d G:i')])->with('error','You have another bookings clashing with the selected timeslot. Please choose another one!');
+            return redirect()->route('bookings.create.date',['service_id' => $service->id, 'barber_id' => $barber->id, 'comment' => $comment, 'date' => $app_start_time->format('Y-m-d G:i')])->with('error',__('admin.error_barber_clashing'));
         }
 
         $appointment = Appointment::create([
@@ -350,7 +350,7 @@ class AdminAppointmentController extends Controller
             );
         }
 
-        return redirect()->route('bookings.show',['booking' =>  $appointment])->with('success','New booking has been created successfully!');
+        return redirect()->route('bookings.show',['booking' =>  $appointment])->with('success',__('barber.success_new_booking'));
     }
 
     public function show(Appointment $booking)
@@ -419,7 +419,7 @@ class AdminAppointmentController extends Controller
         }
 
         if (Gate::allows('isTimeOff',$booking)) {
-            return redirect()->route('admin-time-offs.edit',$booking)->with('error',"You can't edit a time off as a booking. Please try again here!");
+            return redirect()->route('admin-time-offs.edit',$booking)->with('error',__('admin.error_edit_timeoff_booking'));
         }
 
         $request->validate([
@@ -441,11 +441,11 @@ class AdminAppointmentController extends Controller
         $barber = Barber::find($request->barber);
 
         if ($app_start_time >= $app_end_time) {
-            return redirect()->route('bookings.edit',$booking)->with('error',"The booking's ending time has to be later than its starting time");
+            return redirect()->route('bookings.edit',$booking)->with('error',__('barber.error_ending_time'));
         }
 
         if (!Appointment::checkAppointmentClashes($app_start_time,$app_end_time,$barber,$booking)) {
-            return redirect()->route('bookings.edit',$booking)->with('error','You have another bookings clashing with the selected timeslot. Please choose another one!');
+            return redirect()->route('bookings.edit',$booking)->with('error',__('admin.error_barber_clashing'));
         }
 
         $oldAppointment = $booking->only([
@@ -470,7 +470,7 @@ class AdminAppointmentController extends Controller
             new BookingUpdateNotification($oldAppointment,$booking,'admin')
         );
 
-        return redirect()->route('bookings.show',$booking)->with('success','Booking has been updated successfully!');
+        return redirect()->route('bookings.show',$booking)->with('success',__('barber.success_updated_booking'));
     }
 
     public function destroy(Appointment $booking)
@@ -481,7 +481,7 @@ class AdminAppointmentController extends Controller
         }
 
         if (Gate::allows('isTimeOff',$booking)) {
-            return redirect()->route('admin-time-offs.show',$booking)->with('error',"You can't cancel a time off as a booking. Please try again here!");
+            return redirect()->route('admin-time-offs.show',$booking)->with('error',__('admin.error_destroy_timeoff_booking'));
         }        
 
         $booking->user->notify(
@@ -494,6 +494,6 @@ class AdminAppointmentController extends Controller
         $booking->delete();
 
         return redirect()->route('bookings.show',$booking)
-            ->with('success','Booking cancelled successfully! Be sure to set up a new booking with your client!');
+            ->with('success',__('barber.success_booking_destroyed'));
     }
 }

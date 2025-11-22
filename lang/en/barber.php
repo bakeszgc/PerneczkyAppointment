@@ -90,7 +90,7 @@ return [
     // APPOINTMENTS MESSAGES
     "success_new_booking" => "New booking has been created successfully!",
     "success_updated_booking" => "Booking has been updated successfully!",
-    "success_booking_destroyed" => "Appointment has been cancelled successfully! Be sure to set up a new booking with your client!",
+    "success_booking_destroyed" => "Booking has been cancelled successfully! Be sure to set up a new booking with your client!",
     "error_select_customer" => "Please select a customer here!",
     "error_clashing" => "You have another bookings clashing with the selected timeslot. Please choose another one!",
     "error_email_1" => "This email address (",

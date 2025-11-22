@@ -250,7 +250,7 @@ class AppointmentController extends Controller
         $previous = Appointment::userFilter($appointment->user)->previous()->count();
         $cancelled = Appointment::onlyTrashed()->userFilter($appointment->user)->count();
 
-        $barber = Appointment::where('barber_id', '!=',$appointment->user?->barber->id)->select('barber_id',DB::raw('COUNT(barber_id) as selection_count'))->userFilter($appointment->user)->groupBy('barber_id')->orderByDesc('selection_count')->first();
+        $barber = Appointment::where('barber_id', '!=',$appointment->user?->barber?->id)->select('barber_id',DB::raw('COUNT(barber_id) as selection_count'))->userFilter($appointment->user)->groupBy('barber_id')->orderByDesc('selection_count')->first();
 
         $favBarber = Barber::withTrashed()->find($barber->barber_id);
         $numBarber = $barber->selection_count;

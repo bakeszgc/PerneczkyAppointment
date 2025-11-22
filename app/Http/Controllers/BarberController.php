@@ -44,7 +44,7 @@ class BarberController extends Controller
             'is_visible' => false
         ]);
 
-        return redirect()->route('barbers.show',$barber)->with('success','New barber has been created successfully!');
+        return redirect()->route('barbers.show',$barber)->with('success',__('admin.success_barber_stored'));
     }
 
     public function show(Request $request, Barber $barber)
@@ -125,10 +125,10 @@ class BarberController extends Controller
 
             event(new Registered($user));
 
-            return redirect()->route('barbers.show',$barber)->with('success',$barber->getName() . "'s personal details have been updated successfully! The new email address has to be verified!");
+            return redirect()->route('barbers.show',$barber)->with('success',$barber->getName() . __('admin.success_barber_personal_updated') . ' ' . __('admin.success_barber_email_has_to_be_verified'));
         }
 
-        return redirect()->route('barbers.show',['barber' => $barber,'showProfile' => true])->with('success',$barber->getName() . "'s personal details have been updated successfully!");
+        return redirect()->route('barbers.show',['barber' => $barber,'showProfile' => true])->with('success',$barber->getName() . __('admin.success_barber_personal_updated'));
     }
 
     public function destroy(Barber $barber)
@@ -155,7 +155,7 @@ class BarberController extends Controller
         }
 
         $barber->delete();
-        return redirect()->route('barbers.show',$barber)->with('success',$barber->getName() . "'s barber access has been removed successfully!");
+        return redirect()->route('barbers.show',$barber)->with('success',$barber->getName() . __('admin.success_barber_destroyed'));
     }
 
     public function restore(Barber $barber)
@@ -167,6 +167,6 @@ class BarberController extends Controller
         }
 
         $barber->restore();
-        return redirect()->route('barbers.show',$barber)->with('success',$barber->getName() . "'s barber access has been restored successfully!");
+        return redirect()->route('barbers.show',$barber)->with('success',$barber->getName() . __('admin.success_barber_restored'));
     }
 }

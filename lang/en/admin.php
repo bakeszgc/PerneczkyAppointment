@@ -57,6 +57,13 @@ return [
     "no_bookings_filter" => "No bookings were found for the applied filters",
     "no_timeoffs_filter" => "No time offs were found for the applied filters",
 
+    // BOOKINGS MESSAGES
+    "error_customer_barber" => "The customer can't be the same person as the barber. Please choose another user!",
+    "error_barber_clashing" => "This barber has another bookings clashing with the selected timeslot. Please choose another one!",
+    "error_edit_timeoff_booking" => "You can't edit a time off as a booking. Please try again here!",
+    "error_destroy_timeoff_booking" => "You can't cancel a time off as a booking. Please try again here!",
+    "error_end_start_time" => "The end time must be after or equal to the start date!",
+
     // BARBERS INDEX
     "full_name" => "Full name",
     "barber_since" => "Barber since",
@@ -81,11 +88,17 @@ return [
     "view_s1s_barber_page_2" => "'s barber page",
     "promote_to_barber" => "Promote to barber",
 
-    // BOOKINGS MESSAGES
-    "error_customer_barber" => "The customer can't be the same person as the barber. Please choose another user!",
-    "error_barber_clashing" => "This barber has another bookings clashing with the selected timeslot. Please choose another one!",
-    "error_edit_timeoff_booking" => "You can't edit a time off as a booking. Please try again here!",
-    "error_destroy_timeoff_booking" => "You can't cancel a time off as a booking. Please try again here!",
-    "error_end_start_time" => "The end time must be after or equal to the start date!",
+    // BARBERS MESSAGES
+    "success_barber_stored" => "New barber has been created successfully!",
+    "success_barber_personal_updated" => "'s personal details have been updated successfully!",
+    "success_barber_email_has_to_be_verified" => "The new email address has to be verified!",
+    "success_barber_destroyed" => "'s barber access has been removed successfully!",
+    "success_barber_restored" => "'s barber access has been restored successfully!",
+    "error_barber_edit_destroyed_user_1" => "You can't edit the barber page of a deleted user. If you want to proceed be sure to restore ",
+    "error_barber_edit_destroyed_user_2" => "'s account first.",
+    "error_barber_edit_destroyed_1" => "You can't edit the barber page of a deleted barber. If you want to proceed be sure to restore ",
+    "error_barber_edit_destroyed_2" => "'s barber access first.",
+    "error_barber_destroy_destroyed" => "You can't delete an already deleted barber!",
+    "error_barber_restore_active" => "You can't restore an active barber!",
 
 ];

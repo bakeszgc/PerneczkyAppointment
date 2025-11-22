@@ -363,12 +363,12 @@ class AdminAppointmentController extends Controller
         $previous = Appointment::userFilter($booking->user)->previous()->count();
         $cancelled = Appointment::onlyTrashed()->userFilter($booking->user)->count();
 
-        $barber = Appointment::select('barber_id',DB::raw('COUNT(barber_id) as selection_count'))->userFilter($booking->user)->groupBy('barber_id')->orderByDesc('selection_count')->first();
+        $barber = Appointment::where('barber_id', '!=',$booking->user?->barber->id)->select('barber_id',DB::raw('COUNT(barber_id) as selection_count'))->userFilter($booking->user)->groupBy('barber_id')->orderByDesc('selection_count')->first();
 
         $favBarber = Barber::withTrashed()->find($barber->barber_id);
         $numBarber = $barber->selection_count;
 
-        $service = Appointment::select('service_id',DB::raw('COUNT(service_id) as selection_count'))->userFilter($booking->user)->groupBy('service_id')->orderByDesc('selection_count')->first();
+        $service = Appointment::withoutTimeOffs()->select('service_id',DB::raw('COUNT(service_id) as selection_count'))->userFilter($booking->user)->groupBy('service_id')->orderByDesc('selection_count')->first();
 
         $favService = Service::withTrashed()->find($service->service_id);
         $numService = $service->selection_count;

@@ -1,16 +1,16 @@
-<x-user-layout currentView="admin" title="Manage barbers">
+<x-user-layout currentView="admin" title="{{ __('admin.manage_barbers') }}">
 
     <div class="flex justify-between items-end align-bottom mb-4">
         <div>
             <x-breadcrumbs :links="[
-                'Admin dashboard' => route('admin'),
-                'Barbers' => ''
+                __('home.admin_dashboard') => route('admin'),
+                __('admin.barbers') => ''
             ]"/>
-            <x-headline>Manage barbers</x-headline>
+            <x-headline>{{ __('admin.manage_barbers') }}</x-headline>
         </div>
         <div>
             <x-link-button :link="route('barbers.create')" role="createMain">
-                <span class="max-sm:hidden">New barber</span>
+                <span class="max-sm:hidden">{{ __('admin.new_barber') }}</span>
             </x-link-button>
         </div>
     </div>
@@ -21,10 +21,10 @@
                 <tr class="*:font-bold *:p-2 bg-slate-300">
                     <td class="max-lg:hidden"></td>
                     <td>ID</td>
-                    <td>Display name</td>
-                    <td>Real name</td>
-                    <td class="max-md:hidden">Barber since</td>
-                    <td class="max-md:hidden">Visible</td>
+                    <td>{{ __('users.display_name') }}</td>
+                    <td>{{ __('admin.full_name') }}</td>
+                    <td class="max-md:hidden">{{ __('admin.barber_since') }}</td>
+                    <td class="max-md:hidden">{{ __('admin.visible') }}</td>
                     <td class="max-md:hidden">Admin</td>
                     <td></td>
                 </tr>
@@ -46,7 +46,7 @@
                         </td>
                         <td>
                             <x-link-button role="show" link="{{ route('barbers.show',$barber) }}">
-                                <span class="max-md:hidden">Details</span>
+                                <span class="max-md:hidden">{{ __('appointments.details') }}</span>
                             </x-link-button>
                         </td>
                     </tr>
@@ -54,8 +54,10 @@
                     <tr>
                         <td colspan="7">
                             <x-empty-card class="mt-4">
-                                <p class="text-lg max-md:text-base font-medium">You don't have any barbers yet!</p>
-                                <a href="{{ route('barbers.create') }}" class=" text-blue-700 hover:underline">Add a new one here!</a>
+                                <p class="text-lg max-md:text-base font-medium">{{ __('admin.no_barbers') }}</p>
+                                <a href="{{ route('barbers.create') }}" class=" text-blue-700 hover:underline">
+                                    {{ __('admin.new_one') }}
+                                </a>
                             </x-empty-card>
                         </td>
                     </tr>

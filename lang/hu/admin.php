@@ -57,6 +57,11 @@ return [
     "no_bookings_filter" => "Nem található foglalás a megadott szűrők alapján",
     "no_timeoffs_filter" => "Nem található szünet a megadott szűrők alapján",
 
+    // BARBERS INDEX
+    "full_name" => "Teljes név",
+    "barber_since" => "Borbély ezóta",
+    "barbers" => "Borbélyok",
+
     // BOOKINGS MESSAGES
     "error_customer_barber" => "A vendég nem lehet ugyanaz a személy, mint a borbélya. Kérlek válassz egy másik felhasználót!",
     "error_barber_clashing" => "Ennek a borbélynak van egy másik foglalása, ami ütközik a kiválasztott időponttal. Kérlek válassz egy másikat!",

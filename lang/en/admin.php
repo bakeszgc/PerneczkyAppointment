@@ -57,6 +57,12 @@ return [
     "no_bookings_filter" => "No bookings were found for the applied filters",
     "no_timeoffs_filter" => "No time offs were found for the applied filters",
 
+    // BARBERS INDEX
+    "full_name" => "Full name",
+    "barber_since" => "Barber since",
+    "barbers" => "Barbers",
+
+
     // BOOKINGS MESSAGES
     "error_customer_barber" => "The customer can't be the same person as the barber. Please choose another user!",
     "error_barber_clashing" => "This barber has another bookings clashing with the selected timeslot. Please choose another one!",

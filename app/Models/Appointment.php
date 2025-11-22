@@ -51,9 +51,9 @@ class Appointment extends Model
         $hours = floor(($duration % (24 * 60)) / 60);
         $minutes = $duration % 60;
 
-        $daysText = $days != 0 ? ($days . ' ' . Str::plural('day',$days) . ' ') : '';
-        $hoursText = $hours != 0 ? ($hours . ' ' . Str::plural('hr',$hours) . ' ') : '';
-        $minutesText = $minutes != 0 || ($hours == 0 && $days == 0) ? ($minutes . ' ' . Str::plural('min',$minutes)) : '';
+        $daysText = $days != 0 ? ($days . ' ' . __('admin.'(Str::plural('day',$days))) . ' ') : '';
+        $hoursText = $hours != 0 ? ($hours . ' ' . __('admin.'.(Str::plural('hr',$hours))) . ' ') : '';
+        $minutesText = $minutes != 0 || ($hours == 0 && $days == 0) ? ($minutes . ' ' . __('admin.'.Str::plural('min',$minutes))) : '';
 
         return $daysText . $hoursText . $minutesText;
     }
@@ -69,7 +69,7 @@ class Appointment extends Model
     public static function getSumOfBookings(?Barber $barber = null, ?User $user = null) {
         $sumOfBookings = [
             'previous' => [
-                'all time' => [
+                'all_time' => [
                     'count' => Appointment::withoutTimeOffs()->previous()->when(isset($barber), function ($q) use ($barber) {
                         return $q->barberFilter($barber);
                     })->when(isset($user), function ($q) use ($user) {
@@ -81,7 +81,7 @@ class Appointment extends Model
                         return $q->userFilter($user);
                     })->sum('price')
                 ],
-                'past month' => [
+                'past_month' => [
                     'count' => Appointment::withoutTimeOffs()->previous()->startLaterThan(now()->subMonth())->when(isset($barber), function ($q) use ($barber) {
                         return $q->barberFilter($barber);
                     })->when(isset($user), function ($q) use ($user) {
@@ -93,7 +93,7 @@ class Appointment extends Model
                         return $q->userFilter($user);
                     })->sum('price')
                 ],
-                'past week' => [
+                'past_week' => [
                     'count' => Appointment::withoutTimeOffs()->previous()->startLaterThan(now()->subWeek())->when(isset($barber), function ($q) use ($barber) {
                         return $q->barberFilter($barber);
                     })->when(isset($user), function ($q) use ($user) {
@@ -105,7 +105,7 @@ class Appointment extends Model
                         return $q->userFilter($user);
                     })->sum('price')
                 ],
-                'past day' => [
+                'past_day' => [
                     'count' => Appointment::withoutTimeOffs()->previous()->startLaterThan(now()->subDay())->when(isset($barber), function ($q) use ($barber) {
                         return $q->barberFilter($barber);
                     })->when(isset($user), function ($q) use ($user) {
@@ -119,7 +119,7 @@ class Appointment extends Model
                 ]
             ],
             'upcoming' => [
-                'all time' => [
+                'all_time' => [
                     'count' => Appointment::withoutTimeOffs()->upcoming()->when(isset($barber), function ($q) use ($barber) {
                         return $q->barberFilter($barber);
                     })->when(isset($user), function ($q) use ($user) {
@@ -131,7 +131,7 @@ class Appointment extends Model
                         return $q->userFilter($user);
                     })->sum('price')
                 ],
-                'next month' => [
+                'next_month' => [
                     'count' => Appointment::withoutTimeOffs()->upcoming()->startEarlierThan(now()->addMonth())->when(isset($barber), function ($q) use ($barber) {
                         return $q->barberFilter($barber);
                     })->when(isset($user), function ($q) use ($user) {
@@ -143,7 +143,7 @@ class Appointment extends Model
                         return $q->userFilter($user);
                     })->sum('price')
                 ],
-                'next week' => [
+                'next_week' => [
                     'count' => Appointment::withoutTimeOffs()->upcoming()->startEarlierThan(now()->addWeek())->when(isset($barber), function ($q) use ($barber) {
                         return $q->barberFilter($barber);
                     })->when(isset($user), function ($q) use ($user) {
@@ -155,7 +155,7 @@ class Appointment extends Model
                         return $q->userFilter($user);
                     })->sum('price')
                 ],
-                'next day' => [
+                'next_day' => [
                     'count' => Appointment::withoutTimeOffs()->upcoming()->startEarlierThan(now()->addDay())->when(isset($barber), function ($q) use ($barber) {
                         return $q->barberFilter($barber);
                     })->when(isset($user), function ($q) use ($user) {
@@ -169,7 +169,7 @@ class Appointment extends Model
                 ]
             ],
             'cancelled' => [
-                'all time' => [
+                'all_time' => [
                     'count' => Appointment::withoutTimeOffs()->onlyTrashed()->when(isset($barber), function ($q) use ($barber) {
                         return $q->barberFilter($barber);
                     })->when(isset($user), function ($q) use ($user) {
@@ -214,7 +214,7 @@ class Appointment extends Model
     public static function getSumOfTimeOffs(?Barber $barber = null) {
         $sumOfTimeOffs = [
             'previous' => [
-                'all time' => [
+                'all_time' => [
                     'count' => Appointment::onlyTimeOffs()->previous()->when(isset($barber), function ($q) use ($barber) {
                         return $q->barberFilter($barber);
                     })->count(),
@@ -224,7 +224,7 @@ class Appointment extends Model
                         return $appointment->getDuration();
                     })
                 ],
-                'past month' => [
+                'past_month' => [
                     'count' => Appointment::onlyTimeOffs()->previous()->startLaterThan(now()->subMonth())->when(isset($barber), function ($q) use ($barber) {
                         return $q->barberFilter($barber);
                     })->count(),
@@ -234,7 +234,7 @@ class Appointment extends Model
                         return $appointment->getDuration();
                     })
                 ],
-                'past week' => [
+                'past_week' => [
                     'count' => Appointment::onlyTimeOffs()->previous()->startLaterThan(now()->subWeek())->when(isset($barber), function ($q) use ($barber) {
                         return $q->barberFilter($barber);
                     })->count(),
@@ -244,7 +244,7 @@ class Appointment extends Model
                         return $appointment->getDuration();
                     })
                 ],
-                'past day' => [
+                'past_day' => [
                     'count' => Appointment::onlyTimeOffs()->previous()->startLaterThan(now()->subDay())->when(isset($barber), function ($q) use ($barber) {
                         return $q->barberFilter($barber);
                     })->count(),
@@ -256,7 +256,7 @@ class Appointment extends Model
                 ]
             ],
             'upcoming' => [
-                'all time' => [
+                'all_time' => [
                     'count' => Appointment::onlyTimeOffs()->upcoming()->when(isset($barber), function ($q) use ($barber) {
                         return $q->barberFilter($barber);
                     })->count(),
@@ -266,7 +266,7 @@ class Appointment extends Model
                         return $appointment->getDuration();
                     })
                 ],
-                'next month' => [
+                'next_month' => [
                     'count' => Appointment::onlyTimeOffs()->upcoming()->startEarlierThan(now()->addMonth())->when(isset($barber), function ($q) use ($barber) {
                         return $q->barberFilter($barber);
                     })->count(),
@@ -276,7 +276,7 @@ class Appointment extends Model
                         return $appointment->getDuration();
                     })
                 ],
-                'next week' => [
+                'next_week' => [
                     'count' => Appointment::onlyTimeOffs()->upcoming()->startEarlierThan(now()->addWeek())->when(isset($barber), function ($q) use ($barber) {
                         return $q->barberFilter($barber);
                     })->count(),
@@ -286,7 +286,7 @@ class Appointment extends Model
                         return $appointment->getDuration();
                     })
                 ],
-                'next day' => [
+                'next_day' => [
                     'count' => Appointment::onlyTimeOffs()->upcoming()->startEarlierThan(now()->addDay())->when(isset($barber), function ($q) use ($barber) {
                         return $q->barberFilter($barber);
                     })->count(),

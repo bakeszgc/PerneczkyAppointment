@@ -186,7 +186,7 @@
                     span.innerHTML = "{{ __('barber.day') }}";
                     span.classList.forEach(spanClass => {
                         if (spanClass == 'weekly') {
-                            span.innerHTML = (view == 'week') ? 'daily' : 'weekly';
+                            span.innerHTML = (view == 'week') ? '{{ __('barber.daily') }}' : '{{ __('barber.weekly') }}';
                         }
                     });
                 });

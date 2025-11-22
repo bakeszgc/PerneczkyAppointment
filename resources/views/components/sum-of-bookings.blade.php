@@ -19,7 +19,7 @@
                 }
             @endphp
 
-            <a href="{{ $context == 'time offs' ? route('admin-time-offs.index',$arguments) : route('bookings.index',$arguments) }}" class="flex flex-col items-center hover:text-[#0018d5] transition-all mb-4 max-md:mt-4">
+            <a href="{{ $context == 'time_offs' ? route('admin-time-offs.index',$arguments) : route('bookings.index',$arguments) }}" class="flex flex-col items-center hover:text-[#0018d5] transition-all mb-4 max-md:mt-4">
                 @switch($bookingType)
                     @case('upcoming')
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-20">
@@ -37,23 +37,23 @@
                         </svg>
                     @break
                 @endswitch
-                <h2 class="text-xl font-bold mb-2">{{ ucfirst($bookingType) }}</h2>
+                <h2 class="text-xl font-bold mb-2">{{ __('appointments.' . $bookingType ) }}</h2>
             </a>
             
             <div>
                 @foreach ($timeWindows as $timeWindowName => $timeWindowDetails)
                     <div class="w-full sm:px-[10%] mb-2">
-                        <h3 class="text-base font-bold">{{ ucfirst($timeWindowName) }}</h3>
+                        <h3 class="text-base font-bold">{{ __('admin.'.$timeWindowName) }}</h3>
                         
                         <div class="flex justify-between">
                             <div>
-                                <p>{{ ucfirst($context) }}</p>
-                                <p>{{ $context == 'bookings' ? ($bookingType == 'upcoming' ? 'Est. income' : 'Income') : 'In total' }}</p>
+                                <p>{{ __('home.'.$context) }}</p>
+                                <p>{{ $context == 'bookings' ? ($bookingType == 'upcoming' ? __('admin.est_income') : __('admin.income')) : __('admin.in_total') }}</p>
                             </div>
 
                             <div class="text-right">
                                 <p>{{ $timeWindowDetails['count'] }}</p>
-                                <p>{{ $context == 'time offs' ? Appointment::formatDuration($timeWindowDetails['value']) : number_format($timeWindowDetails['value'],thousands_separator:' ') }} {{ $context == 'bookings' ? 'HUF' : '' }}</p>
+                                <p>{{ $context == 'time_offs' ? Appointment::formatDuration($timeWindowDetails['value']) : number_format($timeWindowDetails['value'],thousands_separator:' ') }} {{ $context == 'bookings' ? 'HUF' : '' }}</p>
                             </div>
                         </div>
                     </div>

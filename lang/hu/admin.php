@@ -58,5 +58,10 @@ return [
     "no_timeoffs_filter" => "Nem található szünet a megadott szűrők alapján",
 
     // BOOKINGS MESSAGES
+    "error_customer_barber" => "A vendég nem lehet ugyanaz a személy, mint a borbélya. Kérlek válassz egy másik felhasználót!",
+    "error_barber_clashing" => "Ennek a borbélynak van egy másik foglalása, ami ütközik a kiválasztott időponttal. Kérlek válassz egy másikat!",
+    "error_edit_timeoff_booking" => "Nem módosíthatsz szüneteket foglalásként. Próbáld újra itt!",
+    "error_destroy_timeoff_booking" => "Nem törölhetsz szüneteket foglalásként. Próbáld újra itt!",
+    "error_end_start_time" => "A záró időpontnak később vagy ugyanakkor kell lennie, mint a kezdő időpontnak!",
 
 ];

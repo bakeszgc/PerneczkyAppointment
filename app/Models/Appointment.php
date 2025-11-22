@@ -484,6 +484,47 @@ class Appointment extends Model
         return $time_off;
     }
 
+    // RETURNS THE CORRECT FROM SUFFIX IN HUNGARIAN FOR A GIVEN NUMBER
+    public static function getFromSuffix(int $num) {
+
+        switch ($num % 10) {
+            case 0:
+            case 3:
+            case 6:
+            case 8:
+                $fromSuffix = __('pagination.from1'); //-tól
+            break;
+            
+            default:
+                $fromSuffix = __('pagination.from2'); //-től
+            break;
+        }
+
+        switch ($num % 100) {
+            case 10:
+            case 40:
+            case 50:
+            case 70:
+            case 90:
+                $fromSuffix = __('pagination.from2'); //-től
+            break;
+            
+            default:
+                $fromSuffix = __('pagination.from1'); //-tól
+            break;
+        }
+
+        if ($num % 1000 == 0) {
+            $fromSuffix = __('pagination.from2'); //-től
+        }
+
+        if ($num % 1000000 == 0) {
+            $fromSuffix = __('pagination.from2'); //-tól
+        }
+
+        return $fromSuffix;
+    }
+
     // SCOPES
 
     // LATER & EARLIER APPOINTMENTS

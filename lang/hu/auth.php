@@ -78,4 +78,8 @@ return [
     "error_auth_email_or_pw" => "Az email címed vagy a jelszavad hibás!",
     "error_auth_user_deleted" => "A fiók, amelyik ezt az email címet használja törölve lett. Ha szerinted ez hibásan történt, akkor vedd fel velünk a kapcsolatot!",
 
+    // MIDDLEWARE MESSAGES
+    "error_sign_in" => "Kérlek jelentkezz be mielőtt megtekintenéd az oldalt!",
+    "error_not_authorized" => "Nem vagy jogosult az oldal megtekintéséhez!",
+
 ];

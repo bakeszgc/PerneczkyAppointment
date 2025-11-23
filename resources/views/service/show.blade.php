@@ -90,7 +90,7 @@
             
 
             <div class="flex gap-2">
-                <x-button role="ctaMain" :disabled="isset($service->deleted_at)" id="updateButton">
+                <x-button role="ctaMain" :disabled="true" id="updateButton">
                     {{ __('users.save_changes') }}
                 </x-button>
                 </form>

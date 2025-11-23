@@ -151,5 +151,13 @@ return [
     "error_service_destroy_deleted" => "You can't delete already deleted services!",
     "error_service_restore_active" => "You can't restore services that are not deleted yet!",
 
+    // CUSTOMERS INDEX
+    "customers" => "Customers",
+    "no_users" => "There aren't any users with matching properties",
+    "latest_booking" => "Latest booking",
+    "next_booking" => "Next booking",
+    "with" => "w/",
+    "no_bookings_in_future" => "This user doesn't have any bookings in the future",
+    "no_bookings_in_past" => "This user doesn't have any bookings in the past",
 
 ];

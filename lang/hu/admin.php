@@ -145,4 +145,14 @@ return [
     "error_service_edit_deleted" => "Nem szerkeszthetsz törölt szolgáltatásokat! Ha mégis ezt szeretnéd, akkor először állítsd vissza!",
     "error_service_destroy_deleted" => "Nem törölhetsz már korábban törölt szolgáltatásokat!",
     "error_service_restore_active" => "Nem állíthatsz vissza még nem törölt szolgáltatásokat!",
+
+    // CUSTOMERS INDEX
+    "customers" => "Vendégek",
+    "no_users" => "Nem található a keresésnek megfelelő vendég",
+    "latest_booking" => "Legutóbbi foglalás",
+    "next_booking" => "Következő foglalás",
+    "with" => "-",
+    "no_bookings_in_future" => "Ennek a felhasználónak még nincs jövőbeli foglalása",
+    "no_bookings_in_past" => "Ennek a felhasználónak még nincs múltbeli foglalása",
+
 ];

@@ -91,12 +91,12 @@ class AuthController extends Controller
             }
         } else {
             $userQuery = User::withTrashed()->where('email','=',$request->email)->get();
-            $error = 'Your email or password is invalid.';
+            $error = __('auth.error_auth_email_or_pw');
 
             if ($userQuery->count() > 0) {
                 $user = $userQuery->first();
                 if ($user->deleted_at) {
-                    $error = 'The account using this email address has been removed. If you think it was done by mistake please contact us!';
+                    $error = __('auth.error_auth_user_deleted');
                 }
             }
 
@@ -121,18 +121,17 @@ class AuthController extends Controller
             return redirect()->route('my-appointments.index');
         }
         return view('auth.verify-email');
-        // return back()->with('error','Please check your inbox to verify your email address! Click here to resend link');
     }
 
     public function verify(EmailVerificationRequest $request) {
         $request->fulfill();
         event(new Verified($request->user()));
-        return redirect()->route('my-appointments.index')->with('success','Your email address has been verified successfully!');
+        return redirect()->route('my-appointments.index')->with('success',__('auth.success_auth_email_verified'));
     }
 
     public function send(Request $request) {
         $request->user()->sendEmailVerificationNotification();
-        return back()->with('success','Verification link sent to ' . auth()->user()->email);
+        return back()->with('success',__('auth.success_verification_link_sent_1') . auth()->user()->email . __('auth.success_verification_link_sent_2'));
     }
 
     public function resend() {
@@ -202,7 +201,7 @@ class AuthController extends Controller
         if ($provider) {
             return Socialite::driver($provider)->redirect();
         } else {
-            return redirect()->back()->with('error',"Auth provider hasn't been passed properly.");
+            return redirect()->back()->with('error',__('auth.error_auth_provider'));
         }
         
     }
@@ -211,7 +210,7 @@ class AuthController extends Controller
     {
         try {
             if (!$provider) {
-                return redirect()->route('login')->with('error',"Auth provider hasn't been passed properly.");
+                return redirect()->route('login')->with('error',__('auth.error_auth_provider'));
             }
 
             if (session('barber_id') && session('service_id') && session('date')) {

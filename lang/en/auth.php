@@ -81,4 +81,12 @@ return [
     "error_user_pw_other" => "You aren't authorized to change other user's password!",
     "error_user_pw_destroyed" => "You can't change your password because your account has been deleted!",
 
+    // AUTH MESSAGES
+    "success_auth_email_verified" => "Your email address has been verified successfully!",
+    "success_verification_link_sent_1" => "Verification link sent to ",
+    "success_verification_link_sent_2" => " successfully!",
+    "error_auth_provider" => "Auth provider hasn't been passed properly!",
+    "error_auth_email_or_pw" => "Your email address or your password is invalid!",
+    "error_auth_user_deleted" => "The account using this email address has been removed. If you think it was done by mistake please contact us!",
+
 ];

@@ -70,4 +70,12 @@ return [
     "error_user_pw_other" => "Nem változtathatod meg más felhasználók jelszavát!",
     "error_user_pw_destroyed" => "Nem változtathatod meg a jelszavad, mivel a fiókod törlésre került!",
 
+    // AUTH MESSAGES
+    "success_auth_email_verified" => "Az email címed sikeresen meg lett erősítve!",
+    "success_verification_link_sent_1" => "A megerősítő link sikeresenen elküldve a ",
+    "success_verification_link_sent_2" => " címre!",
+    "error_auth_provider" => "Az auth provider helytelenül lett megadva!",
+    "error_auth_email_or_pw" => "Az email címed vagy a jelszavad hibás!",
+    "error_auth_user_deleted" => "A fiók, amelyik ezt az email címet használja törölve lett. Ha szerinted ez hibásan történt, akkor vedd fel velünk a kapcsolatot!",
+
 ];

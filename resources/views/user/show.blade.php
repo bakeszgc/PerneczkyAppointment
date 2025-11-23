@@ -134,12 +134,12 @@
                         @if ($view == 'admin' && $user->isRegistered())
                             <div class="mb-2">
                                 <x-input-field type="checkbox" name="is_barber" id="is_barber" value="1" :checked="$user->barber && $user->barber->deleted_at == null" :disabled="isset($user->deleted_at)" />
-                                <label for="is_barber">Barber access</label>
+                                <label for="is_barber">{{ __('admin.barber_access') }}</label>
                             </div>
 
                             <div>
                                 <x-input-field type="checkbox" name="is_admin" id="is_admin" value="1" :checked="$user->is_admin" :disabled="isset($user->deleted_at)" />
-                                <label for="is_admin">Admin access</label>
+                                <label for="is_admin">{{ __('admin.admin_access') }}</label>
                             </div>
                         @endif
                     </div>                
@@ -152,22 +152,31 @@
                 @if ($view == 'admin')
                     @if ($user->barber && $user->barber->deleted_at == null)
                         <div class="border-2 border-dashed rounded-md p-4 border-yellow-400 mb-4">
-                            <h3 class="text-xl mb-2 font-base">Attention</h3>
-                            <p>{{ $user->first_name }} is one of your employees and you are currently viewing his customer page. If you want to edit their details or see their stats as barbers then check his <a href="{{ route('barbers.show',$user->barber) }}" class="text-blue-700 hover:underline">barber page!</a></p>
+                            <h3 class="text-xl mb-2 font-base">
+                                {{ __('admin.attention') }}
+                            </h3>
+                            <p>
+                                {{ $user->first_name . __('admin.user_is_barber_1') }}
+                                <a href="{{ route('barbers.show',$user->barber) }}" class="text-blue-700 hover:underline">{{ __('admin.user_is_barber_2') }}</a>!
+                            </p>
                         </div>
                     @endif
 
                     @if (isset($user->deleted_at))
                         <div class="border-2 border-dashed rounded-md p-4 border-yellow-400 mb-4">
-                            <h3 class="text-xl mb-2 font-base">Attention</h3>
-                            <p>{{ $user->first_name }}'s account is currently disabled. If you want to edit their details you need to restore the account first!</p>
+                            <h3 class="text-xl mb-2 font-base">
+                                {{ __('admin.attention') }}
+                            </h3>
+                            <p>{{ $user->first_name . __('admin.user_destroyed') }}</p>
                         </div>
                     @endif
 
                     @if (!$user->isRegistered())
                         <div class="border-2 border-dashed rounded-md p-4 border-yellow-400 mb-4">
-                            <h3 class="text-xl mb-2 font-base">Attention</h3>
-                            <p>{{ $user->first_name }}'s account is not registered yet. If you know this person be sure to encourage them to create an account for their next appointment.</p>
+                            <h3 class="text-xl mb-2 font-base">
+                                {{ __('admin.attention') }}
+                            </h3>
+                            <p>{{ $user->first_name . __('admin.user_not_registered') . ' ' . __('admin.encourage_to_reg') }}</p>
                         </div>
                     @endif
                 @endif
@@ -181,10 +190,19 @@
         </x-show-card>
     @else
         <x-empty-card class="mb-4">
-            <p class="text-lg max-md:text-base mb-4">This is a <span class="font-bold">walk-in account</span>.</p>
+            <p class="text-lg max-md:text-base mb-4">
+                {{ __('admin.walkin_p1_a') }}
+                <span class="font-bold">{{ __('admin.walkin_p1_b') }}</span>.
+            </p>
 
-            <p class="max-md:mb-4">This means that it was used only for <a href="{{ isset($appointment) ? route('bookings.show',$appointment) : '' }}" class="text-blue-700 hover:underline">one booking</a> before and we don't have any other information stored about {{ $user->first_name }} besides his first name.</p>
-            <p>If you know this person be sure to encourage them to create an account for their next appointment.</p>
+            <p class="max-md:mb-4">
+                {{ __('admin.walkin_p2_a') }}
+
+                <a href="{{ isset($appointment) ? route('bookings.show',$appointment) : '' }}" class="text-blue-700 hover:underline">{{ __('admin.walkin_p2_b') }}</a>
+                
+                {{ __('admin.walkin_p2_c') . $user->first_name . __('admin.walkin_p2_d') }}
+            </p>
+            <p>{{ __('admin.encourage_to_reg') }}</p>
         </x-empty-card>
     @endif
 
@@ -193,10 +211,14 @@
             <x-sum-of-bookings :sumOfBookings="$sumOfBookings" :user="$user" context="bookings" />
 
             <div class="flex gap-2 mt-8">
-                <x-link-button :link="route('bookings.index',['user' => $user->id])" role="ctaMain">All bookings</x-link-button>
+                <x-link-button :link="route('bookings.index',['user' => $user->id])" role="ctaMain">
+                    {{ __('admin.all_bookings') }}
+                </x-link-button>
 
                 @if (!$user->deleted_at)
-                    <x-link-button :link="route('bookings.create.barber.service',['user_id' => $user->id])" role="create">New booking</x-link-button>
+                    <x-link-button :link="route('bookings.create.barber.service',['user_id' => $user->id])" role="create">
+                        {{ __('admin.new_booking') }}
+                    </x-link-button>
                 @endif
             </div>
         </x-show-card>
@@ -303,36 +325,42 @@
         </x-modal>
     @endif
 
-    @if ($view == 'admin')
+    @if ($view == 'admin' && $user != auth()->user())
         @if ($user->isRegistered())
             @if ($user->deleted_at)
                 <x-show-card :show="$showRestore" type="restore" class="mb-4">
                     <p class="mb-2 text-justify">
-                        This account has been deleted and can no longer be accessed. {{ $user->first_name }} cannot log in, view their appointments, or create new ones.
+                        {{ __('admin.restore_user_p1a') . $user->first_name . __('admin.restore_user_p1b') }}
                     </p>
 
                     <p class="mb-4 text-justify">
-                        If you wish to have your account restored. You must restore the account to re-enable their access and be able to edit their details on the admin page.
+                        {{ __('admin.restore_user_p2') }}
                     </p>
 
                     <form action="{{ route('customers.restore',$user) }}" method="post">
                         @method('PUT')
                         @csrf
-                        <x-button role="restoreMain">Restore account</x-button>
+                        <x-button role="restoreMain">{{ __('admin.restore_account') }}</x-button>
                     </form>
                 </x-show-card>
             @else
                 <x-show-card :show="$showDestroy" type="destroy" class="mb-4">
-                    <p class="mb-2 text-justify">Deleting this account will prevent {{ $user->first_name }} from logging in, viewing their appointments, or creating new ones.</p>
+                    <p class="mb-2 text-justify">
+                        {{ __('admin.delete_user_p1a') . $user->first_name . __('admin.delete_user_p1b') }}
+                    </p>
 
-                    <p class="mb-2 text-justify">Their upcoming appointments will be cancelled and their admin or barber roles will be revoked. The account can only be restored by an administrator.</p>
+                    <p class="mb-2 text-justify">
+                        {{ __('admin.delete_user_p2') }}
+                    </p>
 
-                    <p class="mb-4 text-justify">Are you sure you want to proceed?</p>
+                    <p class="mb-4 text-justify">
+                        {{ __('admin.delete_user_p3') }}
+                    </p>
 
                     <form action="{{ route('customers.destroy',$user) }}" method="post">
                         @method('DELETE')
                         @csrf
-                        <x-button role="destroyMain">Delete account</x-button>
+                        <x-button role="destroyMain">{{ __('admin.delete_account') }}</x-button>
                     </form>
                 </x-show-card>
             @endif

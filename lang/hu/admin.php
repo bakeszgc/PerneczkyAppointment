@@ -181,4 +181,14 @@ return [
     "restore_user_p2" => "Ha szeretnél újra hozzáférést biztosítani neki ezekhez a funkciókhoz vagy csak módosítanád az adatait, akkor előtte vissza kell állítanod a fiókját a lenti gombra kattintva.",
     "restore_account" => "Fiók visszaállítása",
 
+    // CUSTOMER MESSAGES
+    "success_user_updated" => "Fiók sikeresen módosítva!",
+    "success_user_destroyed" => "Fiók sikeresen törölve!",
+    "success_user_restored" => "Fiók sikeresen visszaállítva!",
+    "error_user_edit_destroyed" => "Nem módosíthatod törölt fiókok adatait!",
+    "error_user_edit_unreg" => "Nem módosíthatod a regisztrálatlan vendégek profiljait!",
+    "error_user_destroy_destroyed" => "Nem törölhetsz korábban már törölt fiókot!",
+    "error_user_destroy_own" => "Nem törölheted a saját fiókodat!",
+    "error_user_restore_active" => "Nem állíthatsz vissza aktív fiókot!",
+
 ];

@@ -135,10 +135,10 @@ class CustomerController extends Controller
 
             event(new Registered($customer));
 
-            return redirect()->route('customers.show',$customer)->with('success','Account has been updated successfully! The new email address has to be verified!');
+            return redirect()->route('customers.show',$customer)->with('success',__('admin.success_user_updated') . " " . __('admin.success_barber_email_has_to_be_verified'));
         }
 
-        return redirect()->route('customers.show',$customer)->with('success','Account has been updated successfully!');
+        return redirect()->route('customers.show',$customer)->with('success',__('admin.success_user_updated'));
     }
 
     public function destroy(User $customer)
@@ -177,7 +177,7 @@ class CustomerController extends Controller
         // soft-deletes user
         $customer->delete();
 
-        return redirect()->route('customers.show',$customer)->with('success',$customer->first_name . "'s account has been deleted sucessfully!");
+        return redirect()->route('customers.show',$customer)->with('success',__('admin.success_user_destroyed'));
     }
 
     public function restore(User $customer) {
@@ -189,6 +189,6 @@ class CustomerController extends Controller
 
         $customer->restore();
 
-        return redirect()->route('customers.show',$customer)->with('success',$customer->first_name . "'s account has been restored sucessfully!");
+        return redirect()->route('customers.show',$customer)->with('success',__('admin.success_user_restored'));
     }
 }

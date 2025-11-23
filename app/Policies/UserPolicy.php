@@ -40,9 +40,9 @@ class UserPolicy
     public function adminUpdate(User $user, User $model): Response
     {
         if ($model->deleted_at) {
-            return Response::deny("You can't update deleted users' profile.");
+            return Response::deny(__('admin.error_user_edit_destroyed'));
         } elseif(!$model->isRegistered()) {
-            return Response::deny("You can't update unregistered customer profiles.");
+            return Response::deny(__('admin.error_user_edit_unreg'));
         } else {
             return Response::allow();
         }
@@ -51,7 +51,7 @@ class UserPolicy
     public function adminDelete(User $user, User $model): Response
     {
         if ($model->deleted_at) {
-            return Response::deny($model->first_name . "'s account has been already deleted!");
+            return Response::deny(__('admin.error_user_destroy_destroyed'));
         } elseif ($model->id == $user->id) {
             return Response::deny("You can't delete your own account!");
         } else {
@@ -62,7 +62,7 @@ class UserPolicy
     public function adminRestore(User $user, User $model): Response
     {
         if (!isset($model->deleted_at)) {
-            return Response::deny($model->first_name . "'s account has not been deleted yet!");
+            return Response::deny(__('admin.error_user_restore_active'));
         } else {
             return Response::allow();
         }

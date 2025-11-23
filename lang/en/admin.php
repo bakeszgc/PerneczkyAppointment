@@ -186,4 +186,14 @@ return [
     "restore_user_p2" => "If you wish to re-enable access for this user or want to edit their details, you must to restore their account by clicking on the button below.",
     "restore_account" => "Restore account",
 
+    // CUSTOMER MESSAGES
+    "success_user_updated" => "Account has been updated successfully!",
+    "success_user_destroyed" => "Account has been deleted successfully!",
+    "success_user_restored" => "Account has been restored successfully!",
+    "error_user_edit_destroyed" => "You can't update deleted users' profile!",
+    "error_user_edit_unreg" => "You can't update unregistered customer profiles!",
+    "error_user_destroy_destroyed" => "You can't delete already deleted accounts!",
+    "error_user_destroy_own" => "You can't delete your own account!",
+    "error_user_restore_active" => "You can't restore active accounts!"
+
 ];

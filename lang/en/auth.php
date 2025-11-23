@@ -89,4 +89,8 @@ return [
     "error_auth_email_or_pw" => "Your email address or your password is invalid!",
     "error_auth_user_deleted" => "The account using this email address has been removed. If you think it was done by mistake please contact us!",
 
+    // MIDDLEWARE MESSAGES
+    "error_sign_in" => "Please sign in before accessing that page!",
+    "error_not_authorized" => "You aren't authorized to access that page!",
+
 ];

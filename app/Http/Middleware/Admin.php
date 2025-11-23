@@ -16,11 +16,11 @@ class Admin
     public function handle(Request $request, Closure $next): Response
     {
         if ($request->user() === null) {
-            return redirect()->route('login')->with('error','Please sign in before accessing that page!');
+            return redirect()->route('login')->with('error',__('auth.error_sign_in'));
         } elseif (!isset($request->user()->email_verified_at)) {
             return redirect()->route('verification.notice');
         } elseif (!$request->user()->is_admin) {
-            return back()->with('error','You are not authorized to access that page!');
+            return back()->with('error',__('auth.error_not_authorized'));
         }
 
         return $next($request);

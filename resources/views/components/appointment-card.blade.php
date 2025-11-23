@@ -45,7 +45,7 @@
             <h2 @class(['font-bold text-2xl max-sm:text-lg mb-1 flex items-center gap-2' => true, 'text-blue-600 hover:text-blue-800' => $appointment->app_start_time >= now() && !$appointment->deleted_at ])>
                 <a href="{{ $detailsLink }}"
                 @class(['line-through' => $appointment->deleted_at])>
-                    {{$appointment->user->first_name . " " . $appointment->user->last_name . ' #' .$appointment->id}}
+                    {{$appointment->user->getFullName() . ' #' .$appointment->id}}
                 </a>
                 <span class="font-medium text-lg max-sm:hidden">{{ $appointment->isDeleted() }}</span>
             </h2>

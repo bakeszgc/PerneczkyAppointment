@@ -9,7 +9,7 @@
         <div>
             <h3 @class(['font-bold text-xl max-md:text-base mb-1', 'text-slate-500' => $user->deleted_at])>
                 <a href="{{ route('customers.show',$user) }}" class="hover:text-[#0018d5] transition-all">
-                    {{ $user->first_name . ' ' . $user->last_name . $user->isDeleted() }}
+                    {{ $user->getFullName() . $user->isDeleted() }}
                 </a>
             </h3>
             <p class="text-slate-500">

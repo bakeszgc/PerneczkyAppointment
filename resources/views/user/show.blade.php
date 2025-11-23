@@ -2,7 +2,7 @@
     $view = $view ?? 'user';
 
     if($view == 'admin') {
-        $title = $user->first_name . ' ' . $user->last_name;
+        $title = $user->getFullName();
         $updateRoute = route('customers.update',$user);
         $breadcrumbLinks = [
             __('home.admin_dashboard') => route('admin'),

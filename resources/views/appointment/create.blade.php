@@ -97,7 +97,7 @@
                     <li class="flex max-sm:flex-col gap-2 justify-between {{ !$loop->last ? 'border-b-2 pb-4' : '' }}">
                         <div>
                             <h3 class="font-bold text-xl max-md:text-base mb-1">
-                                {{ $user->first_name }} {{ $user->last_name }}
+                                {{ $user->getFullName() }}
                             </h3>
                             <p class="text-slate-500">
                                 Email: <a href="mailto:{{ $user->email }}" class="text-blue-700 hover:underline">{{ $user->email }}</a>

@@ -36,7 +36,7 @@
                         <td class="max-lg:hidden"><img src="{{ $barber->getPicture() }}" alt="{{ $barber->getName() }}" class="h-16 rounded-md"></td>
                         <td class="text-center">{{ $barber->id }}</td>
                         <td>{{ $barber->getName() }} {{ $barber->isDeleted() }}</td>
-                        <td>{{ $barber->user->first_name . " " . $barber->user->last_name }}</td>
+                        <td>{{ $barber->user->getFullName() }}</td>
                         <td class="max-md:hidden">{{ $barber->created_at }}</td>
                         <td class="text-center max-md:hidden">
                             <x-input-field type="checkbox" name="isVisible" id="isVisibleCheckBox_{{ $barber->id }}" :checked="$barber->is_visible" :readonly="true" />

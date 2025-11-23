@@ -79,7 +79,7 @@
                             <option value="empty">{{ __('admin.select_a_customer') }}</option>
                             @foreach ($users as $user)
                                 <option value="{{ $user->id }}" @selected(request('user') == $user->id)>
-                                    {{ $user->first_name . " " . $user->last_name . " " . $user->isDeleted() }}
+                                    {{ $user->getFullName() . " " . $user->isDeleted() }}
                                 </option>
                             @endforeach
                         </x-select>

@@ -137,7 +137,7 @@
                         'odd:bg-slate-100 hover:bg-slate-200 max-sm:text-xs *:p-2',
                         'text-slate-500' => $user->deleted_at
                         ])>
-                        <td>{{ $user->first_name . " " . $user->last_name }}</td>
+                        <td>{{ $user->getFullName() }}</td>
                         <td class="max-md:hidden">{{ $user->email }}</td>
                         <td class="text-center">
                             {{ number_format($user->appointments_count,thousands_separator:' ') }}

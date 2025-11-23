@@ -66,7 +66,7 @@
                     <td>{{ $appointment->barber->getName() }}</td>
                 @else
                     <td>Customer</td>
-                    <td>{{ $appointment->user->first_name . ' ' . $appointment->user->last_name}}</td>
+                    <td>{{ $appointment->user->getFullName()}}</td>
                 @endif
             </tr>
 

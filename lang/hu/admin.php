@@ -132,4 +132,17 @@ return [
 
     // SERVICES CREATE
     "create_service_title" => "Hozz létre egy új szolgáltatást",
+
+    // SERVICES MESSAGES
+    "success_service_stored" => "Új szolgáltatás sikeresen létrehozva!",
+    "success_service_updated" => "Szolgáltatás sikeresen módosítva!",
+    "success_service_destroyed" => "Szolgáltatás sikeresen törölve!",
+    "success_service_restored" => "Szolgáltatás sikeresen visszaállítva!",
+    "error_service_view_not_auth" => "Nincs jogosultságod megnézni azt a szolgáltatást!",
+    "error_service_edit_not_auth" => "Nincs jogosultságod módosítani azt a szolgáltatást!",
+    "error_service_destroy_not_auth" => "Nincs jogosultságod törölni azt a szolgáltatást!",
+    "error_service_restore_not_auth" => "Nincs jogosultságod visszaállítani azt a szolgáltatást!",
+    "error_service_edit_deleted" => "Nem szerkeszthetsz törölt szolgáltatásokat! Ha mégis ezt szeretnéd, akkor először állítsd vissza!",
+    "error_service_destroy_deleted" => "Nem törölhetsz már korábban törölt szolgáltatásokat!",
+    "error_service_restore_active" => "Nem állíthatsz vissza még nem törölt szolgáltatásokat!",
 ];

@@ -38,7 +38,7 @@ class ServiceController extends Controller
             'is_visible' => $request->is_visible ? true : false
         ]);
 
-        return redirect()->route('services.show',$service)->with('success',$service->name . " has been created successfully!");
+        return redirect()->route('services.show',$service)->with('success',__('admin.success_service_stored'));
     }
 
     public function show(Service $service)
@@ -93,7 +93,7 @@ class ServiceController extends Controller
             'is_visible' => isset($request->is_visible)
         ]);
 
-        return redirect()->route('services.show',$service)->with('success',$service->name . " has been updated successfully!");
+        return redirect()->route('services.show',$service)->with('success',__('admin.success_service_updated'));
     }
 
     public function destroy(Service $service)
@@ -118,7 +118,7 @@ class ServiceController extends Controller
         ]);
 
         $service->delete();
-        return redirect()->route('services.show',$service)->with('success', $service->name . " has been deleted successfully!");
+        return redirect()->route('services.show',$service)->with('success', __('admin.success_service_destroyed'));
     }
 
     public function restore(Service $service)
@@ -130,6 +130,6 @@ class ServiceController extends Controller
         }
 
         $service->restore();
-        return redirect()->route('services.show',$service)->with('success',$service->name . " has been restored successfully!");
+        return redirect()->route('services.show',$service)->with('success',__('admin.success_service_restored'));
     }
 }

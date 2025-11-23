@@ -137,6 +137,19 @@ return [
 
     // SERVICES CREATE
     "create_service_title" => "Create a new service",
-    
+
+    // SERVICES MESSAGES
+    "success_service_stored" => "New service has been created successfully!",
+    "success_service_updated" => "Service has been updated successfully!",
+    "success_service_destroyed" => "Service has been deleted successfully!",
+    "success_service_restored" => "Service has been restored successfully!",
+    "error_service_view_not_auth" => "You are not authorized to view that service!",
+    "error_service_edit_not_auth" => "You are not authorized to edit that service!",
+    "error_service_destroy_not_auth" => "You are not authorized to delete that service!",
+    "error_service_restore_not_auth" => "You are not authorized to restore that service!",
+    "error_service_edit_deleted" => "You can't edit deleted services. If you wish to proceed please restore it first!",
+    "error_service_destroy_deleted" => "You can't delete already deleted services!",
+    "error_service_restore_active" => "You can't restore services that are not deleted yet!",
+
 
 ];

@@ -14,7 +14,7 @@ class Service extends Model
     /** @use HasFactory<\Database\Factories\ServiceFactory> */
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name','price','duration','is_visible'];
+    protected $fillable = ['name','price','duration','is_visible','en_name'];
 
     public function appointments(): HasMany {
         return $this->hasMany(Appointment::class)->withTrashed();

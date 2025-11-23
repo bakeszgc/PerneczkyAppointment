@@ -24,13 +24,15 @@ class ServiceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required','string','min:3','max:255'],
+            'name_hu' => ['required','string','min:3','max:255'],
+            'name_en' => ['required','string','min:3','max:255'],
             'price' => ['required','integer','min:100','max:100000'],
             'duration' => ['required','integer','multiple_of:15','min:15']
         ]);
 
         $service = Service::create([
-            'name' => $request->name,
+            'name' => $request->name_hu,
+            'en_name' => $request->name_en,
             'price' => $request->price,
             'duration' => $request->duration,
             'is_visible' => $request->is_visible ? true : false
@@ -77,13 +79,15 @@ class ServiceController extends Controller
         }
 
         $request->validate([
-            'name' => ['required','string','min:3','max:255'],
+            'name_hu' => ['required','string','min:3','max:255'],
+            'name_en' => ['required','string','min:3','max:255'],
             'price' => ['required','integer','min:100','max:100000'],
             'duration' => ['required','integer','multiple_of:15','min:15']
         ]);
 
         $service->update([
-            'name' => $request->name,
+            'name' => $request->name_hu,
+            'en_name' => $request->name_en,
             'price' => $request->price,
             'duration' => $request->duration,
             'is_visible' => isset($request->is_visible)

@@ -93,4 +93,8 @@ return [
     "error_sign_in" => "Please sign in before accessing that page!",
     "error_not_authorized" => "You aren't authorized to access that page!",
 
+    // PICTURE MESSAGES
+    "success_s1s_pfp" => "'s profile picture has been updated successfully!",
+    "success_your_pfp" => "Your profile picture has been updated successfully!",
+
 ];

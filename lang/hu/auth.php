@@ -82,4 +82,8 @@ return [
     "error_sign_in" => "Kérlek jelentkezz be mielőtt megtekintenéd az oldalt!",
     "error_not_authorized" => "Nem vagy jogosult az oldal megtekintéséhez!",
 
+    // PICTURE MESSAGES
+    "success_s1s_pfp" => " profilképe sikeresen frissítve!",
+    "success_your_pfp" => "A profilképed sikeresen frissítve!",
+
 ];

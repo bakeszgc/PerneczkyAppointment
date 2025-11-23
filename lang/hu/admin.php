@@ -101,4 +101,9 @@ return [
     "error_barber_destroy_destroyed" => "Nem törölhetsz egy inaktív borbélyt!",
     "error_barber_restore_active" => "Nem állíthatsz vissza egy aktív borbélyt!",
 
+    // SERVICES INDEX
+    "services" => "Szolgáltatások",
+    "price" => "Ár",
+
+    // SERVICES SHOW
 ];

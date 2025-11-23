@@ -83,7 +83,9 @@
                         'text-slate-500' => $service->deleted_at
                         ])>
                         <td>{{ $service->getName() }}</td>
-                        <td class="text-center">{{ number_format($service->price,thousands_separator:" ") }}&nbsp;HUF</td>
+                        <td class="text-center">
+                            {!! number_format($service->price,thousands_separator:"&nbsp;") !!}&nbsp;HUF
+                        </td>
                         <td class="text-center">{{ $service->duration . ' ' . __('home.minutes') }}</td>
                         <td class="text-center max-md:hidden">
                             {{ number_format($service->appointments_count,thousands_separator:' ') }}
@@ -140,7 +142,7 @@
                         <td>{{ $user->getFullName() }}</td>
                         <td class="max-md:hidden">{{ $user->email }}</td>
                         <td class="text-center">
-                            {{ number_format($user->appointments_count,thousands_separator:' ') }}
+                            {!! number_format($user->appointments_count,thousands_separator:"&nbsp;") !!}
                         </td>
                         <td class="text-center max-md:hidden">
                             <x-input-field type="checkbox" name="is_barber" id="{{ 'is_barber_'.$user->id }}" :checked="isset($user->barber) && $user->barber->deleted_at == null" value="is_barber" />

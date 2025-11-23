@@ -105,4 +105,11 @@ return [
     "success_timeoff_stored" => "'s time off has been created successfully!",
     "success_timeoff_updated" => "'s time off has been updated successfully!",
     "success_timeoff_destroyed" => "'s time off has been cancelled successfully!",
+
+    // SERVICES INDEX
+    "services" => "Services",
+    "price" => "Price",
+
+    // SERVICES SHOW
+    
 ];

@@ -70,4 +70,15 @@ return [
     "social_login_success_message_1" => "You logged in using",
     "social_login_success_message_2" => "successfully!",
 
+    // USER MESSAGES
+    "success_user_stored" => "Your account has been created successfully!",
+    "success_user_updated" => "Your account has been updated successfully!",
+    "success_password_changed" => "Your password has been changed successfully!",
+    "verify_email" => "Please verify your new email address!",
+    "error_user_view_other" => "You aren't authorized to access other user's profile!",
+    "error_user_edit_other" => "You aren't authorized to edit other user's profile!",
+    "error_user_edit_destroyed" => "You can't edit your profile because your account has been deleted!",
+    "error_user_pw_other" => "You aren't authorized to change other user's password!",
+    "error_user_pw_destroyed" => "You can't change your password because your account has been deleted!",
+
 ];

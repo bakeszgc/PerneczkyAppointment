@@ -99,9 +99,9 @@ class UserController extends Controller
                 'service_id' => $request->service_id,
                 'comment' => $request->comment,
                 'date' => $request->date
-            ])->with('success','Your account has been created successfully!');
+            ])->with('success',__('auth.success_user_stored'));
         } else {
-            return redirect()->route('my-appointments.index')->with('success','Your account has been created successfully!');
+            return redirect()->route('my-appointments.index')->with('success',__('auth.success_user_stored'));
         }        
     }
 
@@ -176,10 +176,10 @@ class UserController extends Controller
 
             event(new Registered($user));
 
-            return redirect()->route('users.show',$user)->with('success','Account updated successfully! Please verify your new email address!');
+            return redirect()->route('users.show',$user)->with('success',__('auth.success_user_updated' . " " . __('auth.verify_email')));
         }
 
-        return redirect()->route('users.show',$user)->with('success','Account updated successfully!');
+        return redirect()->route('users.show',$user)->with('success',__('auth.success_user_updated'));
 
     }
 
@@ -205,7 +205,7 @@ class UserController extends Controller
             'password' => Hash::make($request->new_password)
         ]);
 
-        return redirect()->route('users.show',['user' => $user->id])->with('success','Your password has been changed successfully!');
+        return redirect()->route('users.show',['user' => $user->id])->with('success',__('auth.success_password_changed'));
     }
 
     

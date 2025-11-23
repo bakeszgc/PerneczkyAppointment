@@ -12,15 +12,15 @@ class UserPolicy
     {
         return $user->id === $model->id
             ? Response::allow()
-            : Response::deny("You are not authorized to access other users's profile.");
+            : Response::deny(__('auth.error_user_view_other'));
     }
 
     public function update(User $user, User $model): Response
     {
         if ($user->id !== $model->id) {
-            return Response::deny("You are not authorized to update other users's profile.");
+            return Response::deny(__('auth.error_user_edit_other'));
         } elseif ($model->deleted_at) {
-            return Response::deny("You can't update your profile because your user has been deleted.");
+            return Response::deny(__('auth.error_user_edit_destroyed'));
         } else {
             return Response::allow();
         }
@@ -28,9 +28,9 @@ class UserPolicy
 
     public function updatePassword(User $user, User $model) {
         if ($user->id !== $model->id) {
-            return Response::deny("You are not authorized to change other users's password.");
+            return Response::deny(__('auth.error_user_pw_other'));
         } elseif ($model->deleted_at) {
-            return Response::deny("You can't change your password because your user has been deleted.");
+            return Response::deny(__('auth.error_user_pw_destroyed'));
         } else {
             return Response::allow();
         }

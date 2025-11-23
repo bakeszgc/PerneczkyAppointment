@@ -40,7 +40,7 @@ class AdminTimeOffController extends Controller
 
         if ($fromAppStartTime != null && $toAppStartTime != null) {
             if ($toAppStartTime < $fromAppStartTime) {
-                return redirect()->back()->with('error','The end time must be after or equal to the start date!');
+                return redirect()->back()->with('error',__('admin.error_end_start_time'));
             }
         }
 
@@ -118,7 +118,7 @@ class AdminTimeOffController extends Controller
         if (get_class($time_off) != "App\Models\Appointment") {
             return $time_off;
         } else {
-            return redirect()->route('admin-time-offs.show',$time_off)->with('success', 'Time off for ' . $barber->getName() . ' has been created successfully!');
+            return redirect()->route('admin-time-offs.show',$time_off)->with('success', $barber->getName() . __('admin.success_timeoff_stored'));
         }
     }
 
@@ -185,9 +185,9 @@ class AdminTimeOffController extends Controller
             return $time_off;
         } else {
             if (!isset($time_off->deleted_at)) {
-                return redirect()->route('admin-time-offs.show',$time_off)->with('success',$time_off->barber->getName() . '\'s time off has been updated successfully!');
+                return redirect()->route('admin-time-offs.show',$time_off)->with('success',$time_off->barber->getName() . __('admin.success_timeoff_updated'));
             } else {
-                return redirect()->route('admin-time-offs.index',$time_off)->with('success',$time_off->barber->getName() . '\'s time off has been cancelled successfully!');
+                return redirect()->route('admin-time-offs.index',$time_off)->with('success',$time_off->barber->getName() . __('admin.success_timeoff_destroyed'));
             }
         }
     }
@@ -204,6 +204,6 @@ class AdminTimeOffController extends Controller
         }
 
         $time_off->delete();
-        return redirect()->route('admin-time-offs.index')->with('success',$time_off->barber->getName() . '\'s time off has been cancelled successfully!');
+        return redirect()->route('admin-time-offs.index')->with('success',$time_off->barber->getName() .  __('admin.success_timeoff_destroyed'));
     }
 }

@@ -95,10 +95,14 @@ return [
     "success_barber_destroyed" => "'s barber access has been removed successfully!",
     "success_barber_restored" => "'s barber access has been restored successfully!",
     "error_barber_edit_destroyed_user_1" => "You can't edit the barber page of a deleted user. If you want to proceed be sure to restore ",
-    "error_barber_edit_destroyed_user_2" => "'s account first.",
-    "error_barber_edit_destroyed_1" => "You can't edit the barber page of a deleted barber. If you want to proceed be sure to restore ",
-    "error_barber_edit_destroyed_2" => "'s barber access first.",
-    "error_barber_destroy_destroyed" => "You can't delete an already deleted barber!",
+    "error_barber_edit_destroyed_user_2" => "'s account first!",
+    "error_barber_edit_destroyed_1" => "You can't edit the details of a deleted barber! If you want to proceed be sure to restore ",
+    "error_barber_edit_destroyed_2" => "'s barber access first!",
+    "error_barber_destroy_destroyed" => "You can't delete an inactive barber!",
     "error_barber_restore_active" => "You can't restore an active barber!",
 
+    // TIMEOFF MESSAGES
+    "success_timeoff_stored" => "'s time off has been created successfully!",
+    "success_timeoff_updated" => "'s time off has been updated successfully!",
+    "success_timeoff_destroyed" => "'s time off has been cancelled successfully!",
 ];

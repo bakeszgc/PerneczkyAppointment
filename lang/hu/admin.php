@@ -88,4 +88,17 @@ return [
     "view_s1s_barber_page_2" => " oldalának megtekintése",
     "promote_to_barber" => "Előléptetés borbéllyá",
 
+    // BARBERS MESSAGES
+    "success_barber_stored" => "Új borbély sikeresen felvéve!",
+    "success_barber_personal_updated" => " személyes adatai sikeresen módosítva!",
+    "success_barber_email_has_to_be_verified" => "Az új email címet meg kell erősíteni!",
+    "success_barber_destroyed" => " borbély hozzáférése sikeresen törölve!",
+    "success_barber_restored" => " borbély hozzáférése sikeresen visszaállítva!",
+    "error_barber_edit_destroyed_user_1" => "Nem módosíthatod a borbély oldalát egy törölt felhasználónak. Ha mégis ezt szeretnéd, akkor először állítsd vissza ",
+    "error_barber_edit_destroyed_user_2" => " felhasználói fiókját!",
+    "error_barber_edit_destroyed_1" => "Nem módosíthatod törölt borbélyok adatait! Ha mégis ezt szeretnéd, akkor először állítsd vissza ",
+    "error_barber_edit_destroyed_2" => " borbély hozzáférését!",
+    "error_barber_destroy_destroyed" => "Nem törölhetsz egy inaktív borbélyt!",
+    "error_barber_restore_active" => "Nem állíthatsz vissza egy aktív borbélyt!",
+
 ];

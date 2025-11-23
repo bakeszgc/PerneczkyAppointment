@@ -28,7 +28,7 @@ return [
     "all_timeoffs" => "All time offs",
     "new_timeoff" => "New time off",
     "all_services" => "All services",
-    "new_service" => "New service",
+    "new_service" => "New&nbsp;service",
     "all_customers" => "All customers",
     "name" => "Name",
     "visible" => "Visible",
@@ -111,5 +111,28 @@ return [
     "price" => "Price",
 
     // SERVICES SHOW
-    
+    "name_hu" => "Name (in Hungarian)",
+    "name_en" => "Name (in English)",
+    "duration_in_minutes" => "Duration (in minutes)",
+    "delete_service" => "Delete service",
+    "restore_service" => "Restore service",
+    "details_about_this_service" => "Details about this service",
+    "general_details" => "General details",
+    "created_at" => "Created at",
+    "updated_at" => "Updated at",
+    "prev_statistics" => "Stats from previous bookings",
+    "upcoming_statistics" => "Stats from upcoming bookings",
+    "booked" => "Booked",
+    "once" => "once",
+    "twice" => "twice",
+    "times1" => " times",
+    "times2" => " times",
+    "times3" => " times",
+    "times" => " times",
+    "show_bookings" => "Show bookings",
+    "average_price" => "Average price",
+    "rev_from_service" => "Revenue generated from this service",
+    "rev_est_from_service" => "Revenue estimated from this service",
+
+
 ];

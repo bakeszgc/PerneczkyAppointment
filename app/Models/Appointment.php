@@ -541,6 +541,72 @@ class Appointment extends Model
         return $theVariant;
     }
 
+    // RETURNS THE CORRECT TIMES VARIANT IN BOTH LANGUAGES
+    public static function getTimesSuffix(int $num) {
+        $timesSuffix = '';
+
+        switch ($num) {
+            case 1:
+                $timesSuffix = __('admin.once');
+            break;
+
+            case 2:
+                $timesSuffix = __('admin.twice');
+            break;
+
+            default:
+                $timesSuffix = __('admin.times');
+            break;
+        }
+
+        // switch ($num % 10) {
+        //     case 1:
+        //     case 2:
+        //     case 4:
+        //     case 7:
+        //     case 9:
+        //         $timesSuffix = __('admin.times1'); //-szer
+        //     break;
+
+        //     case 5:
+        //         $timesSuffix = __('admin.times2'); //-ször
+        //     break;
+            
+        //     default:
+        //         $timesSuffix = __('admin.times3'); //-szor
+        //     break;
+        // }
+
+        // switch ($num % 100) {
+        //     case 10:
+        //     case 40:
+        //     case 50:
+        //     case 70:
+        //     case 90:
+        //         $timesSuffix = __('admin.times1'); //-szer
+        //     break;
+
+        //     case 20:
+        //     case 30:
+        //     case 60:
+        //     case 80:
+        //     case 0:
+        //         $timesSuffix = __('admin.times3'); //-szor
+        //     break;
+        // }
+
+        // if ($num % 1000 == 0) {
+        //     $timesSuffix = __('admin.times1'); //-szer
+        // }
+
+        // if ($num % 1000000 == 0) {
+        //     $timesSuffix = __('admin.times3'); //-szor
+        // }
+
+        
+        return number_format($num, thousands_separator:"&nbsp;") . $timesSuffix;
+    }
+
     // SCOPES
 
     // LATER & EARLIER APPOINTMENTS

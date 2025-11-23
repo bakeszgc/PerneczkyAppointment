@@ -28,7 +28,7 @@ return [
     "all_timeoffs" => "All time offs",
     "new_timeoff" => "New time off",
     "all_services" => "All services",
-    "new_service" => "New&nbsp;service",
+    "new_service" => "New service",
     "all_customers" => "All customers",
     "name" => "Name",
     "visible" => "Visible",
@@ -133,6 +133,10 @@ return [
     "average_price" => "Average price",
     "rev_from_service" => "Revenue generated from this service",
     "rev_est_from_service" => "Revenue estimated from this service",
+    "new_service_button" => "New&nbsp;service",
 
+    // SERVICES CREATE
+    "create_service_title" => "Create a new service",
+    
 
 ];

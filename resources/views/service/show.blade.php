@@ -19,7 +19,7 @@
         <div>
             <x-link-button :link="route('services.create')" role="createMain">
                 <span class="max-sm:hidden">
-                    {!! __('admin.new_service') !!}
+                    {!! __('admin.new_service_button') !!}
                 </span>
             </x-link-button>
         </div>
@@ -32,7 +32,7 @@
             @csrf
 
             <div class="flex flex-col mb-4">
-                <x-label for="name">
+                <x-label for="name_hu">
                     {{ __('admin.name_hu') }}*
                 </x-label>
                 <x-input-field id="name_hu" name="name_hu" :value="old('name_hu') ?? $service->name" :disabled="isset($service->deleted_at)" class="updateInput reqInput"></x-input-field>
@@ -42,7 +42,7 @@
             </div>
 
             <div class="flex flex-col mb-4">
-                <x-label for="name">
+                <x-label for="name_en">
                     {{ __('admin.name_en') }}*
                 </x-label>
                 <x-input-field id="name_en" name="name_en" :value="old('name_en') ?? $service->en_name" :disabled="isset($service->deleted_at)" class="updateInput reqInput"></x-input-field>

@@ -28,7 +28,7 @@ return [
     "all_timeoffs" => "Összes szünet",
     "new_timeoff" => "Új szünet",
     "all_services" => "Összes szolgáltatás",
-    "new_service" => "Új&nbsp;szolgáltatás",
+    "new_service" => "Új szolgáltatás",
     "all_customers" => "Összes vendég",
     "name" => "Név",
     "visible" => "Látható",
@@ -128,4 +128,8 @@ return [
     "average_price" => "Átlagár",
     "rev_from_service" => "Bevétel ebből a szolgáltatásból",
     "rev_est_from_service" => "Várható bevétel ebből a szolgáltatásból",
+    "new_service_button" => "Új&nbsp;szolgáltatás",
+
+    // SERVICES CREATE
+    "create_service_title" => "Hozz létre egy új szolgáltatást",
 ];

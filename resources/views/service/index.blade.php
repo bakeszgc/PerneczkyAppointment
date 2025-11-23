@@ -11,7 +11,7 @@
         <div>
             <x-link-button :link="route('services.create')" role="createMain">
                 <span class="max-sm:hidden">
-                    {{ __('admin.new_service') }}
+                    {{ __('admin.new_service_button') }}
                 </span>
             </x-link-button>
         </div>

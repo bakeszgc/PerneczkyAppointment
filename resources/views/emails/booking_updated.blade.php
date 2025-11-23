@@ -67,7 +67,7 @@
                     {{ App\Models\Service::find($oldAppointment['service_id'])->name }}
                 </td>
                 <td @class(['changed' => $oldAppointment['service_id'] != $newAppointment->service_id])>
-                    {{ $newAppointment->service->name }}
+                    {{ $newAppointment->service->getName() }}
                 </td>
             </tr>
 

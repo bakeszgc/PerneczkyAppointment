@@ -51,7 +51,7 @@
 
             <tr>
                 <td>Service</td>
-                <td>{{ $appointment->service->name }}</td>
+                <td>{{ $appointment->service->getName() }}</td>
             </tr>
 
             <tr>

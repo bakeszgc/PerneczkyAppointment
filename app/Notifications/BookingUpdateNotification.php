@@ -44,7 +44,7 @@ class BookingUpdateNotification extends Notification implements ShouldQueue
         $from = DateTime::createFromFormat('Y-m-d H:i:s',$this->newAppointment->app_start_time);
         $to = DateTime::createFromFormat('Y-m-d H:i:s',$this->newAppointment->app_end_time);
         $title = 'Appointment at PERNECZKY BarberShop';
-        $description = nl2br("Service: " . $this->newAppointment->service->name . "\nBarber: " . $this->newAppointment->barber->getName());
+        $description = nl2br("Service: " . $this->newAppointment->service->getName() . "\nBarber: " . $this->newAppointment->barber->getName());
 
         $link = Link::create($title, $from, $to)
             ->description($description)

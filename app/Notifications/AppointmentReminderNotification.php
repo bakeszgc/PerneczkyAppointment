@@ -40,7 +40,7 @@ class AppointmentReminderNotification extends Notification implements ShouldQueu
         $from = DateTime::createFromFormat('Y-m-d H:i:s',$this->appointment->app_start_time);
         $to = DateTime::createFromFormat('Y-m-d H:i:s',$this->appointment->app_end_time);
         $title = 'Appointment at PERNECZKY BarberShop';
-        $description = nl2br("Service: " . $this->appointment->service->name . "\nBarber: " . $this->appointment->barber->getName());
+        $description = nl2br("Service: " . $this->appointment->service->getName() . "\nBarber: " . $this->appointment->barber->getName());
 
         $link = Link::create($title, $from, $to)
             ->description($description)

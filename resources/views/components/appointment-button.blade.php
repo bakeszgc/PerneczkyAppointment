@@ -7,7 +7,7 @@
     <h3 class="text-lg max-sm:text-sm font-semibold mb-1">{{ ucfirst($type) }} booking</h3>
 
 @if ($appointment)
-    <p class="text-xs">{{$appointment->service->name . " w/ " . $appointment->barber->getName() }}</p>
+    <p class="text-xs">{{$appointment->service->getName() . " w/ " . $appointment->barber->getName() }}</p>
     <p class="text-xs">{{ Carbon\Carbon::parse($appointment->app_start_time)->format('Y-m-d G:i') }}</p>
     </a>
 @else

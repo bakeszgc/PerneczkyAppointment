@@ -1,205 +1,258 @@
-<x-user-layout title="Terms & conditions">
+<x-user-layout :title="__('policy.terms_and_conditions')">
 
-    <x-breadcrumbs :links="['Terms & conditions' => '']" />
+    <x-breadcrumbs :links="[__('home.terms_and_conditions') => '']" />
     
     <div class="flex justify-between items-end mb-4">
-        <x-headline>Terms & conditions</x-headline>
-        <p class="text-right">Last updated: 2025-11-07</p>
+        <x-headline>
+            {{ __('policy.terms_and_conditions') }}
+        </x-headline>
+        <p class="text-right">
+            {{ __('policy.last_updated') }}: 2025-11-07
+        </p>
     </div>
 
     <x-card class="mb-4">
         <div class="mb-8">
-            <h2 class="text-xl max-md:text-lg font-bold mb-4">Scope and basic principles</h2>
+            <h2 class="text-xl max-md:text-lg font-bold mb-4">
+                {{ __('policy.tc_1_title') }}
+            </h2>
 
             <p class="text-justify mb-4">
-                These general terms of use (hereinafter referred to as the “terms”) define the conditions for using the website owned exclusively by {{ env('COMPANY_NAME') }} (registered office: {{ env('COMPANY_ADDRESS') }}), available at <a href="{{ env('APP_URL') }}" class="text-blue-700 hover:underline">{{ env('APP_URL') }}</a> (hereinafter referred to as the "website").
+                {{ __('policy.tc_1_p_1a') }}
+                
+                <a href="{{ env('APP_URL') }}" class="text-blue-700 hover:underline">{{ env('APP_URL') }}</a>
+                
+                {{ __('policy.tc_1_p_1b') }}
             </p>
 
             <p class="text-justify mb-4">
-                A User is any adult natural person, business entity, or organization with legal personality who visits the Website, books an appointment through it for any service, or subscribes to the newsletter. Minors are not considered users.
+                {{ __('policy.tc_1_p_2') }}
             </p>
 
             <p class="text-justify mb-4">
-                By using any of the Website's services or subscribing to the newsletter, the User accepts these terms as binding. Acceptance also means that the User agrees to follow updates to these terms. If the user does not accept these terms, they are not entitled to use the Website or its services.
+                {{ __('policy.tc_1_p_3') }}
             </p>
 
             <p class="text-justify mb-4">
-                The website owner/operator may modify these terms unilaterally at any time. The revised terms take effect on the date they are published on the website. The website's operators may appear under the name "{{ env('APP_NAME') }}".
+                {{ __('policy.tc_1_p_4') }}
             </p>
 
             <p class="text-justify mb-4">
-                The user must provide accurate, truthful data. If {{ env('COMPANY_NAME') }} becomes aware that the user has provided false data, it may partially or fully restrict the user's access to the services.
+                {{ __('policy.tc_1_p_5') }}
             </p>
         </div>
 
         <div class="mb-8">
-            <h2 class="text-xl max-md:text-lg font-bold mb-4">Basic definitions</h2>
+            <h2 class="text-xl max-md:text-lg font-bold mb-4">
+                {{ __('policy.tc_2_title') }}
+            </h2>
 
             <ul class="list-disc *:ml-6 *:mb-2">
                 <li>
-                    <span class="font-bold">Operator:</span> {{ env('COMPANY_NAME') }}
+                    <span class="font-bold">{{ __('policy.tc_2_p_1a') }}</span>
+                    {{ env('COMPANY_NAME') }}
                 </li>
                 <li>
-                    <span class="font-bold">Appointment booking:</span> reserving a time slot through the website.
+                    <span class="font-bold">{{ __('policy.tc_2_p_2a') }}</span>
+                    {{ __('policy.tc_2_p_2b') }}
                 </li>
                 <li>
-                    <span class="font-bold">Service:</span> Haircut, shaving, and related booking transactions offered through the website. These are tied to a specific time, date, and location.
+                    <span class="font-bold">{{ __('policy.tc_2_p_3a') }}</span>
+                    {{ __('policy.tc_2_p_3b') }}
                 </li>
                 <li>
-                    <span class="font-bold">Website:</span> <a href="{{ env('APP_URL') }}" class="text-blue-700 hover:underline">{{ env('APP_URL') }}</a> and all of its subpages.
+                    <span class="font-bold">{{ __('policy.tc_2_p_4a') }}</span>
+                    <a href="{{ env('APP_URL') }}" class="text-blue-700 hover:underline">{{ env('APP_URL') }}</a>
+                    {{ __('policy.tc_2_p_4b') }}
                 </li>
             </ul>
         </div>
 
         <div class="mb-8">
-            <h2 class="text-xl max-md:text-lg font-bold mb-4">Operation of {{ env('COMPANY_NAME') }}</h2>
+            <h2 class="text-xl max-md:text-lg font-bold mb-4">
+                {{ __('policy.tc_3_title') }}
+            </h2>
 
-            <p class="text-justify mb-4">The website offers multiple appointment times determined by {{ env('APP_NAME') }}. Users select their desired time, location, and barber based on availability.</p>
+            <p class="text-justify mb-4">
+                {{ __('policy.tc_3_p_1') }}
+            </p>
 
             <ul class="list-disc *:ml-6 *:mb-2">
                 <li>
-                    <span class="font-bold">Possible changes:</span> The service date or barber may change in exceptional cases (e.g., illness, vacation). {{ env('COMPANY_NAME') }} will make every effort to minimize such disruptions and ensure quality service.
+                    <span class="font-bold">{{ __('policy.tc_3_p_2a') }}</span>
+                    {{ __('policy.tc_3_p_2b') }}
                 </li>
                 <li>
-                    <span class="font-bold">Timing:</span> Services are intended to begin and end punctually within the booked timeframe, though this may vary occasionally.
+                    <span class="font-bold">{{ __('policy.tc_3_p_3a') }}</span>
+                    {{ __('policy.tc_3_p_3b') }}
                 </li>
                 <li>
-                    <span class="font-bold">Cancellations:</span> Users may cancel their appointment free of charge up to 1 hour before the scheduled time.
+                    <span class="font-bold">{{ __('policy.tc_3_p_4a') }}</span>
+                    {{ __('policy.tc_3_p_4b') }}
                 </li>
                 <li>
-                    <span class="font-bold">Cash payment:</span> Users may select cash payment when booking. In this case, payment is made on-site at the appointment time.
+                    <span class="font-bold">{{ __('policy.tc_3_p_5a') }}</span>
+                    {{ __('policy.tc_3_p_5b') }}
                 </li>
                 <li>
-                    <span class="font-bold">Complaints:</span> Complaints cannot be accepted after departure from the service.
+                    <span class="font-bold">{{ __('policy.tc_3_p_6a') }}</span>
+                    {{ __('policy.tc_3_p_6b') }}
                 </li>
             </ul>
         </div>
 
         <div class="mb-8">
-            <h2 class="text-xl max-md:text-lg font-bold mb-4">Behvioral norms</h2>
+            <h2 class="text-xl max-md:text-lg font-bold mb-4">
+                {{ __('policy.tc_4_title') }}
+            </h2>
             <p class="text-justify">
-                While using {{ env('COMPANY_NAME') }}'s services and website, the user must respect other users regardless of race, gender, religion, or identity and must not intentionally or unintentionally offend others through words or actions.
+                {{ __('policy.tc_4_p_1') }}
             </p>
         </div>
 
         <div class="mb-8">
-            <h2 class="text-xl max-md:text-lg font-bold mb-4">Booking and cancellation</h2>
+            <h2 class="text-xl max-md:text-lg font-bold mb-4">
+                {{ __('policy.tc_5_title') }}
+            </h2>
             <p class="text-justify mb-4">
-                Appointments can be started by clicking the "BOOK AN APPOINTMENT" button on the website. After selecting the barber, service, date and time, and entering their data, the user can confirm the booking by clicking "Confirm appointment".
+                {{ __('policy.tc_5_p_1') }}
             </p>
-            <h3 class="font-bold mb-2">To finalize a booking, the user must provide:</h3>
+            <h3 class="font-bold mb-2">
+                {{ __('policy.tc_5_p_2') }}
+            </h3>
             <ul class="list-disc *:ml-6 *:mb-2 mb-4">
                 <li>
-                    Their first name
+                    {{ __('policy.tc_5_p_3') }}
                 </li>
                 <li>
-                    Their email address
+                    {{ __('policy.tc_5_p_4') }}
                 </li>
                 <li>
-                    The selected service
+                    {{ __('policy.tc_5_p_5') }}
                 </li>
                 <li>
-                    The selected barber
+                    {{ __('policy.tc_5_p_6') }}
                 </li>
                 <li>
-                    The selected date and time
+                    {{ __('policy.tc_5_p_7') }}
                 </li>
             </ul>
 
-            <h3 class="font-bold mb-2">Upon successful booking, the service provider sends an email confirmation containing:</h3>
+            <h3 class="font-bold mb-2">
+                {{ __('policy.tc_5_p_8') }}
+            </h3>
             <ul class="list-disc *:ml-6 *:mb-2 mb-4">
                 <li>
-                    Date and time of the service
+                    {{ __('policy.tc_5_p_9') }}
                 </li>
                 <li>
-                    The selected service and its price
+                    {{ __('policy.tc_5_p_10') }}
                 </li>
                 <li>
-                    The selected barber
+                    {{ __('policy.tc_5_p_11') }}
                 </li>
                 <li>
-                    The comment wrote by the user (optional)
+                    {{ __('policy.tc_5_p_12') }}
                 </li>
             </ul>
 
-            <h3 class="font-bold mb-2">Cancellations</h3>
+            <h3 class="font-bold mb-2">
+                {{ __('policy.tc_5_p_13') }}
+            </h3>
             <p class="text-justify mb-4">
-                The User must cancel no later than 1 hour before the appointment via phone (<a href="tel:{{ str_replace(' ','',env('COMPANY_PHONE')) }}" class="text-blue-700 hover:underline">{{ env('COMPANY_PHONE') }}</a>) or by clicking the "View my appointment" button in the confirmation email and then clicking the "Cancel" button on the website. Cancellations through other channels (Facebook, other emails, etc.) are not accepted. If the user fails to cancel within this time, the cancellation cannot be accepted.
+                {{ __('policy.tc_5_p_14a') }}<a href="tel:{{ str_replace(' ','',env('COMPANY_PHONE')) }}" class="text-blue-700 hover:underline">{{ env('COMPANY_PHONE') }}</a>{{ __('policy.tc_5_p_14b') }}
             </p>
 
-            <h3 class="font-bold mb-2">Booking modifications</h3>
+            <h3 class="font-bold mb-2">
+                {{ __('policy.tc_5_p_15') }}
+            </h3>
             <p class="text-justify">
-                The User can modify their appointment via phone (<a href="tel:{{ str_replace(' ','',env('COMPANY_PHONE')) }}" class="text-blue-700 hover:underline">{{ env('COMPANY_PHONE') }}</a>) or by clicking the "View my appointment" button in the confirmation email and then clicking the "Edit" button on the website. Bookings cannot be retroactively reduced in value due to subsequent promotional offers.
+                {{ __('policy.tc_5_p_16a') }}<a href="tel:{{ str_replace(' ','',env('COMPANY_PHONE')) }}" class="text-blue-700 hover:underline">{{ env('COMPANY_PHONE') }}</a>{{ __('policy.tc_5_p_16b') }}
             </p>
         </div>
 
         <div class="mb-8">
-            <h2 class="text-xl max-md:text-lg font-bold mb-4">Photography</h2>
+            <h2 class="text-xl max-md:text-lg font-bold mb-4">
+                {{ __('policy.tc_6_title') }}
+            </h2>
             <p class="text-justify">
-                By finalizing the booking and participating in the service, the user accepts that photos may be taken at the location, which {{ env('COMPANY_NAME') }} may use without restriction.
+                {{ __('policy.tc_6_p_1') }}
             </p>
         </div>
 
         <div class="mb-8">
-            <h2 class="text-xl max-md:text-lg font-bold mb-4">Promotions</h2>
+            <h2 class="text-xl max-md:text-lg font-bold mb-4">
+                {{ __('policy.tc_7_title') }}
+            </h2>
             <p class="text-justify">
-                {{ env('COMPANY_NAME') }} may offer discounts on the original price of services and may change the conditions unilaterally. Third parties may also offer discounts (e.g., coupon campaigns) through separate agreements. In such cases, Perneczky Barber Shop is not responsible for the partner's terms or data management.
+                {{ __('policy.tc_7_p_1') }}
             </p>
         </div>
 
         <div class="mb-8">
-            <h2 class="text-xl max-md:text-lg font-bold mb-4">Data management</h2>
+            <h2 class="text-xl max-md:text-lg font-bold mb-4">
+                {{ __('policy.tc_8_title') }}
+            </h2>
             <p class="text-justify mb-2">
-                The service provider maintains a record of user data. These data may only be transferred to third parties with the User's prior consent. By providing their data, the User authorizes the service provider to handle the data according to:
+                {{ __('policy.tc_8_p_1') }}
             </p>
             <ul class="list-disc *:ml-6 *:mb-2 mb-2">
                 <li>
-                    Act CXII of 2011 on the right of informational self-determination and freedom of information
+                    {{ __('policy.tc_8_p_2') }}
                 </li>
                 <li>
-                    Act CVIII of 2001 on electronic commerce and information society services
+                    {{ __('policy.tc_8_p_3') }}
                 </li>
             </ul>
             <p class="text-justify">
-                For more details, please see our <a href="{{ route('privacy') }}" class="text-blue-700 hover:underline">privacy policy page</a>.
+                {{ __('policy.tc_8_p_4a') }}
+                <a href="{{ route('privacy') }}" class="text-blue-700 hover:underline">{{ __('policy.tc_8_p_4b') }}</a>.
             </p>
         </div>
 
         <div class="mb-8">
-            <h2 class="text-xl max-md:text-lg font-bold mb-4">Image and audio recordings</h2>
+            <h2 class="text-xl max-md:text-lg font-bold mb-4">
+                {{ __('policy.tc_9_title') }}
+            </h2>
             <p class="text-justify">
-                During services, image and/or audio recordings may be made, which {{ env('APP_NAME') }} may use for marketing purposes. By finalizing a booking or participating in the service, the user consents to the use of such materials for PR and marketing activities.
+                {{ __('policy.tc_9_p_1') }}
             </p>
         </div>
 
         <div class="mb-8">
-            <h2 class="text-xl max-md:text-lg font-bold mb-4">Liability</h2>
+            <h2 class="text-xl max-md:text-lg font-bold mb-4">
+                {{ __('policy.tc_10_title') }}
+            </h2>
             <p class="text-justify mb-2">
-                {{ env('COMPANY_NAME') }} does not guarantee that the services (including the website and related content) will operate without interruption or error. It assumes no liability for:
+                {{ __('policy.tc_10_p_1') }}
             </p>
             <ul class="list-disc *:ml-6 *:mb-2">
                 <li>
-                    Errors or omissions on the website or during service
+                    {{ __('policy.tc_10_p_2') }}
                 </li>
                 <li>
-                    Malfunctions, interruptions, or unavailability of the website
+                    {{ __('policy.tc_10_p_3') }}
                 </li>
                 <li>
-                    The availability of content (e.g., time slots)
+                    {{ __('policy.tc_10_p_4') }}
                 </li>
                 <li>
-                    Complaints made after leaving the service
+                    {{ __('policy.tc_10_p_5') }}
                 </li>
             </ul>
         </div>
 
         <div>
-            <h2 class="text-xl max-md:text-lg font-bold mb-4">Governing law and authorities</h2>
+            <h2 class="text-xl max-md:text-lg font-bold mb-4">
+                {{ __('policy.tc_11_title') }}
+            </h2>
             <p class="text-justify mb-4">
-                The relationship between the Service Provider and the User is governed by Hungarian law. In case of disputes, the parties agree to the exclusive jurisdiction of the competent court at the service provider's registered office. For consumer complaints, users may contact:
+                {{ __('policy.tc_11_p_1') }}
             </p>
 
-            <h3 class="font-bold mb-2">Consumer Protection Authority (NFH)</h3>
+            <h3 class="font-bold mb-2">
+                {{ __('policy.tc_11_p_2') }}
+            </h3>
             <ul class="list-disc *:ml-6 *:mb-2 mb-4">
                 <li>
                     1364 Budapest, Pf. 144
@@ -209,7 +262,9 @@
                 </li>
             </ul>
 
-            <h3 class="font-bold mb-2">National Media and Infocommunications Authority (NMHH)</h3>
+            <h3 class="font-bold mb-2">
+                {{ __('policy.tc_11_p_3') }}
+            </h3>
             <ul class="list-disc *:ml-6 *:mb-2">
                 <li>
                     1525 Budapest, Pf. 75

@@ -209,8 +209,8 @@
 
                     <ul @class([
                         'flex items-center gap-4',
-                        'lg:mr-16 max-lg:gap-2 max-lg:flex-col' => strtolower(App::getLocale()) == 'en',
-                        'xl:mr-10 max-xl:gap-2 max-xl:flex-col' => strtolower(App::getLocale()) == 'hu'
+                        'lg:mr-12 max-lg:gap-2 max-lg:flex-col' => strtolower(App::getLocale()) == 'en',
+                        'xl:mr-6 max-xl:gap-2 max-xl:flex-col' => strtolower(App::getLocale()) == 'hu'
                     ]) id="navLinks">
                         <li>
                             <a href="#about" class="hover:text-blue-400 transition-all navLink">

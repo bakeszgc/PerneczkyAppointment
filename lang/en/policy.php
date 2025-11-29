@@ -198,4 +198,20 @@ return [
     "pp_11_title" => "Contact us",
     "pp_11_p_1" => "If you have any questions, concerns, or requests regarding this Privacy Policy or your personal data, please contact us:",
 
+
+    // COOKIE POLICY
+    "cookies" => "Cookies",
+    "cp_p_1" => "Just like us, most websites use cookies. But what exactly are they?",
+    "cp_p_2" => "Cookies are small text files stored in your browser that help improve a website's functionality and user experience. There are several types of cookies - usually categorized as essential, analytics, and optional cookies.",
+    "cp_p_3" => "",
+    "cp_p_3a" => "Essential cookies",
+    "cp_p_3b" => "are required for the website to operate properly and can't be opted out.",
+    "cp_p_4a" => "Analytic cookies",
+    "cp_p_4b" => "help collect insights about website usage or support marketing purposes.",
+    "cp_p_5a" => "Optional cookies",
+    "cp_p_5b" => "enhance the user experience and make the website easier to use.",
+    "cp_p_6a" => "You can view all the cookies our website uses, along with a short description of their purpose, below. By clicking the",
+    "cp_p_6b" => "button at the bottom of the page, you can review and adjust your cookie preferences at any time.",
+    "cp_manage_cookies" => "Manage cookies",
+
 ];

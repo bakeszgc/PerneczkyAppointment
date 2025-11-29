@@ -116,7 +116,7 @@ return [
     "pp_3_p_7a" => "Foglalási adatok",
     "pp_3_p_7b" => "választott borbély, szolgáltatás, dátum, időpont, megjegyzés a foglaláshoz (opcionális)",
     "pp_3_p_8a" => "Fiókadatok",
-    "pp_3_p_8b" => "ha fiókot hoz létre (vagy Google/Facebook segítségével jelentkezik be), akkor tároljuk a bejelentkezési adatait, illetve preferenciáit sütik segítségével rögzítjük",
+    "pp_3_p_8b" => "ha fiókot hoz létre (vagy Google/Facebook segítségével jelentkezik be), akkor tároljuk a bejelentkezési adatait, illetve preferenciáit cookiek segítségével rögzítjük",
     "pp_3_p_9a" => "Kommunikációs adatok",
     "pp_3_p_9b" => "üzenetek vagy visszajelzések, amelyeket nekünk küld",
     "pp_3_p_10" => "Nem gyűjtünk és nem tárolunk különleges személyes adatokat, például egészségügyi információkat vagy politikai véleményt.",
@@ -159,10 +159,10 @@ return [
     "pp_6_p_3" => "Email szolgáltatás: " . env('EMAIL_PROVIDER_NAME'),
     "pp_6_p_4" => "Ezek a szolgáltatók az adatokat csak a mi utasításaink alapján kezelik, GDPR-megfelelő adatfeldolgozói szerződés keretében. Ha valamely szolgáltató az EU-n kívül található, az adattovábbítás az Európai Bizottság által jóváhagyott általános szerződési feltételek (SCC) alapján történik.",
 
-    "pp_7_title" => "Sütik és nyomkövetési technológiák",
-    "pp_7_p_1" => "A weboldalon sütiket és hasonló technológiákat használunk a működés biztosításához és a forgalom elemzéséhez.",
-    "pp_7_p_2a" => "Amikor először látogatja meg az oldalt, eldöntheti, hogy elfogadja vagy elutasítja a nem kötelező sütiket. További részletekért és a sütipreferenciák módosításáért tekintse meg a",
-    "pp_7_p_2b" => "süti szabályzatunkat",
+    "pp_7_title" => "Cookiek és nyomkövetési technológiák",
+    "pp_7_p_1" => "A weboldalon cookiekat és hasonló technológiákat használunk a működés biztosításához és a forgalom elemzéséhez.",
+    "pp_7_p_2a" => "Amikor először látogatja meg az oldalt, eldöntheti, hogy elfogadja vagy elutasítja a nem kötelező cookiekat. További részletekért és a cookiepreferenciák módosításáért tekintse meg a",
+    "pp_7_p_2b" => "cookie szabályzatunkat",
 
     "pp_8_title" => "Az Ön jogai a GDPR szerint",
     "pp_8_p_1" => "Mint adatalany, Önt a következő jogok illetik meg:",
@@ -198,5 +198,21 @@ return [
 
     "pp_11_title" => "Kapcsolat",
     "pp_11_p_1" => "Ha kérdése, kérése vagy észrevétele van az adatkezelési gyakorlatunkkal kapcsolatban, lépjen velünk kapcsolatba:",
+
+
+    // COOKIE POLICY
+    "cookies" => "Cookiek",
+    "cp_p_1" => "Hozzánk hasonlóan a legtöbb weboldal cookiekat használ. De mégis mik is ezek?",
+    "cp_p_2" => "A cookiek rövid szöveges fájlok, amelyeket a böngészője tárol, és amelyek segítenek javítani a webhelyek működését és a felhasználói élményt. Többféle süti létezik - általában alapvető, analitikai és opcionális sütikre oszthatók.",
+    "cp_p_3" => "Az",
+    "cp_p_3a" => "elengedhetetlen cookiek",
+    "cp_p_3b" => "szükségesek a weboldal megfelelő működéséhez, nem lehet elutasítani őket.",
+    "cp_p_4a" => "analitikai cookiek",
+    "cp_p_4b" => "segítenek a weboldalhasználattal kapcsolatos információk gyűjtésében vagy marketingcélok támogatásában.",
+    "cp_p_5a" => "opcionális cookiek",
+    "cp_p_5b" => "javítják a felhasználói élményt és megkönnyítik a weboldal használatát.",
+    "cp_p_6a" => "Az alábbiakban megtekintheted a weboldalunk által használt összes cookiet, valamint azok céljának rövid leírását. Az oldal alján található",
+    "cp_p_6b" => "gombra kattintva bármikor áttekintheted és módosíthatod a cookiebeállításaidat.",
+    "cp_manage_cookies" => "Cookiek kezelése",
 
 ];

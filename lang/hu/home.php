@@ -51,6 +51,6 @@ return [
     "sunday_short" => "V",
 
     "cookie_policy" => "Cookie szabályzat",
-    "privacy_policy" => "Adatvédelem",
+    "privacy_policy" => "Adatkezelési tájékoztató",
     "terms_and_conditions" => "ÁSZF",
 ];

@@ -29,7 +29,7 @@ return [
     "read_and_accept" => "Elolvastam és elfogadom az",
     "terms_and_conditions_acc" => "ÁSZF-et",
     "and_the" => "és az",
-    "privacy_acc" => "adatvédelmi tájékoztatót",
+    "privacy_acc" => "adatkezelési tájékoztatót",
     "already_account" => "Van már fiókod?",
     "sign_in_here" => "Lépj be itt!",
 

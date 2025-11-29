@@ -1,194 +1,220 @@
-<x-user-layout title="Privacy">
+<x-user-layout title="{{ __('policy.privacy') }}">
 
-    <x-breadcrumbs :links="['Privacy' => '']" />
+    <x-breadcrumbs :links="[__('policy.privacy') => '']" />
     
     <div class="flex justify-between items-end mb-4">
-        <x-headline>Privacy policy</x-headline>
-        <p>Last updated: 2025-11-05</p>
+        <x-headline>{{ __('home.privacy_policy') }}</x-headline>
+        <p>{{ __('policy.last_updated') }}: 2025-11-05</p>
     </div>
 
     <x-card class="mb-4">
         <div class="mb-8">
-            <h2 class="text-xl max-md:text-lg font-bold mb-4">Introduction</h2>
+            <h2 class="text-xl max-md:text-lg font-bold mb-4">
+                {{ __('policy.pp_1_title') }}
+            </h2>
             <p class="text-justify">
-                Thank you for taking the time to read the privacy policy of {{ env('APP_NAME') }}, owned by {{ env('COMPANY_NAME') }} ("we", "our", or "us"). We respect your privacy and are committed to protecting your personal data. This privacy policy explains how we collect, use, and safeguard your information when you use our website and online booking services. By using our services, you agree to the collection and use of information in accordance with this policy.
+                {{ __('policy.pp_1_p') }}
             </p>
         </div>
 
         <div class="mb-8">
-            <h2 class="text-xl max-md:text-lg font-bold mb-4">Who we are</h2>
+            <h2 class="text-xl max-md:text-lg font-bold mb-4">
+                {{ __('policy.pp_2_title') }}
+            </h2>
             <ul class="*:mb-2 list-disc *:ml-6 mb-4">
                 <li>
-                    Data controller: {{ env('COMPANY_NAME') }}
+                    {{ __('policy.pp_2_p_1') . env('COMPANY_NAME') }}
                 </li>
                 <li>
-                    Address: {{ env('COMPANY_ADDRESS') }}
+                    {{ __('policy.pp_2_p_2') . env('COMPANY_ADDRESS') }}
                 </li>
                 <li>
-                    Website: <a href="{{ env('APP_URL') }}" class="text-blue-700 hover:underline">{{ env('APP_URL') }}</a>
+                    {{ __('policy.pp_2_p_3a') }}
+                    <a href="{{ env('APP_URL') }}" class="text-blue-700 hover:underline">{{ env('APP_URL') }}</a>
                 </li>
                 <li>
-                    Email: <a href="mailto:{{ env('COMPANY_MAIL') }}" class="text-blue-700 hover:underline">{{ env('COMPANY_MAIL') }}</a>
+                    {{ __('policy.pp_2_p_4a') }}
+                    <a href="mailto:{{ env('COMPANY_MAIL') }}" class="text-blue-700 hover:underline">{{ env('COMPANY_MAIL') }}</a>
                 </li>
                 <li>
-                    Phone: <a href="tel:{{ str_replace(' ','',env('COMPANY_PHONE')) }}" class="text-blue-700 hover:underline">{{ env('COMPANY_PHONE') }}</a>
+                    {{ __('policy.pp_2_p_5a') }}
+                    <a href="tel:{{ str_replace(' ','',env('COMPANY_PHONE')) }}" class="text-blue-700 hover:underline">{{ env('COMPANY_PHONE') }}</a>
                 </li>
             </ul>
             <p class="text-justify">
-                If you have any questions or concerns about this policy, or if you wish to exercise your data rights, you can contact us via email.
+                {{ __('policy.pp_2_p_6') }}
             </p>
         </div>
 
         <div class="mb-8">
-            <h2 class="text-xl max-md:text-lg font-bold mb-4">What personal data we collect</h2>
-            <p class="mb-4 text-justify">We collect and process the following types of data:</p>
+            <h2 class="text-xl max-md:text-lg font-bold mb-4">
+                {{ __('policy.pp_3_title') }}
+            </h2>
+            <p class="mb-4 text-justify">
+                {{ __('policy.pp_3_p_1') }}
+            </p>
             <div class="overflow-auto">
                 <table class="w-full mb-4 overflow-auto">
                     <thead class="text-left *:*:p-2 *:*:border-2 bg-slate-300">
                         <th>
-                            Data type
+                            {{ __('policy.pp_3_p_2a') }}
                         </th>
                         <th>
-                            Attributes
+                            {{ __('policy.pp_3_p_2b') }}
                         </th>
                     </thead>
                     <tbody class="*:*:p-2 *:*:border-2"">
                         <tr>
-                            <td>Identification details</td>
-                            <td>your first name and your last name (only for registered customers)</td>
+                            <td>{{ __('policy.pp_3_p_3a') }}</td>
+                            <td>{{ __('policy.pp_3_p_3b') }}</td>
                         </tr>
                         <tr>
-                            <td>Personal details</td>
-                            <td>date of birth (optional)</td>
+                            <td>{{ __('policy.pp_3_p_4a') }}</td>
+                            <td>{{ __('policy.pp_3_p_4b') }}</td>
                         </tr>
                         <tr>
-                            <td>Contact details</td>
-                            <td>email address and phone number (optional)</td>
+                            <td>{{ __('policy.pp_3_p_5a') }}</td>
+                            <td>{{ __('policy.pp_3_p_5b') }}</td>
                         </tr>
                         <tr>
-                            <td>Barber details</td>
-                            <td>profile picture, display name and description (only collected from users with barber level access)</td>
+                            <td>{{ __('policy.pp_3_p_6a') }}</td>
+                            <td>{{ __('policy.pp_3_p_6b') }}</td>
                         </tr>
                         <tr>
-                            <td>Booking details</td>
-                            <td>selected barber, service, date, time and comment (optional) regarding the appointment</td>
+                            <td>{{ __('policy.pp_3_p_7a') }}</td>
+                            <td>{{ __('policy.pp_3_p_7b') }}</td>
                         </tr>
                         <tr>
-                            <td>Account details</td>
-                            <td>if you create an account (or  sign in using Google or Facebook), we store your login information and preferences using cookies</td>
+                            <td>{{ __('policy.pp_3_p_8a') }}</td>
+                            <td>{{ __('policy.pp_3_p_8b') }}</td>
                         </tr>
                         <tr>
-                            <td>Communication data</td>
-                            <td>messages, emails or feedback you send to us</td>
+                            <td>{{ __('policy.pp_3_p_9a') }}</td>
+                            <td>{{ __('policy.pp_3_p_9b') }}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <p class="text-justify">We do not collect or store sensitive personal data such as health information or political opinions.</p>
+            <p class="text-justify">{{ __('policy.pp_3_p_10') }}</p>
         </div>
 
         <div class="mb-8">
-            <h2 class="text-xl max-md:text-lg font-bold mb-4">How and why we use your data</h2>
+            <h2 class="text-xl max-md:text-lg font-bold mb-4">
+                {{ __('policy.pp_4_title') }}
+            </h2>
             <p class="mb-4 text-justify">
-                We use your personal data for the following purposes and legal bases:
+                {{ __('policy.pp_4_p_1') }}
             </p>
             <div class="overflow-auto">
                 <table class="w-full mb-4">
                     <thead class="text-left *:*:p-2 *:*:border-2 bg-slate-300">
                         <th>
-                            Purpose
+                            {{ __('policy.pp_4_p_2a') }}
                         </th>
                         <th>
-                            Description
+                            {{ __('policy.pp_4_p_2b') }}
                         </th>
                         <th>
-                            Legal basis
+                            {{ __('policy.pp_4_p_2c') }}
                         </th>
                     </thead>
                     <tbody class="*:*:p-2 *:*:border-2"">
                         <tr>
-                            <td>Booking management</td>
-                            <td>To handle your appointment, send confirmations, updates and reminders</td>
-                            <td>Contract</td>
+                            <td>{{ __('policy.pp_4_p_3a') }}</td>
+                            <td>{{ __('policy.pp_4_p_3b') }}</td>
+                            <td>{{ __('policy.pp_4_p_3c') }}</td>
                         </tr>
                         <tr>
-                            <td>User account</td>
-                            <td>To create and manage your online accout</td>
-                            <td>Contract</td>
+                            <td>{{ __('policy.pp_4_p_4a') }}</td>
+                            <td>{{ __('policy.pp_4_p_4b') }}</td>
+                            <td>{{ __('policy.pp_4_p_4c') }}</td>
                         </tr>
                         <tr>
-                            <td>Communication</td>
-                            <td>To contact you regarding bookings, questions or issues</td>
-                            <td>Legitimate interest</td>
+                            <td>{{ __('policy.pp_4_p_5a') }}</td>
+                            <td>{{ __('policy.pp_4_p_5b') }}</td>
+                            <td>{{ __('policy.pp_4_p_5c') }}</td>
                         </tr>
                         <tr>
-                            <td>Marketing</td>
-                            <td>To send promotional offers or updates (only with your consent)</td>
-                            <td>Consent</td>
+                            <td>{{ __('policy.pp_4_p_6a') }}</td>
+                            <td>{{ __('policy.pp_4_p_6b') }}</td>
+                            <td>{{ __('policy.pp_4_p_6c') }}</td>
                         </tr>
                         <tr>
-                            <td>Analytics & improvements</td>
-                            <td>To analyze guest traffic statistics, understand website usage and improve performance</td>
-                            <td>Legitimate interest</td>
+                            <td>{{ __('policy.pp_4_p_7a') }}</td>
+                            <td>{{ __('policy.pp_4_p_7b') }}</td>
+                            <td>{{ __('policy.pp_4_p_7c') }}</td>
                         </tr>
                         <tr>
-                            <td>Legal & accounting obligations</td>
-                            <td>To comply with financial, tax, or consumer protection laws</td>
-                            <td>Legal obligation</td>
+                            <td>{{ __('policy.pp_4_p_8a') }}</td>
+                            <td>{{ __('policy.pp_4_p_8b') }}</td>
+                            <td>{{ __('policy.pp_4_p_8c') }}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <p class="text-justify">We never sell or rent your personal data to third parties.</p>
+            <p class="text-justify">
+                {{ __('policy.pp_4_p_9') }}    
+            </p>
         </div>
 
         <div class="mb-8">
-            <h2 class="text-xl max-md:text-lg font-bold mb-4">Data retention</h2>
+            <h2 class="text-xl max-md:text-lg font-bold mb-4">
+                {{ __('policy.pp_5_title') }}
+            </h2>
             <p class="mb-4 text-justify">
-                We keep your personal data only as long as necessary for the purposes listed above:
+                {{ __('policy.pp_5_p_1') }}
             </p>
             <ul class="*:mb-2 list-disc *:ml-6 mb-4">
-                <li>Booking and account data: 2 years after your last interaction</li>
-                <li>Accounting or payment records: 8 years (as required by Hungarian tax law)</li>
-                <li>Marketing consent data: until you withdraw your consent</li>
+                <li>{{ __('policy.pp_5_p_2') }}</li>
+                <li>{{ __('policy.pp_5_p_3') }}</li>
+                <li>{{ __('policy.pp_5_p_4') }}</li>
             </ul>
             <p class="text-justify">
-                After these periods, your data is securely deleted or anonymized.
+                {{ __('policy.pp_5_p_5') }}
             </p>
         </div>
 
         <div class="mb-8">
-            <h2 class="text-xl max-md:text-lg font-bold mb-4">Who we share your data with</h2>
+            <h2 class="text-xl max-md:text-lg font-bold mb-4">
+                {{ __('policy.pp_6_title') }}
+            </h2>
             <p class="mb-4 text-justify">
-                We share personal data only with trusted service providers that help us operate our business, such as:
+                {{ __('policy.pp_6_p_1') }}
             </p>
             <ul class="*:mb-2 list-disc *:ml-6 mb-4">
-                <li>Hosting provider: {{ env('HOSTING_PROVIDER_NAME') }}</li>
-                <li>Email service: {{ env('HOSTING_PROVIDER_NAME') }} Webmail</li>
+                <li>{{ __('policy.pp_6_p_2') }}</li>
+                <li>{{ __('policy.pp_6_p_3') }}</li>
             </ul>
             <p class="text-justify">
-                Each provider processes data only on our instructions and under a Data Processing Agreement compliant with GDPR. If any provider is located outside the EU, data transfers are protected using Standard Contractual Clauses approved by the European Commission.
+                {{ __('policy.pp_6_p_4') }}
             </p>
         </div>
 
         <div class="mb-8">
-            <h2 class="text-xl max-md:text-lg font-bold mb-4">Cookies and tracking technologies</h2>
+            <h2 class="text-xl max-md:text-lg font-bold mb-4">
+                {{ __('policy.pp_7_title') }}
+            </h2>
             <p class="mb-4 text-justify">
-                We use cookies and similar technologies to ensure the website functions properly and store user preferences.
+                {{ __('policy.pp_7_p_1') }}
             </p>
             <p class="text-justify">
-                When you visit our website for the first time, you can choose to accept or reject non-essential cookies. For more details or managing your cookie preferences, please see our <a href="{{ route('cookies') }}" class="text-blue-700 hover:underline">cookie policy page</a>.
+                {{ __('policy.pp_7_p_2a') }}
+                <a href="{{ route('cookies') }}" class="text-blue-700 hover:underline">{{ __('policy.pp_7_p_2b') }}</a>.
             </p>
         </div>
 
         <div class="mb-8">
-            <h2 class="text-xl max-md:text-lg font-bold mb-4">Your rights under GDPR</h2>
-            <p class="mb-4 text-justify">As a data subject, you have the following rights:</p>
+            <h2 class="text-xl max-md:text-lg font-bold mb-4">
+                {{ __('policy.pp_8_title') }}
+            </h2>
+            <p class="mb-4 text-justify">
+                {{ __('policy.pp_8_p_1') }}
+            </p>
             <div class="overflow-auto">
                 <table class="w-full mb-4">
                     <thead class="text-left *:*:p-2 *:*:border-2 bg-slate-300">
                         <th>
-                            Right name
+                            {{ __('policy.pp_8_p_2a') }}
                         </th>
                         <th>
                             Description
@@ -196,93 +222,107 @@
                     </thead>
                     <tbody class="*:*:p-2 *:*:border-2"">
                         <tr>
-                            <td>Right of access</td>
-                            <td>to request a copy of your personal data</td>
+                            <td>{{ __('policy.pp_8_p_3a') }}</td>
+                            <td>{{ __('policy.pp_8_p_3a') }}</td>
                         </tr>
                         <tr>
-                            <td>Right of rectification</td>
-                            <td>to correct inaccurate or incomplete data</td>
+                            <td>{{ __('policy.pp_8_p_4a') }}</td>
+                            <td>{{ __('policy.pp_8_p_4a') }}</td>
                         </tr>
                         <tr>
-                            <td>Right to erasure</td>
-                            <td>to delete your data ("right to be forgotten")</td>
+                            <td>{{ __('policy.pp_8_p_5a') }}</td>
+                            <td>{{ __('policy.pp_8_p_5a') }}</td>
                         </tr>
                         <tr>
-                            <td>Right to restriction of processing </td>
-                            <td>to limit how we use your data</td>
+                            <td>{{ __('policy.pp_8_p_6a') }} </td>
+                            <td>{{ __('policy.pp_8_p_6a') }}</td>
                         </tr>
                         <tr>
-                            <td>Right to data portability </td>
-                            <td>to receive your data in a structured, machine-readable format</td>
+                            <td>{{ __('policy.pp_8_p_7a') }} </td>
+                            <td>{{ __('policy.pp_8_p_7a') }}</td>
                         </tr>
                         <tr>
-                            <td>Right to object </td>
-                            <td>to object to certain uses of your data (e.g. marketing)</td>
+                            <td>{{ __('policy.pp_8_p_8a') }} </td>
+                            <td>{{ __('policy.pp_8_p_8a') }}</td>
                         </tr>
                         <tr>
-                            <td>Right withdraw consent</td>
-                            <td>at any time, if processing is based on consent</td>
+                            <td>{{ __('policy.pp_8_p_9a') }}</td>
+                            <td>{{ __('policy.pp_8_p_9a') }}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <p class="mb-4 text-justify">
-                To exercise these rights, contact us at <a href="mailto:{{ env('COMPANY_MAIL') }}" class="text-blue-700 hover:underline">{{ env('COMPANY_MAIL') }}</a>. We will respond within 30 days.
+                {{ __('policy.pp_8_p_10a') }}
+
+                <a href="mailto:{{ env('COMPANY_MAIL') }}" class="text-blue-700 hover:underline">{{ env('COMPANY_MAIL') }}</a>
+
+                {{ __('policy.pp_8_p_11b') }}
             </p>
             <p class="mb-4 text-justify">
-                If you believe we have processed your data unlawfully, you can file a complaint with the Hungarian National Authority for Data Protection and Freedom of Information (NAIH):
+                {{ __('policy.pp_8_p_12') }}
             </p>
             <h3 class="font-bold mb-2">Nemzeti Adatvédelmi és Információszabadság Hatóság (NAIH)</h3>
             <ul class="*:mb-2 list-disc *:ml-6">
                 <li>
-                    Website: <a href="https://www.naih.hu" class="text-blue-700 hover:underline">https://www.naih.hu</a>
+                    {{ __('policy.pp_2_p_3a') }}
+                    <a href="https://www.naih.hu" class="text-blue-700 hover:underline">https://www.naih.hu</a>
                 </li>
                 <li>
-                    Address: 1055 Budapest, Falk Miksa utca 9-11.
+                    {{ __('policy.pp_2_p_2') }}1055 Budapest, Falk Miksa utca 9-11.
                 </li>
                 <li>
-                    Phone: <a href="tel:+3613911400" class="text-blue-700 hover:underline">+36 (1) 391-1400</a>
+                    {{ __('policy.pp_2_p_5a') }}
+                    <a href="tel:+3613911400" class="text-blue-700 hover:underline">+36 (1) 391-1400</a>
                 </li>
             </ul>
         </div>
 
         <div class="mb-8">
-            <h2 class="text-xl max-md:text-lg font-bold mb-4">Data security</h2>
+            <h2 class="text-xl max-md:text-lg font-bold mb-4">
+                {{ __('policy.pp_9_title') }}
+            </h2>
             <p class="mb-4 text-justify">
-                We take appropriate technical and organizational measures to protect your data, including:
+                {{ __('policy.pp_9_p_1') }}
             </p>
             <ul class="*:mb-2 list-disc *:ml-6 mb-4">
-                <li>Encrypted (HTTPS) connections</li>
-                <li>Secure servers and password protection</li>
-                <li>Regular software and system updates</li>
+                <li>{{ __('policy.pp_9_p_2') }}</li>
+                <li>{{ __('policy.pp_9_p_3') }}</li>
+                <li>{{ __('policy.pp_9_p_4') }}</li>
             </ul>
             <p class="text-justify">
-                While no system is 100% secure, we continually review and improve our safeguards.
+                {{ __('policy.pp_9_p_5') }}
             </p>
         </div>
 
         <div class="mb-8">
-            <h2 class="text-xl max-md:text-lg font-bold mb-4">Changes to this policy</h2>
+            <h2 class="text-xl max-md:text-lg font-bold mb-4">
+                {{ __('policy.pp_10_title') }}
+            </h2>
             <p class="text-justify">
-                We may update this privacy policy from time to time. Any changes will be published here with an updated "Last updated" date on the top of this page. If the changes are significant, we will notify users via email.
+                {{ __('policy.pp_10_p') }}
             </p>
         </div>
 
         <div>
-            <h2 class="text-xl max-md:text-lg font-bold mb-4">Contact us</h2>
+            <h2 class="text-xl max-md:text-lg font-bold mb-4">
+                {{ __('policy.pp_11_title') }}
+            </h2>
             <p class="text-justify mb-4">
-                If you have any questions, concerns, or requests regarding this Privacy Policy or your personal data, please contact us:
+                {{ __('policy.pp_11_p_1') }}
             </p>
             <h3 class="font-bold mb-2">{{ env('APP_NAME') }}</h3>
             <ul class="*:mb-2 list-disc *:ml-6">
                 <li>
-                    Email: <a href="mailto:{{ env('COMPANY_MAIL') }}" class="text-blue-700 hover:underline">{{ env('COMPANY_MAIL') }}</a>
+                    {{ __('policy.pp_2_p_4a') }}
+                    <a href="mailto:{{ env('COMPANY_MAIL') }}" class="text-blue-700 hover:underline">{{ env('COMPANY_MAIL') }}</a>
                 </li>
                 <li>
-                    Phone: <a href="tel:{{ str_replace(' ','',env('COMPANY_PHONE')) }}" class="text-blue-700 hover:underline">{{ env('COMPANY_PHONE') }}</a>
+                    {{ __('policy.pp_2_p_5a') }}
+                    <a href="tel:{{ str_replace(' ','',env('COMPANY_PHONE')) }}" class="text-blue-700 hover:underline">{{ env('COMPANY_PHONE') }}</a>
                 </li>
                 <li>
-                    Address: {{ env('COMPANY_ADDRESS') }}
+                    {{ __('policy.pp_2_p_2') . env('COMPANY_ADDRESS') }}
                 </li>
             </ul>
         </div>

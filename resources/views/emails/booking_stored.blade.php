@@ -72,6 +72,8 @@
     <hr class="mb-8" />
 
     <p id="linkTrouble">
-        If you're having trouble clicking the "View your appointment" button, copy and paste the URL below into your web browser: <a href="{{ route('my-appointments.show',$appointment) }}" class="link word-break">{{ route('my-appointments.show',$appointment) }}</a>
+        {{ __('mail.url_error_p_1') . __('mail.view_your_appointment') . __('mail.url_error_p_2') }}
+        
+        <a href="{{ route('my-appointments.show',$appointment) }}" class="link word-break">{{ route('my-appointments.show',$appointment) }}</a>
     </p>
 </x-email-layout>

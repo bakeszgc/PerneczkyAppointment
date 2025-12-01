@@ -475,7 +475,7 @@ class MyAppointmentController extends Controller
         ]);
 
         $my_appointment->user->notify(
-            new BookingUpdateNotification($oldAppointment,$my_appointment,$my_appointment->user)
+            new BookingUpdateNotification($oldAppointment,$my_appointment,$my_appointment->user,App::getLocale())
         );
 
         return redirect()->route('my-appointments.show',['my_appointment' =>  $my_appointment])->with('success',__('appointments.update_success'));

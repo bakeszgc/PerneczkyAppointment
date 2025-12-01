@@ -22,22 +22,31 @@
         }
     @endphp    
 
-    <h1 class="mb-4">Hi {{ $notifiable->first_name }},</h1>
+    <h1 class="mb-4">
+        {{ __('mail.hi') . " " . $notifiable->first_name }},
+    </h1>
 
-    <p class="mb-8">{{ $updatedByName }} modified some details of your upcoming appointment. You can see the changes highlighted below:</p>
+    <p class="mb-8">
+        @if ($updatedBy === 'admin')
+            {{ __('mail.an_admin') . " " . __('mail.s1_updated') }}
+        @else
+            {{ get_class($updatedBy) == 'App\Models\Barber' ? ($newAppointment->barber->getName() . ' ' . __('mail.s1_updated')) : __('mail.you_updated') }}
+        @endif
+        {{ __('mail.changed_highlighted') }}
+    </p>
 
     <table class="mb-8">
         <thead>
             <tr>
                 <th></th>
-                <th>Old details</th>
-                <th>New details</th>
+                <th>{{ __('mail.old_details') }}</th>
+                <th>{{ __('mail.new_details') }}</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td @class(['changed' => $oldStartTime->format('Y-m-d') != $newStartTime->format('Y-m-d')])>
-                    Date
+                    {{ __('mail.date') }}
                 </td>
                 <td @class(['changed' => $oldStartTime->format('Y-m-d') != $newStartTime->format('Y-m-d')])>
                     {{ $oldStartTime->format('Y-m-d') }}
@@ -49,7 +58,7 @@
 
             <tr>
                 <td @class(['changed' => $oldStartTime->format('G:i') != $newStartTime->format('G:i') || $oldEndTime->format('G:i') != $newEndTime->format('G:i')])>
-                    Time
+                    {{ __('mail.time') }}
                 </td>
                 <td @class(['changed' => $oldStartTime->format('G:i') != $newStartTime->format('G:i') || $oldEndTime->format('G:i') != $newEndTime->format('G:i')])>
                     {{ $oldStartTime->format('G:i') }} - {{ $oldEndTime->format('G:i') }}
@@ -61,10 +70,10 @@
 
             <tr>
                 <td @class(['changed' => $oldAppointment['service_id'] != $newAppointment->service_id])>
-                    Service
+                    {{ __('mail.service') }}
                 </td>
                 <td @class(['changed' => $oldAppointment['service_id'] != $newAppointment->service_id])>
-                    {{ App\Models\Service::find($oldAppointment['service_id'])->name }}
+                    {{ App\Models\Service::find($oldAppointment['service_id'])->getName() }}
                 </td>
                 <td @class(['changed' => $oldAppointment['service_id'] != $newAppointment->service_id])>
                     {{ $newAppointment->service->getName() }}
@@ -73,7 +82,7 @@
 
             <tr>
                 <td @class(['changed' => $oldAppointment['price'] != $newAppointment->price])>
-                    Price
+                    {{ __('mail.price') }}
                 </td>
                 <td @class(['changed' => $oldAppointment['price'] != $newAppointment->price])>
                     {{ number_format($oldAppointment['price'],thousands_separator:' ') }} HUF
@@ -85,7 +94,7 @@
             
             <tr>
                 <td @class(['changed' => $oldAppointment['barber_id'] != $newAppointment->barber_id])>
-                    Barber
+                    {{ __('mail.barber') }}
                 </td>
                 <td @class(['changed' => $oldAppointment['barber_id'] != $newAppointment->barber_id])>
                     {{ App\Models\Barber::find($oldAppointment['barber_id'])->getName() }}
@@ -97,30 +106,43 @@
 
             <tr>
                 <td @class(['changed' => $oldAppointment['comment'] != $newAppointment->comment])>
-                    Comment
+                    {{ __('mail.comment') }}
                 </td>
+
                 <td @class(['italic' => $oldAppointment['comment'] == '', 'changed' => $oldAppointment['comment'] != $newAppointment->comment])>
-                    {{ $oldAppointment['comment'] == '' ? ('No comments from ' . $notifiable->first_name . '.') : $oldAppointment['comment']}}
+                    {{ $oldAppointment['comment'] == '' ? __('appointments.no_comment') : $oldAppointment['comment']}}
                 </td>
+
                 <td @class(['italic' => $newAppointment->comment == '', 'changed' => $oldAppointment['comment'] != $newAppointment->comment])>
-                    {{ $newAppointment->comment == '' ? ('No comments from ' . $notifiable->first_name . '.') : $newAppointment->comment}}
+                    {{ $newAppointment->getComment() }}
                 </td>
             </tr>
         </tbody>
     </table>
 
     <div class="text-center mb-8">
-        <a href="{{ route('my-appointments.show',$newAppointment) }}" id="ctaButton" target="_blank">View your appointment</a>
+        <a href="{{ route('my-appointments.show',$newAppointment) }}" id="ctaButton" target="_blank">
+            {{ __('mail.view_your_appointment') }}
+        </a>
     </div>            
 
-    <p class="mb-4">Please make sure to arrive at least 5 minutes before your scheduled time to ensure a smooth experience. We accept both credit card and cash at our store. See you soon!</p>
+    <p class="mb-4">
+        {{ __('mail.booking_stored_p_2') }}
+    </p>
 
-    <p class="mb-8">If you have any questions, need to reschedule, or require assistance, feel free to contact us at <a href="mailto:info@perneczkybarbershop.hu" class="link">info@perneczkybarbershop.hu</a> or call us at <a href="tel:+36704056079" class="link">+36 70 405 6079</a>.</p>
+    <p class="mb-8">
+        {{ __('mail.booking_stored_p_3a') }}
+        <a href="mailto:{{ env('COMPANY_MAIL') }}" class="link">{{ env('COMPANY_MAIL') }}</a>
+        {{ __('mail.booking_stored_p_3b') }}
+        <a href="tel:{{ str_replace(' ','',env('COMPANY_PHONE')) }}" class="link">{{ env('COMPANY_PHONE') }}</a>{{ __('mail.booking_stored_p_3c') }}
+    </p>
 
     <hr class="mb-8" />
 
     <p id="linkTrouble">
-        If you're having trouble clicking the "View your appointment" button, copy and paste the URL below into your web browser: <a href="{{ route('my-appointments.show',$newAppointment) }}" class="link word-break">{{ route('my-appointments.show',$newAppointment) }}</a>
+        {{ __('mail.url_error_p_1') . __('mail.view_your_appointment') . __('mail.url_error_p_2') }}
+        
+        <a href="{{ route('my-appointments.show',$newAppointment) }}" class="link word-break">{{ route('my-appointments.show',$newAppointment) }}</a>
     </p>
 
 </x-email-layout>

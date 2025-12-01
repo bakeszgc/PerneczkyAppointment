@@ -22,4 +22,13 @@ return [
     "footer" => "Minden jog fenntartva. Már várjuk, hogy ismét rendbe tehessünk!",
     "cal_event_title" => "Időpont a " . env('APP_NAME') . "-ban",
     "booking_stored_subject" => "Sikeres időpontfoglalás",
+
+    // BOOKING UPDATED
+    "an_admin" => "Egy admin",
+    "s1_updated" => "módosította a következő időpontodat.",
+    "you_updated" => "Sikeresen módosítottad az időpontodat!",
+    "changed_highlighted" => "Az alábbi táblázatban láthatod a változtatásokat kiemelve:",
+    "old_details" => "Régi részletek",
+    "new_details" => "Új részletek",
+    "booking_updated_subject" => "Az időpontod módosítva lett",
 ];

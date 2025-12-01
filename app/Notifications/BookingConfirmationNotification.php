@@ -43,6 +43,7 @@ class BookingConfirmationNotification extends Notification implements ShouldQueu
         
         $from = DateTime::createFromFormat('Y-m-d H:i:s',$this->appointment->app_start_time);
         $to = DateTime::createFromFormat('Y-m-d H:i:s',$this->appointment->app_end_time);
+        
         $title = __('mail.cal_event_title');
         $description = nl2br(__('mail.service') . ": " . $this->appointment->service->getName() . "\n" . __('mail.barber') . ": " . $this->appointment->barber->getName());
 

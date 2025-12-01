@@ -22,4 +22,14 @@ return [
     "footer" => "All rights reserved. Looking forward to serving you!",
     "cal_event_title" => "Appointment at " . env('APP_NAME'),
     "booking_stored_subject" => "Appointment booked succesfully",
+
+    // BOOKING UPDATED
+    "an_admin" => "An admin",
+    "s1_updated" => "has modified some details of your upcoming appointment.",
+    "you_updated" => "You have modified your appointment successfully!",
+    "changed_highlighted" => "You can see the changes highlighted below:",
+    "old_details" => "Old details",
+    "new_details" => "New details",
+    "booking_updated_subject" => "Your appointment has been modified",
+
 ];

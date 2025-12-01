@@ -176,6 +176,20 @@ Route::get('mail-booked', function() {
     return view('emails.booking_stored',['appointment' => $app, 'notifiable' => $app->user]);
 });
 
+Route::get('mail-updated', function() {
+    $app = Appointment::find(210);
+    $oldAppointment = $app->only([
+        'barber_id',
+        'service_id',
+        'comment',
+        'price',
+        'app_start_time',
+        'app_end_time'
+    ]);
+    return view('emails.booking_updated',['newAppointment' => $app, 'oldAppointment' => $oldAppointment, 'notifiable' => $app->user, 'updatedBy' => $app->barber]);
+});
+
+
 // 404
 Route::fallback(function() {
     return view('404');

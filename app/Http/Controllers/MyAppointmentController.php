@@ -493,7 +493,8 @@ class MyAppointmentController extends Controller
         }
 
         $my_appointment->barber->user->notify(
-            new BookingCancellationNotification($my_appointment,$my_appointment->user)
+            new BookingCancellationNotification($my_appointment,$my_appointment->user,
+            App::getLocale())
         );
         $my_appointment->delete();
         return redirect()->route('my-appointments.index')

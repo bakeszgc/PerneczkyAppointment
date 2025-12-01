@@ -32,4 +32,20 @@ return [
     "new_details" => "New details",
     "booking_updated_subject" => "Your appointment has been modified",
 
+    // BOOKING CANCELLED
+    "unfortunately" => "Unfortunately,",
+    "has_cancelled_one_of" => "has cancelled one of",
+    "their" => "their",
+    "your" => "your",
+    "upcoming_appointments" => "upcoming appointments.",
+    "details_of_bookings" => "You can see the details of this booking below:",
+    "customer" => "Customer",
+    "book_new" => "Don't forget to book another one by clicking on the button above.",
+    "you_can_view" => "You can view",
+    "s1s_booking" => "'s booking by clicking on the button above.",
+    "reschedule" => "Try contacting your client about rescheduling their appointment.",
+    "book_a_new_appointment" => "Book a new appointment",
+    "view_cancelled_booking" => "View cancelled booking",
+    "your_appointment_cancelled" => "Your appointment has been cancelled",
+    "your_booking_cancelled" => "Your booking has been cancelled",
 ];

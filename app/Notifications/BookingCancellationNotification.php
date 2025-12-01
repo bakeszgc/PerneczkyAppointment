@@ -2,14 +2,15 @@
 
 namespace App\Notifications;
 
-use App\Models\Appointment;
-use App\Models\Barber;
-use App\Models\User;
 use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Barber;
+use App\Models\Appointment;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\App;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 
 class BookingCancellationNotification extends Notification implements ShouldQueue
 {
@@ -20,7 +21,8 @@ class BookingCancellationNotification extends Notification implements ShouldQueu
      */
     public function __construct(
         public Appointment $appointment,
-        public User|Barber|string $cancelledBy
+        public User|Barber|string $cancelledBy,
+        public string $lang = 'en',
     )
     {
         //
@@ -41,21 +43,21 @@ class BookingCancellationNotification extends Notification implements ShouldQueu
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $date = Carbon::parse($this->appointment->app_start_time)->format('G:i') . ' on ' . Carbon::parse($this->appointment->app_start_time)->format('Y-m-d');
+        App::setLocale($this->lang);
 
         switch (is_string($this->cancelledBy) ? 'Admin' : get_class($this->cancelledBy)) {
             case 'App\Models\User':
-                $appointmentType = 'booking';
+                $subject = __('mail.your_booking_cancelled');
             break;
 
             case 'App\Models\Barber':
             case 'Admin':
-                $appointmentType = 'appointment';
+                $subject = __('mail.your_appointment_cancelled');
             break;
         }
 
         return (new MailMessage)
-            ->subject('Your ' . strtolower($appointmentType) . ' has been cancelled')
+            ->subject($subject)
             ->view('emails.booking_cancelled',[
                 'appointment' => $this->appointment,
                 'cancelledBy' => $this->cancelledBy,

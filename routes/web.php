@@ -189,6 +189,11 @@ Route::get('mail-updated', function() {
     return view('emails.booking_updated',['newAppointment' => $app, 'oldAppointment' => $oldAppointment, 'notifiable' => $app->user, 'updatedBy' => $app->barber]);
 });
 
+Route::get('mail-cancelled', function() {
+    $app = Appointment::find(210);
+    return view('emails.booking_cancelled',['appointment' => $app, 'notifiable' => $app->barber->user, 'cancelledBy' => $app->user]);
+});
+
 
 // 404
 Route::fallback(function() {

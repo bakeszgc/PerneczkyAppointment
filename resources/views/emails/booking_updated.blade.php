@@ -6,20 +6,6 @@
 
         $oldEndTime = Carbon\Carbon::parse($oldAppointment['app_end_time']);
         $newEndTime = Carbon\Carbon::parse($newAppointment->app_end_time);
-
-        if ($updatedBy === 'admin') {
-            $updatedByName = 'An admin has';
-        } else {
-            switch(get_class($updatedBy)){
-                case 'App\Models\User':
-                    $updatedByName = 'You have';
-                break;
-
-                case 'App\Models\Barber':
-                    $updatedByName = $updatedBy->getName() . ' has';
-                break;
-            }
-        }
     @endphp    
 
     <h1 class="mb-4">

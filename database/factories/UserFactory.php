@@ -34,6 +34,7 @@ class UserFactory extends Factory
             'pfp_path' => null,
             'is_admin' => false,
             'remember_token' => Str::random(10),
+            'lang_pref' => 'hu',
         ];
     }
 

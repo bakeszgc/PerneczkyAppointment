@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -35,7 +36,8 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         'is_admin',
         'created_at',
         'google_id',
-        'facebook_id'
+        'facebook_id',
+        'lang_pref'
     ];
 
     /**
@@ -95,5 +97,13 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
     public function getFullName() {
         return $this->first_name . ($this->last_name ? " " . $this->last_name : "");
+    }
+
+    public function updateLangPref() {
+        if ($this->lang_pref != App::getLocale()) {
+            $this->update([
+                'lang_pref' => App::getLocale()
+            ]);
+        }
     }
 }

@@ -24,7 +24,8 @@ class DatabaseSeeder extends Seeder
             'date_of_birth' => '2000-03-18',
             'tel_number' => '+36706390318',
             'email' => 'bacsabence00@gmail.com',
-            'is_admin' => true
+            'is_admin' => true,
+            'lang_pref' => 'hu'
         ]);
         User::factory(50)->create();
 

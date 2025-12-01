@@ -198,7 +198,8 @@ class MyAppointmentController extends Controller
                 $user = User::create([
                     'first_name' => $request->first_name,
                     'email' => $email,
-                    'is_admin' => false
+                    'is_admin' => false,
+                    'lang_pref' => App::getLocale()
                 ]);
             }
         }
@@ -218,6 +219,8 @@ class MyAppointmentController extends Controller
             return redirect()->route('my-appointments.create.date',['barber_id' => $request->barber_id, 'service_id' => $request->service_id])->with('error',__('appointments.clashing_error'));
         }
 
+        $user->updateLangPref();
+
         $appointment = Appointment::create([
             'user_id' => $user->id,
             'barber_id' => $request->barber_id,
@@ -229,7 +232,7 @@ class MyAppointmentController extends Controller
         ]);
 
         $appointment->user->notify(
-            new BookingConfirmationNotification($appointment, App::getLocale())
+            new BookingConfirmationNotification($appointment, $user->lang_pref)
         );
 
         if (auth()->user()) {
@@ -456,6 +459,8 @@ class MyAppointmentController extends Controller
             return redirect()->route('my-appointments.edit.date',['barber_id' => $request->barber_id, 'service_id' => $request->service_id, 'date' => $app_start_time->format('Y-m-d G:i'), 'comment' => $comment])->with('error',__('appointments.clashing_error'));
         }
 
+        $user->updateLangPref();
+
         $oldAppointment = $my_appointment->only([
             'barber_id',
             'service_id',
@@ -475,7 +480,7 @@ class MyAppointmentController extends Controller
         ]);
 
         $my_appointment->user->notify(
-            new BookingUpdateNotification($oldAppointment,$my_appointment,$my_appointment->user,App::getLocale())
+            new BookingUpdateNotification($oldAppointment,$my_appointment,$my_appointment->user,$user->lang_pref)
         );
 
         return redirect()->route('my-appointments.show',['my_appointment' =>  $my_appointment])->with('success',__('appointments.update_success'));
@@ -492,9 +497,11 @@ class MyAppointmentController extends Controller
             return redirect()->route('my-appointments.index')->with('error', __('appointments.timeoff_cancel_error'));
         }
 
-        $my_appointment->barber->user->notify(
+        $barber = $my_appointment->barber;
+
+        $barber->user->notify(
             new BookingCancellationNotification($my_appointment,$my_appointment->user,
-            App::getLocale())
+            $barber->user->lang_pref)
         );
         $my_appointment->delete();
         return redirect()->route('my-appointments.index')

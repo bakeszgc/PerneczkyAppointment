@@ -24,6 +24,7 @@ return new class extends Migration
             $table->boolean('is_admin');
             $table->string('google_id')->nullable();
             $table->string('facebook_id')->nullable();
+            $table->string('lang_pref');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

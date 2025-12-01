@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Str;
 use Auth;
@@ -238,6 +239,7 @@ class AuthController extends Controller
             $user = User::where($provider.'_id',$socialUser->getId())->first();
 
             if ($user) {
+                $user->updateLangPref();
                 Auth::login($user);
             } else {
                 $userWithMail = User::whereEmail($socialUser->getEmail())->first();
@@ -246,6 +248,7 @@ class AuthController extends Controller
                     $userWithMail->update([
                         $provider.'_id' => $socialUser->getId()
                     ]);
+                    $userWithMail->updateLangPref();
                     Auth::login($userWithMail);
 
                     if (!$userWithMail->email_verified_at) {
@@ -266,7 +269,8 @@ class AuthController extends Controller
                         'last_name' => $lastName,
                         'email' => $socialUser->getEmail(),
                         $provider.'_id' => $socialUser->getId(),
-                        'is_admin' => false
+                        'is_admin' => false,
+                        'lang_pref' => App::getLocale()
                     ]);
                     
                     Auth::login($newUser);

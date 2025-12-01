@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\Rules\FreeEmailAddress;
 use Hash;
 use Validator;
@@ -75,7 +76,8 @@ class UserController extends Controller
                 'tel_number' => $request->telephone_number,
                 'password' => bcrypt($request->password),
                 'is_admin' => false,
-                'created_at' => now()
+                'created_at' => now(),
+                'lang_pref' => App::getLocale()
             ]);
         } else {
             $user = User::create([
@@ -85,7 +87,8 @@ class UserController extends Controller
                 'tel_number' => $request->telephone_number,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
-                'is_admin' => false
+                'is_admin' => false,
+                'lang_pref' => App::getLocale()
             ]);
         }
 
@@ -162,6 +165,8 @@ class UserController extends Controller
             'email' => $request->email
         ]);
 
+        $user->updateLangPref();
+
         if ($user->barber()) {
             $user->barber()->update([
                 'display_name' => $request->display_name,
@@ -204,6 +209,8 @@ class UserController extends Controller
         $user->update([
             'password' => Hash::make($request->new_password)
         ]);
+
+        $user->updateLangPref();
 
         return redirect()->route('users.show',['user' => $user->id])->with('success',__('auth.success_password_changed'));
     }

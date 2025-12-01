@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ App::getLocale() }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PERNECZKY BarberShop</title>
+    <title>{{ env('APP_NAME') }}</title>
 
     <style>
 
@@ -150,7 +150,7 @@
     <div id="innerDiv">
         <div id="header">
             <a href="{{ route('home') }}" target="_blank">
-                <img src="{{ asset('logo/perneczky_circle.png') }}" alt="Perneczky BarberShop">
+                <img src="{{ asset('logo/perneczky_circle.png') }}" alt="{{ env('APP_NAME') }}">
             </a>
         </div>
 
@@ -159,7 +159,7 @@
         </div>
 
         <div id="footer">
-            © {{ date('Y') }} {{ config('app.name') }}. All rights reserved. Looking forward to serving you!
+            © {{ date('Y') }} {{ config('app.name') }}. {{ __('mail.footer') }}
         </div>
     </div>
 </body>

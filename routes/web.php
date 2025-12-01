@@ -170,6 +170,12 @@ Route::get('debug-page/{message}',function(string $message){
     return view('debugpage',['message' => $message]);
 })->name('debugpage');
 
+//MAILCHECK
+Route::get('mail-booked', function() {
+    $app = Appointment::find(210);
+    return view('emails.booking_stored',['appointment' => $app, 'notifiable' => $app->user]);
+});
+
 // 404
 Route::fallback(function() {
     return view('404');

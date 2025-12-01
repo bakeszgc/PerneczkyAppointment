@@ -4,59 +4,70 @@
         $endTime = Carbon\Carbon::parse($appointment->app_end_time);
     @endphp
 
-    <h1 class="mb-4">Hi {{ $notifiable->first_name }},</h1>
+    <h1 class="mb-4">{{ __('mail.hi') . ' ' . $notifiable->first_name }},</h1>
 
-    <p class="mb-8">Thank you for booking an appointment with us. We are excited to help you look and feel your best! Here are the details of your booking:</p>
+    <p class="mb-8">
+        {{ __('mail.booking_stored_p_1') }}
+    </p>
 
     <table class="mb-8">
         <thead>
             <tr>
                 <th></th>
-                <th>Details</th>
+                <th>{{ __('mail.details') }}</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>Date</td>
+                <td>{{ __('mail.date') }}</td>
                 <td>{{ $startTime->format('Y-m-d') }}</td>
             </tr>
 
             <tr>
-                <td>Time</td>
+                <td>{{ __('mail.time') }}</td>
                 <td>{{ $startTime->format('G:i') }} - {{ $endTime->format('G:i') }}</td>
             </tr>
 
             <tr>
-                <td>Service</td>
+                <td>{{ __('mail.service') }}</td>
                 <td>{{ $appointment->service->getName() }}</td>
             </tr>
 
             <tr>
-                <td>Price</td>
+                <td>{{ __('mail.price') }}</td>
                 <td>{{ number_format($appointment->price,thousands_separator:' ') }} HUF</td>
             </tr>
 
             <tr>
-                <td>Barber</td>
+                <td>{{ __('mail.barber') }}</td>
                 <td>{{ $appointment->barber->getName() }}</td>
             </tr>
 
             <tr>
-                <td>Comment</td>
+                <td>{{ __('mail.comment') }}</td>
                 <td @class(['italic' => $appointment->comment == ''])>
-                    {{ $appointment->comment == '' ? ('No comments from ' . $notifiable->first_name . '.') : $appointment->comment}}
+                    {{ $appointment->getComment() }}
                 </td>
             </tr>
         </tbody>
     </table>
 
     <div class="text-center mb-8">
-        <a href="{{ route('my-appointments.show',$appointment) }}" id="ctaButton" target="_blank">View your appointment</a>
+        <a href="{{ route('my-appointments.show',$appointment) }}" id="ctaButton" target="_blank">
+            {{ __('mail.view_your_appointment') }}
+        </a>
     </div>
 
-    <p class="mb-4">Please make sure to arrive at least 5 minutes before your scheduled time to ensure a smooth experience. We accept both credit card and cash at our store. See you soon!</p>
+    <p class="mb-4">
+        {{ __('mail.booking_stored_p_2') }}
+    </p>
 
-    <p class="mb-8">If you have any questions, need to reschedule, or require assistance, feel free to contact us at <a href="mailto:info@perneczkybarbershop.hu" class="link">info@perneczkybarbershop.hu</a> or call us at <a href="tel:+36704056079" class="link">+36 70 405 6079</a>.</p>
+    <p class="mb-8">
+        {{ __('mail.booking_stored_p_3a') }}
+        <a href="mailto:{{ env('COMPANY_MAIL') }}" class="link">{{ env('COMPANY_MAIL') }}</a>
+        {{ __('mail.booking_stored_p_3b') }}
+        <a href="tel:{{ str_replace(' ','',env('COMPANY_PHONE')) }}" class="link">{{ env('COMPANY_PHONE') }}</a>{{ __('mail.booking_stored_p_3c') }}
+    </p>
 
     <hr class="mb-8" />
 

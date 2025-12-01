@@ -9,6 +9,7 @@ use App\Models\Service;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 use App\Rules\ValidAppointmentTime;
+use Illuminate\Support\Facades\App;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\Collection;
@@ -228,7 +229,7 @@ class MyAppointmentController extends Controller
         ]);
 
         $appointment->user->notify(
-            new BookingConfirmationNotification($appointment)
+            new BookingConfirmationNotification($appointment, App::getLocale())
         );
 
         if (auth()->user()) {

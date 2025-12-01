@@ -607,6 +607,10 @@ class Appointment extends Model
         return number_format($num, thousands_separator:"&nbsp;") . $timesSuffix;
     }
 
+    public function getComment() {
+        return $this->comment == '' ? __('appointments.no_comment') : $this->comment;
+    }
+
     // SCOPES
 
     // LATER & EARLIER APPOINTMENTS

@@ -168,7 +168,7 @@
                 'flex justify-between items-center gap-4 nav-menu',
                 'max-lg:flex-col max-lg:translate-y-2.5 max-lg:bg-[#0f0f0f] max-lg:pt-16 max-lg:pb-6 max-lg:-translate-x-full' => App::getLocale() == 'en',
                 'max-xl:flex-col max-xl:translate-y-2.5 max-xl:bg-[#0f0f0f] max-xl:pt-16 max-xl:pb-6 max-xl:-translate-x-full' => App::getLocale() == 'hu'
-            ]) id="nav-menu">
+            ]) id="nav-menu">                
 
                 @auth                    
                     <ul @class([
@@ -176,6 +176,9 @@
                         'max-lg:flex-col max-lg:gap-4' => App::getLocale() == 'en',
                         'max-xl:flex-col max-xl:gap-4' => App::getLocale() == 'hu',
                     ])>
+                        <li>
+                            <x-switch-lang />
+                        </li>
                         <li>
                             {{ __('home.welcome') . ', ' . (auth()->user()?->barber->display_name ?? auth()->user()->first_name ?? __('home.guest'))}}!
                         </li>

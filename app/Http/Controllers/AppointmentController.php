@@ -189,13 +189,15 @@ class AppointmentController extends Controller
                     $user = User::create([
                         'first_name' => $request->first_name,
                         'email' => $email,
-                        'is_admin' => false
+                        'is_admin' => false,
+                        'lang_pref' => 'en',
                     ]);
                 }
             } else {
                 $user = User::create([
                     'first_name' => $request->first_name,
-                    'is_admin' => false
+                    'is_admin' => false,
+                    'lang_pref' => 'en',
                 ]);
             }
         } else {

@@ -1,6 +1,6 @@
 <x-user-layout currentView="user" title="{{ __('appointments.success') }}">
     <x-breadcrumbs :links="[
-        __('appointment.success') => ''
+        __('appointments.success') => ''
     ]" />
     <x-headline class="mb-4">
         {{ __('appointments.appointment_booked_successfully') }}

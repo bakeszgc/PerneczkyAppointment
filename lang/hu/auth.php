@@ -78,6 +78,14 @@ return [
     "error_auth_email_or_pw" => "Az email címed vagy a jelszavad hibás!",
     "error_auth_user_deleted" => "A fiók, amelyik ezt az email címet használja törölve lett. Ha szerinted ez hibásan történt, akkor vedd fel velünk a kapcsolatot!",
 
+    // VERIFY EMAIL
+    "verify" => "Megerősítés",
+    "verify_your_email_address" => "Erősítsd meg az email címed",
+    "verify_p1" => "Úgy tűnik még nem erősítetted meg az email címed",
+    "verify_p2" => "A keresett oldal eléréséhez szükséges, hogy ezt megtedd.",
+    "verify_p3" => "Nézd át a bejövő emaileidet vagy kérj egy új megerősítő linket az alábbi gomb segítségével!",
+    "resend_verif" => "Megerősítő email újraküldése",
+
     // MIDDLEWARE MESSAGES
     "error_sign_in" => "Kérlek jelentkezz be mielőtt megtekintenéd az oldalt!",
     "error_not_authorized" => "Nem vagy jogosult az oldal megtekintéséhez!",

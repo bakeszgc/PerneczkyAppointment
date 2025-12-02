@@ -89,6 +89,14 @@ return [
     "error_auth_email_or_pw" => "Your email address or your password is invalid!",
     "error_auth_user_deleted" => "The account using this email address has been removed. If you think it was done by mistake please contact us!",
 
+    // VERIFY EMAIL
+    "verify" => "Verify",
+    "verify_your_email_address" => "Verify your email address",
+    "verify_p1" => "Looks like you have not verified your email address",
+    "verify_p2" => "The page you were trying to access requires your email to be verified.",
+    "verify_p3" => "Please check your inbox for the verification email or request a new one below!",
+    "resend_verif" => "Resend the verification email",
+
     // MIDDLEWARE MESSAGES
     "error_sign_in" => "Please sign in before accessing that page!",
     "error_not_authorized" => "You aren't authorized to access that page!",

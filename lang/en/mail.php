@@ -55,4 +55,10 @@ return [
     "verify_email_address" => "Verify email address",
     "account_not_created_1" => "If you didn't create this account, there's no further action required from you.",
     "verify_your_email_address" => "Verify your email address",
+
+    // PASSWORD RESET
+    "pwr_p1" => "You're receiving this email because we got a password reset request for your account. Click on the button below to change your password! This link will expire in 60 minutes.",
+    "reset_password" => "Reset password",
+    "pwr_p2" => "If you didn't request a password reset, no further action is required.",
+    "reset_your_password" => "Reset your password",
 ];

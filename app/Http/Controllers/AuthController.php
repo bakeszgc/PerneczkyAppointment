@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App;
+use App\Notifications\PasswordResetNotification;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Str;
 use Auth;
@@ -153,7 +154,7 @@ class AuthController extends Controller
     public function sendPasswordResetEmail(Request $request) {
         $request->validate([
             'email' => ['required','email',new RegisteredEmailAddress()]
-        ]);        
+        ]);
 
         $status = Password::sendResetLink(
             $request->only('email')

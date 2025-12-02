@@ -55,4 +55,11 @@ return [
     "verify_email_address" => "Email cím megerősítése",
     "account_not_created_1" => "Ha nem te hoztad létre ezt a fiókot, akkor nincs további teendőd.",
     "verify_your_email_address" => "Erősítsd meg az email címed",
+
+    // PASSWORD RESET
+    "pwr_p1" => "Ezt az e-mailt azért kapod, mert érkezett hozzánk egy jelszó-visszaállítási kérelem a fiókodhoz. Kattints az alábbi gombra a jelszó megváltoztatásához! Ez a link 60 perc múlva lejár.",
+    "reset_password" => "Jelszó megváltoztatása",
+    "pwr_p2" => "Ha nem te kértél jelszó-visszaállítást, akkor nincs számodra további teendő.",
+    "reset_your_password" => "Jelszó visszaállítása",
+
 ];

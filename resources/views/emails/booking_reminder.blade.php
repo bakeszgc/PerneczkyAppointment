@@ -56,7 +56,7 @@
 
     <p class="mb-4">Please make sure to arrive at least 5 minutes before your scheduled time to ensure a smooth experience. We accept both credit card and cash at our store. See you at {{ $startTime->format('G:i') }} today!</p>
 
-    <p class="mb-8">If you have any questions, need to reschedule, or require assistance, feel free to contact us at <a href="mailto:info@perneczkybarbershop.hu" class="link">info@perneczkybarbershop.hu</a> or call us at <a href="tel:+36704056079" class="link">+36 70 405 6079</a>.</p>
+    <p class="mb-8">If you have any questions, need to reschedule, or require assistance, feel free to contact us at <a href="mailto:{{ env('COMPANY_MAIL') }}" class="link">{{ env('COMPANY_MAIL') }}</a> or call us at <a href="tel:{{ str_replace(' ','',env('COMPANY_PHONE')) }}" class="link">{{ env('COMPANY_PHONE') }}</a>.</p>
 
     <hr class="mb-8" />
 

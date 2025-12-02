@@ -39,12 +39,12 @@ class AppointmentReminderNotification extends Notification implements ShouldQueu
     {
         $from = DateTime::createFromFormat('Y-m-d H:i:s',$this->appointment->app_start_time);
         $to = DateTime::createFromFormat('Y-m-d H:i:s',$this->appointment->app_end_time);
-        $title = 'Appointment at PERNECZKY BarberShop';
+        $title = 'Appointment at ' . env('APP_NAME');
         $description = nl2br("Service: " . $this->appointment->service->getName() . "\nBarber: " . $this->appointment->barber->getName());
 
         $link = Link::create($title, $from, $to)
             ->description($description)
-            ->address('1082 Budapest, Corvin sétány 5.');
+            ->address(env('STORE_ADDRESS'));
         $icsContent = $link->ics([], ['format' => 'file']);
         
         return (new MailMessage)

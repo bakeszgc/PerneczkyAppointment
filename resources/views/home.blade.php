@@ -3,17 +3,17 @@
     <div class="h-svh w-full text-white flex flex-col justify-between items-center text-center bg-home parallax">
         <div class="h-12"></div>
         <div class="flex flex-col items-center md:gap-4">
-            <img src="{{ asset('logo/perneczky_barbershop_corvin.svg') }}" alt="PERNECZKY BarberShop Corvin" class="h-36 max-h-[20vh] max-w-[80%] drop-shadow-2xl">
+            <img src="{{ asset('logo/perneczky_barbershop_corvin.svg') }}" alt="{{ env('APP_NAME') }} Corvin" class="h-36 max-h-[20vh] max-w-[80%] drop-shadow-2xl">
 
             <a href="{{ route('my-appointments.create') }}" class="text-2xl max-lg:text-xl max-md:text-lg font-bold p-4 max-lg:p-3 max-md:p-2 rounded-lg bg-[#0018d5] hover:bg-[#0f0f0f] transition-all shadow-2xl max-lg:mb-2">
                 {{ __('home.book_your_appointment') }}
             </a>
 
-            <a href="tel:+36704056079" class="flex gap-2 items-center hover:text-blue-500 drop-shadow-2xl transition-all">
+            <a href="tel:{{ str_replace(' ','',env('COMPANY_PHONE')) }}" class="flex gap-2 items-center hover:text-blue-500 drop-shadow-2xl transition-all">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
                     <path fill-rule="evenodd" d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z" clip-rule="evenodd" />
                 </svg>
-                <h2 class="font-black text-xl">+36 70 405 6079</h2>
+                <h2 class="font-black text-xl">{{ env('COMPANY_PHONE') }}</h2>
             </a>
         </div>
         <div class="scroll">
@@ -116,8 +116,8 @@
             <div class="border-2 border-[#0018d5] rounded-md p-4 mb-8">
                 <img src="{{ asset('pictures/corvin.jpeg') }}" alt="{{ env('APP_NAME') }} - Corvin" class="mb-4">
                 <h2 class="text-2xl max-lg:text-lg font-black mb-2">{{ env('APP_NAME') }} - Corvin</h2>
-                <p class="mb-1">H-1082 Budapest</p>
-                <p>Corvin sétány 5.</p>
+                <p class="mb-1">{{ explode(',',env('STORE_ADDRESS'))[0] }}</p>
+                <p>{{ explode(',',env('STORE_ADDRESS'))[1] }}</p>
             </div>
             <div class="px-4">
                 <h2 class="text-2xl max-lg:text-lg font-black mb-2">{{ __('home.approaching') }}</h2>

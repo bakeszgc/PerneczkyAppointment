@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{{$title ? $title . " - " : ""}}PERNECZKY BarberShop</title>
+        <title>{{ ($title ? $title . " - " : "") . env('APP_NAME') }}</title>
         <link rel="icon" type="image/x-icon" href="{{ asset('logo/favicon.ico') }}">
         
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -155,7 +155,7 @@
             'max-xl:px-0' => App::getLocale() == 'hu'
         ]) id="navbar">
             <a href="#home">
-                <img src="{{ asset('logo/perneczky_circle.png') }}" alt="Perneczky BarberShop" id="logo" class="h-20">
+                <img src="{{ asset('logo/perneczky_circle.png') }}" alt="{{ env('APP_NAME') }}" id="logo" class="h-20">
             </a>
 
             <div class="hamburger hidden cursor-pointer w-fit ml-4 z-40">

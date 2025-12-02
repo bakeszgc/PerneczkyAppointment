@@ -21,7 +21,6 @@ class BookingConfirmationNotification extends Notification implements ShouldQueu
      */
     public function __construct(
         public Appointment $appointment,
-        public string $lang = 'en',
     ) { }
 
     /**
@@ -39,7 +38,11 @@ class BookingConfirmationNotification extends Notification implements ShouldQueu
      */
     public function toMail(object $notifiable): MailMessage
     {
-        App::setLocale($this->lang);
+        if ($notifiable->lang_pref) {
+            App::setLocale($notifiable->lang_pref);
+        } else {
+            App::setLocale('en');
+        }        
         
         $from = DateTime::createFromFormat('Y-m-d H:i:s',$this->appointment->app_start_time);
         $to = DateTime::createFromFormat('Y-m-d H:i:s',$this->appointment->app_end_time);

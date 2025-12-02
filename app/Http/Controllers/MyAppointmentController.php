@@ -232,7 +232,7 @@ class MyAppointmentController extends Controller
         ]);
 
         $appointment->user->notify(
-            new BookingConfirmationNotification($appointment, $user->lang_pref)
+            new BookingConfirmationNotification($appointment)
         );
 
         if (auth()->user()) {
@@ -480,7 +480,7 @@ class MyAppointmentController extends Controller
         ]);
 
         $my_appointment->user->notify(
-            new BookingUpdateNotification($oldAppointment,$my_appointment,$my_appointment->user,$user->lang_pref)
+            new BookingUpdateNotification($oldAppointment,$my_appointment,$my_appointment->user)
         );
 
         return redirect()->route('my-appointments.show',['my_appointment' =>  $my_appointment])->with('success',__('appointments.update_success'));
@@ -500,8 +500,7 @@ class MyAppointmentController extends Controller
         $barber = $my_appointment->barber;
 
         $barber->user->notify(
-            new BookingCancellationNotification($my_appointment,$my_appointment->user,
-            $barber->user->lang_pref)
+            new BookingCancellationNotification($my_appointment,$my_appointment->user)
         );
         $my_appointment->delete();
         return redirect()->route('my-appointments.index')

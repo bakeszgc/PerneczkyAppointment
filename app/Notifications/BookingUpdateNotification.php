@@ -24,8 +24,7 @@ class BookingUpdateNotification extends Notification implements ShouldQueue
     public function __construct(
         public array $oldAppointment,
         public Appointment $newAppointment,
-        public Barber|User|string $updatedBy,
-        public string $lang = 'en',
+        public Barber|User|string $updatedBy
     ) { }
 
     /**
@@ -43,7 +42,11 @@ class BookingUpdateNotification extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
-        App::setLocale($this->lang);
+        if ($notifiable->lang_pref) {
+            App::setLocale($notifiable->lang_pref);
+        } else {
+            App::setLocale('en');
+        }
         
         $from = DateTime::createFromFormat('Y-m-d H:i:s',$this->newAppointment->app_start_time);
         $to = DateTime::createFromFormat('Y-m-d H:i:s',$this->newAppointment->app_end_time);

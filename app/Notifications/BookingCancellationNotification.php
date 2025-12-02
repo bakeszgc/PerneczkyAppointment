@@ -22,7 +22,6 @@ class BookingCancellationNotification extends Notification implements ShouldQueu
     public function __construct(
         public Appointment $appointment,
         public User|Barber|string $cancelledBy,
-        public string $lang = 'en',
     )
     {
         //
@@ -43,7 +42,11 @@ class BookingCancellationNotification extends Notification implements ShouldQueu
      */
     public function toMail(object $notifiable): MailMessage
     {
-        App::setLocale($this->lang);
+        if ($notifiable->lang_pref) {
+            App::setLocale($notifiable->lang_pref);
+        } else {
+            App::setLocale('en');
+        }
 
         switch (is_string($this->cancelledBy) ? 'Admin' : get_class($this->cancelledBy)) {
             case 'App\Models\User':

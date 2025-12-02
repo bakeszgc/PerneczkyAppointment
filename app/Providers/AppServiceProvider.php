@@ -22,8 +22,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
+            if (auth()->user() == $notifiable) {
+                $notifiable->updateLangPref();
+            }
             return (new MailMessage)
-                ->subject('Verify your email address')
+                ->subject(__('mail.verify_your_email_address'))
                 ->view('emails.email_verification', [
                     'notifiable' => $notifiable,
                     'url' => $url

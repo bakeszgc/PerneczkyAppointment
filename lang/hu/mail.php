@@ -48,4 +48,11 @@ return [
     "view_cancelled_booking" => "Lemondott foglalás megtekintése",
     "your_appointment_cancelled" => "Az időpontod le lett mondva",
     "your_booking_cancelled" => "A foglalásod le lett mondva",
+
+    // EMAIL VERIFICATION
+    "welcome" => "Köszöntünk a " . env('APP_NAME') . "-nál! Köszönjük, hogy regisztráltál nálunk! Kattints az alábbi gombra, hogy megerősítsd az email címed, így tudni fogjuk, hogy tényleg te hoztad létre a fiókot.",
+    "new_email" => "Sikeresen frissült az email címed! A megerősítéséhez kattints az alábbi gombra, így tudni fogjuk, hogy ez tényleg te fiókod.",
+    "verify_email_address" => "Email cím megerősítése",
+    "account_not_created_1" => "Ha nem te hoztad létre ezt a fiókot, akkor nincs további teendőd.",
+    "verify_your_email_address" => "Erősítsd meg az email címed",
 ];

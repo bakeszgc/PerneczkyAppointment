@@ -194,6 +194,10 @@ Route::get('mail-cancelled', function() {
     return view('emails.booking_cancelled',['appointment' => $app, 'notifiable' => $app->barber->user, 'cancelledBy' => $app->user]);
 });
 
+Route::get('mail-verif', function(){
+    return view('emails.email_verification',['notifiable' => auth()->user(), 'url' => '', 'newUser' => false]);
+});
+
 
 // 404
 Route::fallback(function() {

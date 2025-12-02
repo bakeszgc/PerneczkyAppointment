@@ -131,7 +131,11 @@ class AuthController extends Controller
     }
 
     public function send(Request $request) {
-        $request->user()->sendEmailVerificationNotification();
+
+        $user = $request->user();
+        $user->updateLangPref();
+        $user->sendEmailVerificationNotification();
+
         return back()->with('success',__('auth.success_verification_link_sent_1') . auth()->user()->email . __('auth.success_verification_link_sent_2'));
     }
 

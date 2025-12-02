@@ -72,7 +72,7 @@ return [
 
     // AUTH MESSAGES
     "success_auth_email_verified" => "Az email címed sikeresen meg lett erősítve!",
-    "success_verification_link_sent_1" => "A megerősítő link sikeresenen elküldve a ",
+    "success_verification_link_sent_1" => "A megerősítő link sikeresenen elküldve a(z) ",
     "success_verification_link_sent_2" => " címre!",
     "error_auth_provider" => "Az auth provider helytelenül lett megadva!",
     "error_auth_email_or_pw" => "Az email címed vagy a jelszavad hibás!",

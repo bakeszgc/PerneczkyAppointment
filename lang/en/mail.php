@@ -48,4 +48,11 @@ return [
     "view_cancelled_booking" => "View cancelled booking",
     "your_appointment_cancelled" => "Your appointment has been cancelled",
     "your_booking_cancelled" => "Your booking has been cancelled",
+
+    // EMAIL VERIFICATION
+    "welcome" => "Welcome to " . env('APP_NAME') . ", thank you for creating an account! Please click on the button below to verify your email address so we will know it's actually you.",
+    "new_email" => "Your email address has been updated successfully! Please click on the button below to verify it so we will know it's actually you.",
+    "verify_email_address" => "Verify email address",
+    "account_not_created_1" => "If you didn't create this account, there's no further action required from you.",
+    "verify_your_email_address" => "Verify your email address",
 ];

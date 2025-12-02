@@ -181,7 +181,7 @@ class UserController extends Controller
 
             event(new Registered($user));
 
-            return redirect()->route('users.show',$user)->with('success',__('auth.success_user_updated' . " " . __('auth.verify_email')));
+            return redirect()->route('users.show',$user)->with('success',__('auth.success_user_updated') . " " . __('auth.verify_email'));
         }
 
         return redirect()->route('users.show',$user)->with('success',__('auth.success_user_updated'));

@@ -23,26 +23,26 @@ return [
 
     'categories' => [
         'essentials' => [
-            'title' => 'Essential cookies',
-            'description' => 'There are some cookies that we have to include in order for certain web pages to function. For this reason, they do not require your consent.',
+            'title' => 'essentials',
+            'description' => 'essentials_desc',
         ],
         'analytics' => [
-            'title' => 'Analytics cookies',
-            'description' => 'We use these for internal research on how we can improve the service we provide for all our users. These cookies assess how you interact with our website.',
+            'title' => 'analytics',
+            'description' => 'analytics_desc',
         ],
         'optional' => [
-            'title' => 'Optional cookies',
-            'description' => 'These cookies enable features that could improve your user experience, but their absence will not impact your ability to browse our website.',
+            'title' => 'optionals',
+            'description' => 'optionals_desc',
         ],
     ],
 
     'defaults' => [
-        'consent' => 'Used to store the user\'s cookie consent preferences.',
-        'session' => 'Used to identify the user\'s browsing session.',
-        'csrf' => 'Used to secure both the user and our website against cross-site request forgery attacks.',
-        '_ga' => 'Main cookie used by Google Analytics, enables a service to distinguish one visitor from another.',
-        '_ga_ID' => 'Used by Google Analytics to persist session state.',
-        '_gid' => 'Used by Google Analytics to identify the user.',
-        '_gat' => 'Used by Google Analytics to throttle the request rate.',
+        'consent' => 'consent_desc',
+        'session' => 'session_desc',
+        'csrf' => 'csrf_desc',
+        '_ga' => '_ga_desc',
+        '_ga_ID' => '_ga_ID_desc',
+        '_gid' => '_gid_desc',
+        '_gat' => '_gat_desc',
     ],
 ];

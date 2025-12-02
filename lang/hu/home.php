@@ -38,7 +38,7 @@ return [
     "services_empty" => "Sajnáljuk, de jelenleg nincsenek elérhető szolgáltatásaink.",
     "please_check_back_later" => "Kérjük nézz vissza később!",
 
-    "book_now" => "BOOK NOW",
+    "book_now" => "FOGLALÁS",
     "barbers_empty" => "Sajnáljuk, de jelenleg nincsenek elérhető borbélyaink.",
 
     "approaching" => "Megközelítés",

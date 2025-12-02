@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Cookie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Whitecube\LaravelCookieConsent\Facades\Cookies;
 
 class LanguageController extends Controller
 {
@@ -21,8 +23,11 @@ class LanguageController extends Controller
         }
 
         Session::put("lang", $lang);
-        //add cookie if consent is stored
-
-        return redirect()->back();
+        
+        if (Cookies::hasConsentFor('lang_pref')) {
+            return redirect()->back()->withCookie(cookie('lang_pref',$lang,60*24*400));
+        } else {
+            return redirect()->back();
+        }
     }
 }

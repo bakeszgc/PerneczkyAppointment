@@ -213,5 +213,26 @@ return [
     "cp_p_6a" => "You can view all the cookies our website uses, along with a short description of their purpose, below. By clicking the",
     "cp_p_6b" => "button at the bottom of the page, you can review and adjust your cookie preferences at any time.",
     "cp_manage_cookies" => "Manage cookies",
+    
+    "essentials" => "Essential cookies",
+    "analytics" => "Analytic cookies",
+    "optionals" => "Optional cookies",
+    "optional" => "Optional cookies",
+
+    "essentials_desc" => "There are some cookies that we have to include in order for certain web pages to function. For this reason, they do not require your consent.",
+    "analytics_desc" => "We use these for internal research on how we can improve the service we provide for all our users. These cookies assess how you interact with our website.",
+    "optionals_desc" => "These cookies enable features that could improve your user experience, but their absence will not impact your ability to browse our website.",
+    "optional_desc" => "These cookies enable features that could improve your user experience, but their absence will not impact your ability to browse our website.",
+
+    'consent_desc' => 'Used to store the user\'s cookie consent preferences.',
+    'session_desc' => 'Used to identify the user\'s browsing session.',
+    'csrf_desc' => 'Used to secure both the user and our website against cross-site request forgery attacks.',
+    '_ga_desc' => 'Main cookie used by Google Analytics, enables a service to distinguish one visitor from another.',
+    '_ga_ID_desc' => 'Used by Google Analytics to persist session state.',
+    '_gid_desc' => 'Used by Google Analytics to identify the user.',
+    '_gat_desc' => 'Used by Google Analytics to throttle the request rate.',
+
+    "remember_web_desc" => "Used to keep the user logged in across browser sessions without having to log in again after the session expires.",
+    "lang_pref_desc" => "Used to store the user's language preference across browser sessions. For example if the user has changed the locale of the webpage to English, then it will be automatically loaded in the same language next time.",
 
 ];

@@ -215,4 +215,25 @@ return [
     "cp_p_6b" => "gombra kattintva bármikor áttekintheted és módosíthatod a cookiebeállításaidat.",
     "cp_manage_cookies" => "Cookiek kezelése",
 
+    "essentials" => "Elengedhetetlen cookiek",
+    "analytics" => "Analitikai cookiek",
+    "optionals" => "Opcionális cookiek",
+    "optional" => "Opcionális cookiek",
+
+    "essentials_desc" => "Vannak cookiek, amelyeket be kell építenünk ahhoz, hogy bizonyos funkciók rendeltetésszerűen működjenek. Emiatt nem igénylik a külön hozzájárulásodat.",
+    "analytics_desc" => "Ezeket belső kutatáshoz használjuk, hogy hogyan tudjuk javítani a felhasználóink számára nyújtott szolgáltatásunkat. Ezek a cookiek azt mérik fel, hogy hogyan használod a weboldalunkat.",
+    "optionals_desc" => "Ezek a cookiek olyan funkciókat tesznek lehetővé, amelyek javíthatják a felhasználói élményt, de hiányuk nem befolyásolja a weboldalunk böngészésének lehetőségét.",
+    "optional_desc" => "Ezek a cookiek olyan funkciókat tesznek lehetővé, amelyek javíthatják a felhasználói élményt, de hiányuk nem befolyásolja a weboldalunk böngészésének lehetőségét.",
+
+    'consent_desc' => 'A felhasználó cookiehasználattal kapcsolatos hozzájárulásának tárolására szolgál.',
+    'session_desc' => 'A felhasználó böngészési munkamenetének azonosítására szolgál.',
+    'csrf_desc' => 'A felhasználó és weboldalunk védelmére szolgál a webhelyek közötti támadások (cross-site request forgery) ellen.',
+    '_ga_desc' => 'A Google Analytics által használt fő cookie, ami lehetővé teszi a szolgáltatás számára, hogy megkülönböztessea látogatókat a többitől.',
+    '_ga_ID_desc' => 'A Google Analytics használja a munkamenet állapotának megőrzésére.',
+    '_gid_desc' => 'A Google Analytics használja a felhasználó azonosítására.',
+    '_gat_desc' => 'A Google Analytics használja a kérések gyakoriságának szabályozására.',
+
+    "remember_web_desc" => "Arra szolgál, hogy a felhasználó bejelentkezve maradjon a böngésző munkamenetei között anélkül, hogy a munkamenet lejárta után újra be kellene jelentkeznie.",
+    "lang_pref_desc" => "A felhasználó nyelvi beállításainak tárolására szolgál a böngészési munkamenetek között. Ha például a felhasználó angolra módosította a weboldal beállítását, akkor a következő alkalommal automatikusan azon a nyelven töltődik be.",
+
 ];

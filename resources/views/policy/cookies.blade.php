@@ -17,17 +17,17 @@
         <ul class="list-disc pl-6 *:mb-2 *:last:mb-0 text-base max-md:text-sm mb-4">
             <li>
                 {{ __('policy.cp_p_3') }}
-                <a class="font-bold hover:text-blue-700 transition-all" href="#essential-cookies">{{ __('policy.cp_p_3a') }}</a>
+                <a class="font-bold hover:text-blue-700 transition-all" href="#essentials">{{ __('policy.cp_p_3a') }}</a>
                 {{ __('policy.cp_p_3b') }}
             </li>
             <li>
                 {{ __('policy.cp_p_3') }}
-                <a class="font-bold hover:text-blue-700 transition-all" href="#analytic-cookies">{{ __('policy.cp_p_4a') }}</a>
+                <a class="font-bold hover:text-blue-700 transition-all" href="#analytics">{{ __('policy.cp_p_4a') }}</a>
                 {{ __('policy.cp_p_4b') }}
             </li>
             <li>
                 {{ __('policy.cp_p_3') }}
-                <a class="font-bold hover:text-blue-700 transition-all" href="#optional-cookies">{{ __('policy.cp_p_5a') }}</a>
+                <a class="font-bold hover:text-blue-700 transition-all" href="#optionals">{{ __('policy.cp_p_5a') }}</a>
                 {{ __('policy.cp_p_5b') }}
             </li>
         </ul>
@@ -43,7 +43,7 @@
 
     @foreach(Cookies::getCategories() as $category)
         <div id="{{ strtr(strtolower($category->title),array(' ' => '-')) }}" class="-translate-y-20"></div>
-        <h2 class="text-2xl max-md:text-xl font-bold mb-2">{{ $category->title }}</h2>
+        <h2 class="text-2xl max-md:text-xl font-bold mb-2">{{ __('policy.'.$category->title) }}</h2>
         <x-card class="mb-8">
             @foreach($category->getCookies() as $cookie)
                 <div class="flex gap-2 border-b-2 pb-4 mb-4 last:pb-0 last:mb-0 last:border-0">
@@ -51,7 +51,9 @@
                     <div class="flex-1">
                         <h3 class="text-lg max-md:text-base max-sm:text-sm font-medium mb-2 break-all">{{ $cookie->name }}</h3>
                         
-                        <p class="mb-2">{{ $cookie->description }}</p>
+                        <p class="mb-2">
+                            {{ __('policy.'.$cookie->description) }}
+                        </p>
                         <p class="mb-4 last:mb-0">
                             {{ __('admin.duration') . ': ' . \Carbon\CarbonInterval::minutes($cookie->duration)->cascade() }}
                         </p>

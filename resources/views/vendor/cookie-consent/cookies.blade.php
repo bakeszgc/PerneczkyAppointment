@@ -35,10 +35,10 @@
                                 <input type="checkbox" name="categories[]" value="{{ $category->key() }}" id="cookies-policy-check-{{ $category->key() }}" />
                             @endif
                             <span class="cookies__box">
-                                <strong class="cookies__label">{{ $category->title }}</strong>
+                                <strong class="cookies__label">{{ __('policy.'.$category->title) }}</strong>
                             </span>
                             @if($category->description)
-                                <p class="cookies__info">{{ $category->description }}</p>
+                                <p class="cookies__info">{{ __('policy.'.$category->description) }}</p>
                             @endif
                         </label>
 
@@ -49,7 +49,7 @@
                                     <p class="cookies__name">{{ $cookie->name }}</p>
                                     <p class="cookies__duration">{{ \Carbon\CarbonInterval::minutes($cookie->duration)->cascade() }}</p>
                                     @if($cookie->description)
-                                        <p class="cookies__description">{{ $cookie->description }}</p>
+                                        <p class="cookies__description">{{ __('policy.'.$cookie->description) }}</p>
                                     @endif
                                 </li>
                                 @endforeach

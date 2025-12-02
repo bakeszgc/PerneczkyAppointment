@@ -33,7 +33,12 @@ class CookiesServiceProvider extends ServiceProvider
 
         Cookies::optional()
             ->name('remember_web')
-            ->description('Used to keep the user logged in across browser sessions without having to log in again after the session expires.')
+            ->description('remember_web_desc')
+            ->duration(60 * 24 * 400);
+
+        Cookies::optional()
+            ->name('lang_pref')
+            ->description('lang_pref_desc')
             ->duration(60 * 24 * 400);
     }
 }

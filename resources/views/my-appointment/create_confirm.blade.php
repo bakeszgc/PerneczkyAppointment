@@ -152,7 +152,7 @@
                     </div>
 
                     <div>
-                        <h3 class="font-bold">Duration</h3>
+                        <h3 class="font-bold">{{ __('admin.duration') }}</h3>
                         <p>{{ $service->duration . ' ' . __('home.minutes') }}</p>
                     </div>
 

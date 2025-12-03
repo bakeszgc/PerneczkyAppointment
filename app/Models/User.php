@@ -37,7 +37,8 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         'created_at',
         'google_id',
         'facebook_id',
-        'lang_pref'
+        'lang_pref',
+        'subbed_to_mailing_list'
     ];
 
     /**

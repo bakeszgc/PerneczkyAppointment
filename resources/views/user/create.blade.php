@@ -94,7 +94,7 @@
                 <input type="hidden" name="from" value="{{ request('from') }}">
             @endif
 
-            <div class="flex gap-2 items-center mb-4">
+            <div class="flex gap-2 items-center mb-2">
                 <x-input-field type="checkbox" name="policy_checkbox" id="policy_checkbox" value="1" class="regInput reqInput"/>
                 <label for="policy_checkbox" class="flex-1">
                     {{ __('auth.read_and_accept') }}
@@ -102,9 +102,18 @@
                         {{ __('auth.terms_and_conditions_acc') }}
                     </a>
                     {{ __('auth.and_the') }}
-                    <a href="{{ route('privacy') }}" target="_blank" class="text-blue-700 hover:underline">
-                        {{ __('auth.privacy_acc') }}
-                    </a>.*
+                    <a href="{{ route('privacy') }}" target="_blank" class="text-blue-700 hover:underline">{{ __('auth.privacy_acc') }}</a>.*
+                </label>
+
+                @error('policy_checkbox')
+                    <p class=" text-red-500 text-right">{{$message}}</p>
+                @enderror
+            </div>
+
+            <div class="flex gap-2 items-center mb-4">
+                <x-input-field type="checkbox" name="mailing_list_checkbox" id="mailing_list_checkbox" value="1" class="regInput"/>
+                <label for="mailing_list_checkbox" class="flex-1">
+                    {{ __('auth.subscribe_consent') }}
                 </label>
 
                 @error('policy_checkbox')

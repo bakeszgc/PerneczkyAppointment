@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('google_id')->nullable();
             $table->string('facebook_id')->nullable();
             $table->string('lang_pref');
+            $table->boolean('subbed_to_mailing_list');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

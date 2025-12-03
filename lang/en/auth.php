@@ -41,6 +41,7 @@ return [
     "terms_and_conditions_acc" => "terms & conditions",
     "and_the" => "and the",
     "privacy_acc" => "privacy policy",
+    "subscribe_consent" => "I subscribe to the " . env('APP_NAME') . " newsletter to be the first to know about the latest offers and discounts. We promise that we won't spam you!",
     "already_account" => "Already have an account?",
     "sign_in_here" => "Sign in here!",
 

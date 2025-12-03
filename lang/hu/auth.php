@@ -30,6 +30,7 @@ return [
     "terms_and_conditions_acc" => "ÁSZF-et",
     "and_the" => "és az",
     "privacy_acc" => "adatkezelési tájékoztatót",
+    "subscribe_consent" => "Feliratkozok a " . env('APP_NAME') . " hírlevelére, hogy elsőként értesüljek a legújabb ajánlatokról és kedvezményekről. Nem spamelünk, eskü!",
     "already_account" => "Van már fiókod?",
     "sign_in_here" => "Lépj be itt!",
 

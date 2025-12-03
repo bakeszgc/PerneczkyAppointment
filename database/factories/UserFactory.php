@@ -35,6 +35,7 @@ class UserFactory extends Factory
             'is_admin' => false,
             'remember_token' => Str::random(10),
             'lang_pref' => 'hu',
+            'subbed_to_mailing_list' => true
         ];
     }
 

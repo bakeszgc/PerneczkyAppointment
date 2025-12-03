@@ -66,6 +66,7 @@ class UserController extends Controller
 
         $usersWithThisEmail = User::whereEmail($request->email)->get();
         $isEmailAlreadyUsed = $usersWithThisEmail->count() >= 1;
+        $subToMailingList = $request->has('mailing_list_checkbox');
 
         if ($isEmailAlreadyUsed) {
             $user = $usersWithThisEmail->first();
@@ -77,7 +78,8 @@ class UserController extends Controller
                 'password' => bcrypt($request->password),
                 'is_admin' => false,
                 'created_at' => now(),
-                'lang_pref' => App::getLocale()
+                'lang_pref' => App::getLocale(),
+                'subbed_to_mailing_list' => $subToMailingList
             ]);
         } else {
             $user = User::create([
@@ -88,7 +90,8 @@ class UserController extends Controller
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
                 'is_admin' => false,
-                'lang_pref' => App::getLocale()
+                'lang_pref' => App::getLocale(),
+                'subbed_to_mailing_list' => $subToMailingList
             ]);
         }
 

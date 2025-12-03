@@ -36,6 +36,16 @@ class UserPolicy
         }
     }
 
+    public function updateMailing(User $user, User $model) {
+        if ($user->id !== $model->id) {
+            return Response::deny(__('auth.error_user_mailing_other'));
+        } elseif ($model->deleted_at) {
+            return Response::deny(__('auth.error_user_mailing_destroyed'));
+        } else {
+            return Response::allow();
+        }
+    }
+
     // FOR ADMINS - CUSTOMER CONTROLLER
     public function adminUpdate(User $user, User $model): Response
     {

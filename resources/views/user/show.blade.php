@@ -409,7 +409,34 @@
                 </x-button>
             </form>
         </x-show-card>
+
+        <x-show-card type="mailing" class="mb-4" :show="$showMailing">
+            <div class="mb-4 text-justify">
+                <p>
+                    {{ __('users.mailing_pref_p') }}
+                </p>
+            </div>
+            <div>
+                <form action="{{ route('users.update-mailing',['user' => $user]) }}" method="post">
+                    @method('PUT')
+                    @csrf
+                    
+                    <div class="flex gap-2 mb-4">
+                        <x-input-field type="checkbox" name="mailing_list_checkbox" id="mailing_list_checkbox" :checked="auth()->user()->subbed_to_mailing_list" />
+                        <label for="mailing_list_checkbox">
+                            {{ __('users.mailing_pref_label') }}
+                        </label>
+                    </div>
+
+                    <x-button role="ctaMain" id="mailingListButton" :disabled="true">
+                        {{ __('users.save_changes') }}
+                    </x-button>
+                </form>
+            </div>
+        </x-show-card>
     @endif
+
+    
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -445,6 +472,14 @@
             const profileReqInputs = document.querySelectorAll('.profileReqInput');
 
             enableButtonIfInputsFilled(profileButton, profileInputs, profileReqInputs);
+
+            // MAILING LIST PREF BUTTON RE-ENABLE
+            const mailingListButton = document.getElementById('mailingListButton');
+            const mailingListCheckbox = document.getElementById('mailing_list_checkbox');
+
+            mailingListCheckbox.addEventListener('change',()=>{
+                mailingListButton.disabled = false;
+            });
         });
 
         function checkPassword(passButton, passInput, newPassInput, newPassConfInput) {

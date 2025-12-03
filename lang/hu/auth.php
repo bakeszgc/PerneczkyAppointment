@@ -62,14 +62,17 @@ return [
 
     // USER MESSAGES
     "success_user_stored" => "A fiókod sikeresen létrehozva!",
-    "success_user_updated" => "A fiókod sikeresen módosítva!",
-    "success_password_changed" => "A jelszavad sikeresen módosítva!",
+    "success_user_updated" => "A fiókod sikeresen módosítva lett!",
+    "success_password_changed" => "A jelszavad sikeresen módosítva lett!",
+    "success_mailing_updated" => "A levelezési preferenciáid sikeresen módosítva lettek!",
     "verify_email" => "Kérlek erősítsd meg az új email címed!",
     "error_user_view_other" => "Nem férhetsz hozzá más felhasználók fiókjaihoz!",
     "error_user_edit_other" => "Nem módosíthatod más felhasználók fiókjait!",
     "error_user_edit_destroyed" => "Nem módosíthatod az adataidat, mivel a fiókod törlésre került!",
     "error_user_pw_other" => "Nem változtathatod meg más felhasználók jelszavát!",
     "error_user_pw_destroyed" => "Nem változtathatod meg a jelszavad, mivel a fiókod törlésre került!",
+    "error_user_mailing_other" => "Nem változtathatod meg más felhasználók levelezési preferenciáit!",
+    "error_user_mailing_destroyed" => "Nem változtathatod meg a levelezési preferenciáidat, mivel a fiókod törlésre került!",
 
     // AUTH MESSAGES
     "success_auth_email_verified" => "Az email címed sikeresen meg lett erősítve!",

@@ -32,5 +32,8 @@ return [
     "crop_your_photo" => "Vágd körbe a képedet",
     "crop" => "Vágás",
     "reset" => "Visszaállítás",
+    "mailing_pref" => "Levelezési preferenciák",
+    "mailing_pref_p" => "Itt módosíthatod a levelezés beállításaidat. Mindig fogsz tőlünk kapni egy értesítést emailben, miután a foglalásod megerősítésre vagy módosításra került. Ha ezen felül nem szeretnél lemaradni a legfrissebb ajánlatainkról és kedvezményeinkről, akkor az alábbi négyzetet bejelölve iratkozz fel a hírlevelünkre! Ha esetleg meggondolnád magad, a jövőben bármikor leiratkozhatsz ugyanitt.",
+    "mailing_pref_label" => "Szeretnék emaileket kapni a legfrissebb ajánlatokról és kedvezményekről",
 
 ];

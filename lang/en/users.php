@@ -32,5 +32,9 @@ return [
     "crop_your_photo" => "Crop your photo",
     "crop" => "Crop",
     "reset" => "Reset",
+    "mailing_pref" => "Mailing preferences",
+    "mailing_pref_p" => "In this section you can update your mailing preferences. We always notify you in email right after your booking was confirmed or modified. If you don't want to miss out on the latest offers and discounts, be sure to sign up on our mailing list by enabling the checkbox below. In case you would change your mind in the future you can opt out this here.",
+    "mailing_pref_label" => "I would like to recieve emails about the latest offers and discounts",
+    
 
 ];

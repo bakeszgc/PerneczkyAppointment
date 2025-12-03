@@ -64,6 +64,7 @@ Route::middleware('auth')->group(function(){
 
     // USER
     Route::put('users/{user}/update-password',[UserController::class,'updatePassword'])->name('users.update-password');
+    Route::put('users/{user}/update-mailing',[UserController::class,'updateMailing'])->name('users.update-mailing');
     Route::resource('users',UserController::class)->only('show','update');
 
     // EMAIL VERIFICATION

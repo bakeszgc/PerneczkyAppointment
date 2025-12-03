@@ -123,20 +123,20 @@ class UserController extends Controller
             'showProfile' => 'nullable|boolean',
             'showPicture' => 'nullable|boolean',
             'showPassword' => 'nullable|boolean',
-            'showDestroy' => 'nullable|boolean'
+            'showMailing' => 'nullable|boolean',
         ]);
 
         $showProfile = $request->showProfile ?? true;
         $showPicture = $request->showPicture ?? false;
         $showPassword = $request->showPassword ?? false;
-        $showDestroy = $request->showDestroy ?? false;
+        $showMailing = $request->showMailing ?? false;
 
         return view('user.show',[
             'user' => $user,
             'showPassword' => $showPassword,
             'showProfile' => $showProfile,
             'showPicture' => $showPicture,
-            'showDestroy' => $showDestroy
+            'showMailing' => $showMailing
         ]);
     }
 
@@ -218,5 +218,19 @@ class UserController extends Controller
         return redirect()->route('users.show',['user' => $user->id])->with('success',__('auth.success_password_changed'));
     }
 
-    
+    public function updateMailing(Request $request, User $user){
+        
+        $response = Gate::inspect('updateMailing',$user);
+
+        if ($response->denied()) {
+            return redirect()->back()->with('error',$response->message());
+        }
+
+        $mailingListPref = $request->has('mailing_list_checkbox');
+        $user->update([
+            'subbed_to_mailing_list' => $mailingListPref
+        ]);
+
+        return redirect()->route('users.show',['user' => $user, 'showMailing' => 1])->with('success',__('auth.success_mailing_updated'));
+    }    
 }

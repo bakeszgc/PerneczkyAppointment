@@ -217,12 +217,5 @@
 
             if (submitButton) submitButton.disabled = !isAnyBarbersChecked || !isAnyServicesChecked;
         }
-
-        function jumpTo (anchor) {
-            setTimeout(() => {
-                const top = anchor.offsetTop - 100;
-                window.scrollTo(0,top);
-            }, 300);
-        }
     </script>
 </x-user-layout>

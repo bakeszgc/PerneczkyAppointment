@@ -261,6 +261,9 @@
                         if (submitButton) {
                             submitButton.disabled = !isAnyDatesChecked;
                         }
+                        if (isAnyDatesChecked) {
+                            jumpTo(submitButton);
+                        }
                     });
                 });
             }

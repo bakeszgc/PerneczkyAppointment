@@ -184,3 +184,11 @@ window.countCharacters = function (charCount, description) {
         charCount.innerHTML = description.value.length;
     });
 };
+
+// SCROLLS TO A GIVEN ANCHOR
+window.jumpTo = function (anchor) {
+    setTimeout(() => {
+        const top = anchor.offsetTop - 100;
+        window.scrollTo(0,top);
+    }, 300);
+};

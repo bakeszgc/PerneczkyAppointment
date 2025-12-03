@@ -53,6 +53,7 @@
 
         @if ($view != 'barber' && isset($barbers))
 
+            <div id="barber"></div>
             <div class="flex justify-between">
                 <x-headline class="mb-4 blue-300">
                     {{ __('appointments.select_your_barber') }}
@@ -88,14 +89,15 @@
                     
                 @empty
                     <x-empty-card class="col-span-3 max-md:col-span-2">
-                        Sorry, there aren't any barbers available yet. Please check back later!
+                        {{ __('home.barbers_empty') }}
                     </x-empty-card>
                 @endforelse
             </div>
 
-            <div id="service"></div>
+            
         @endif
-        
+
+        <div id="service"></div>
         <div class="flex justify-between">
             <x-headline class="mb-4 blue-300">
                 {{ __('appointments.select_your_service') }}
@@ -130,7 +132,7 @@
                 </label>
             @empty
                 <x-empty-card class="col-span-3 max-md:col-span-2">
-                    Sorry, there aren't any services available yet. Please check back later!
+                    {{ __('home.services_empty') }}
                 </x-empty-card>
             @endforelse
         </div>
@@ -150,6 +152,7 @@
             const barberRadioButtons = document.querySelectorAll('input[name="barber_id"]');
             const serviceRadioButtons = document.querySelectorAll('input[name="service_id"]');
             const serviceAnchor = document.getElementById('service');
+            const barberAnchor = document.getElementById('barber');
             const submitButton = document.getElementById('submitBtnForRadioBtns');
 
             if (submitButton) submitButton.disabled = true;
@@ -157,7 +160,13 @@
             if (barberRadioButtons.length > 0) {
                 barberRadioButtons.forEach(radio => {
                     radio.addEventListener('change', function () {
-                        jumpTo(serviceAnchor);
+                        const isAnyServicesChecked = Array.from(serviceRadioButtons).some(radio => radio.checked);
+
+                        if (isAnyServicesChecked) {
+                            jumpTo(submitButton);
+                        } else {
+                            jumpTo(serviceAnchor);
+                        }
                     });
                 });
             }
@@ -165,6 +174,14 @@
             serviceRadioButtons.forEach(radio => {
                 radio.addEventListener('change', function () {
                     jumpTo(submitButton);
+
+                    const isAnyBarbersChecked = Array.from(barberRadioButtons).some(radio => radio.checked);
+
+                    if (isAnyBarbersChecked) {
+                        jumpTo(submitButton);
+                    } else {
+                        jumpTo(barberAnchor);
+                    }
                 });
             });
 

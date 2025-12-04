@@ -307,6 +307,7 @@ class AdminAppointmentController extends Controller
                         'email' => $email,
                         'is_admin' => false,
                         'lang_pref' => 'en',
+                        'subbed_to_mailing_list' => false
                     ]);
                 }
             } else {
@@ -314,6 +315,7 @@ class AdminAppointmentController extends Controller
                     'first_name' => $request->first_name,
                     'is_admin' => false,
                     'lang_pref' => 'en',
+                    'subbed_to_mailing_list' => false
                 ]);
             }
         } else {
@@ -468,9 +470,11 @@ class AdminAppointmentController extends Controller
             'app_end_time' => $app_end_time
         ]);
 
-        $booking->user->notify(
-            new BookingUpdateNotification($oldAppointment,$booking,'admin')
-        );
+        if ($booking->user->email) {
+            $booking->user->notify(
+                new BookingUpdateNotification($oldAppointment,$booking,'admin')
+            );
+        }
 
         return redirect()->route('bookings.show',$booking)->with('success',__('barber.success_updated_booking'));
     }

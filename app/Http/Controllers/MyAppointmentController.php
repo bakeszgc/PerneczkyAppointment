@@ -199,7 +199,8 @@ class MyAppointmentController extends Controller
                     'first_name' => $request->first_name,
                     'email' => $email,
                     'is_admin' => false,
-                    'lang_pref' => App::getLocale()
+                    'lang_pref' => App::getLocale(),
+                    'subbed_to_mailing_list' => false
                 ]);
             }
         }

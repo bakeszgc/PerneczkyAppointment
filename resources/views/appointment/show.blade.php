@@ -107,8 +107,8 @@
                     <li>{{ __('barber.upcoming_bookings') . ': ' . $upcoming }}</li>
                     <li>{{ __('barber.previous_bookings') . ': ' . $previous }}</li>
                     <li>{{ __('barber.cancelled_bookings') . ': ' . $cancelled }}</li>
-                    <li>{{ __('barber.fav_barber') . ': ' . $favBarber->getName() . ' (' . $numBarber . ')' }}</li>
-                    <li>{{ __('barber.fav_service') . ': ' . $favService->getName() . ' (' . $numService . ')' }}</li>
+                    <li>{{ __('barber.fav_barber') . ': ' . ($favBarber ? $favBarber->getName() : '-') . ($favBarber ? (' (' . $numBarber . ')') : '') }}</li>
+                    <li>{{ __('barber.fav_service') . ': ' . ($favService ? $favService->getName() : '-') . ($favService ? (' (' . $numService . ')') : '') }}</li>
 
                     @if ($view == 'admin')
                     <li class="mt-2">

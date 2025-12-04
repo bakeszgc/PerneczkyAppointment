@@ -45,7 +45,7 @@ return [
     "walk_in_p1b" => "beeső fiókkal",
     "walk_in_p1c" => "lett létrehozva.",
     "walk_in_p2a" => "Ez azt jelenti, hogy nincs más infónk ",
-    "walk_in_p2b" => "ről a keresztnevét leszámítva.",
+    "walk_in_p2b" => " felhasználóról a keresztnevét leszámítva.",
     "no_comments_from1" => "",
     "no_comments_from2" => " nem hagyott megjegyzést.",
 

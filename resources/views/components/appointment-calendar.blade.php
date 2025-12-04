@@ -72,7 +72,9 @@
         </x-button>
 
         <x-select name="barberSelect" id="barberSelect" :disabled="$defaultView=='day'" class="text-sm">
-            <option value="empty">Select a barber</option>
+            <option value="empty">
+                {{ __('admin.select_a_barber') }}
+            </option>
             @foreach ($barbers as $b)
                 <option value="{{ $b->id }}" @selected((isset($barber) && $barber->id == $b->id) ?? auth()->user()?->barber->id == $b->id)>{{ $b->getName() }}</option>
             @endforeach

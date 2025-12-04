@@ -4,16 +4,16 @@
 
 <div class="w-full">
     <div class="w-full text-center mb-4 text-xl max-md:text-lg font-bold">
-        <p>{{ $firstDaytOfMonth->format('F Y') }}</p>
+        <p>{{ __('appointments.'.strtolower($firstDaytOfMonth->format('F'))) . ' ' . $firstDaytOfMonth->format('Y') }}</p>
     </div>
     <div class="grid grid-cols-7 gap-4 *:text-center">
-        <p>Mo</p>
-        <p>Tu</p>
-        <p>We</p>
-        <p>Th</p>
-        <p>Fr</p>
-        <p>Sa</p>
-        <p>Su</p>
+        <p>{{ __('appointments.monday_short') }}</p>
+        <p>{{ __('appointments.tuesday_short') }}</p>
+        <p>{{ __('appointments.wednesday_short') }}</p>
+        <p>{{ __('appointments.thursday_short') }}</p>
+        <p>{{ __('appointments.friday_short') }}</p>
+        <p>{{ __('appointments.saturday_short') }}</p>
+        <p>{{ __('appointments.sunday_short') }}</p>
     </div>
     <div class="grid grid-cols-7 gap-4">
         @for ($i=0; $i < $firstDaytOfMonth->format('w')+6 % 7; $i++)

@@ -247,7 +247,7 @@
                 {{ __('admin.all_bookings') }}
             </x-link-button>
 
-            <x-link-button :link="route('bookings.create')" role="create">
+            <x-link-button :link="route('bookings.create.barber.service',['barber_id' => $barber->id])" role="create">
                 {{ __('admin.new_booking') }}
             </x-link-button>
         </div>

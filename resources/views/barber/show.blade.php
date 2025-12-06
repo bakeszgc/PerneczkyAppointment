@@ -247,9 +247,11 @@
                 {{ __('admin.all_bookings') }}
             </x-link-button>
 
-            <x-link-button :link="route('bookings.create.barber.service',['barber_id' => $barber->id])" role="create">
-                {{ __('admin.new_booking') }}
-            </x-link-button>
+            @if (!$barber->deleted_at)
+                <x-link-button :link="route('bookings.create.barber.service',['barber_id' => $barber->id])" role="create">
+                    {{ __('admin.new_booking') }}
+                </x-link-button>
+            @endif
         </div>
     </x-show-card>
 
@@ -261,9 +263,11 @@
                 {{ __('admin.all_timeoffs') }}
             </x-link-button>
 
-            <x-link-button :link="route('admin-time-offs.create',['barber' => $barber->id])" role="timeoffCreate">
-                {{ __('admin.new_timeoff') }}
-            </x-link-button>
+            @if (!$barber->deleted_at)
+                <x-link-button :link="route('admin-time-offs.create',['barber' => $barber->id])" role="timeoffCreate">
+                    {{ __('admin.new_timeoff') }}
+                </x-link-button>
+            @endif
         </div>
     </x-show-card>
 

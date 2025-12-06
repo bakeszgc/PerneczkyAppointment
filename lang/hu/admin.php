@@ -101,6 +101,11 @@ return [
     "error_barber_destroy_destroyed" => "Nem törölhetsz egy inaktív borbélyt!",
     "error_barber_restore_active" => "Nem állíthatsz vissza egy aktív borbélyt!",
 
+    // TIMEOFF MESSAGES
+    "success_timeoff_stored" => " szünete sikeresen létrehozva!",
+    "success_timeoff_updated" => " szünete sikeresen módosítva!",
+    "success_timeoff_destroyed" => " szünete sikeresen törölve!",
+
     // SERVICES INDEX
     "services" => "Szolgáltatások",
     "price" => "Ár",

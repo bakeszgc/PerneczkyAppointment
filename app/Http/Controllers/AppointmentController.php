@@ -84,6 +84,7 @@ class AppointmentController extends Controller
     {
         $request->validate([
             'service_id' => ['required','integer','exists:services,id','gt:1'],
+            'user_id' => ['nullable','integer','exists:users,id']
         ]);
 
         $barber = auth()->user()->barber;
@@ -105,8 +106,18 @@ class AppointmentController extends Controller
             'query' => 'nullable|string|max:255',
             'service_id' => ['required','integer','exists:services,id','gt:1'],
             'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
-            'comment' => ['nullable','string']
+            'comment' => ['nullable','string'],
+            'user_id' => ['nullable','integer','exists:users,id']
         ]);
+
+        if ($request->has('user_id')) {
+            return redirect()->route('appointments.create.confirm',[
+                'service_id' => $request->service_id,
+                'user_id' => $request->user_id,
+                'date' => $request->date,
+                'comment' => $request->comment
+            ]);
+        }
         
         $query = $request->input('query');
 

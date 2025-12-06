@@ -185,7 +185,8 @@ class AdminAppointmentController extends Controller
     {
         $request->validate([
             'service_id' => 'required|integer|gt:1|exists:services,id|gt:1',
-            'barber_id' => 'required|integer|exists:barbers,id'
+            'barber_id' => 'required|integer|exists:barbers,id',
+            'user_id' => ['nullable','integer','exists:users,id']
         ]);
 
         $barber = Barber::find($request->barber_id);
@@ -207,8 +208,19 @@ class AdminAppointmentController extends Controller
             'service_id' => ['required','integer','exists:services,id','gt:1'],
             'barber_id' => 'required|integer|exists:barbers,id',
             'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
-            'comment' => ['nullable','string']
+            'comment' => ['nullable','string'],
+            'user_id' => ['nullable','integer','exists:users,id']
         ]);
+
+        if ($request->has('user_id')) {
+            return redirect()->route('bookings.create.confirm',[
+                'service_id' => $request->service_id,
+                'barber_id' => $request->barber_id,
+                'user_id' => $request->user_id,
+                'date' => $request->date,
+                'comment' => $request->comment
+            ]);
+        }
         
         $query = $request->input('query');
         $barber = Barber::find($request->barber_id);

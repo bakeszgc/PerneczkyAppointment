@@ -86,6 +86,10 @@
         @if ($view != 'barber')
             <input type="hidden" name="barber_id" value="{{ $barber->id }}">
         @endif
+
+        @if ($view != 'user' && request('user_id') != null)
+            <input type="hidden" name="user_id" value="{{ request('user_id') }}">
+        @endif
         
         <input type="hidden" name="service_id" value="{{ $service->id }}">
 

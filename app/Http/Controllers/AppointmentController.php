@@ -70,7 +70,8 @@ class AppointmentController extends Controller
     public function createService(Request $request)
     {
         $request->validate([
-            'service_id' => 'nullable|integer|gt:1|exists:services,id'
+            'service_id' => 'nullable|integer|gt:1|exists:services,id',
+            'user_id' => 'nullable|integer|exists:users,id'
         ]);
 
         $services = Service::withoutTimeoff()->get();

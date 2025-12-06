@@ -51,6 +51,10 @@
 
     <form action="{{ $createDateLink }}" method="GET">
 
+        @if ($view != 'user' && request('user_id') != null)
+            <input type="hidden" name="user_id" value="{{ request('user_id') }}">
+        @endif
+
         @if ($view != 'barber' && isset($barbers))
 
             <div id="barber"></div>

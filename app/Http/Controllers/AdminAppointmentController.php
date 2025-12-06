@@ -126,7 +126,8 @@ class AdminAppointmentController extends Controller
     {
         $request->validate([
             'service_id' => 'nullable|integer|gt:1|exists:services,id',
-            'barber_id' => 'nullable|integer|exists:barbers,id'
+            'barber_id' => 'nullable|integer|exists:barbers,id',
+            'user_id' => 'nullable|integer|exists:users,id'
         ]);
 
         $selectedServiceId = $request->service_id;
@@ -149,7 +150,8 @@ class AdminAppointmentController extends Controller
     {
         $request->validate([
             'service_id' => 'required|integer|gt:1|exists:services,id',
-            'barber_id' => 'required'
+            'barber_id' => 'required',
+            'user_id' => 'nullable|integer|exists:users,id'
         ]);
 
         if ($request->barber_id == 'earliest') {
@@ -177,7 +179,8 @@ class AdminAppointmentController extends Controller
 
         return redirect()->route('bookings.create.date',[
             'barber_id' => $earliestBarberId,
-            'service_id' => $request->service_id
+            'service_id' => $request->service_id,
+            'user_id' => $request->user_id
         ]);
     }
 

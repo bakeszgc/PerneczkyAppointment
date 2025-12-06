@@ -133,12 +133,12 @@
                     <div class="*:flex *:items-center *:gap-2">
                         @if ($view == 'admin' && $user->isRegistered())
                             <div class="mb-2">
-                                <x-input-field type="checkbox" name="is_barber" id="is_barber" value="1" :checked="$user->barber && $user->barber->deleted_at == null" :disabled="isset($user->deleted_at)" />
+                                <x-input-field type="checkbox" name="is_barber" id="is_barber" value="1" :checked="$user->barber && $user->barber->deleted_at == null" :disabled="isset($user->deleted_at)" class="profileInput" />
                                 <label for="is_barber">{{ __('admin.barber_access') }}</label>
                             </div>
 
                             <div>
-                                <x-input-field type="checkbox" name="is_admin" id="is_admin" value="1" :checked="$user->is_admin" :disabled="isset($user->deleted_at)" />
+                                <x-input-field type="checkbox" name="is_admin" id="is_admin" value="1" :checked="$user->is_admin" :disabled="isset($user->deleted_at)" class="profileInput" />
                                 <label for="is_admin">{{ __('admin.admin_access') }}</label>
                             </div>
                         @endif

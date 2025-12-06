@@ -34,9 +34,10 @@ return [
 
     // BOOKING CANCELLED
     "unfortunately" => "Sajnos",
-    "has_cancelled_one_of" => "lemondta az egyik jövőbeli",
-    "their" => "időpontját",
-    "your" => "időpontodat",
+    "has_cancelled_one_of" => "lemondta",
+    "their" => "az egyik jövőbeli időpontját",
+    "s1s" => " egyik jövőbeli időpontját",
+    "your" => "az egyik jövőbeli időpontodat",
     "upcoming_appointments" => ".",
     "details_of_bookings" => "A foglalás részleteit megtekintheted az alábbi táblázatban:",
     "customer" => "Vendég",

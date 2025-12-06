@@ -55,7 +55,11 @@ class BookingCancellationNotification extends Notification implements ShouldQueu
 
             case 'App\Models\Barber':
             case 'Admin':
-                $subject = __('mail.your_appointment_cancelled');
+                if ($notifiable->id == $this->appointment->barber->user_id) {
+                    $subject = __('mail.your_booking_cancelled');
+                } else {
+                    $subject = __('mail.your_appointment_cancelled');
+                }
             break;
         }
 

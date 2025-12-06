@@ -4,6 +4,7 @@
         $endTime = Carbon\Carbon::parse($appointment->app_end_time);
 
         $isNotifiableBarber = $appointment->barber_id === $notifiable?->barber?->id;
+        $isNotifiableUser = $appointment->user_id === $notifiable->id;
 
         switch ($isNotifiableBarber) {
             case true:
@@ -11,7 +12,12 @@
 
                 $cancelledByName = $cancelledBy == 'admin' ? __('mail.an_admin') : $cancelledBy->first_name;
 
-                $possessive = __('mail.their');
+                
+                if ($cancelledBy == 'admin') {
+                    $possessive = $appointment->user->first_name . __('mail.s1s');
+                } else {
+                    $possessive = __('mail.their');
+                }
                 
                 $ctaText = __('mail.view_cancelled_booking');
                 $url = route('appointments.show',$appointment);
@@ -20,7 +26,7 @@
             case false:
                 $notifiableName = $notifiable->first_name;
 
-                $cancelledByName = $cancelledBy == 'admin' ? strtolower(__('mail.an_admin')) : $cancelledBy->getName();
+                $cancelledByName = $cancelledBy == 'admin' ? strtolower(__('mail.an_admin')) : $appointment->barber->getName();
 
                 $possessive = __('mail.your');
 
@@ -46,7 +52,7 @@
             {{ $cancelledByName }}
         @endif
         
-        {{ __('mail.has_cancelled_one_of') . ' ' . $possessive . ' ' .  __('mail.upcoming_appointments') . ' ' . __('mail.details_of_bookings') }}
+        {{ __('mail.has_cancelled_one_of') . ' ' . $possessive . __('mail.upcoming_appointments') . ' ' . __('mail.details_of_bookings') }}
     </p>
 
     <table class="mb-8">
@@ -115,7 +121,7 @@
         </p>
     @else
         <p class="mb-8">
-            {{ __('mail.you_can_view') . ' ' . $cancelledByName . __('mail.s1s_booking') . ' ' . __('mail.reschedule') }} 
+            {{ __('mail.you_can_view') . ' ' . $appointment->user->first_name . __('mail.s1s_booking') . ' ' . __('mail.reschedule') }} 
         </p>
     @endif
 

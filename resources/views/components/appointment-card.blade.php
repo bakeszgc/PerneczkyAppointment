@@ -132,7 +132,7 @@
             </form>
         @endif
 
-        @if ($appointment->app_start_time < now() && !$appointment->user->deleted_at && !$appointment->service->deleted_at && !$appointment->barber->deleted_at && $appointment->user->isRegistered())
+        @if (($appointment->app_start_time < now() || $appointment->deleted_at) && !$appointment->user->deleted_at && !$appointment->service->deleted_at && !$appointment->barber->deleted_at && $appointment->user->hasEmail())
             <x-link-button :link="$rebookLink" role="restore">
                 <span class="max-sm:hidden">
                     {{ __('appointments.rebook') }}

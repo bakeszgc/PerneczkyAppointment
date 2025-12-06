@@ -51,7 +51,7 @@
                         <option value="empty">{{ __('admin.select_a_barber') }}</option>
                         @foreach ($barbers as $barber)
                             <option value="{{ $barber->id }}" @selected(request('barber') == $barber->id)>
-                                {{ $barber->getName() }} {{ $barber->deleted_at ? '(deleted)' : '' }}
+                                {{ $barber->getName() . ' ' . $barber->isDeleted() }}
                             </option>
                         @endforeach
                     </x-select>

@@ -150,7 +150,9 @@
                         <x-label for="barber">{{ __('appointments.barber') }}*</x-label>
                         
                         <x-select name="barber" id="barber" class="w-full">
-                            <option value="empty"></option>
+                            <option value="empty">
+                                {{ __('admin.select_a_barber') }}
+                            </option>
                             @foreach ($barbers as $barber)
                                 <option value="{{ $barber->id }}" @selected($barber->id == (old('barber') ?? request('barber')))>
                                     {{ $barber->getName() }}

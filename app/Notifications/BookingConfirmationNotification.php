@@ -12,9 +12,9 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class BookingConfirmationNotification extends Notification implements ShouldQueue
+class BookingConfirmationNotification extends Notification // implements ShouldQueue
 {
-    use Queueable;
+    // use Queueable;
 
     /**
      * Create a new notification instance.

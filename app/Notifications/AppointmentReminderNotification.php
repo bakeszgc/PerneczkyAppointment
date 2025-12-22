@@ -11,9 +11,9 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class AppointmentReminderNotification extends Notification implements ShouldQueue
+class AppointmentReminderNotification extends Notification // implements ShouldQueue
 {
-    use Queueable;
+    // use Queueable;
 
     /**
      * Create a new notification instance.

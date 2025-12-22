@@ -182,6 +182,7 @@
             @if ($defaultView == 'day')
                 view = 'day';
 
+                renderDates(displayWindow, view, date, currentLang);
                 switchToDailyView(colHeaderContainer,date,appointments,barberSelect.value,access,calendar,view,timeslots,barbers,currentTimeDiv,barberSelect,currentLang);
 
                 spanViewType.forEach(span => {

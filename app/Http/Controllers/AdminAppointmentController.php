@@ -363,11 +363,11 @@ class AdminAppointmentController extends Controller
             'comment' => $comment
         ]);
 
-        if ($user->email) {
-            $appointment->user->notify(
-                new BookingConfirmationNotification($appointment)
-            );
-        }
+        // if ($user->email) {
+        //     $appointment->user->notify(
+        //         new BookingConfirmationNotification($appointment)
+        //     );
+        // }
 
         return redirect()->route('bookings.show',['booking' =>  $appointment])->with('success',__('barber.success_new_booking'));
     }
@@ -485,11 +485,11 @@ class AdminAppointmentController extends Controller
             'app_end_time' => $app_end_time
         ]);
 
-        if ($booking->user->email) {
-            $booking->user->notify(
-                new BookingUpdateNotification($oldAppointment,$booking,'admin')
-            );
-        }
+        // if ($booking->user->email) {
+        //     $booking->user->notify(
+        //         new BookingUpdateNotification($oldAppointment,$booking,'admin')
+        //     );
+        // }
 
         return redirect()->route('bookings.show',$booking)->with('success',__('barber.success_updated_booking'));
     }
@@ -505,12 +505,12 @@ class AdminAppointmentController extends Controller
             return redirect()->route('admin-time-offs.show',$booking)->with('error',__('admin.error_destroy_timeoff_booking'));
         }        
 
-        $booking->user->notify(
-            new BookingCancellationNotification($booking,'admin')
-        );
-        $booking->barber->user->notify(
-            new BookingCancellationNotification($booking,'admin')
-        );
+        // $booking->user->notify(
+        //     new BookingCancellationNotification($booking,'admin')
+        // );
+        // $booking->barber->user->notify(
+        //     new BookingCancellationNotification($booking,'admin')
+        // );
 
         $booking->delete();
 

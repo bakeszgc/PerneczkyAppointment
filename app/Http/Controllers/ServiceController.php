@@ -107,9 +107,9 @@ class ServiceController extends Controller
         $upcomingBookings = Appointment::where('service_id','=',$service->id)->upcoming()->get();
 
         foreach ($upcomingBookings as $booking) {
-            $booking->user->notify(
-                new BookingCancellationNotification($booking,'admin')
-            );
+            // $booking->user->notify(
+            //     new BookingCancellationNotification($booking,'admin')
+            // );
             $booking->delete();
         }
 

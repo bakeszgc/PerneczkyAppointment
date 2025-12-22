@@ -500,9 +500,9 @@ class MyAppointmentController extends Controller
 
         $barber = $my_appointment->barber;
 
-        $barber->user->notify(
-            new BookingCancellationNotification($my_appointment,$my_appointment->user)
-        );
+        // $barber->user->notify(
+        //     new BookingCancellationNotification($my_appointment,$my_appointment->user)
+        // );
         $my_appointment->delete();
         return redirect()->route('my-appointments.index')
             ->with('success',__('appointments.cancel_success'));

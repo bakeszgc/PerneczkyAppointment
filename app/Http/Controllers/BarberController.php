@@ -148,7 +148,9 @@ class BarberController extends Controller
         $upcomingBookings = Appointment::barberFilter($barber)->upcoming()->get();
         foreach ($upcomingBookings as $booking) {
             if ($booking->service_id != 1) {
-                $booking->user->notify(new BookingCancellationNotification($booking,'admin'));
+                // $booking->user->notify(
+                //     new BookingCancellationNotification($booking,'admin')
+                // );
             }           
             
             $booking->delete();

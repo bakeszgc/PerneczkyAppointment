@@ -152,9 +152,9 @@ class CustomerController extends Controller
         // deletes upcoming appointments of the user
         $upcomingAppointments = Appointment::userFilter($customer)->upcoming()->get();
         foreach ($upcomingAppointments as $appointment) {
-            $appointment->barber->user->notify(
-                new BookingCancellationNotification($appointment,'admin')
-            );
+            // $appointment->barber->user->notify(
+            //     new BookingCancellationNotification($appointment,'admin')
+            // );
             $appointment->delete();
         }
 

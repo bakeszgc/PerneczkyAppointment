@@ -242,11 +242,11 @@ class AppointmentController extends Controller
             'comment' => $request->comment,
         ]);
 
-        if ($user->email) {
-            $appointment->user->notify(
-                new BookingConfirmationNotification($appointment)
-            );
-        }
+        // if ($user->email) {
+        //     $appointment->user->notify(
+        //         new BookingConfirmationNotification($appointment)
+        //     );
+        // }
 
         return redirect()->route('appointments.show',['appointment' =>  $appointment])->with('success',__('barber.success_new_booking'));
     }
@@ -369,11 +369,11 @@ class AppointmentController extends Controller
             'app_end_time' => $app_end_time
         ]);
 
-        if ($appointment->user->email) {
-            $appointment->user->notify(
-                new BookingUpdateNotification($oldAppointment,$appointment,updatedBy: Barber::find($oldAppointment['barber_id']))
-            );
-        }
+        // if ($appointment->user->email) {
+        //     $appointment->user->notify(
+        //         new BookingUpdateNotification($oldAppointment,$appointment,updatedBy: Barber::find($oldAppointment['barber_id']))
+        //     );
+        // }
 
         return redirect()->route('appointments.show',['appointment' => $appointment])->with('success',__('barber.success_updated_booking'));
     }
@@ -391,9 +391,9 @@ class AppointmentController extends Controller
 
         $barber = auth()->user()->barber;
 
-        $appointment->user->notify(
-            new BookingCancellationNotification($appointment,$barber)
-        );
+        // $appointment->user->notify(
+        //     new BookingCancellationNotification($appointment,$barber)
+        // );
         $appointment->delete();
 
         return redirect()->route('appointments.show',$appointment)

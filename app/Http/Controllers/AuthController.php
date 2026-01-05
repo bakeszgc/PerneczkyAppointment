@@ -275,7 +275,8 @@ class AuthController extends Controller
                         'email' => $socialUser->getEmail(),
                         $provider.'_id' => $socialUser->getId(),
                         'is_admin' => false,
-                        'lang_pref' => App::getLocale()
+                        'lang_pref' => App::getLocale(),
+                        'subbed_to_mailing_list' => true
                     ]);
                     
                     Auth::login($newUser);
@@ -290,7 +291,8 @@ class AuthController extends Controller
             }
 
         } catch (Exception $e) {
-            return redirect()->route('debugpage',['message' => $e]);
+            // return redirect()->route('debugpage',['message' => $e]);
+            dd($e);
         }
     }
 }

@@ -114,7 +114,11 @@
             </x-link-button>
         @endif
         
-        @if ($appointment->app_start_time >= now('Europe/Budapest') && !$appointment->deleted_at)
+        @if (
+            ($access == 'user' && $appointment->app_start_time >= now('Europe/Budapest')->addHours(6)) ||
+            ($access != 'user' && $appointment->app_start_time >= now('Europe/Budapest')) &&
+            !$appointment->deleted_at
+        )
             <x-link-button :link="$editLink" role="edit">
                 <span class="max-sm:hidden">
                     {{ __('appointments.edit') }}

@@ -33,6 +33,10 @@ return [
     "about_us_p2" => "Come into our cozy sanctuary and let Budapest's coolest team work their magic. Whether it's a classic cut or a new look, we're here to help with everything.",
     "about_us_p3" => "Book an appointment today, and let's create something special! See you soon!",
 
+    "demo_1" => "Attention!",
+    "demo_2" => "This page is a demonstration version of our upcoming appointment booking system. The information displayed here may not be accurate or up to date. Appointments booked on this page are not valid and will not be recorded by the shop.",
+    "demo_3" => "Please use our current booking system here:",
+
     "estimated_duration" => "Estimated duration",
     "minutes" => "minutes",
     "services_empty" => "Sorry, there aren't any services available yet.",

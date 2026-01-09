@@ -33,6 +33,10 @@ return [
     "about_us_p2" => "Gyere be kényelmes menedékünkbe és hagyd, hogy Budapest legmenőbb csapata működésbe hozza a varázsát. Legyen szó egy klasszikus vágásról vagy egy új megjelenésről, mi mindenben segítünk.",
     "about_us_p3" => "Foglalj időpontot még ma, és hadd készítsünk valami különlegeset! Hamarosan találkozunk!",
 
+    "demo_1" => "Figyelem!",
+    "demo_2" => "Ez az oldal a hamarosan induló időpontfoglalási rendszerünk bemutató verziója. Az itt megjelenített információk esetleg nem pontosak vagy naprakészek. Az itt lefoglalt időpontok a való életben nem érvényesek és az üzlet nem rögzíti őket.",
+    "demo_3" => "Kérjük, használja jelenlegi foglalási rendszerünket itt:",
+
     "estimated_duration" => "Várható időtartam",
     "minutes" => "perc",
     "services_empty" => "Sajnáljuk, de jelenleg nincsenek elérhető szolgáltatásaink.",

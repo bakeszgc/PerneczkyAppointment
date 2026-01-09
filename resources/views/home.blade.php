@@ -36,9 +36,16 @@
             <p class="mb-2">
                 {{ __('home.about_us_p2') }}
             </p>
-            <p>
+            <p class="mb-4">
                 {{ __('home.about_us_p3') }}
             </p>
+            <div class="border-dashed border-2 border-[#0018d5] rounded-md p-4">
+                <h3 class="mb-2 font-black text-xl">{{ __('home.demo_1') }}</h3>
+                <p class="mb-2">{{ __('home.demo_2') }} {{ __('home.demo_3') }}</p>
+                <p>                    
+                    <a href="https://perneczkybarbershop.salonic.hu/" class="text-blue-700 hover:underline">https://perneczkybarbershop.salonic.hu/</a>
+                </p>
+            </div>
         </div>
         <div class="flex-shrink-0">
             <img src="{{ asset('logo/perneczky_circle.png') }}" alt="{{ env('APP_NAME') }} logo" class=" h-56 w-56 max-md:mx-auto">

@@ -174,7 +174,7 @@ class AdminAppointmentController extends Controller
                 }
             }
 
-            if ($earliestBarberId = '') {
+            if ($earliestBarberId == '') {
                 $earliestBarberId = $barbers->random();
             }
 

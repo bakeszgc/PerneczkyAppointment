@@ -86,12 +86,18 @@ class MyAppointmentController extends Controller
             foreach ($barbers as $barber) {
                 $freeSlots = Appointment::getFreeTimeSlots($barber,$service,3);
 
-                $earliestTimeslotOfBarber = Carbon::parse(array_key_first($freeSlots) . ' ' . $freeSlots[array_key_first($freeSlots)][0]);
-                
-                if ($earliestTimeslot == '' || $earliestTimeslotOfBarber < $earliestTimeslot) {
-                    $earliestTimeslot = $earliestTimeslotOfBarber;
-                    $earliestBarberId = $barber->id;
+                if ($freeSlots != []) {
+                    $earliestTimeslotOfBarber = Carbon::parse(array_key_first($freeSlots) . ' ' . $freeSlots[array_key_first($freeSlots)][0]);
+                    
+                    if ($earliestTimeslot == '' || $earliestTimeslotOfBarber < $earliestTimeslot) {
+                        $earliestTimeslot = $earliestTimeslotOfBarber;
+                        $earliestBarberId = $barber->id;
+                    }
                 }
+            }
+
+            if ($earliestBarberId == '') {
+                $earliestBarberId = $barbers->random();
             }
 
         } else {

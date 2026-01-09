@@ -16,12 +16,12 @@
     } else {
         $breadcrumbLinks = [
             __('home.bookings') => route('appointments.index'),
-            __('appointments.service') => route('appointments.create.service',['service_id' => $service->id]),
-            __('appointments.date_and_time') => route('appointments.create.date', ['service_id' => $service->id, 'date' => request('date'), 'comment' => request('comment')]),
+            __('appointments.barber_and_service') => route('appointments.create.service',['service_id' => $service->id, 'barber_id' => $barber->id]),
+            __('appointments.date_and_time') => route('appointments.create.date', ['service_id' => $service->id, 'barber_id' => $barber->id, 'date' => request('date'), 'comment' => request('comment')]),
             __('barber.customer') => ''
         ];
         $submitLink = route('appointments.create.customer');
-        $confirmRoute = route('appointments.create.confirm',['service_id' => $service->id, 'date' => request('date'), 'comment' => request('comment')]);
+        $confirmRoute = route('appointments.create.confirm',['service_id' => $service->id, 'barber_id' => $barber->id, 'date' => request('date'), 'comment' => request('comment')]);
     }
 @endphp
 
@@ -62,10 +62,7 @@
                 <input type="hidden" name="service_id" value="{{ $service->id }}">
                 <input type="hidden" name="date" value="{{ request('date') }}">
                 <input type="hidden" name="comment" value="{{ request('comment') }}">
-
-                @if ($view == 'admin')
-                    <input type="hidden" name="barber_id" value="{{ $barber->id }}">
-                @endif
+                <input type="hidden" name="barber_id" value="{{ $barber->id }}">
 
                 <p class="text-slate-500 text-justify">
                     {{ __('barber.registered_p') }}

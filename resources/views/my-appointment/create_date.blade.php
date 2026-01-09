@@ -35,12 +35,12 @@
             break;
 
         case 'barber':
-            $serviceLink = route('appointments.create.service',['service_id' => $service->id]);
-            $storeLink = route('appointments.create.customer',['service_id' => $service->id]);
+            $serviceLink = route('appointments.create.service',['service_id' => $service->id, 'barber_id' => $barber->id]);
+            $storeLink = route('appointments.create.customer',['service_id' => $service->id, 'barber_id' => $barber->id]);
 
             $breadcrumbLinks = [
                 __('home.bookings') => route('appointments.index'),
-                __('appointments.service') => $serviceLink,
+                __('appointments.barber_and_service') => $serviceLink,
                 __('appointments.date_and_time') => ''
             ];
 
@@ -81,17 +81,14 @@
         </div>
     </div>
 
-    <form action="{{$storeLink}}" method="GET">        
-
-        @if ($view != 'barber')
-            <input type="hidden" name="barber_id" value="{{ $barber->id }}">
-        @endif
+    <form action="{{$storeLink}}" method="GET">
 
         @if ($view != 'user' && request('user_id') != null)
             <input type="hidden" name="user_id" value="{{ request('user_id') }}">
         @endif
         
         <input type="hidden" name="service_id" value="{{ $service->id }}">
+        <input type="hidden" name="barber_id" value="{{ $barber->id }}">
 
         <x-card class="mb-4">
             <div class="flex justify-between gap-4">

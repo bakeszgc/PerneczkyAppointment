@@ -91,6 +91,7 @@ Route::middleware(['auth','verified','barber'])->group(function() {
     Route::get('appointments/cancelled',[AppointmentController::class,'indexCancelled'])->name('appointments.cancelled');
 
     Route::get('appointments/create/selectService',[AppointmentController::class,'createService'])->name('appointments.create.service');
+    Route::get('appointments/create/earliest',[AppointmentController::class,'createGetEarliestBarber'])->name('appointments.create.earliest');
     Route::get('appointments/create/selectDate',[AppointmentController::class,'createDate'])->name('appointments.create.date');
     Route::get('appointments/create/selectCustomer',[AppointmentController::class,'createCustomer'])->name('appointments.create.customer');
     Route::get('appointments/create/confirm',[AppointmentController::class,'createConfirm'])->name('appointments.create.confirm');

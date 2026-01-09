@@ -71,13 +71,61 @@ class AppointmentController extends Controller
     {
         $request->validate([
             'service_id' => 'nullable|integer|gt:1|exists:services,id',
+            'barber_id' => 'nullable|integer|exists:barbers,id',
             'user_id' => 'nullable|integer|exists:users,id'
         ]);
 
         $services = Service::withoutTimeoff()->get();
+        $barbers = Barber::all();
+
         return view('my-appointment.create_barber_service',[
             'services' => $services,
+            'barbers' => $barbers,
             'view' => 'barber'
+        ]);
+    }
+
+    public function createGetEarliestBarber(Request $request)
+    {
+        $request->validate([
+            'service_id' => 'required|integer|gt:1|exists:services,id',
+            'barber_id' => 'required',
+            'user_id' => 'nullable|integer|exists:users,id'
+        ]);
+
+        if ($request->barber_id == 'earliest') {
+            $service = Service::find($request->service_id);
+            $barbers = Barber::all();
+
+            $earliestTimeslot = '';
+            $earliestBarberId = '';
+
+            foreach ($barbers as $barber) {
+                $freeSlots = Appointment::getFreeTimeSlots($barber,$service,3);
+
+                if ($freeSlots != []) {
+                    $earliestTimeslotOfBarber = Carbon::parse(array_key_first($freeSlots) . ' ' . $freeSlots[array_key_first($freeSlots)][0]);
+                    
+                    if ($earliestTimeslot == '' || $earliestTimeslotOfBarber < $earliestTimeslot) {
+                        $earliestTimeslot = $earliestTimeslotOfBarber;
+                        $earliestBarberId = $barber->id;
+                    }
+                }
+            }
+
+            if ($earliestBarberId == '') {
+                $earliestBarberId = $barbers->random();
+            }
+
+        } else {
+            $request->validate(['barber_id' => 'required|integer|exists:barbers,id']);
+            $earliestBarberId = $request->barber_id;
+        }
+
+        return redirect()->route('appointments.create.date',[
+            'barber_id' => $earliestBarberId,
+            'service_id' => $request->service_id,
+            'user_id' => $request->user_id
         ]);
     }
 
@@ -85,10 +133,11 @@ class AppointmentController extends Controller
     {
         $request->validate([
             'service_id' => ['required','integer','exists:services,id','gt:1'],
+            'barber_id' => ['required','integer','exists:barbers,id'],
             'user_id' => ['nullable','integer','exists:users,id']
         ]);
 
-        $barber = auth()->user()->barber;
+        $barber = Barber::find($request->barber_id);
         $service = Service::find($request->service_id);
 
         $availableSlotsByDate = Appointment::getFreeTimeSlots($barber,$service);
@@ -106,6 +155,7 @@ class AppointmentController extends Controller
         $request->validate([
             'query' => 'nullable|string|max:255',
             'service_id' => ['required','integer','exists:services,id','gt:1'],
+            'barber_id' => ['required','integer','exists:barbers,id'],
             'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
             'comment' => ['nullable','string'],
             'user_id' => ['nullable','integer','exists:users,id']
@@ -114,6 +164,7 @@ class AppointmentController extends Controller
         if ($request->has('user_id')) {
             return redirect()->route('appointments.create.confirm',[
                 'service_id' => $request->service_id,
+                'barber_id' => $request->barber_id,
                 'user_id' => $request->user_id,
                 'date' => $request->date,
                 'comment' => $request->comment
@@ -132,7 +183,8 @@ class AppointmentController extends Controller
 
         return view('appointment.create',[
             'users' => $users,
-            'service' => Service::find($request->service_id)
+            'service' => Service::find($request->service_id),
+            'barber' => Service::find($request->barber_id),
         ]);
     }
 
@@ -141,6 +193,7 @@ class AppointmentController extends Controller
             'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i',new ValidAppointmentTime],
             'user_id' => ['nullable','integer','exists:users,id'],
             'service_id' => ['required','exists:services,id','gt:1'],
+            'barber_id' => ['required','integer','exists:barbers,id'],
             'comment' => ['nullable','string']
         ]);
 
@@ -151,7 +204,7 @@ class AppointmentController extends Controller
         $startTime = Carbon::parse($request->date);
 
         $data = [
-            'barber' => auth()->user()->barber,
+            'barber' => Barber::find($request->barber_id),
             'service' => Service::find($request->service_id),
             'startTime' => $startTime,
             'comment' => $request->comment,
@@ -171,6 +224,7 @@ class AppointmentController extends Controller
             'date' => ['required','date','after_or_equal:now','date_format:Y-m-d G:i:s',new ValidAppointmentTime],
             'user_id' => ['nullable','integer','exists:users,id'],
             'service_id' => ['required','exists:services,id','gt:1'],
+            'barber_id' => ['required','integer','exists:barbers,id'],
             'comment' => ['nullable','string'],
             'first_name' => ['nullable','string','min:1'],
             'email' => ['nullable','email','min:1'],
@@ -222,7 +276,7 @@ class AppointmentController extends Controller
         $service = Service::findOrFail($request->service_id);
         $duration = $service->duration;
         $app_end_time = $app_start_time->clone()->addMinutes($duration);
-        $barber = auth()->user()->barber;
+        $barber = Barber::find($request->barber_id);
 
         if ($user->id == $barber->user_id) {
             return redirect()->route('appointments.create.customer',['service_id' => $request->service_id,'date' => $request->date, 'comment' => $request->comment])->with('error',__('barber.error_select_customer'));

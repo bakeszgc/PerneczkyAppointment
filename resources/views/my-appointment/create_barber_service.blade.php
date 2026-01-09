@@ -28,9 +28,9 @@
         case 'barber':
             $breadcrumbLinks = [
                 __('home.bookings') => route('appointments.index'),
-                __('appointments.service') => ''    
+                __('appointments.barber_and_service') => ''    
             ];
-            $createDateLink = route('appointments.create.date');
+            $createDateLink = route('appointments.create.earliest');
             $steps[] = false;
             break;
         case 'admin':
@@ -55,7 +55,7 @@
             <input type="hidden" name="user_id" value="{{ request('user_id') }}">
         @endif
 
-        @if ($view != 'barber' && isset($barbers))
+        @if (isset($barbers))
 
             <div id="barber"></div>
             <div class="flex justify-between">
@@ -88,7 +88,12 @@
                         
                         <x-barber-picture :barber="$barber" />
 
-                        <input type="radio" id="barber_{{ $barber->id }}" name="barber_id" value="{{ $barber->id }}" @checked((request('barber_id') && request('barber_id') == $barber->id) || (isset($appointment) && $appointment->barber_id == $barber->id)) class="hidden">
+                        <input type="radio" id="barber_{{ $barber->id }}" name="barber_id" value="{{ $barber->id }}"
+                            @checked(
+                                (($view = 'barber' && !request('barber_id')) && auth()->user()->barber->id == $barber->id) ||
+                                (request('barber_id') && request('barber_id') == $barber->id) ||
+                                (isset($appointment) && $appointment->barber_id == $barber->id))
+                        class="hidden">
                     </label>
                     
                 @empty
@@ -106,16 +111,6 @@
             <x-headline class="mb-4 blue-300">
                 {{ __('appointments.select_your_service') }}
             </x-headline>
-            
-            @if ($view == 'barber')
-                <div class="w-16 flex gap-1">                
-                    @foreach ($steps as $step)
-                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="50" cy="50" r="40" stroke="#93c5fd" stroke-width="6" fill="{{ $step ? '#93c5fd' : 'none' }}" />
-                        </svg>
-                    @endforeach
-                </div>
-            @endif
         </div>
 
         <div class="grid grid-cols-2 max-md:grid-cols-1 gap-4 mb-8">

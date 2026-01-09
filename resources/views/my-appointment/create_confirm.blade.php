@@ -39,14 +39,14 @@
         break;
 
         case 'barber':
-            $serviceRoute = route('appointments.create.service',['service_id' => $service->id]);
-            $dateRoute = route('appointments.create.date',['service_id' => $service->id, 'comment' => $comment, 'date' => $startTime->format('Y-m-d G:i')]);
-            $customerLink = route('appointments.create.customer',['service_id' => $service->id, 'comment' => $comment, 'date' => $startTime->format('Y-m-d G:i')]);
+            $serviceRoute = route('appointments.create.service',['service_id' => $service->id, 'barber_id' => $barber->id]);
+            $dateRoute = route('appointments.create.date',['service_id' => $service->id, 'barber_id' => $barber->id, 'comment' => $comment, 'date' => $startTime->format('Y-m-d G:i')]);
+            $customerLink = route('appointments.create.customer',['service_id' => $service->id, 'barber_id' => $barber->id, 'comment' => $comment, 'date' => $startTime->format('Y-m-d G:i')]);
             $storeRoute = route('appointments.store');
 
             $breadcrumbLinks = [
                 __('home.bookings') => route('appointments.index'),
-                __('appointments.service') => $serviceRoute,
+                __('appointments.barber_and_service') => $serviceRoute,
                 __('appointments.date_and_time') => $dateRoute,
                 __('barber.customer') => $customerLink,
                 __('appointments.confirm') => ''
@@ -109,19 +109,9 @@
                             {{ __('appointments.barber') }}
                         </h3>
 
-                        @if ($view == 'barber')
-                            <p>
-                        @else
-                            <a href="{{ $serviceRoute }}" class="text-blue-700 hover:underline">
-                        @endif
-                        
+                        <a href="{{ $serviceRoute }}" class="text-blue-700 hover:underline">
                             {{ $barber->getName() }}
-                            
-                        @if ($view == 'barber')
-                            </p>
-                        @else
-                            </a>
-                        @endif
+                        </a>
                     </div>
 
                     <div class="max-[540px]:text-right">
@@ -230,16 +220,13 @@
                             @method('PUT')
                         @endif
                         @csrf
-
-                        @if ($view != 'barber')
-                            <input type="hidden" name="barber_id" value="{{ $barber->id }}">
-                        @endif
                         
                         @if ($view != 'user' && isset($user))
                             <input type="hidden" name="user_id" value="{{ $user->id }}">
                         @endif
                         
                         <input type="hidden" name="service_id" value="{{ $service->id }}">
+                        <input type="hidden" name="barber_id" value="{{ $barber->id }}">
                         <input type="hidden" name="date" value="{{ $startTime }}">
                         <input type="hidden" name="comment" value="{{ $comment }}">
 

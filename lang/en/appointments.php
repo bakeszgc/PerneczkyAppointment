@@ -131,6 +131,9 @@ return [
     "upcoming_p1" => "Are you ready for a fresh cut? Because we just can't wait to give your hair the best treatment it has ever received!",
     "upcoming_p2" => "Please make sure to arrive at least 5 minutes before your scheduled time to ensure a smooth experience. We accept both credit card and cash at our store.",
     "upcoming_p3" => "Keep in mind that your appointment takes place in less than 6 hours, which means you aren't able to modify it or cancel it here by yourself.",
+    "rebook_title" => "Want to book it again?",
+    "rebook_p1a" => "We got you! By clicking on the",
+    "rebook_p1b" => "button above, you can create a new appointment using the same barber, service and comment. Instead of going through the whole booking process, all you need to do is choose a new date that works for you and confirm your appointment.",
 
     // SUCCESS & ERROR MESSAGES
     "store_success" => "Appointment booked successfully! See you soon!",

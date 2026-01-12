@@ -131,6 +131,9 @@ return [
     "upcoming_p1" => "Készen állsz egy friss vágásra? Mi már alig várjuk, hogy a lehető legjobb ápolást nyújtsuk a hajadnak!",
     "upcoming_p2" => "A zökkenőmentes élmény érdekében érkezz legalább 5 perccel az időpontod előtt. Az üzletünkben elfogadunk bankkártyát és készpénzt is.",
     "upcoming_p3" => "Ne feledd, hogy az időpontod kevesebb mint 6 óra múlva esedékes, ami azt jelenti, hogy itt már nem tudod módosítani vagy lemondani azt.",
+    "rebook_title" => "Ugyanezt foglalnád megint?",
+    "rebook_p1a" => "Sima ügy! A fenti",
+    "rebook_p1b" => "gombra kattintva máris létrejön egy új foglalás ugyanezzel a borbéllyal, szolgáltatással és megjegyzéssel. Nem kell végigmenned a teljes foglalási folyamaton, csak válassz ki egy számodra megfelelő időpontot és erősítsd meg a foglalást!",
 
     // SUCCESS & ERROR MESSAGES
     "store_success" => "Időpont sikeresen lefoglalva! Nemsokára találkozunk!",

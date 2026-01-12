@@ -91,7 +91,27 @@
             </x-card>
         </div>
     @elseif ($appointment->app_start_time < now())
-        lement
+        <x-card class="mb-4">
+            <h2 class="text-lg font-bold mb-4 flex gap-2 items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                </svg>
+                <span>{{ __('appointments.rebook_title') }}</span>
+            </h2>
+
+            <p class="text-justify mb-4">
+                {{ __('appointments.rebook_p1a') }}
+                🔁<span class="max-sm:hidden font-bold">&nbsp;{{ __('appointments.rebook') }}</span>
+                {{ __('appointments.rebook_p1b') }}
+            </p>
+
+            <p class="text-justify">
+                {{ __('appointments.edit_p3a') }}
+                <a href="mailto:{{ env('COMPANY_MAIL') }}" class="text-blue-700 hover:underline">{{ env('COMPANY_MAIL') }}</a>
+                {{ __('appointments.edit_p3b') }}
+                <a href="tel:{{ str_replace(' ','',env('COMPANY_PHONE')) }}" class="text-blue-700 hover:underline">{{ env('COMPANY_PHONE') }}</a>{{ __('appointments.edit_p3c') }}
+            </p>
+        </x-card>
     @else
         <x-card class="mb-4">
             <h2 class="text-lg font-bold mb-4">

@@ -611,6 +611,14 @@ class Appointment extends Model
         return $this->comment == '' ? __('appointments.no_comment') : $this->comment;
     }
 
+    public function getTimeDiff() {
+        $appStart = Carbon::parse($this->app_start_time);
+        $diff = floor(now()->diffInHours($appStart));
+        $diffString = __('appointments.see_you_in_less_than') . ($diff == 0 ? __('appointments.an') : $diff+1) . ' ' . __('appointments.'.Str::plural('hour',$diff+1));
+
+        return $diffString;
+    }
+
     // SCOPES
 
     // LATER & EARLIER APPOINTMENTS

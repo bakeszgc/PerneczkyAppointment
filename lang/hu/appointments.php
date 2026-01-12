@@ -124,6 +124,13 @@ return [
     "cancel_p1b" => "gombra kattintva bármikor, legfeljebb 6 órával a kezdés előttig. Ezt követően azonban már nem mondhatod le.",
     "cancel_p2a" => "A lemondás helyett javasoljuk inkább az időpont módosítását. Ha mégis ragaszkodsz a lemondáshoz, akkor ne felejts el foglalni újból az oldal tetején található",
     "cancel_p2b" => "gomb segítségével.",
+    "see_you_in_less_than" => "Kevesebb, mint ",
+    "hour" => " óra múlva találkozunk!",
+    "hours" => " óra múlva találkozunk!",
+    "an" => "egy",
+    "upcoming_p1" => "Készen állsz egy friss vágásra? Mi már alig várjuk, hogy a lehető legjobb ápolást nyújtsuk a hajadnak!",
+    "upcoming_p2" => "A zökkenőmentes élmény érdekében érkezz legalább 5 perccel az időpontod előtt. Az üzletünkben elfogadunk bankkártyát és készpénzt is.",
+    "upcoming_p3" => "Ne feledd, hogy az időpontod kevesebb mint 6 óra múlva esedékes, ami azt jelenti, hogy itt már nem tudod módosítani vagy lemondani azt.",
 
     // SUCCESS & ERROR MESSAGES
     "store_success" => "Időpont sikeresen lefoglalva! Nemsokára találkozunk!",

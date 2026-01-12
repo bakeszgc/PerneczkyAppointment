@@ -90,6 +90,30 @@
                 </p>
             </x-card>
         </div>
+    @elseif ($appointment->app_start_time < now())
+        lement
+    @else
+        <x-card class="mb-4">
+            <h2 class="text-lg font-bold mb-4">
+                {{ $appointment->getTimeDiff() }}
+            </h2>
+
+            <p class="mb-4 text-justify">
+                {{ __('appointments.upcoming_p1') }}
+            </p>
+
+            <p class="mb-4 text-justify">
+                {{ __('appointments.upcoming_p2') }}
+                {{ __('appointments.upcoming_p3') }}
+            </p>
+
+            <p class="text-justify">
+                    {{ __('appointments.edit_p3a') }}
+                    <a href="mailto:{{ env('COMPANY_MAIL') }}" class="text-blue-700 hover:underline">{{ env('COMPANY_MAIL') }}</a>
+                    {{ __('appointments.edit_p3b') }}
+                    <a href="tel:{{ str_replace(' ','',env('COMPANY_PHONE')) }}" class="text-blue-700 hover:underline">{{ env('COMPANY_PHONE') }}</a>{{ __('appointments.edit_p3c') }}
+                </p>
+        </x-card>
     @endif
 
     <div class="text-center mb-4">

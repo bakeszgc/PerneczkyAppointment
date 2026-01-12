@@ -124,6 +124,13 @@ return [
     "cancel_p1b" => "button above, anytime up to 6 hours before it starts. However after this time, cancellations are no longer possible.",
     "cancel_p2a" => "We suggest you to modify your current appointment instead of cancelling it. If you resist to cancel it permanently, consider booking a new one using the",
     "cancel_p2b" => "button at the top of this page.",
+    "see_you_in_less_than" => "See you in less than ",
+    "hour" => " hour!",
+    "hours" => " hours!",
+    "an" => "an",
+    "upcoming_p1" => "Are you ready for a fresh cut? Because we just can't wait to give your hair the best treatment it has ever received!",
+    "upcoming_p2" => "Please make sure to arrive at least 5 minutes before your scheduled time to ensure a smooth experience. We accept both credit card and cash at our store.",
+    "upcoming_p3" => "Keep in mind that your appointment takes place in less than 6 hours, which means you aren't able to modify it or cancel it here by yourself.",
 
     // SUCCESS & ERROR MESSAGES
     "store_success" => "Appointment booked successfully! See you soon!",

@@ -53,6 +53,8 @@ class AppointmentPolicy
             return Response::deny(__('appointments.user_edit_error_2'));
         } elseif ($appointment->deleted_at) {
             return Response::deny(__('appointments.user_edit_error_3'));
+        } elseif ($appointment->app_start_time < now()->addHours(6)) {
+            return Response::deny(__('appointments.user_edit_error_4'));
         } else {
             return Response::allow();
         }
@@ -66,6 +68,8 @@ class AppointmentPolicy
             return Response::deny(__('appointments.user_cancel_error_2'));
         } elseif ($appointment->deleted_at) {
             return Response::deny(__('appointments.user_cancel_error_3'));
+        } elseif ($appointment->app_start_time < now()->addHours(6)) {
+            return Response::deny(__('appointments.user_cancel_error_4'));
         } else {
             return Response::allow();
         }

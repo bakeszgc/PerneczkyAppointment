@@ -159,8 +159,10 @@ return [
     "user_edit_error_1" => "Nem szerkesztheted más felhasználók időpontjait.",
     "user_edit_error_2" => "Nem szerkeszthetsz múltbeli időpontokat.",
     "user_edit_error_3" => "Nem szerkeszthetsz lemondott időpontokat.",
+    "user_edit_error_4" => "Már nem szerkesztheted ezt az időpontot.",
     "user_cancel_error_1" => "Nem mondhatod le más felhasználók időpontjait.",
     "user_cancel_error_2" => "Nem mondhatsz le múltbeli időpontokat.",
     "user_cancel_error_3" => "Nem mondhatsz le már korábban lemondott időpontokat.",
+    "user_cancel_error_4" => "Már nem modhatod le ezt az időpontot.",
     
 ];

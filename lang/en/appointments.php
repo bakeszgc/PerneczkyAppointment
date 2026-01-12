@@ -159,8 +159,10 @@ return [
     "user_edit_error_1" => "You can't edit other users' appointments.",
     "user_edit_error_2" => "You can't edit appointments from the past.",
     "user_edit_error_3" => "You can't edit cancelled appointments.",
+    "user_edit_error_4" => "You can no longer edit this appointment.",
     "user_cancel_error_1" => "You can't cancel other users' appointments.",
     "user_cancel_error_2" => "You can't cancel appointments from the past.",
     "user_cancel_error_3" => "You can't cancel already cancelled appointments.",
+    "user_cancel_error_4" => "You can no longer cancel this appointment.",
     
 ];

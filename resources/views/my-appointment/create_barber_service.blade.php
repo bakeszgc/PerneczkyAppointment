@@ -90,7 +90,7 @@
 
                         <input type="radio" id="barber_{{ $barber->id }}" name="barber_id" value="{{ $barber->id }}"
                             @checked(
-                                (($view = 'barber' && !request('barber_id')) && auth()->user()->barber->id == $barber->id) ||
+                                (($view = 'barber' && !request('barber_id')) && auth()->user()?->barber->id == $barber->id) ||
                                 (request('barber_id') && request('barber_id') == $barber->id) ||
                                 (isset($appointment) && $appointment->barber_id == $barber->id))
                         class="hidden">

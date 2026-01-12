@@ -13,6 +13,7 @@ class Button extends Component
         public ?string $name,
         public ?string $id,
         public string $role = '',
+        public string $title = '',
         public bool $full = false,
         public bool $maxHeightFit = false,
         public bool $hidden = false,

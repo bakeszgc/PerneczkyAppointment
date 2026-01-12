@@ -1,4 +1,4 @@
-<button @class([
+<button title="{{$title}}" @class([
     'border rounded-md
     hover:drop-shadow-lg disabled:hover:drop-shadow-none
     transition-all font-bold

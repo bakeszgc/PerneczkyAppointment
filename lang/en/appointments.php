@@ -105,7 +105,15 @@ return [
     "edit" => "Edit",
     "cancel" => "Cancel",
     "rebook" => "Rebook",
-
+    "details_tooltip_1" => "Details of your appointment",
+    "edit_tooltip_1" => "Edit your appointment",
+    "cancel_tooltip_1" => "Cancel your appointment",
+    "rebook_tooltip_1" => "Rebook this appointment",
+    "details_tooltip_2" => "Details of this booking",
+    "edit_tooltip_2" => "Edit this booking",
+    "cancel_tooltip_2" => "Cancel this booking",
+    "rebook_tooltip_2" => "Rebook this booking",
+    
     // MY APPOINTMENTS SHOW
     "my_upcoming_appointment" => "My upcoming appointment",
     "my_previous_appointment" => "My previous appointment",

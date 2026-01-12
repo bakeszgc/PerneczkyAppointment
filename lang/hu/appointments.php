@@ -105,6 +105,14 @@ return [
     "edit" => "Módosítás",
     "cancel" => "Lemondás",
     "rebook" => "Újrafoglalás",
+    "details_tooltip_1" => "Időpont részletei",
+    "edit_tooltip_1" => "Időpont módosítása",
+    "cancel_tooltip_1" => "Időpont lemondása",
+    "rebook_tooltip_1" => "Időpont újrafoglalása",
+    "details_tooltip_2" => "Foglalás részletei",
+    "edit_tooltip_2" => "Foglalás módosítása",
+    "cancel_tooltip_2" => "Foglalás lemondása",
+    "rebook_tooltip_2" => "Foglalás újrafoglalása",
 
     // MY APPOINTMENTS SHOW
     "my_upcoming_appointment" => "Következő foglalásom",

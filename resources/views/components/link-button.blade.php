@@ -1,4 +1,4 @@
-<a href="{{$link}}" @class([
+<a href="{{$link}}" title="{{ $title }}" @class([
     'border rounded-md
     hover:drop-shadow-md
     transition-all font-bold

@@ -107,7 +107,7 @@
     <div class="flex gap-2">
         
         @if($showDetails)
-            <x-link-button :link="$detailsLink" role="show">
+            <x-link-button :link="$detailsLink" role="show" :title="__('appointments.details_tooltip_' . ($access != 'user' ? 2 : 1))">
                 <span class="max-sm:hidden">
                     {{ __('appointments.details') }}
                 </span>
@@ -119,7 +119,7 @@
             ($access != 'user' && $appointment->app_start_time >= now('Europe/Budapest')) &&
             !$appointment->deleted_at
         )
-            <x-link-button :link="$editLink" role="edit">
+            <x-link-button :link="$editLink" role="edit" :title="__('appointments.edit_tooltip_' . ($access != 'user' ? 2 : 1))">
                 <span class="max-sm:hidden">
                     {{ __('appointments.edit') }}
                 </span>
@@ -128,7 +128,7 @@
             <form action="{{ $cancelLink }}" method="POST">
                 @csrf
                 @method('DELETE')
-                <x-button role="destroy">
+                <x-button role="destroy" :title="__('appointments.cancel_tooltip_' . ($access != 'user' ? 2 : 1))">
                     <span class="max-sm:hidden">
                         {{ __('appointments.cancel') }}
                     </span>
@@ -137,7 +137,7 @@
         @endif
 
         @if (($appointment->app_start_time < now() || $appointment->deleted_at) && !$appointment->user->deleted_at && !$appointment->service->deleted_at && !$appointment->barber->deleted_at && $appointment->user->hasEmail())
-            <x-link-button :link="$rebookLink" role="restore">
+            <x-link-button :link="$rebookLink" role="restore" :title="__('appointments.rebook_tooltip_' . ($access != 'user' ? 2 : 1))">
                 <span class="max-sm:hidden">
                     {{ __('appointments.rebook') }}
                 </span>

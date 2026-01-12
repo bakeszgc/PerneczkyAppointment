@@ -35,7 +35,7 @@ return [
 
     "demo_1" => "Figyelem!",
     "demo_2" => "Ez az oldal a hamarosan induló időpontfoglalási rendszerünk bemutató verziója. Az itt megjelenített információk esetleg nem pontosak vagy naprakészek. Az itt lefoglalt időpontok a való életben nem érvényesek és az üzlet nem rögzíti őket.",
-    "demo_3" => "Kérjük, használja jelenlegi foglalási rendszerünket itt:",
+    "demo_3" => "Kérjük, használd jelenlegi foglalási rendszerünket itt:",
 
     "estimated_duration" => "Várható időtartam",
     "minutes" => "perc",

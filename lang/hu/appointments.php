@@ -112,6 +112,18 @@ return [
     "fresh_cut" => "Jól jönne egy friss vágás",
     "fresh_cut_earlier" => "Jól jönne egy friss vágás még korábban?",
     "book_appointment_here" => "Foglalj egy időpontot itt!",
+    "edit_title" => "Megváltoztatnál valamit?",
+    "edit_p1a" => "Könnyedén módosíthatod a foglalásodat a fenti",
+    "edit_p1b" => "gombra kattintva bármikor, legfeljebb 6 órával a kezdés előttig. Ezt követően azonban a változtatások már nem lehetségesek.",
+    "edit_p2" => "Itt válthatsz borbélyt, szolgáltatást, időpontot vagy frissítheted a megjegyzést.",
+    "edit_p3a" => "Ha bármilyen segítségre van szükséged, fordulj hozzánk bizalommal az",
+    "edit_p3b" => "email címen vagy hívj minket a",
+    "edit_p3c" => " telefonszámon.",
+    "cancel_title" => "Közbejött valami?",
+    "cancel_p1a" => "Nem para - lemondhatod a foglalásodat a fenti",
+    "cancel_p1b" => "gombra kattintva bármikor, legfeljebb 6 órával a kezdés előttig. Ezt követően azonban már nem mondhatod le.",
+    "cancel_p2a" => "A lemondás helyett javasoljuk inkább az időpont módosítását. Ha mégis ragaszkodsz a lemondáshoz, akkor ne felejts el foglalni újból az oldal tetején található",
+    "cancel_p2b" => "gomb segítségével.",
 
     // SUCCESS & ERROR MESSAGES
     "store_success" => "Időpont sikeresen lefoglalva! Nemsokára találkozunk!",

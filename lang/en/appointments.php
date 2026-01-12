@@ -112,6 +112,18 @@ return [
     "fresh_cut" => "Need a fresh cut?",
     "fresh_cut_earlier" => "Need a fresh cut earlier?",
     "book_appointment_here" => "Book an appointment here!",
+    "edit_title" => "Want to change something?",
+    "edit_p1a" => "You can easily edit your appointment by clicking on the",
+    "edit_p1b" => "button above, anytime up to 6 hours before it starts. However after this time, changes are no longer possible.",
+    "edit_p2" => "This includes updating the barber, service, date or comment associated with your booking.",
+    "edit_p3a" => "If you need any help, feel free to reach out to us via email at",
+    "edit_p3b" => "or give us a call at",
+    "edit_p3c" => ".",
+    "cancel_title" => "Has something come up?",
+    "cancel_p1a" => "No worries - you can cancel your appointment by clicking on the",
+    "cancel_p1b" => "button above, anytime up to 6 hours before it starts. However after this time, cancellations are no longer possible.",
+    "cancel_p2a" => "We suggest you to modify your current appointment instead of cancelling it. If you resist to cancel it permanently, consider booking a new one using the",
+    "cancel_p2b" => "button at the top of this page.",
 
     // SUCCESS & ERROR MESSAGES
     "store_success" => "Appointment booked successfully! See you soon!",

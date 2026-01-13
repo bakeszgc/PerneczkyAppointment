@@ -32,10 +32,10 @@
     @empty
         <x-empty-card>
             <p class="text-lg max-md:text-base font-medium">
-                {{ lcfirst($type) == 'upcoming' ? __('appointments.no_upcoming') : __('appointments.no_previous') }}
+                {{ $appCount == 0 ? __('appointments.first_time') : __('appointments.no_'.lcfirst($type)) }}
             </p>
             <a href="{{ route('my-appointments.create') }}" class=" text-blue-700 hover:underline">
-                {{ __('appointments.why_not_book') }}
+                {{ $appCount == 0 ? __('appointments.first_time_book') : __('appointments.why_not_book') }}
             </a>
         </x-empty-card>
     @endforelse

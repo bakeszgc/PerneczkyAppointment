@@ -23,9 +23,11 @@ class MyAppointmentController extends Controller
     {
         $upcomingAppointments = Appointment::userFilter(auth()->user())->upcoming()
         ->withoutTimeOffs()->paginate(10);
+        $appCount = Appointment::userFilter(auth()->user())->withoutTimeOffs()->count();
         
         return view('my-appointment.index',[
             'appointments' => $upcomingAppointments,
+            'appCount' => $appCount,
             'type' => 'Upcoming'
         ]);
     }
@@ -34,9 +36,11 @@ class MyAppointmentController extends Controller
     {
         $previousAppointments = Appointment::userFilter(auth()->user())->previous()
         ->withoutTimeOffs()->paginate(10);
+        $appCount = Appointment::userFilter(auth()->user())->withoutTimeOffs()->count();
         
         return view('my-appointment.index',[
             'appointments' => $previousAppointments,
+            'appCount' => $appCount,
             'type' => 'Previous'
         ]);
     }

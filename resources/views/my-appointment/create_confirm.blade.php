@@ -166,7 +166,10 @@
                         {{ __('appointments.introduce_yourself') }}
                     </h2>
                     <p class="mb-4">
-                        {{ __('appointments.introduce_p') }} 😉
+                        {{ __('appointments.introduce_p1') }}
+                    </p>
+                    <p class="mb-4">
+                        {{ __('appointments.introduce_p2') }} 😉
                     </p>
                 @endguest
 

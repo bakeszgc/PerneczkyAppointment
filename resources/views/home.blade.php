@@ -24,35 +24,75 @@
     </div>
 
     <div id="about" class="-translate-y-12"></div>
-    <x-container class="flex max-md:flex-col gap-8">
-        
-        <div class="*:text-justify">
-            <h2 class="font-black text-2xl mb-6">
-                {{ __('home.about_us_title') }}
-            </h2>
-            <p class="mb-2">
-                {{ __('home.about_us_p1') }}
-            </p>
-            <p class="mb-2">
-                {{ __('home.about_us_p2') }}
-            </p>
-            <p class="mb-4">
-                {{ __('home.about_us_p3') }}
-            </p>
-            <div class="border-dashed border-2 border-[#0018d5] rounded-md p-4">
-                <h3 class="mb-2 font-black text-xl">{{ __('home.demo_1') }}</h3>
-                <p class="mb-2">{{ __('home.demo_2') }} {{ __('home.demo_3') }}</p>
-                <p>                    
-                    <a href="https://perneczkybarbershop.salonic.hu/" class="text-blue-700 hover:underline">https://perneczkybarbershop.salonic.hu/</a>
+    <x-container>
+        <div class="grid grid-cols-2 max-md:grid-cols-1 gap-x-8 gap-y-16 items-start mb-16">
+
+            <x-main-card class="max-md:order-2">
+                <p class="mb-4">
+                    {{ __('home.about_us_p1') }}
                 </p>
+                <p>
+                    {{ __('home.about_us_p2') }}
+                </p>
+            </x-main-card>
+
+            <div class="rounded-md opacity-0 translate-x-1/2 transition-all duration-500 ease-out slide-from-right max-md:order-1">
+                <h3 class="font-black text-4xl max-lg:text-3xl max-md:text-center">
+                    {{ __('home.about_us_title_1') }}<br class="max-md:hidden">
+                    {{ __('home.about_us_title_2') }}<br>
+                    {{ __('home.about_us_title_3') }}<br class="max-md:hidden">
+                    {{ __('home.about_us_title_4') }}<br>
+                </h3>
+            </div>
+
+            <div class="rounded-md opacity-0 -translate-x-1/2 transition-all duration-500 ease-out slide-from-left max-md:order-3">
+                <h3 class="font-black text-4xl max-lg:text-3xl text-right max-md:text-center">
+                    {{ __('home.book_without_reg_title_1') }}<br>
+                    {{ __('home.book_without_reg_title_2') }}
+                </h3>
+            </div>
+
+            <x-main-card direction="right" class="max-md:order-4">
+                <p class="text-justify mb-4">
+                    {{ __('home.book_without_reg_p1') }}
+                </p>
+                <p class="text-justify mb-4">
+                    {{ __('home.book_without_reg_p2a') }}
+                    <a href="#home" class="font-bold transition-all hover:text-blue-300">{{ __('home.book_your_appointment') }}</a>
+                    {{ __('home.book_without_reg_p2b') }}
+                </p>
+                <p class="text-justify">
+                    {{ __('home.book_without_reg_p3') }}
+                </p>
+            </x-main-card>
+
+            <x-main-card class="max-md:order-6">
+                <p class="text-justify mb-4">{{ __('home.regular_p1') }}</p>
+                <p class="text-justify mb-4">{{ __('home.regular_p2') }}</p>
+                <p class="text-justify">{{ __('home.regular_p3') }}</p>
+            </x-main-card>
+
+            <div class="rounded-md opacity-0 translate-x-1/2 transition-all duration-500 ease-out slide-from-right max-md:order-5">
+                <h3 class="font-black text-4xl max-lg:text-3xl max-md:text-center">
+                    {{ __('home.regular_title_1') }}<br class="max-md:hidden">
+                    {{ __('home.regular_title_2') }}<br class="md:hidden">
+                    {{ __('home.regular_title_3') }}<br class="max-md:hidden">
+                    {{ __('home.regular_title_4') }}
+                </h3>
             </div>
         </div>
-        <div class="flex-shrink-0">
-            <img src="{{ asset('logo/perneczky_circle.png') }}" alt="{{ env('APP_NAME') }} logo" class=" h-56 w-56 max-md:mx-auto">
+
+        <div class="border-dashed border-2 border-[#0018d5] rounded-md p-4 text-justify text-base max-sm:text-sm">
+            <h3 class="mb-2 font-black text-xl">{{ __('home.demo_1') }}</h3>
+            <p class="mb-2">{{ __('home.demo_2') }} {{ __('home.demo_3') }}</p>
+            <p>
+                <a href="https://perneczkybarbershop.salonic.hu/" class="text-blue-700 hover:underline">https://perneczkybarbershop.salonic.hu/</a>
+            </p>
         </div>
+        
     </x-container>
 
-    <x-header class="bg-service" bgId="services">        
+    <x-header class="bg-service" bgId="services">
         {{ __('home.services') }}
     </x-header>
 
@@ -101,26 +141,26 @@
                         </x-link-button>
                     </div>
                 </x-card>
-            
+
             @empty
 
                 <x-empty-card class="col-span-3 max-md:col-span-2">
                     <p>{{ __('home.barbers_empty') . ' ' . __('home.please_check_back_later') }}</p>
                 </x-empty-card>
-                
+
             @endforelse
         </div>
     </x-container>
 
-    
+
     <x-header class="bg-location" bgId="location">
         {{ __('home.location') }}
     </x-header>
 
     <x-container class="grid grid-cols-2 max-md:grid-cols-1 gap-8">
-        
+
         <div>
-            <div class="border-2 border-[#0018d5] rounded-md p-4 mb-8">
+            <div class="border-2 border-[#0018d5] rounded-md p-4 mb-8 text-base">
                 <img src="{{ asset('pictures/corvin.jpeg') }}" alt="{{ env('APP_NAME') }} - Corvin" class="mb-4">
                 <h2 class="text-2xl max-lg:text-lg font-black mb-2">{{ env('APP_NAME') }} - Corvin</h2>
                 <p class="mb-1">{{ explode(',',env('STORE_ADDRESS'))[0] }}</p>
@@ -128,19 +168,19 @@
             </div>
             <div class="px-4">
                 <h2 class="text-2xl max-lg:text-lg font-black mb-2">{{ __('home.approaching') }}</h2>
-                <p class="text-justify">{{ __('home.approaching_p') }}</p>
+                <p class="text-justify text-base max-sm:text-sm">{{ __('home.approaching_p') }}</p>
             </div>
         </div>
 
         <div class="w-full h-full min-h-[500px] max-lg:min-h-[300px] shadow-2xl">
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d168.51367156370375!2d19.076890544242058!3d47.485651873511074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4741ddc6dd76e7b1%3A0x4d5f1e74a8e65127!2sCorvin%20Barber%20Shop!5e0!3m2!1shu!2shu!4v1698797075447!5m2!1shu!2shu" width="100%" height="100%" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
-        
+
     </x-container>
 
     <div id="contact" class="-translate-y-12"></div>
     <div id="opening-hours" class="-translate-y-12"></div>
-    <footer class="py-12 max-md:py-8 bg-[#0f0f0f] text-white">        
+    <footer class="py-12 max-md:py-8 bg-[#0f0f0f] text-white text-base max-sm:text-sm">
         <div class="max-w-6xl mx-auto mb-4 px-8 max-lg:px-4 flex max-sm:flex-col justify-between gap-8">
             <div>
                 <h2 class="text-2xl max-lg:text-lg font-black mb-2">
@@ -168,7 +208,7 @@
                     </a>
                 </div>
             </div>
-            
+
             <div class="sm:text-right">
                 <h2 class="text-2xl max-lg:text-lg font-black mb-2 min-w-fit">{{ __('home.opening_hours') }}</h2>
                 <ul>
@@ -191,6 +231,37 @@
                     </li>
                 </ul>
             </div>
-        </div>        
+        </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const leftCards = document.querySelectorAll('.slide-from-left');
+            const rightCards = document.querySelectorAll('.slide-from-right');
+            checkBothCardTypes(leftCards, rightCards);
+
+            window.addEventListener('scroll', () => {                
+                checkBothCardTypes(leftCards, rightCards);
+            });
+        });
+
+        function checkBothCardTypes(leftCards, rightCards) {
+            checkCardToAppear(leftCards, 'left');
+            checkCardToAppear(rightCards, 'right');
+        }
+
+        function checkCardToAppear(cards, direction) {
+            cards.forEach(card => {
+                if (card.getBoundingClientRect().top <= window.innerHeight*0.85) {
+                    if (direction == 'left') {
+                        card.classList.remove('opacity-0','-translate-x-1/2');
+                    } else {
+                        setTimeout(() => {
+                            card.classList.remove('opacity-0','translate-x-1/2');
+                        }, 100);
+                    }
+                }
+            });
+        }
+    </script>
 </x-layout>

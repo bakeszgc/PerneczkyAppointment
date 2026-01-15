@@ -296,7 +296,7 @@
             
         </nav>
 
-        <div class="z-10 max-md:text-sm max-lg:text-base relative">
+        <div class="z-10 max-md:text-sm text-base relative overflow-hidden">
 
             {{$slot}}
             

@@ -32,7 +32,7 @@ return [
     "about_us_title_2" => "WE'RE VERY GLAD",
     "about_us_title_3" => "YOU'RE HERE",
     "about_us_title_4" => "WITH US!",
-    "about_us_p1" => "At Perneczky Brothers, we don't just cut the most precise hair, but we create experiences that give you the confidence and freshness to conquer the world.",
+    "about_us_p1" => "At ".env('APP_NAME').", we don't just cut the most precise hair, but we create experiences that give you the confidence and freshness to conquer the world.",
     "about_us_p2" => "Come into our cozy sanctuary and let Budapest's coolest team work their magic. Whether it's a classic cut or a new look, we're here to help with everything.",
     "book_without_reg_title_1" => "BOOK AN APPOINTMENT",
     "book_without_reg_title_2" => "WITHOUT REGISTRATION",
